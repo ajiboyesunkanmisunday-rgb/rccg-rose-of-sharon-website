@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@1,700&family=Raleway:wght@700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --navy: #000080;
+  --navy-dark: #00003D;
+  --dark-bg: #100E1A;
+  --footer-bg: #3A394F;
+  --lavender-bg: #D2D2E2;
+  --near-white: #FFFDFD;
+  --light-lavender: #B5B5F3;
+  --purple-accent: #9B96FE;
+  --gray-text: #A3A1AF;
+  --red: #FF383C;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #FFFDFD;
+  color: #100E1A;
+  overflow-x: hidden;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-raleway {
+  font-family: 'Raleway', sans-serif;
+}
