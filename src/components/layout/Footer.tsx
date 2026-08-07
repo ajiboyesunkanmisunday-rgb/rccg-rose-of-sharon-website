@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const quickLinks = [
@@ -18,84 +19,97 @@ const helpLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#100E1A] px-30 py-21">
-      <div className="flex flex-wrap gap-16 justify-start">
+    <footer className="bg-[#100e1a] flex flex-col h-[501px] items-center px-[120px] py-[84px] w-full">
+      <div className="flex gap-[64px] items-start flex-shrink-0">
         {/* Connect With Us */}
-        <div className="flex flex-col gap-16">
-          <div className="flex flex-col gap-3">
-            <h3 className="text-white text-2xl font-bold leading-tight">Connect With Us</h3>
-            <div className="flex items-center gap-2 px-3">
-              {/* Instagram */}
+        <div className="flex flex-col items-start justify-center flex-shrink-0">
+          <div className="flex flex-col gap-[12px] h-[77px] items-start flex-shrink-0">
+            <h3
+              className="text-[#FFFDFD] text-[25px] font-bold leading-[32.5px] whitespace-nowrap"
+              style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
+            >
+              Connect With Us
+            </h3>
+            <div className="flex flex-1 gap-[8px] items-center min-h-0 px-[12px] w-full">
               <a
                 href="#"
-                className="w-8 h-8 bg-[#8A38F5] rounded flex items-center justify-center hover:opacity-80 transition-opacity"
+                className="bg-[#8A38F5] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="Instagram"
               >
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                </svg>
+                <div className="relative size-[15.99px]">
+                  <Image src="/assets/social-1.svg" alt="" fill />
+                </div>
               </a>
-              {/* Facebook */}
               <a
                 href="#"
-                className="w-8 h-8 bg-[#3B5998] rounded flex items-center justify-center hover:opacity-80 transition-opacity"
+                className="bg-[#3B5998] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="Facebook"
               >
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
+                <div className="relative size-[15.99px]">
+                  <Image src="/assets/social-2.svg" alt="" fill />
+                </div>
               </a>
-              {/* YouTube */}
               <a
                 href="#"
-                className="w-8 h-8 bg-[#0000BA] rounded flex items-center justify-center hover:opacity-80 transition-opacity"
+                className="bg-[#0000BA] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="YouTube"
               >
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-                </svg>
+                <div className="relative size-[15.99px]">
+                  <Image src="/assets/social-3.svg" alt="" fill />
+                </div>
               </a>
             </div>
           </div>
         </div>
 
         {/* Quick Links */}
-        <div className="flex flex-col gap-5">
-          <h3 className="text-white text-2xl font-bold leading-tight">Quick Links</h3>
-          <ul className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[20px] items-start flex-shrink-0">
+          <h3
+            className="text-[#FFFDFD] text-[25px] font-bold h-[33px] flex flex-col justify-center min-w-full leading-[32.5px] whitespace-nowrap"
+            style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
+          >
+            Quick Links
+          </h3>
+          <ul className="flex flex-col gap-[16px] items-start flex-shrink-0">
             {quickLinks.map((link) => (
               <li key={link}>
-                <a href="#" className="text-white text-xl hover:text-[#B5B5F3] transition-colors">
+                <Link
+                  href="#"
+                  className="text-white text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors"
+                  style={{ fontVariationSettings: '"wdth" 100' }}
+                >
                   {link}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
         {/* Help */}
-        <div className="flex flex-col gap-5">
-          <h3 className="text-white text-2xl font-bold leading-tight">Help</h3>
-          <ul className="flex flex-col gap-4">
+        <div className="flex flex-col gap-[20px] items-start flex-shrink-0 w-full">
+          <h3
+            className="text-[#FFFDFD] text-[25px] font-bold h-[32.5px] flex flex-col justify-center w-full leading-[32.5px]"
+            style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
+          >
+            Help
+          </h3>
+          <ul className="flex flex-col gap-[16px] items-start flex-shrink-0 w-full">
             {helpLinks.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
-                  className="flex items-center gap-2 text-[#FFFDFD] text-xl hover:text-[#B5B5F3] transition-colors"
+                  className="flex gap-[8px] items-center text-[#FFFDFD] text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors whitespace-nowrap"
+                  style={{ fontVariationSettings: '"wdth" 100' }}
                 >
-                  <svg className="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 6 10">
-                    <path d="M1 1l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-                  </svg>
+                  <div className="relative flex-shrink-0 size-[14px]">
+                    <Image src="/assets/social-4.svg" alt="" fill />
+                  </div>
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
         </div>
-      </div>
-
-      <div className="mt-12 pt-6 border-t border-white/10 text-center text-[#A3A1AF] text-sm">
-        © {new Date().getFullYear()} RCCG Rose of Sharon. All rights reserved.
       </div>
     </footer>
   );

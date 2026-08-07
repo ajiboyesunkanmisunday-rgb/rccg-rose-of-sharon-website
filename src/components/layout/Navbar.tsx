@@ -16,52 +16,46 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-25 py-4">
-      {/* Logo */}
-      <div className="flex items-center gap-3 px-2 py-1">
-        <div className="w-[46px] h-[46px] rounded-full bg-white/20 flex items-center justify-center">
-          <span className="text-white text-lg font-bold">✝</span>
-        </div>
-        <span className="text-white font-semibold text-xl tracking-wide">Rose of Sharon</span>
+    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-[100px] py-[16px]">
+      <div className="flex items-center gap-[12px]">
+        <Image src="/assets/logo.png" alt="RCCG Rose of Sharon logo" width={46} height={46} />
+        <Image src="/assets/logo-text.svg" alt="Rose of Sharon" width={194} height={30} />
       </div>
 
-      {/* Desktop nav links */}
-      <div className="hidden lg:flex items-center gap-4">
+      <div className="hidden lg:flex items-center gap-[16px]">
         {navLinks.map((link) => (
           <Link
             key={link.label}
             href={link.href}
-            className={`flex items-center gap-1 px-1 py-1 text-white/90 text-base hover:text-white transition-colors ${
+            className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[16px] font-normal hover:text-white transition-colors ${
               link.active ? "border-b-[3px] border-[#000080]" : ""
             }`}
           >
             {link.label}
             {link.hasDropdown && (
-              <svg className="w-3 h-3 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+              <svg className="w-3 h-3 ml-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             )}
           </Link>
         ))}
       </div>
 
-      {/* CTA buttons */}
       <div className="hidden lg:flex items-center gap-3">
         <Link
           href="#calendar"
-          className="px-8 py-3 bg-[#B5B5F3] text-[#000080] rounded-full text-base font-medium hover:bg-[#c5c5f8] transition-colors"
+          className="px-8 py-3 bg-[#B5B5F3] text-[#000080] rounded-full text-base font-medium hover:opacity-90 transition-opacity"
         >
           Calendar
         </Link>
         <Link
-          href="#csr"
+          href="#requests"
           className="px-8 py-3 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full text-base hover:bg-[#B5B5F3]/10 transition-colors"
         >
           CSR
         </Link>
       </div>
 
-      {/* Mobile hamburger */}
       <button
         className="lg:hidden text-white p-2"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -76,9 +70,8 @@ export default function Navbar() {
         </svg>
       </button>
 
-      {/* Mobile menu */}
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#100E1A]/95 backdrop-blur-sm lg:hidden p-6 flex flex-col gap-4">
+        <div className="absolute top-full left-0 right-0 bg-[#100E1A]/95 backdrop-blur-sm lg:hidden p-6 flex flex-col gap-4 z-50">
           {navLinks.map((link) => (
             <Link
               key={link.label}
@@ -93,7 +86,7 @@ export default function Navbar() {
             <Link href="#calendar" className="px-6 py-2 bg-[#B5B5F3] text-[#000080] rounded-full font-medium">
               Calendar
             </Link>
-            <Link href="#csr" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">
+            <Link href="#requests" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">
               CSR
             </Link>
           </div>

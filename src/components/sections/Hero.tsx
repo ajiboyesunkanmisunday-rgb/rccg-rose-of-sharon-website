@@ -1,37 +1,46 @@
 import Navbar from "@/components/layout/Navbar";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
   return (
     <section className="relative h-[735px] w-full overflow-hidden flex items-center justify-center">
-      {/* Background */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/hero-bg.jpg')" }}
-      />
-      <div className="absolute inset-0 bg-black/65" />
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
+        <Image
+          src="/assets/hero-bg.png"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute bg-[rgba(0,0,0,0.65)] inset-0" />
+      </div>
 
       <Navbar />
 
-      {/* Content */}
-      <div className="relative z-10 max-w-[1148px] mx-auto px-6 flex flex-col items-center gap-21 pt-16">
-        <div className="flex flex-col gap-8 text-center">
-          <h1 className="text-white text-[84px] font-medium leading-tight">
+      <div className="relative z-10 flex flex-col gap-[84px] items-center justify-center w-[1148px]">
+        <div className="flex flex-col gap-[16px] items-center text-center">
+          <h1
+            className="text-[#FFFDFD] text-[84px] font-medium leading-tight"
+            style={{ fontFamily: "'Roboto', sans-serif", fontVariationSettings: '"wdth" 100' }}
+          >
             A Place Where God Have a Permanent Seat!
           </h1>
-          <p className="text-white text-[25px] font-normal leading-8">
-            Step into a place where God's presence is constant, His Word is powerful, and your life is transformed.
+          <p
+            className="text-[#FFFDFD] text-[25px] font-normal leading-normal"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            Step into a place where God&apos;s presence is constant, His Word is powerful, and your life is transformed.
           </p>
         </div>
 
         <Link
           href="#media"
-          className="flex items-center gap-2 px-8 py-4 bg-[#000080] text-white text-[25px] font-medium rounded-[35px] shadow-[19px_19px_40px_rgba(0,0,0,0.10)] hover:bg-[#0000a0] transition-colors"
+          className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors"
         >
-          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" fill="white" opacity="0.9" />
-            <polygon points="10,8 16,12 10,16" fill="#000080" />
-          </svg>
+          <div className="relative size-[24px] flex-shrink-0">
+            <Image src="/assets/play-filled.svg" alt="" fill />
+          </div>
           Watch Sermon
         </Link>
       </div>
