@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Welcome() {
   return (
-    <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col items-center gap-[32px] text-center w-full">
+    <section className="bg-[#100E1A] px-[100px] py-[84px] flex flex-col items-center justify-center gap-[32px] text-center w-full">
       <div className="flex flex-col items-center gap-[32px] w-full">
         <h2
           className="text-[#FFFDFD] text-[48px] font-bold leading-normal w-full"

@@ -44,13 +44,13 @@ export default function Navbar() {
       <div className="hidden lg:flex items-center gap-3">
         <Link
           href="#calendar"
-          className="px-8 py-3 bg-[#B5B5F3] text-[#000080] rounded-full text-base font-medium hover:opacity-90 transition-opacity"
+          className="px-[32px] py-[12px] bg-[#B5B5F3] text-[#000080] rounded-[30px] text-[16px] font-normal hover:opacity-90 transition-opacity"
         >
           Calendar
         </Link>
         <Link
           href="#requests"
-          className="px-8 py-3 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full text-base hover:bg-[#B5B5F3]/10 transition-colors"
+          className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] hover:bg-[#B5B5F3]/10 transition-colors"
         >
           CSR
         </Link>

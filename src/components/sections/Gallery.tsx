@@ -17,7 +17,7 @@ const galleryImages = [
 
 export default function Gallery() {
   return (
-    <section id="gallery" className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[8px] items-center w-full">
+    <section id="gallery" className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[24px] items-center justify-center w-full">
       <h2
         className="text-[#FFFDFD] text-[39px] font-semibold leading-normal text-center min-w-full w-[min-content]"
         style={{ fontVariationSettings: '"wdth" 100' }}
