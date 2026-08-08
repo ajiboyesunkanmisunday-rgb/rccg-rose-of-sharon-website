@@ -22,13 +22,14 @@ export default function RequestsGive() {
   }
 
   return (
-    <section id="requests" className="flex w-full">
+    <section id="requests" className="bg-[#3a394f] flex items-start px-[120px] w-full">
       {/* Requests form */}
-      <div className="flex flex-1 flex-col gap-[32px] items-center min-w-0 px-[32px] py-[72px] relative">
+      <div className="flex flex-1 flex-col gap-[32px] items-center min-w-0 px-[32px] py-[24px] relative self-stretch">
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute bg-[#625b5d] inset-0" />
           <div className="absolute inset-0 opacity-15 overflow-hidden">
-            <Image src="/assets/requests-bg.png" alt="" fill className="object-cover" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/requests-bg.png" alt="" className="absolute max-w-none w-full" style={{ height: "153.52%", left: "0.03%", top: "-9.22%" }} />
           </div>
         </div>
 
@@ -137,7 +138,8 @@ export default function RequestsGive() {
 
         <div className="aspect-[536/354] relative flex-shrink-0 w-full">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <Image src="/assets/give-illustration.png" alt="" fill className="object-cover" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/assets/give-illustration.png" alt="" className="absolute max-w-none w-full" style={{ height: "113.56%", left: 0, top: "-7.53%" }} />
           </div>
         </div>
 

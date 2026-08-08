@@ -86,7 +86,7 @@ export default function Footer() {
         </div>
 
         {/* Help */}
-        <div className="flex flex-col gap-[20px] items-start flex-shrink-0 w-full">
+        <div className="flex flex-col gap-[20px] items-start flex-shrink-0 w-[268px]">
           <h3
             className="text-[#FFFDFD] text-[25px] font-bold h-[32.5px] flex flex-col justify-center w-full leading-[32.5px]"
             style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
