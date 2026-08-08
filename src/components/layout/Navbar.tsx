@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navLinks = [
-  { label: "Meet the Church", href: "/#about" },
+  { label: "Meet the Church", href: "/#about", key: "home" },
   { label: "Media", href: "/media", key: "media" },
   { label: "Trainings", href: "/#trainings", hasDropdown: true },
   { label: "Groups", href: "/#groups", hasDropdown: true },
