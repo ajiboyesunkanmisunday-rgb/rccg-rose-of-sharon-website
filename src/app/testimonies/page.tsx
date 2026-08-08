@@ -40,7 +40,7 @@ export default function TestimoniesPage() {
       {/* Hero */}
       <section className="relative h-[735px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
-          <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" />
+          <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(16,14,26,0.65)]" />
         </div>
         <Navbar activePage="testimonies" />
