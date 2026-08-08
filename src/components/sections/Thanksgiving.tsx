@@ -48,7 +48,7 @@ export default function Thanksgiving() {
           </h3>
         </div>
 
-        <button className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors border border-white/20 flex-shrink-0">
+        <button className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0">
           <div className="h-[24px] w-[22px] flex-shrink-0 overflow-hidden relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/icon-vector.svg" alt="" className="absolute inset-0 w-full h-full" />
