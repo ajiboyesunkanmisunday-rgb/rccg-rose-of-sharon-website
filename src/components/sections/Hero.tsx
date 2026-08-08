@@ -35,7 +35,7 @@ export default function Hero() {
         </div>
 
         <Link
-          href="#media"
+          href="/media"
           className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0"
         >
           <div className="relative size-[29px] flex-shrink-0">
