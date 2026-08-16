@@ -7,7 +7,7 @@ import Link from "next/link";
 const navLinks = [
   { label: "Meet the Church", href: "/#about", key: "home" },
   { label: "Media", href: "/media", key: "media" },
-  { label: "Trainings", href: "/#trainings", hasDropdown: true },
+  { label: "Trainings", href: "/trainings", hasDropdown: true },
   { label: "Groups", href: "/#groups", hasDropdown: true },
   { label: "Testimonies", href: "/testimonies", key: "testimonies" },
 ];
@@ -58,7 +58,7 @@ export default function Navbar({ activePage }: NavbarProps) {
           Calendar
         </Link>
         <Link
-          href="/#requests"
+          href="/requests/counseling"
           className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >

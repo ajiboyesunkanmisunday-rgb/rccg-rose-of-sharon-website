@@ -2,19 +2,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 const quickLinks = [
-  "Oaks of Righteousness",
-  "Young Leaders and Professionals",
-  "Calendar",
-  "Podcast",
-  "Watch Sermon",
-  "Gallery",
+  { label: "First-Timer Registration", href: "/first-timer" },
+  { label: "Training Programs", href: "/trainings" },
+  { label: "Baby Dedication", href: "/requests/baby-dedication" },
+  { label: "Baby Christening", href: "/requests/baby-christening" },
+  { label: "Watch Sermon", href: "/media" },
+  { label: "Gallery", href: "/gallery" },
 ];
 
 const helpLinks = [
-  { label: "Book a Counselling Session", href: "#counselling" },
-  { label: "Prayer Request", href: "#prayer" },
-  { label: "Share Testimony", href: "#testimony" },
-  { label: "New Believer", href: "#new-believer" },
+  { label: "Book a Counselling Session", href: "/requests/counseling" },
+  { label: "Prayer Request", href: "/requests/prayer" },
+  { label: "Share Testimony", href: "/testimonies#share" },
+  { label: "New Believer", href: "/new-believer" },
 ];
 
 export default function Footer() {
@@ -72,13 +72,13 @@ export default function Footer() {
           </h3>
           <ul className="flex flex-col gap-[16px] items-start flex-shrink-0">
             {quickLinks.map((link) => (
-              <li key={link}>
+              <li key={link.label}>
                 <Link
-                  href="#"
+                  href={link.href}
                   className="text-white text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors"
                   style={{ fontVariationSettings: '"wdth" 100' }}
                 >
-                  {link}
+                  {link.label}
                 </Link>
               </li>
             ))}
