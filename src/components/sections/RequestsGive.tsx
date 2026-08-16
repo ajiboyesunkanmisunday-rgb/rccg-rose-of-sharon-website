@@ -2,23 +2,49 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { post } from "@/lib/api";
 
 const categories = [
-  "Prayer Request",
-  "Suggestion",
-  "Counselling",
-  "Baby Dedication",
-  "Baby Christening",
-  "Testimony",
+  { label: "Prayer Request", value: "prayer", endpoint: "/requests/prayer" },
+  { label: "Suggestion", value: "suggestion", endpoint: "/requests/suggestion" },
+  { label: "Counselling", value: "counseling", endpoint: "/requests/counseling" },
+  { label: "Baby Dedication", value: "baby-dedication", endpoint: "/requests/baby-dedication" },
+  { label: "Baby Christening", value: "baby-christening", endpoint: "/requests/baby-christening" },
+  { label: "Testimony", value: "testimony", endpoint: "/testimonies" },
 ];
 
 export default function RequestsGive() {
+  const router = useRouter();
   const [form, setForm] = useState({ name: "", subject: "", category: "", details: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    alert("Request submitted! We'll get back to you soon.");
-    setForm({ name: "", subject: "", category: "", details: "" });
+    const cat = categories.find((c) => c.value === form.category);
+    if (!cat) return;
+
+    if (cat.value === "counseling") {
+      router.push("/requests/counseling");
+      return;
+    }
+
+    setStatus("loading");
+    setError("");
+    try {
+      const content = `From: ${form.name}\n\n${form.details}`;
+      if (cat.value === "testimony") {
+        await post("/testimonies", { subject: form.subject, content });
+      } else {
+        await post(cat.endpoint, { subject: form.subject, content });
+      }
+      setStatus("success");
+      setForm({ name: "", subject: "", category: "", details: "" });
+    } catch (err: unknown) {
+      setStatus("error");
+      setError(err instanceof Error ? err.message : "Submission failed. Please try again.");
+    }
   }
 
   return (
@@ -41,91 +67,111 @@ export default function RequestsGive() {
             Requests
           </h2>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-[12px] items-center justify-center w-full">
-            <div className="flex items-center w-full">
-              <div className="flex flex-1 flex-col items-start min-w-0 relative">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] flex-shrink-0 mb-0">
-                  Name <span className="text-[#FF383C]">*</span>
-                </p>
-                <div className="flex flex-1 flex-col items-start min-w-0 w-full">
+          {status === "success" ? (
+            <div className="flex flex-col gap-[16px] items-center py-[32px] text-center">
+              <div className="size-[60px] rounded-full bg-[#000080] flex items-center justify-center text-[28px] text-white">✓</div>
+              <p className="text-[#FFFDFD] text-[20px] font-medium" style={{ fontVariationSettings: '"wdth" 100' }}>
+                Request submitted! We&apos;ll get back to you soon.
+              </p>
+              <button
+                onClick={() => setStatus("idle")}
+                className="text-[#B5B5F3] text-[14px] hover:underline"
+                style={{ fontVariationSettings: '"wdth" 100' }}
+              >
+                Submit another request
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[12px] items-center justify-center w-full">
+              <div className="flex items-center w-full">
+                <div className="flex flex-1 flex-col items-start min-w-0 relative">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] flex-shrink-0 mb-0">
+                    Name <span className="text-[#FF383C]">*</span>
+                  </p>
+                  <div className="flex flex-1 flex-col items-start min-w-0 w-full">
+                    <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
+                      <input
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center w-full">
+                <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                    Subject <span className="text-[#FF383C]">*</span>
+                  </p>
                   <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
                     <input
                       type="text"
                       required
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      value={form.subject}
+                      onChange={(e) => setForm({ ...form, subject: e.target.value })}
                       className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]"
                     />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex items-center w-full">
-              <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
-                  Subject <span className="text-[#FF383C]">*</span>
-                </p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
-                  <input
-                    type="text"
-                    required
-                    value={form.subject}
-                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]"
-                  />
+              <div className="flex items-center w-full">
+                <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                    Category <span className="text-[#FF383C]">*</span>
+                  </p>
+                  <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
+                    <select
+                      required
+                      value={form.category}
+                      onChange={(e) => setForm({ ...form, category: e.target.value })}
+                      className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]"
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map((c) => (
+                        <option key={c.value} value={c.value}>{c.label}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex items-center w-full">
-              <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
-                  Category <span className="text-[#FF383C]">*</span>
-                </p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
-                  <select
-                    required
-                    value={form.category}
-                    onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]"
+              <div className="flex items-center w-full">
+                <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                    Details <span className="text-[#FF383C]">*</span>
+                  </p>
+                  <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[102px] rounded-[10px] flex-shrink-0 w-full">
+                    <textarea
+                      required
+                      value={form.details}
+                      onChange={(e) => setForm({ ...form, details: e.target.value })}
+                      className="w-full h-full px-3 py-2 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[10px] resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {status === "error" && (
+                <p className="text-[#FF383C] text-[13px] text-center w-full" style={{ fontVariationSettings: '"wdth" 100' }}>{error}</p>
+              )}
+
+              <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[33px] flex-shrink-0">
+                <button type="submit" disabled={status === "loading"} className="flex items-center w-full disabled:opacity-60">
+                  <span
+                    className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
+                    style={{ fontVariationSettings: '"wdth" 100' }}
                   >
-                    <option value="">Select a category</option>
-                    {categories.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
+                    {status === "loading" ? "SENDING..." : "SEND"}
+                  </span>
+                </button>
               </div>
-            </div>
-
-            <div className="flex items-center w-full">
-              <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
-                  Details <span className="text-[#FF383C]">*</span>
-                </p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[102px] rounded-[10px] flex-shrink-0 w-full">
-                  <textarea
-                    required
-                    value={form.details}
-                    onChange={(e) => setForm({ ...form, details: e.target.value })}
-                    className="w-full h-full px-3 py-2 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[10px] resize-none"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[33px] flex-shrink-0">
-              <button type="submit" className="flex items-center w-full">
-                <span
-                  className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
-                  style={{ fontVariationSettings: '"wdth" 100' }}
-                >
-                  SEND
-                </span>
-              </button>
-            </div>
-          </form>
+            </form>
+          )}
         </div>
       </div>
 

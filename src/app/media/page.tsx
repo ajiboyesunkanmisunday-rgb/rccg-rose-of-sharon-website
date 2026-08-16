@@ -65,7 +65,7 @@ export default function MediaPage() {
           style={{ gridTemplateColumns: "repeat(4, 1fr)" }}
         >
           {sermons.map((sermon, i) => (
-            <div key={i} className="flex flex-col overflow-hidden rounded-[12px] bg-[#1a1826] cursor-pointer group hover:scale-[1.02] transition-transform">
+            <a key={i} href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="flex flex-col overflow-hidden rounded-[12px] bg-[#1a1826] cursor-pointer group hover:scale-[1.02] transition-transform">
               <div className="relative h-[180px] w-full overflow-hidden">
                 <Image
                   src={sermon.img}
@@ -95,18 +95,23 @@ export default function MediaPage() {
                   {sermon.date}
                 </p>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
-        <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0 hover:bg-[#0000a0] transition-colors cursor-pointer">
+        <a
+          href="https://www.youtube.com/@rccgrostv"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0 hover:bg-[#0000a0] transition-colors cursor-pointer"
+        >
           <span
             className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
-            View More
+            View More on YouTube
           </span>
-        </div>
+        </a>
       </section>
 
       <Podcast />

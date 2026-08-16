@@ -6,7 +6,7 @@ const quickLinks = [
   { label: "Training Programs", href: "/trainings" },
   { label: "Baby Dedication", href: "/requests/baby-dedication" },
   { label: "Baby Christening", href: "/requests/baby-christening" },
-  { label: "Watch Sermon", href: "/media" },
+  { label: "Special Thanksgiving", href: "/celebrations" },
   { label: "Gallery", href: "/gallery" },
 ];
 
@@ -32,7 +32,9 @@ export default function Footer() {
             </h3>
             <div className="flex flex-1 gap-[8px] items-center min-h-0 px-[12px] w-full">
               <a
-                href="#"
+                href="https://www.instagram.com/rccgros/?hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#8A38F5] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="Instagram"
               >
@@ -41,7 +43,9 @@ export default function Footer() {
                 </div>
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/rccgrospage/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#3B5998] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="Facebook"
               >
@@ -50,7 +54,9 @@ export default function Footer() {
                 </div>
               </a>
               <a
-                href="#"
+                href="https://www.youtube.com/@rccgrostv"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-[#0000BA] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
                 aria-label="YouTube"
               >

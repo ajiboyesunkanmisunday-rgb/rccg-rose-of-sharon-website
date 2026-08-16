@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Thanksgiving() {
   return (
     <section id="thanksgiving" className="flex items-center relative w-full min-h-[510px]">
@@ -46,13 +48,13 @@ export default function Thanksgiving() {
             Is Your Day Let&apos;s Celebrate With You
           </h3>
 
-        <button className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0">
+        <Link href="/celebrations" className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0">
           <div className="h-[22px] w-[24px] flex-shrink-0 overflow-hidden relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/icon-vector.svg" alt="" className="absolute inset-0 w-full h-full" />
           </div>
           SEND US YOUR SPECIAL DAY
-        </button>
+        </Link>
       </div>
     </section>
   );
