@@ -13,7 +13,7 @@ const trainingLinks = [
 ];
 
 const navLinks = [
-  { label: "Meet the Church", href: "/#about", key: "home" },
+  { label: "Meet the Church", href: "/about", key: "about" },
   { label: "Media", href: "/media", key: "media" },
   { label: "Trainings", href: "/trainings", hasDropdown: true, key: "trainings" },
   { label: "Groups", href: "/groups", key: "groups" },

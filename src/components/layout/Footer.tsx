@@ -2,18 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 
 const quickLinks = [
+  { label: "Meet the Church", href: "/about" },
   { label: "First-Timer Registration", href: "/first-timer" },
   { label: "Training Programs", href: "/trainings" },
   { label: "Church Groups", href: "/groups" },
   { label: "Upcoming Events", href: "/events" },
   { label: "Special Thanksgiving", href: "/celebrations" },
-  { label: "Gallery", href: "/gallery" },
 ];
 
 const helpLinks = [
   { label: "Book a Counselling Session", href: "/requests/counseling" },
   { label: "Prayer Request", href: "/requests/prayer" },
-  { label: "Share Testimony", href: "/testimonies#share" },
+  { label: "Become an E-Member", href: "/e-member" },
   { label: "Announcements", href: "/announcements" },
   { label: "New Believer", href: "/new-believer" },
 ];
