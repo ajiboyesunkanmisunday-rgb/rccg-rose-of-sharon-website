@@ -1,32 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { post } from "@/lib/api";
+import { post, API_BASE } from "@/lib/api";
 
-const testimonies = [
-  { name: "Brother David", role: "Member", img: "/assets/podcast-1.png", quote: "God turned my situation around completely. I was at my lowest point but His grace found me." },
-  { name: "Sister Grace", role: "Member", img: "/assets/podcast-2.png", quote: "The healing power of God is real. I witnessed it firsthand in my family." },
-  { name: "Brother James", role: "Member", img: "/assets/podcast-3.png", quote: "From nothing to abundance — only God could have done this in my life." },
-  { name: "Sister Mercy", role: "Member", img: "/assets/podcast-4.png", quote: "I received my long-awaited miracle after years of waiting on the Lord." },
-  { name: "Brother Paul", role: "Member", img: "/assets/podcast-5.png", quote: "His faithfulness endures forever. My testimony is a testament to His love." },
-  { name: "Sister Ruth", role: "Member", img: "/assets/podcast-6.png", quote: "God opened doors that no man could open. I am forever grateful." },
-  { name: "Brother Samuel", role: "Member", img: "/assets/podcast-7.png", quote: "What seemed impossible became possible through the power of prayer." },
-  { name: "Sister Esther", role: "Member", img: "/assets/podcast-8.png", quote: "God restored my marriage and brought peace to my home. To Him be glory!" },
+interface TestimonyItem {
+  id: string;
+  subject: string;
+  content: string;
+  owner?: { firstName?: string; lastName?: string };
+  state?: string;
+  country?: string;
+  createdOn?: string;
+}
+
+const fallbackTestimonies = [
+  { name: "Brother David", img: "/assets/podcast-1.png", quote: "God turned my situation around completely. I was at my lowest point but His grace found me." },
+  { name: "Sister Grace", img: "/assets/podcast-2.png", quote: "The healing power of God is real. I witnessed it firsthand in my family." },
+  { name: "Brother James", img: "/assets/podcast-3.png", quote: "From nothing to abundance — only God could have done this in my life." },
+  { name: "Sister Mercy", img: "/assets/podcast-4.png", quote: "I received my long-awaited miracle after years of waiting on the Lord." },
+  { name: "Brother Paul", img: "/assets/podcast-5.png", quote: "His faithfulness endures forever. My testimony is a testament to His love." },
+  { name: "Sister Ruth", img: "/assets/podcast-6.png", quote: "God opened doors that no man could open. I am forever grateful." },
+  { name: "Brother Samuel", img: "/assets/podcast-7.png", quote: "What seemed impossible became possible through the power of prayer." },
+  { name: "Sister Esther", img: "/assets/podcast-8.png", quote: "God restored my marriage and brought peace to my home. To Him be glory!" },
+];
+
+const avatarImgs = [
+  "/assets/podcast-1.png", "/assets/podcast-2.png", "/assets/podcast-3.png",
+  "/assets/podcast-4.png", "/assets/podcast-5.png", "/assets/podcast-6.png",
+  "/assets/podcast-7.png", "/assets/podcast-8.png",
 ];
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
 export default function TestimoniesPage() {
+  const [liveTestimonies, setLiveTestimonies] = useState<TestimonyItem[]>([]);
+  const [loadingTestimonies, setLoadingTestimonies] = useState(true);
+
   const [form, setForm] = useState({
     name: "", subject: "", testimony: "",
     state: "", country: "Nigeria", rosTVStory: false,
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch(`${API_BASE}/testimonies/featured?pageSize=8`)
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.content ?? [];
+        setLiveTestimonies(list);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingTestimonies(false));
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -114,42 +144,72 @@ export default function TestimoniesPage() {
       <section className="bg-[#D2D2E2] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
         <h2
           className="text-[#100E1A] text-[48px] font-bold leading-normal text-center w-full"
-          style={{ fontVariationSettings: '"wdth" 100' }}
+          style={vs}
         >
-          More Testimonies
+          {liveTestimonies.length > 0 ? "Featured Testimonies" : "More Testimonies"}
         </h2>
 
-        <div
-          className="grid gap-[20px] w-full"
-          style={{ gridTemplateColumns: "repeat(4, 1fr)" }}
-        >
-          {testimonies.map((person, i) => (
-            <div key={i} className="bg-white rounded-[16px] flex flex-col gap-[16px] p-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
-              <div className="flex items-center gap-[12px]">
-                <div className="size-[60px] rounded-full overflow-hidden relative flex-shrink-0">
-                  <Image src={person.img} alt={person.name} fill className="object-cover" />
-                </div>
-                <div>
-                  <p
-                    className="text-[#100E1A] text-[16px] font-bold leading-normal"
-                    style={{ fontVariationSettings: '"wdth" 100' }}
-                  >
-                    {person.name}
-                  </p>
-                  <p className="text-[#A3A1AF] text-[13px] font-normal" style={{ fontVariationSettings: '"wdth" 100' }}>
-                    {person.role}
-                  </p>
-                </div>
-              </div>
-              <p
-                className="text-[#100E1A] text-[15px] font-normal leading-[1.6] italic"
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                &ldquo;{person.quote}&rdquo;
-              </p>
-            </div>
-          ))}
-        </div>
+        {loadingTestimonies && (
+          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            {[1,2,3,4].map((i) => (
+              <div key={i} className="bg-white rounded-[16px] h-[160px] animate-pulse" />
+            ))}
+          </div>
+        )}
+
+        {!loadingTestimonies && (
+          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            {liveTestimonies.length > 0
+              ? liveTestimonies.map((t, i) => {
+                  const ownerName = t.owner
+                    ? `${t.owner.firstName ?? ""} ${t.owner.lastName ?? ""}`.trim()
+                    : "Church Member";
+                  const lines = t.content.split("\n").filter(Boolean);
+                  const quote = lines.length > 1 ? lines.slice(1).join(" ") : t.content;
+                  return (
+                    <div key={t.id} className="bg-white rounded-[16px] flex flex-col gap-[16px] p-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
+                      <div className="flex items-center gap-[12px]">
+                        <div className="size-[60px] rounded-full overflow-hidden relative flex-shrink-0 bg-[#000080] flex items-center justify-center">
+                          <span className="text-white text-[22px] font-bold" style={vs}>
+                            {ownerName.charAt(0) || "M"}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-[#100E1A] text-[16px] font-bold leading-normal" style={vs}>
+                            {ownerName || "Anonymous"}
+                          </p>
+                          {(t.state || t.country) && (
+                            <p className="text-[#A3A1AF] text-[13px] font-normal" style={vs}>
+                              {[t.state, t.country].filter(Boolean).join(", ")}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-[#100E1A] text-[14px] font-normal leading-[1.6] italic line-clamp-4" style={vs}>
+                        &ldquo;{t.subject ? `${t.subject} — ` : ""}{quote}&rdquo;
+                      </p>
+                    </div>
+                  );
+                })
+              : fallbackTestimonies.map((person, i) => (
+                  <div key={i} className="bg-white rounded-[16px] flex flex-col gap-[16px] p-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
+                    <div className="flex items-center gap-[12px]">
+                      <div className="size-[60px] rounded-full overflow-hidden relative flex-shrink-0">
+                        <Image src={avatarImgs[i % avatarImgs.length]} alt={person.name} fill className="object-cover" />
+                      </div>
+                      <div>
+                        <p className="text-[#100E1A] text-[16px] font-bold leading-normal" style={vs}>{person.name}</p>
+                        <p className="text-[#A3A1AF] text-[13px] font-normal" style={vs}>Member</p>
+                      </div>
+                    </div>
+                    <p className="text-[#100E1A] text-[15px] font-normal leading-[1.6] italic" style={vs}>
+                      &ldquo;{person.quote}&rdquo;
+                    </p>
+                  </div>
+                ))
+            }
+          </div>
+        )}
       </section>
 
       {/* Share Your Testimony */}
