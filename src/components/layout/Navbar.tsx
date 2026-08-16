@@ -59,7 +59,7 @@ export default function Navbar({ activePage }: NavbarProps) {
         </Link>
         <Link
           href="/#requests"
-          className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] hover:bg-[#B5B5F3]/10 transition-colors"
+          className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >
           CSR

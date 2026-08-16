@@ -29,36 +29,34 @@ export default function Gallery() {
         <Image src="/assets/icon-watch.svg" alt="" fill />
       </div>
 
-      <div className="flex flex-col gap-[8px] items-center w-full">
-        <div
-          className="grid gap-x-[20px] gap-y-[20px] overflow-clip p-[12px] w-[1160px]"
-          style={{
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gridTemplateRows: "179.33px 179.33px 179.33px",
-            height: "428px",
-          }}
-        >
-          {galleryImages.map((src, i) => (
-            <div key={i} className="relative overflow-hidden">
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-cover pointer-events-none"
-              />
-            </div>
-          ))}
-        </div>
-
-        <a href="/gallery" className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] relative flex-shrink-0 hover:bg-[#0000a0] transition-colors">
-          <span
-            className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
-            style={{ fontVariationSettings: '"wdth" 100' }}
-          >
-            View More
-          </span>
-        </a>
+      <div
+        className="grid gap-x-[20px] gap-y-[20px] w-[1160px]"
+        style={{
+          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+          gridTemplateRows: "179.33px 179.33px 179.33px",
+          height: "428px",
+        }}
+      >
+        {galleryImages.map((src, i) => (
+          <div key={i} className="relative overflow-hidden">
+            <Image
+              src={src}
+              alt=""
+              fill
+              className="object-cover pointer-events-none"
+            />
+          </div>
+        ))}
       </div>
+
+      <a href="/gallery" className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] relative flex-shrink-0 hover:bg-[#0000a0] transition-colors">
+        <span
+          className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
+          style={{ fontVariationSettings: '"wdth" 100' }}
+        >
+          View More
+        </span>
+      </a>
     </section>
   );
 }

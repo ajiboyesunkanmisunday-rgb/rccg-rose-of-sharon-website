@@ -13,13 +13,13 @@ export default function Hero() {
           className="object-cover"
           priority
         />
-        <div className="absolute bg-[rgba(0,0,0,0.65)] inset-0" />
+        <div className="absolute bg-[rgba(16,14,26,0.65)] inset-0" />
       </div>
 
       <Navbar activePage="home" />
 
       <div className="absolute left-1/2 top-[calc(50%+58px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[84px] items-center justify-center w-[1148px] z-10">
-        <div className="flex flex-col gap-[32px] items-start w-full text-center text-white">
+        <div className="flex flex-col gap-[32px] items-center w-full text-center text-white">
           <h1
             className="text-[#FFFDFD] text-[84px] font-medium leading-normal w-full"
             style={{ fontFamily: "'Roboto', sans-serif", fontVariationSettings: '"wdth" 100' }}

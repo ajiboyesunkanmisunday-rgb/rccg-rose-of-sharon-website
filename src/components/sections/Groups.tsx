@@ -9,9 +9,8 @@ function GroupCard() {
             className="text-[#FFFDFD] text-[39px] font-semibold leading-[46.8px]"
             style={{ fontFamily: "'Roboto', sans-serif", fontVariationSettings: '"wdth" 100' }}
           >
-            Let&apos;s Tailor
+            Let&apos;s Tailor{" "}
           </span>
-          <span className="text-[36px] leading-[46.8px]"> </span>
           <span
             className="text-[#9B96FE] text-[36px] font-bold italic leading-[46.8px]"
             style={{ fontFamily: "'Playfair Display', serif" }}

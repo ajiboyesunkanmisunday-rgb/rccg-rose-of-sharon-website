@@ -16,7 +16,6 @@ export default function Thanksgiving() {
       </div>
 
       <div className="flex flex-1 flex-col gap-[32px] items-center min-w-0 px-[120px] py-[84px] relative">
-        <div className="flex flex-col gap-[32px] items-center w-full">
           <h2
             className="text-[#FFFDFD] text-[39px] font-semibold leading-normal text-center w-full"
             style={{ fontVariationSettings: '"wdth" 100' }}
@@ -30,7 +29,7 @@ export default function Thanksgiving() {
               <img src="/assets/icon-frame-1.svg" alt="" className="absolute inset-0 w-full h-full" />
             </div>
             <p
-              className="text-[#FFFDFD] text-[20px] font-normal leading-normal text-center min-w-full w-[min-content]"
+              className="text-[#FFFDFD] text-[20px] font-normal leading-normal text-center w-full"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               The church would love to rejoice with you on your special day! Whether you&apos;re marking a
@@ -46,10 +45,9 @@ export default function Thanksgiving() {
           >
             Is Your Day Let&apos;s Celebrate With You
           </h3>
-        </div>
 
         <button className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0">
-          <div className="h-[24px] w-[22px] flex-shrink-0 overflow-hidden relative">
+          <div className="h-[22px] w-[24px] flex-shrink-0 overflow-hidden relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/icon-vector.svg" alt="" className="absolute inset-0 w-full h-full" />
           </div>

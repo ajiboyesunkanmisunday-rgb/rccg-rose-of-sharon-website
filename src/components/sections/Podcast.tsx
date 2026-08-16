@@ -97,7 +97,7 @@ export default function Podcast() {
 
               {/* Player controls */}
               <div className="flex gap-[24px] items-end justify-center flex-shrink-0 w-full">
-                <div className="h-[38px] w-[39px] relative flex-shrink-0">
+                <div className="h-[39px] w-[38px] relative flex-shrink-0">
                   <Image src="/assets/icon-redo.svg" alt="Replay" fill />
                 </div>
                 <div className="flex gap-[12px] items-center justify-center flex-shrink-0">

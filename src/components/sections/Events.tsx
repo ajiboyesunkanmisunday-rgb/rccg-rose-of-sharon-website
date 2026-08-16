@@ -60,7 +60,7 @@ export default function Events() {
                 I Will be There
               </button>
               <button
-                className={`px-[32px] py-[12px] text-base font-bold rounded-[30px] transition-colors whitespace-nowrap ${
+                className={`px-[32px] py-[12px] text-base font-normal rounded-[30px] transition-colors whitespace-nowrap ${
                   event.highlight ? "text-[#FFFDFD]/65 hover:text-[#FFFDFD]" : "text-[#00003D]/65 hover:text-[#00003D]"
                 }`}
                 style={{ fontVariationSettings: '"wdth" 100' }}
@@ -72,7 +72,7 @@ export default function Events() {
         ))}
       </div>
 
-      <div className="flex items-center justify-center px-[24px]">
+      <div className="flex items-center justify-center">
         <button
           className="text-[#000080] text-[25px] font-medium leading-normal hover:underline"
           style={{ fontVariationSettings: '"wdth" 100' }}
