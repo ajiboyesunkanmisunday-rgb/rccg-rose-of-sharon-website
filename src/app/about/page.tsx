@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Meet the Church",
+  description: "Learn about RCCG Rose of Sharon — our story, beliefs, service times, and how you can get involved.",
+};
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 

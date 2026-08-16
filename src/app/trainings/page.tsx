@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Training Programs",
+  description: "Grow in faith and ministry. Explore Water Baptism, WIT, School of Disciples, School of Ministry, and RILA at RCCG Rose of Sharon.",
+};
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
