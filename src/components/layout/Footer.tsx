@@ -14,6 +14,7 @@ const helpLinks = [
   { label: "Book a Counselling Session", href: "/requests/counseling" },
   { label: "Prayer Request", href: "/requests/prayer" },
   { label: "Share Testimony", href: "/testimonies#share" },
+  { label: "Announcements", href: "/announcements" },
   { label: "New Believer", href: "/new-believer" },
 ];
 
