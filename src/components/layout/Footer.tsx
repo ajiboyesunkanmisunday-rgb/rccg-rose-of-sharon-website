@@ -7,7 +7,7 @@ const quickLinks = [
   { label: "Training Programs", href: "/trainings" },
   { label: "Church Groups", href: "/groups" },
   { label: "Upcoming Events", href: "/events" },
-  { label: "Special Thanksgiving", href: "/celebrations" },
+  { label: "Give Online", href: "/give" },
 ];
 
 const helpLinks = [
