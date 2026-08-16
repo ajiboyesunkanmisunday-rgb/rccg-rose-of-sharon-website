@@ -41,6 +41,11 @@ export default function Podcast() {
           </h2>
         </div>
 
+        <p className="text-center text-[#FFFDFD]/60 text-[14px] pb-[8px]" style={{ fontVariationSettings: '"wdth" 100' }}>
+          Click any episode to listen on our{" "}
+          <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-[#B5B5F3] hover:underline">YouTube channel</a>
+        </p>
+
         <div className="flex h-[420px] items-center justify-between px-[120px] w-full">
           {/* Album art + controls */}
           <div className="flex flex-col gap-[24px] h-full items-center justify-center px-[4px] py-[16px] flex-shrink-0 w-[546px]">
@@ -104,9 +109,14 @@ export default function Podcast() {
                   <div className="h-[54px] w-[56px] relative flex-shrink-0">
                     <Image src="/assets/icon-frame-2.svg" alt="Previous" fill />
                   </div>
-                  <div className="bg-[#000080] flex items-center justify-center p-[8px] rounded-[5px] flex-shrink-0 size-[54px]">
+                  <a
+                    href="https://www.youtube.com/@rccgrostv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#000080] flex items-center justify-center p-[8px] rounded-[5px] flex-shrink-0 size-[54px] hover:bg-[#0000a0] transition-colors"
+                  >
                     <div className="bg-[#FFFDFD] rounded-[3px] flex-shrink-0 size-[24px]" />
-                  </div>
+                  </a>
                   <div className="h-[54px] w-[57px] relative flex-shrink-0">
                     <Image src="/assets/icon-frame-1.svg" alt="Next" fill />
                   </div>
@@ -124,8 +134,11 @@ export default function Podcast() {
           <div className="bg-[rgba(255,255,255,0.25)] flex gap-[4px] h-full items-start overflow-clip px-[12px] py-[16px] flex-shrink-0 w-[643px]">
             <div className="flex flex-1 flex-col gap-[8px] items-start min-w-0 overflow-clip">
               {episodes.map((ep, i) => (
-                <button
+                <a
                   key={ep.title}
+                  href="https://www.youtube.com/@rccgrostv"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setPlaying(i)}
                   className="flex gap-[12px] items-center w-full text-left flex-shrink-0"
                 >
@@ -172,7 +185,7 @@ export default function Podcast() {
                       </div>
                     </div>
                   </div>
-                </button>
+                </a>
               ))}
             </div>
           </div>

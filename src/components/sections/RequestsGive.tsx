@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { post } from "@/lib/api";
 
@@ -189,16 +190,17 @@ export default function RequestsGive() {
           </div>
         </div>
 
-        <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0">
-          <div className="flex items-center w-full">
-            <span
-              className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
-              style={{ fontVariationSettings: '"wdth" 100' }}
-            >
-              GIVE ONLINE
-            </span>
-          </div>
-        </div>
+        <Link
+          href="/give"
+          className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0 hover:bg-[#0000a0] transition-colors"
+        >
+          <span
+            className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            GIVE ONLINE
+          </span>
+        </Link>
       </div>
     </section>
   );
