@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Meet the Church", href: "/#about", key: "home" },
   { label: "Media", href: "/media", key: "media" },
   { label: "Trainings", href: "/trainings", hasDropdown: true },
-  { label: "Groups", href: "/#groups", hasDropdown: true },
+  { label: "Groups", href: "/groups", hasDropdown: false },
   { label: "Testimonies", href: "/testimonies", key: "testimonies" },
 ];
 
@@ -51,7 +51,7 @@ export default function Navbar({ activePage }: NavbarProps) {
 
       <div className="hidden lg:flex items-center gap-3">
         <Link
-          href="/#calendar"
+          href="/events"
           className="px-[32px] py-[12px] bg-[#B5B5F3] text-[#000080] rounded-[30px] text-[16px] font-normal hover:opacity-90 transition-opacity"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >
@@ -93,7 +93,7 @@ export default function Navbar({ activePage }: NavbarProps) {
             </Link>
           ))}
           <div className="flex gap-3 pt-2">
-            <Link href="/#calendar" className="px-6 py-2 bg-[#B5B5F3] text-[#000080] rounded-full font-medium">
+            <Link href="/events" className="px-6 py-2 bg-[#B5B5F3] text-[#000080] rounded-full font-medium">
               Calendar
             </Link>
             <Link href="/#requests" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">

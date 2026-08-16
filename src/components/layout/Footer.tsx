@@ -4,8 +4,8 @@ import Link from "next/link";
 const quickLinks = [
   { label: "First-Timer Registration", href: "/first-timer" },
   { label: "Training Programs", href: "/trainings" },
-  { label: "Baby Dedication", href: "/requests/baby-dedication" },
-  { label: "Baby Christening", href: "/requests/baby-christening" },
+  { label: "Church Groups", href: "/groups" },
+  { label: "Upcoming Events", href: "/events" },
   { label: "Special Thanksgiving", href: "/celebrations" },
   { label: "Gallery", href: "/gallery" },
 ];

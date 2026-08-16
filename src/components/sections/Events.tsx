@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const events = [
   { date: "1st Mar. 2026", title: "Thanksgiving Service", time: "7:45am", highlight: true },
   { date: "10th Mar. 2026", title: "Digging Deep", time: "6:30pm", highlight: false },
@@ -73,12 +75,13 @@ export default function Events() {
       </div>
 
       <div className="flex items-center justify-center">
-        <button
+        <Link
+          href="/events"
           className="text-[#000080] text-[25px] font-medium leading-normal hover:underline"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >
           View all
-        </button>
+        </Link>
       </div>
     </section>
   );
