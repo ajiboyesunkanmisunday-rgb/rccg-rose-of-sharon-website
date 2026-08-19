@@ -3,29 +3,23 @@ import Link from "next/link";
 
 const groupCards = [
   {
-    tagline: "Men of Valour",
-    italic: "Rise Together.",
-    description: "Join the men's fellowship — growing in faith, brotherhood and purpose.",
-    badge: "MEN",
-    badgeColor: "border-[#FFFDFD] text-[#FFFDFD]",
+    tagline: "Hearts of",
+    italic: "David",
+    description: "A fellowship rooted in worship and intercession — pursuing the heart of God together.",
   },
   {
-    tagline: "Women of Virtue",
-    italic: "Strength & Grace.",
-    description: "A community of women built on God's Word, supporting one another.",
-    badge: "WOMEN",
-    badgeColor: "border-[#9B96FE] text-[#9B96FE]",
+    tagline: "Oaks of",
+    italic: "Righteousness",
+    description: "Established in God's Word, growing strong in faith, character, and purpose.",
   },
   {
-    tagline: "Youth on Fire",
-    italic: "Your Season.",
-    description: "Vibrant, spirit-filled youth community — where your generation finds purpose.",
-    badge: "YOUTH",
-    badgeColor: "border-[#FFFDFD] text-[#FFFDFD]",
+    tagline: "Young Leaders &",
+    italic: "Professionals",
+    description: "Spirit-filled young people connecting faith with career, vision, and calling.",
   },
 ];
 
-function GroupCard({ tagline, italic, description, badge, badgeColor }: typeof groupCards[0]) {
+function GroupCard({ tagline, italic, description }: typeof groupCards[0]) {
   return (
     <Link
       href="/groups"
@@ -54,13 +48,8 @@ function GroupCard({ tagline, italic, description, badge, badgeColor }: typeof g
           {description}
         </p>
 
-        <div className="flex gap-[12px] items-start w-full">
-          <div className={`border-2 ${badgeColor} flex flex-1 items-center justify-center min-w-0 px-[32px] py-[12px] rounded-[24px] group-hover:bg-white/10 transition-colors`}>
-            <span className="text-[16px] font-medium leading-normal whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
-              {badge}
-            </span>
-          </div>
-          <div className="border-2 border-[#B5B5F3]/50 flex flex-1 items-center justify-center min-w-0 px-[32px] py-[12px] rounded-[24px]">
+        <div className="flex justify-center w-full">
+          <div className="border-2 border-[#B5B5F3]/50 flex items-center justify-center px-[48px] py-[12px] rounded-[24px] group-hover:border-[#B5B5F3] transition-colors">
             <span className="text-[#B5B5F3] text-[16px] font-medium leading-normal whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
               JOIN →
             </span>
@@ -85,7 +74,7 @@ export default function Groups() {
       </div>
       <div className="flex gap-[32px] items-start relative w-full">
         {groupCards.map((card) => (
-          <GroupCard key={card.badge} {...card} />
+          <GroupCard key={card.italic} {...card} />
         ))}
       </div>
     </section>
