@@ -123,7 +123,7 @@ export default function Navbar({ activePage }: NavbarProps) {
           Calendar
         </Link>
         <Link
-          href="/requests/counseling"
+          href="/csr"
           className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
           style={vs}
         >
@@ -177,7 +177,7 @@ export default function Navbar({ activePage }: NavbarProps) {
             <Link href="/events" className="px-6 py-2 bg-[#B5B5F3] text-[#000080] rounded-full font-medium">
               Calendar
             </Link>
-            <Link href="/requests/counseling" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">
+            <Link href="/csr" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">
               CSR
             </Link>
           </div>
