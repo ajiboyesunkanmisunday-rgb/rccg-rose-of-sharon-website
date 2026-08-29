@@ -157,7 +157,7 @@ export default function FirstTimerPage() {
               </div>
 
               <div className="mt-4">
-                <label className="block text-sm font-medium text-[#374151] mb-1">Date of Birth</label>
+                <label className="block text-[14px] font-semibold text-[#111827] mb-2">Date of Birth</label>
                 <div className="grid grid-cols-3 gap-3">
                   <select value={form.dobDay} onChange={set("dobDay")} className={selectCls}>
                     <option value="">Day</option>
@@ -291,7 +291,7 @@ export default function FirstTimerPage() {
               </div>
 
               <div className="mt-4">
-                <label className="flex items-center gap-2 text-sm text-[#374151] cursor-pointer">
+                <label className="flex items-center gap-2 text-[14px] font-semibold text-[#111827] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.worshippedOnline}

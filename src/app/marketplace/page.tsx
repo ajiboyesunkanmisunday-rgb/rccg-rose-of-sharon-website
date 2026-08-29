@@ -489,7 +489,7 @@ export default function MarketplacePage() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-sm font-medium text-[#374151]">Phone Number or Email</label>
+                  <label className="text-[14px] font-semibold text-[#111827]">Phone Number or Email</label>
                   <input
                     type="text"
                     required
@@ -532,38 +532,38 @@ export default function MarketplacePage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Product Name *</label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Product Name *</label>
                     <input type="text" required value={listForm.name} onChange={(e) => setListForm(p => ({ ...p, name: e.target.value }))} className={inputBase} placeholder="e.g. Men's Leather Shoes" style={vs} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-sm font-medium text-[#374151]">Price (₦) *</label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Price (₦) *</label>
                     <input type="number" required min="0" step="0.01" value={listForm.price} onChange={(e) => setListForm(p => ({ ...p, price: e.target.value }))} className={inputBase} placeholder="e.g. 5000" style={vs} />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-sm font-medium text-[#374151]">Quantity Available *</label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Quantity Available *</label>
                     <input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="e.g. 10" style={vs} />
                   </div>
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Category *</label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Category *</label>
                     <select required value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}>
                       <option value="">Select category</option>
                       {PRODUCT_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
                     </select>
                   </div>
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Description *</label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Description *</label>
                     <textarea required rows={3} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe your product..." style={vs} />
                   </div>
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Product Image URL <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Product Image URL <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
                     <input type="url" value={listForm.imageUrl} onChange={(e) => setListForm(p => ({ ...p, imageUrl: e.target.value }))} className={inputBase} placeholder="https://..." style={vs} />
                   </div>
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated, optional)</span></label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated, optional)</span></label>
                     <input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="e.g. leather, formal, men" style={vs} />
                   </div>
                   <div className="flex flex-col gap-1 sm:col-span-2">
-                    <label className="text-sm font-medium text-[#374151]">Other Information <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+                    <label className="text-[14px] font-semibold text-[#111827]">Other Information <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
                     <textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact preference, pickup location, etc." style={vs} />
                   </div>
                 </div>
