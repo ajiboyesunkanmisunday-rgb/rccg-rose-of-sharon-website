@@ -18,6 +18,8 @@ const navLinks = [
   { label: "Trainings", href: "/trainings", hasDropdown: true, key: "trainings" },
   { label: "Groups", href: "/groups", key: "groups" },
   { label: "Testimonies", href: "/testimonies", key: "testimonies" },
+  { label: "Online Give", href: "/give", key: "give" },
+  { label: "Market Place", href: "/marketplace", key: "marketplace" },
 ];
 
 const vs = { fontVariationSettings: '"wdth" 100' };
