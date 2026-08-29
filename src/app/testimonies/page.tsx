@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { FormField, FormCard, inputCls, textareaCls } from "@/components/ui/FormField";
 import { post, API_BASE } from "@/lib/api";
 
 interface TestimonyItem {
@@ -213,8 +214,8 @@ export default function TestimoniesPage() {
       </section>
 
       {/* Share Your Testimony */}
-      <section id="share" className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
-        <h2 className="text-[#FFFDFD] text-[48px] font-bold leading-normal text-center" style={vs}>
+      <section id="share" className="bg-[#F3F4F6] px-4 md:px-[60px] lg:px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+        <h2 className="text-[#000080] text-[48px] font-bold leading-normal text-center" style={vs}>
           Share Your Testimony
         </h2>
 
@@ -223,13 +224,17 @@ export default function TestimoniesPage() {
         </div>
 
         {status === "success" ? (
-          <div className="flex flex-col gap-[24px] items-center max-w-[600px] text-center">
-            <div className="size-[80px] rounded-full bg-[#000080] flex items-center justify-center text-[36px] text-white">✓</div>
-            <p className="text-[#FFFDFD] text-[25px] font-medium" style={vs}>Thank You!</p>
-            <p className="text-[#A3A1AF] text-[16px]" style={vs}>Your testimony has been received. May God continue to bless you.</p>
+          <div className="bg-white rounded-2xl p-10 shadow-sm flex flex-col gap-[24px] items-center max-w-[600px] text-center">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="32" fill="#16A34A" fillOpacity="0.12" />
+              <circle cx="32" cy="32" r="24" fill="#16A34A" fillOpacity="0.2" />
+              <path d="M20 32L28 40L44 24" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-[#111827] text-[25px] font-medium" style={vs}>Thank You!</p>
+            <p className="text-[#6B7280] text-[16px]" style={vs}>Your testimony has been received. May God continue to bless you.</p>
             <button
               onClick={() => setStatus("idle")}
-              className="text-[#B5B5F3] text-[16px] hover:underline"
+              className="text-[#000080] text-[16px] hover:underline"
               style={vs}
             >
               Share another testimony
@@ -237,79 +242,65 @@ export default function TestimoniesPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-[16px] items-center w-full max-w-[600px]">
-            <div className="flex flex-col gap-[4px] items-start w-full">
-              <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px]" style={vs}>
-                Name <span className="text-[#FF383C]">*</span>
-              </p>
-              <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] w-full">
-                <input type="text" required value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]" />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-[4px] items-start w-full">
-              <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px]" style={vs}>
-                Subject <span className="text-[#FF383C]">*</span>
-              </p>
-              <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] w-full">
-                <input type="text" required value={form.subject}
-                  onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                  className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-[12px] w-full">
-              <div className="flex flex-col gap-[4px] items-start">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px]" style={vs}>State</p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] w-full">
-                  <input type="text" value={form.state}
-                    onChange={(e) => setForm({ ...form, state: e.target.value })}
-                    className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]" />
+            <FormCard title="Your Details">
+              <div className="flex flex-col gap-[16px]">
+                <FormField label="Name" required>
+                  <input type="text" required value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className={inputCls} />
+                </FormField>
+                <FormField label="Subject" required>
+                  <input type="text" required value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    className={inputCls} />
+                </FormField>
+                <div className="grid grid-cols-2 gap-[12px]">
+                  <FormField label="State">
+                    <input type="text" value={form.state}
+                      onChange={(e) => setForm({ ...form, state: e.target.value })}
+                      className={inputCls} />
+                  </FormField>
+                  <FormField label="Country">
+                    <input type="text" value={form.country}
+                      onChange={(e) => setForm({ ...form, country: e.target.value })}
+                      className={inputCls} />
+                  </FormField>
                 </div>
               </div>
-              <div className="flex flex-col gap-[4px] items-start">
-                <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px]" style={vs}>Country</p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] w-full">
-                  <input type="text" value={form.country}
-                    onChange={(e) => setForm({ ...form, country: e.target.value })}
-                    className="w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]" />
-                </div>
-              </div>
-            </div>
+            </FormCard>
 
-            <div className="flex flex-col gap-[4px] items-start w-full">
-              <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px]" style={vs}>
-                Your Testimony <span className="text-[#FF383C]">*</span>
-              </p>
-              <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[160px] rounded-[10px] w-full">
-                <textarea required value={form.testimony}
-                  onChange={(e) => setForm({ ...form, testimony: e.target.value })}
-                  className="w-full h-full px-3 py-2 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[10px] resize-none"
-                  placeholder="Share what God has done for you..." />
+            <FormCard title="Your Testimony">
+              <div className="flex flex-col gap-[16px]">
+                <FormField label="Your Testimony" required>
+                  <textarea required value={form.testimony}
+                    onChange={(e) => setForm({ ...form, testimony: e.target.value })}
+                    className={textareaCls}
+                    rows={5}
+                    placeholder="Share what God has done for you..." />
+                </FormField>
+                <label className="flex items-center gap-[10px] w-full cursor-pointer">
+                  <input type="checkbox" checked={form.rosTVStory}
+                    onChange={(e) => setForm({ ...form, rosTVStory: e.target.checked })}
+                    className="size-[16px] accent-[#000080]" />
+                  <span className="text-[#374151] text-[14px] font-normal" style={vs}>
+                    I would like this testimony shared on ROS TV
+                  </span>
+                </label>
               </div>
-            </div>
-
-            <label className="flex items-center gap-[10px] w-full cursor-pointer">
-              <input type="checkbox" checked={form.rosTVStory}
-                onChange={(e) => setForm({ ...form, rosTVStory: e.target.checked })}
-                className="size-[16px] accent-[#000080]" />
-              <span className="text-[#A3A1AF] text-[14px] font-normal" style={vs}>
-                I would like this testimony shared on ROS TV
-              </span>
-            </label>
+            </FormCard>
 
             {status === "error" && (
               <p className="text-[#FF383C] text-[14px] text-center w-full" style={vs}>{error}</p>
             )}
 
-            <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[33px] flex-shrink-0 hover:bg-[#0000a0] transition-colors">
-              <button type="submit" disabled={status === "loading"} className="flex items-center disabled:opacity-60">
-                <span className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap" style={vs}>
-                  {status === "loading" ? "SUBMITTING..." : "SUBMIT"}
-                </span>
-              </button>
-            </div>
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="bg-[#000080] px-[40px] py-[16px] rounded-[33px] text-[#FFFDFD] text-[18px] md:text-[22px] font-medium hover:bg-[#0000a0] transition-colors disabled:opacity-60"
+              style={vs}
+            >
+              {status === "loading" ? "SUBMITTING..." : "SUBMIT"}
+            </button>
           </form>
         )}
       </section>

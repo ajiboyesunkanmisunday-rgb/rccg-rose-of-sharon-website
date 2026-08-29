@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { FormField, FormCard, inputCls, selectCls, textareaCls } from "@/components/ui/FormField";
 import { post } from "@/lib/api";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
@@ -81,23 +82,19 @@ export default function GivePage() {
     }
   }
 
-  const fieldCls = "bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] w-full";
-  const inputCls = "w-full h-full px-3 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[4px]";
-  const labelCls = "text-[#FFFDFD] text-[13px] font-normal leading-[14px]";
-
   return (
     <main>
       {/* Hero */}
-      <section className="relative h-[560px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[380px] md:h-[460px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/give-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(0,0,128,0.80)]" />
         </div>
         <Navbar />
-        <div className="absolute left-1/2 top-[calc(50%+48px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[24px] items-center w-[1148px] z-10 text-center">
+        <div className="relative z-10 w-full max-w-[900px] px-6 mt-16 md:mt-[48px] flex flex-col gap-[24px] items-center text-center">
           <p className="text-[#B5B5F3] text-[16px] font-normal uppercase tracking-[0.15em]" style={vs}>Worship Through Giving</p>
-          <h1 className="text-[#FFFDFD] text-[72px] font-medium leading-normal w-full" style={vs}>Give Online</h1>
-          <p className="text-[#FFFDFD] text-[20px] font-normal leading-[32px] max-w-[800px]" style={vs}>
+          <h1 className="text-[#FFFDFD] text-[36px] md:text-[56px] lg:text-[68px] font-medium leading-normal w-full" style={vs}>Give Online</h1>
+          <p className="text-[#FFFDFD] text-[16px] md:text-[18px] font-normal leading-[32px] max-w-[800px]" style={vs}>
             &ldquo;Bring all the tithes into the storehouse&rdquo; — Malachi 3:10. Giving is an act of worship and partnership with God&apos;s agenda.
           </p>
         </div>
@@ -123,61 +120,63 @@ export default function GivePage() {
       </section>
 
       {/* Give Now form + bank details */}
-      <section className="bg-[#D2D2E2] px-[120px] py-[84px] flex gap-[64px] items-start w-full">
+      <section className="bg-[#F3F4F6] px-4 md:px-[60px] lg:px-[120px] py-[84px] flex flex-col lg:flex-row gap-[64px] items-start w-full">
         {/* Giving Notification Form */}
-        <div className="flex-1 min-w-0 bg-[#100E1A] rounded-[24px] px-[48px] py-[48px] flex flex-col gap-[24px]">
-          <h2 className="text-[#FFFDFD] text-[32px] font-bold leading-normal" style={vs}>
-            Giving Notification
-          </h2>
-          <p className="text-[#A3A1AF] text-[15px] font-normal leading-[1.6]" style={vs}>
-            Made a transfer? Let the church know so we can record it and pray with you.
-          </p>
+        <div className="flex-1 min-w-0 flex flex-col gap-[24px]">
+          <div>
+            <h2 className="text-[#000080] text-[32px] font-bold leading-normal" style={vs}>
+              Giving Notification
+            </h2>
+            <p className="text-[#6B7280] text-[15px] font-normal leading-[1.6] mt-[8px]" style={vs}>
+              Made a transfer? Let the church know so we can record it and pray with you.
+            </p>
+          </div>
 
           {status === "success" ? (
-            <div className="flex flex-col gap-[16px] items-center py-[24px] text-center">
-              <div className="size-[64px] rounded-full bg-[#000080] flex items-center justify-center text-[28px] text-white">✓</div>
-              <p className="text-[#FFFDFD] text-[20px] font-medium" style={vs}>Thank You!</p>
-              <p className="text-[#A3A1AF] text-[15px]" style={vs}>
+            <div className="bg-white rounded-2xl p-10 shadow-sm flex flex-col gap-[16px] items-center text-center">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="32" fill="#16A34A" fillOpacity="0.12" />
+                <circle cx="32" cy="32" r="24" fill="#16A34A" fillOpacity="0.2" />
+                <path d="M20 32L28 40L44 24" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-[#111827] text-[20px] font-medium" style={vs}>Thank You!</p>
+              <p className="text-[#6B7280] text-[15px]" style={vs}>
                 Your giving notification has been received. God bless you richly!
               </p>
-              <Link href="/testimonies#share" className="text-[#B5B5F3] text-[14px] hover:underline" style={vs}>
+              <Link href="/testimonies#share" className="text-[#000080] text-[14px] hover:underline" style={vs}>
                 Share your testimony →
               </Link>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-[14px]">
-              <div className="flex flex-col gap-[4px]">
-                <p className={labelCls} style={vs}>Full Name <span className="text-[#FF383C]">*</span></p>
-                <div className={fieldCls}><input type="text" required value={form.name} onChange={set("name")} className={inputCls} /></div>
-              </div>
-              <div className="flex flex-col gap-[4px]">
-                <p className={labelCls} style={vs}>Phone Number <span className="text-[#FF383C]">*</span></p>
-                <div className={fieldCls}><input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} /></div>
-              </div>
-              <div className="flex flex-col gap-[4px]">
-                <p className={labelCls} style={vs}>Giving Category <span className="text-[#FF383C]">*</span></p>
-                <div className={fieldCls}>
-                  <select required value={form.category} onChange={set("category")} className={inputCls}>
-                    <option value="">Select category</option>
-                    {givingCategories.map((g) => <option key={g.label} value={g.label}>{g.label}</option>)}
-                  </select>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[16px]">
+              <FormCard>
+                <div className="flex flex-col gap-[14px]">
+                  <FormField label="Full Name" required>
+                    <input type="text" required value={form.name} onChange={set("name")} className={inputCls} />
+                  </FormField>
+                  <FormField label="Phone Number" required>
+                    <input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} />
+                  </FormField>
+                  <FormField label="Giving Category" required>
+                    <select required value={form.category} onChange={set("category")} className={selectCls}>
+                      <option value="">Select category</option>
+                      {givingCategories.map((g) => <option key={g.label} value={g.label}>{g.label}</option>)}
+                    </select>
+                  </FormField>
+                  <FormField label="Amount (₦)">
+                    <input type="number" min={0} value={form.amount} onChange={set("amount")} className={inputCls} placeholder="Optional" />
+                  </FormField>
+                  <FormField label="Additional Note">
+                    <textarea value={form.note} onChange={set("note")} className={textareaCls} rows={3} />
+                  </FormField>
                 </div>
-              </div>
-              <div className="flex flex-col gap-[4px]">
-                <p className={labelCls} style={vs}>Amount (₦)</p>
-                <div className={fieldCls}><input type="number" min={0} value={form.amount} onChange={set("amount")} className={inputCls} placeholder="Optional" /></div>
-              </div>
-              <div className="flex flex-col gap-[4px]">
-                <p className={labelCls} style={vs}>Additional Note</p>
-                <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[80px] rounded-[10px] w-full">
-                  <textarea value={form.note} onChange={set("note")} className="w-full h-full px-3 py-2 bg-transparent text-[#100E1A] text-sm focus:outline-none rounded-[10px] resize-none" />
-                </div>
-              </div>
+              </FormCard>
+
               {status === "error" && <p className="text-[#FF383C] text-[13px]" style={vs}>{error}</p>}
               <button
                 type="submit"
                 disabled={status === "loading"}
-                className="bg-[#000080] px-[32px] py-[14px] rounded-[33px] text-[#FFFDFD] text-[18px] font-medium hover:bg-[#0000a0] transition-colors disabled:opacity-60 mt-[8px]"
+                className="bg-[#000080] px-[40px] py-[16px] rounded-[33px] text-[#FFFDFD] text-[18px] md:text-[22px] font-medium hover:bg-[#0000a0] transition-colors disabled:opacity-60 mt-[8px]"
                 style={vs}
               >
                 {status === "loading" ? "Submitting..." : "NOTIFY THE CHURCH"}

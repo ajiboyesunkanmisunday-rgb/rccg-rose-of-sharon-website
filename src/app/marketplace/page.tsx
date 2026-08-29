@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { API_BASE } from "@/lib/api";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
@@ -104,6 +105,16 @@ const PRODUCTS: Product[] = [
   },
 ];
 
+const PRODUCT_CATEGORIES = [
+  { label: "Books", value: "BOOK" },
+  { label: "Electronics", value: "ELECTRONICS" },
+  { label: "Cooking Utensils", value: "COOKING_UTENSILS" },
+  { label: "Automobile", value: "AUTOMOBILE" },
+  { label: "Wears & Clothing", value: "WEARS" },
+];
+
+interface VerifiedMember { id: string; name: string; type: "member" | "emember" }
+
 export default function MarketplacePage() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -112,6 +123,22 @@ export default function MarketplacePage() {
   const [cartOpen, setCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [catOpen, setCatOpen] = useState(false);
+
+  // Member verification state
+  const [modalMode, setModalMode] = useState<"sell" | "checkout" | null>(null);
+  const [verifyInput, setVerifyInput] = useState("");
+  const [verifyStatus, setVerifyStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [verifyError, setVerifyError] = useState("");
+  const [verifiedMember, setVerifiedMember] = useState<VerifiedMember | null>(null);
+
+  // Sell flow state
+  const [sellStep, setSellStep] = useState<"verify" | "form" | "success">("verify");
+  const [listForm, setListForm] = useState({
+    name: "", description: "", price: "", category: "",
+    quantityLeft: "", imageUrl: "", otherInformation: "", tags: "",
+  });
+  const [listStatus, setListStatus] = useState<"idle" | "loading" | "error">("idle");
+  const [listError, setListError] = useState("");
 
   const filtered = useMemo(() => {
     return PRODUCTS.filter((p) => {
@@ -135,6 +162,107 @@ export default function MarketplacePage() {
   }
 
   const cartCount = cart.length;
+
+  function openModal(mode: "sell" | "checkout") {
+    setModalMode(mode);
+    setSellStep("verify");
+    setVerifyInput("");
+    setVerifyStatus("idle");
+    setVerifyError("");
+    setVerifiedMember(null);
+    setListForm({ name: "", description: "", price: "", category: "", quantityLeft: "", imageUrl: "", otherInformation: "", tags: "" });
+    setListStatus("idle");
+    setListError("");
+    setCartOpen(false);
+  }
+
+  function closeModal() {
+    setModalMode(null);
+    setVerifyInput("");
+    setVerifyStatus("idle");
+    setVerifyError("");
+  }
+
+  async function handleVerify(e: React.FormEvent) {
+    e.preventDefault();
+    if (!verifyInput.trim()) return;
+    setVerifyStatus("loading");
+    setVerifyError("");
+    try {
+      // Search full members first
+      const memberRes = await fetch(`${API_BASE}/users/member/search`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: verifyInput.trim() }),
+      });
+      if (memberRes.ok) {
+        const data = await memberRes.json();
+        const users = Array.isArray(data) ? data : (data.content || data.data || []);
+        if (users.length > 0) {
+          const u = users[0];
+          setVerifiedMember({ id: u.id, name: `${u.firstName} ${u.lastName}`, type: "member" });
+          setSellStep("form");
+          setVerifyStatus("idle");
+          return;
+        }
+      }
+      // Try e-members
+      const emRes = await fetch(`${API_BASE}/users/e-member/search`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: verifyInput.trim() }),
+      });
+      if (emRes.ok) {
+        const data = await emRes.json();
+        const users = Array.isArray(data) ? data : (data.content || data.data || []);
+        if (users.length > 0) {
+          const u = users[0];
+          setVerifiedMember({ id: u.id, name: `${u.firstName} ${u.lastName}`, type: "emember" });
+          setSellStep("form");
+          setVerifyStatus("idle");
+          return;
+        }
+      }
+      setVerifyStatus("error");
+      setVerifyError("No church member found with that phone number or email. Please register first.");
+    } catch {
+      setVerifyStatus("error");
+      setVerifyError("Could not verify membership. Please try again.");
+    }
+  }
+
+  async function handleListProduct(e: React.FormEvent) {
+    e.preventDefault();
+    if (!verifiedMember) return;
+    setListStatus("loading");
+    setListError("");
+    try {
+      const body: Record<string, unknown> = {
+        name: listForm.name,
+        description: listForm.description,
+        owner: verifiedMember.id,
+        price: parseFloat(listForm.price),
+        category: listForm.category,
+        quantityLeft: parseInt(listForm.quantityLeft) || 1,
+      };
+      if (listForm.imageUrl.trim()) body.images = [listForm.imageUrl.trim()];
+      if (listForm.otherInformation.trim()) body.otherInformation = listForm.otherInformation.trim();
+      if (listForm.tags.trim()) body.tags = listForm.tags.split(",").map((t) => t.trim()).filter(Boolean);
+
+      await fetch(`${API_BASE}/products`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      setSellStep("success");
+      setListStatus("idle");
+    } catch {
+      setListStatus("error");
+      setListError("Failed to submit product listing. Please try again.");
+    }
+  }
+
+  const inputBase = "w-full rounded-lg border border-[#E5E7EB] px-4 py-3 text-sm text-[#374151] outline-none placeholder:text-[#9CA3AF] focus:border-[#000080] focus:ring-1 focus:ring-[#000080]";
 
   return (
     <main className="bg-[#FFFDFD] min-h-screen">
@@ -225,11 +353,20 @@ export default function MarketplacePage() {
 
         {/* Check Out */}
         <button
-          onClick={() => setCartOpen(true)}
+          onClick={() => openModal("checkout")}
           className="bg-[#100E1A] text-[#FFFDFD] text-[14px] md:text-[16px] px-[24px] md:px-[32px] py-[12px] rounded-[30px] hover:bg-[#1A1826] transition-colors"
           style={vs}
         >
           Check Out
+        </button>
+
+        {/* Sell button */}
+        <button
+          onClick={() => openModal("sell")}
+          className="bg-[#000080] text-[#FFFDFD] text-[14px] md:text-[16px] px-[24px] md:px-[32px] py-[12px] rounded-[30px] hover:bg-[#0000a0] transition-colors border-2 border-[#000080]"
+          style={vs}
+        >
+          + Sell an Item
         </button>
       </div>
 
@@ -260,6 +397,7 @@ export default function MarketplacePage() {
                 <p className="text-[#A3A1AF] text-[12px]" style={vs}>+{cartCount - 5} more items</p>
               )}
               <button
+                onClick={() => openModal("checkout")}
                 className="mt-[8px] w-full bg-[#000080] text-[#FFFDFD] text-[14px] font-bold py-[12px] rounded-[20px] hover:bg-[#0000a0] transition-colors"
                 style={vs}
               >
@@ -315,6 +453,198 @@ export default function MarketplacePage() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Member Verification / Sell / Checkout Modal ── */}
+      {modalMode && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
+          <div
+            className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-[520px] flex flex-col gap-5 shadow-2xl max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-start justify-between">
+              <div>
+                <h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>
+                  {modalMode === "sell" ? "List a Product" : "Checkout"}
+                </h2>
+                <p className="text-[#A3A1AF] text-[13px] mt-1" style={vs}>
+                  {modalMode === "sell"
+                    ? "Church members can list items for sale"
+                    : "Verify your membership to proceed"}
+                </p>
+              </div>
+              <button onClick={closeModal} className="text-[#A3A1AF] text-[24px] leading-none hover:text-[#100E1A]">×</button>
+            </div>
+
+            {/* Step: Verify */}
+            {sellStep === "verify" && (
+              <form onSubmit={handleVerify} className="flex flex-col gap-4">
+                <div className="bg-[#F3F4F6] rounded-[16px] p-4 flex items-start gap-3">
+                  <span className="text-[20px]">🔒</span>
+                  <p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>
+                    This feature is for <strong>registered church members only</strong>. Enter your registered phone number or email address to verify.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-sm font-medium text-[#374151]">Phone Number or Email</label>
+                  <input
+                    type="text"
+                    required
+                    value={verifyInput}
+                    onChange={(e) => setVerifyInput(e.target.value)}
+                    placeholder="e.g. 08012345678 or your@email.com"
+                    className={inputBase}
+                    style={vs}
+                  />
+                </div>
+                {verifyStatus === "error" && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700" style={vs}>
+                    {verifyError}
+                    <br />
+                    <Link href="/first-timer" className="text-[#000080] font-medium underline">Register as a first-timer</Link>
+                    {" or "}
+                    <Link href="/e-member" className="text-[#000080] font-medium underline">become an e-member</Link>
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  disabled={verifyStatus === "loading"}
+                  className="w-full bg-[#000080] text-[#FFFDFD] py-[14px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors disabled:opacity-60"
+                  style={vs}
+                >
+                  {verifyStatus === "loading" ? "Verifying..." : "Verify Membership"}
+                </button>
+              </form>
+            )}
+
+            {/* Step: List product form */}
+            {sellStep === "form" && verifiedMember && modalMode === "sell" && (
+              <form onSubmit={handleListProduct} className="flex flex-col gap-4">
+                <div className="bg-green-50 border border-green-200 rounded-[12px] px-4 py-3 flex items-center gap-2">
+                  <span className="text-green-600 font-bold text-lg">✓</span>
+                  <p className="text-green-700 text-[13px] font-medium" style={vs}>
+                    Verified as: <strong>{verifiedMember.name}</strong>
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Product Name *</label>
+                    <input type="text" required value={listForm.name} onChange={(e) => setListForm(p => ({ ...p, name: e.target.value }))} className={inputBase} placeholder="e.g. Men's Leather Shoes" style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium text-[#374151]">Price (₦) *</label>
+                    <input type="number" required min="0" step="0.01" value={listForm.price} onChange={(e) => setListForm(p => ({ ...p, price: e.target.value }))} className={inputBase} placeholder="e.g. 5000" style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-medium text-[#374151]">Quantity Available *</label>
+                    <input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="e.g. 10" style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Category *</label>
+                    <select required value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}>
+                      <option value="">Select category</option>
+                      {PRODUCT_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+                    </select>
+                  </div>
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Description *</label>
+                    <textarea required rows={3} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe your product..." style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Product Image URL <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+                    <input type="url" value={listForm.imageUrl} onChange={(e) => setListForm(p => ({ ...p, imageUrl: e.target.value }))} className={inputBase} placeholder="https://..." style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated, optional)</span></label>
+                    <input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="e.g. leather, formal, men" style={vs} />
+                  </div>
+                  <div className="flex flex-col gap-1 sm:col-span-2">
+                    <label className="text-sm font-medium text-[#374151]">Other Information <span className="text-[#9CA3AF] font-normal">(optional)</span></label>
+                    <textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact preference, pickup location, etc." style={vs} />
+                  </div>
+                </div>
+
+                {listStatus === "error" && (
+                  <p className="text-red-600 text-[13px]" style={vs}>{listError}</p>
+                )}
+
+                <div className="flex gap-3">
+                  <button type="button" onClick={() => setSellStep("verify")} className="flex-1 border-2 border-[#000080] text-[#000080] py-[12px] rounded-[24px] text-[15px] font-bold hover:bg-[#000080]/5 transition-colors" style={vs}>
+                    Back
+                  </button>
+                  <button type="submit" disabled={listStatus === "loading"} className="flex-1 bg-[#000080] text-[#FFFDFD] py-[12px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors disabled:opacity-60" style={vs}>
+                    {listStatus === "loading" ? "Submitting..." : "List Product"}
+                  </button>
+                </div>
+              </form>
+            )}
+
+            {/* Step: Checkout form (verified) */}
+            {sellStep === "form" && verifiedMember && modalMode === "checkout" && (
+              <div className="flex flex-col gap-4">
+                <div className="bg-green-50 border border-green-200 rounded-[12px] px-4 py-3 flex items-center gap-2">
+                  <span className="text-green-600 font-bold text-lg">✓</span>
+                  <p className="text-green-700 text-[13px] font-medium" style={vs}>
+                    Verified as: <strong>{verifiedMember.name}</strong>
+                  </p>
+                </div>
+
+                {cartCount === 0 ? (
+                  <p className="text-[#A3A1AF] text-[14px] text-center py-4" style={vs}>Your cart is empty.</p>
+                ) : (
+                  <>
+                    <div className="flex flex-col gap-3">
+                      {cart.map((id, i) => {
+                        const p = PRODUCTS.find((x) => x.id === id);
+                        return p ? (
+                          <div key={i} className="flex items-center gap-3 p-3 bg-[#F3F4F6] rounded-[12px]">
+                            <img src={p.image} alt={p.name} className="size-[48px] rounded-[8px] object-cover flex-shrink-0" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[#100E1A] text-[13px] font-bold truncate" style={vs}>{p.name}</p>
+                              <p className="text-[#000080] text-[12px] font-semibold" style={vs}>{p.price}</p>
+                            </div>
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                    <div className="bg-[#000080]/5 rounded-[12px] p-4 text-center">
+                      <p className="text-[#100E1A] text-[13px] leading-[1.6]" style={vs}>
+                        Your order has been noted. Please bring this list to church on Sunday or contact the seller directly to arrange pickup.
+                      </p>
+                    </div>
+                    <button
+                      onClick={closeModal}
+                      className="w-full bg-[#000080] text-[#FFFDFD] py-[14px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors"
+                      style={vs}
+                    >
+                      Done
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* Step: Success (listing submitted) */}
+            {sellStep === "success" && (
+              <div className="flex flex-col gap-4 items-center text-center py-4">
+                <div className="size-[72px] rounded-full bg-green-100 flex items-center justify-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+                <p className="text-[#000080] text-[20px] font-bold" style={vs}>Product Submitted!</p>
+                <p className="text-[#6B7280] text-[14px] leading-[1.6]" style={vs}>
+                  Your product listing has been submitted and is pending approval from the church admin. It will appear in the marketplace once approved.
+                </p>
+                <button onClick={closeModal} className="w-full bg-[#000080] text-[#FFFDFD] py-[14px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors" style={vs}>
+                  Done
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -544,15 +874,20 @@ export default function MarketplacePage() {
               ))}
             </ul>
           </div>
-          <div className="flex-1 bg-white rounded-[24px] p-8 shadow-[0_8px_40px_rgba(0,0,128,0.10)] flex flex-col gap-5">
-            <h3 className="text-[#100E1A] text-[20px] font-bold" style={vs}>Register as a Vendor</h3>
-            <input placeholder="Full Name" className="w-full border border-[#D2D2E2] rounded-[12px] px-4 py-3 text-[#100E1A] text-[15px] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10" style={vs} />
-            <input placeholder="Phone Number" className="w-full border border-[#D2D2E2] rounded-[12px] px-4 py-3 text-[#100E1A] text-[15px] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10" style={vs} />
-            <input placeholder="Product / Service Category" className="w-full border border-[#D2D2E2] rounded-[12px] px-4 py-3 text-[#100E1A] text-[15px] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10" style={vs} />
-            <textarea rows={3} placeholder="Brief description of what you sell..." className="w-full border border-[#D2D2E2] rounded-[12px] px-4 py-3 text-[#100E1A] text-[15px] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10 resize-none" style={vs} />
-            <button className="w-full py-4 bg-[#000080] text-[#FFFDFD] text-[16px] font-bold rounded-[30px] hover:bg-[#0000a0] transition-colors" style={vs}>
-              Apply to Sell →
+          <div className="flex-1 bg-white rounded-[24px] p-8 shadow-[0_8px_40px_rgba(0,0,128,0.10)] flex flex-col gap-5 items-center justify-center text-center">
+            <span className="text-[48px]">🛍️</span>
+            <h3 className="text-[#100E1A] text-[22px] font-bold" style={vs}>Ready to Start Selling?</h3>
+            <p className="text-[#6B7280] text-[15px] leading-[1.7]" style={vs}>
+              Church members can list products instantly. Verify your membership and start selling in under 2 minutes.
+            </p>
+            <button
+              onClick={() => openModal("sell")}
+              className="w-full py-4 bg-[#000080] text-[#FFFDFD] text-[16px] font-bold rounded-[30px] hover:bg-[#0000a0] transition-colors"
+              style={vs}
+            >
+              List an Item Now →
             </button>
+            <p className="text-[#9CA3AF] text-[12px]" style={vs}>Members only · Requires church registration</p>
           </div>
         </div>
       </section>
