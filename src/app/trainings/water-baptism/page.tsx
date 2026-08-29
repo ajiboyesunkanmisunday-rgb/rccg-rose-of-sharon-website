@@ -87,25 +87,25 @@ export default function WaterBaptismPage() {
         </div>
       </section>
 
-      <section className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
+      <section className="bg-[#F3F4F6] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
         <div className="flex items-center gap-[8px]">
-          <Link href="/trainings" className="text-[#B5B5F3] text-[16px] font-normal hover:underline" style={vs}>Training Programs</Link>
-          <span className="text-[#A3A1AF]">/</span>
-          <span className="text-[#FFFDFD] text-[16px] font-normal" style={vs}>Water Baptism</span>
+          <Link href="/trainings" className="text-[#000080] text-[16px] font-normal hover:underline" style={vs}>Training Programs</Link>
+          <span className="text-[#6B7280]">/</span>
+          <span className="text-[#111827] text-[16px] font-normal" style={vs}>Water Baptism</span>
         </div>
 
-        <h2 className="text-[#FFFDFD] text-[28px] md:text-[40px] lg:text-[48px] font-bold leading-normal text-center" style={vs}>
+        <h2 className="text-[#000080] text-[28px] md:text-[40px] lg:text-[48px] font-bold leading-normal text-center" style={vs}>
           Water Baptism Application
         </h2>
 
         {status === "success" ? (
           <div className="flex flex-col gap-[24px] items-center max-w-[600px] text-center">
             <div className="size-[80px] rounded-full bg-[#000080] flex items-center justify-center text-[36px] text-white">✓</div>
-            <p className="text-[#FFFDFD] text-[25px] font-medium" style={vs}>Application Submitted!</p>
-            <p className="text-[#A3A1AF] text-[16px] font-normal" style={vs}>
+            <p className="text-[#111827] text-[25px] font-medium" style={vs}>Application Submitted!</p>
+            <p className="text-[#6B7280] text-[16px] font-normal" style={vs}>
               Your water baptism application has been received. Our team will contact you with next steps and the scheduled baptism date.
             </p>
-            <Link href="/trainings" className="text-[#B5B5F3] text-[16px] font-normal hover:underline" style={vs}>
+            <Link href="/trainings" className="text-[#000080] text-[16px] font-normal hover:underline" style={vs}>
               ← Back to Training Programs
             </Link>
           </div>
