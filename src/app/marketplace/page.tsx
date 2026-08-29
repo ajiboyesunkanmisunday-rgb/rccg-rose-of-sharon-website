@@ -386,10 +386,10 @@ export default function MarketplacePage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[24px]">
               {filtered.map((product) => (
-                <button
+                <div
                   key={product.id}
                   onClick={() => setSelectedProduct(product)}
-                  className="bg-white rounded-[20px] p-[14px] flex flex-col gap-[20px] md:gap-[24px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] text-left hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group"
+                  className="bg-white rounded-[20px] p-[14px] flex flex-col gap-[20px] md:gap-[24px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group"
                 >
                   {/* Product image */}
                   <div className="h-[220px] md:h-[280px] w-full rounded-[18px] overflow-hidden">
@@ -451,7 +451,7 @@ export default function MarketplacePage() {
                       </div>
                     </div>
                   </div>
-                </button>
+                </div>
               ))}
             </div>
           )}
