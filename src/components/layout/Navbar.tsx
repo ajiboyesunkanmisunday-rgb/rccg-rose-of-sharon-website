@@ -44,13 +44,19 @@ export default function Navbar({ activePage }: NavbarProps) {
   }, []);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-[100px] py-[16px]">
+    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] py-[16px]">
+      {/* Logo */}
       <Link href="/" className="flex items-center gap-[12px]">
-        <Image src="/assets/logo.png" alt="RCCG Rose of Sharon logo" width={46} height={46} />
-        <Image src="/assets/logo-text.svg" alt="Rose of Sharon" width={194} height={30} />
+        <div className="relative w-[36px] h-[36px] xl:w-[46px] xl:h-[46px]">
+          <Image src="/assets/logo.png" alt="RCCG Rose of Sharon logo" fill className="object-contain" />
+        </div>
+        <div className="relative w-[130px] h-[20px] xl:w-[194px] xl:h-[30px]">
+          <Image src="/assets/logo-text.svg" alt="Rose of Sharon" fill className="object-contain" />
+        </div>
       </Link>
 
-      <div className="hidden lg:flex items-center gap-[16px]">
+      {/* Desktop nav — xl and above */}
+      <div className="hidden xl:flex items-center gap-[12px]">
         {navLinks.map((link) => {
           const isActive = link.key ? link.key === activePage : false;
 
@@ -59,7 +65,7 @@ export default function Navbar({ activePage }: NavbarProps) {
               <div key={link.label} className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setTrainingsOpen((o) => !o)}
-                  className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[16px] font-normal hover:text-white transition-colors ${
+                  className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
                     isActive ? "border-b-[3px] border-[#000080]" : ""
                   }`}
                   style={vs}
@@ -105,7 +111,7 @@ export default function Navbar({ activePage }: NavbarProps) {
             <Link
               key={link.label}
               href={link.href}
-              className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[16px] font-normal hover:text-white transition-colors ${
+              className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
                 isActive ? "border-b-[3px] border-[#000080]" : ""
               }`}
               style={vs}
@@ -116,25 +122,27 @@ export default function Navbar({ activePage }: NavbarProps) {
         })}
       </div>
 
-      <div className="hidden lg:flex items-center gap-3">
+      {/* Desktop CTA buttons */}
+      <div className="hidden xl:flex items-center gap-3">
         <Link
           href="/events"
-          className="px-[32px] py-[12px] bg-[#B5B5F3] text-[#000080] rounded-[30px] text-[16px] font-normal hover:opacity-90 transition-opacity"
+          className="px-[24px] py-[10px] bg-[#B5B5F3] text-[#000080] rounded-[30px] text-[14px] font-normal hover:opacity-90 transition-opacity"
           style={vs}
         >
           Calendar
         </Link>
         <Link
           href="/csr"
-          className="px-[32px] py-[12px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[16px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
+          className="px-[24px] py-[10px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[14px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
           style={vs}
         >
           CSR
         </Link>
       </div>
 
+      {/* Hamburger — below xl */}
       <button
-        className="lg:hidden text-white p-2"
+        className="xl:hidden text-white p-2 z-50"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="Toggle menu"
       >
@@ -147,41 +155,58 @@ export default function Navbar({ activePage }: NavbarProps) {
         </svg>
       </button>
 
+      {/* Mobile menu */}
       {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#100E1A]/95 backdrop-blur-sm lg:hidden p-6 flex flex-col gap-4 z-50">
-          {navLinks.map((link) => (
-            <div key={link.label}>
+        <div className="absolute top-full left-0 right-0 bg-[#100E1A] xl:hidden flex flex-col z-40 shadow-xl">
+          <div className="px-6 py-4 flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <div key={link.label}>
+                <Link
+                  href={link.href}
+                  className={`block py-3 text-white text-[16px] font-normal border-b border-white/10 ${
+                    link.key === activePage ? "text-[#B5B5F3]" : ""
+                  }`}
+                  onClick={() => setMenuOpen(false)}
+                  style={vs}
+                >
+                  {link.label}
+                </Link>
+                {link.hasDropdown && (
+                  <div className="pl-4 flex flex-col gap-0 bg-[#1A1826]">
+                    {trainingLinks.map((t) => (
+                      <Link
+                        key={t.href}
+                        href={t.href}
+                        className="block py-2 text-[#B5B5F3] text-[14px] border-b border-white/5"
+                        onClick={() => setMenuOpen(false)}
+                        style={vs}
+                      >
+                        {t.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            <div className="flex gap-3 pt-4 pb-2">
               <Link
-                href={link.href}
-                className="text-white text-lg py-2 border-b border-white/10 block"
+                href="/events"
+                className="flex-1 text-center px-4 py-3 bg-[#B5B5F3] text-[#000080] rounded-full text-[14px] font-bold"
                 onClick={() => setMenuOpen(false)}
+                style={vs}
               >
-                {link.label}
+                Calendar
               </Link>
-              {link.hasDropdown && (
-                <div className="pl-4 flex flex-col gap-2 pt-2">
-                  {trainingLinks.map((t) => (
-                    <Link
-                      key={t.href}
-                      href={t.href}
-                      className="text-[#B5B5F3] text-[14px] py-1"
-                      onClick={() => setMenuOpen(false)}
-                      style={vs}
-                    >
-                      {t.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
+              <Link
+                href="/csr"
+                className="flex-1 text-center px-4 py-3 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full text-[14px] font-medium"
+                onClick={() => setMenuOpen(false)}
+                style={vs}
+              >
+                CSR
+              </Link>
             </div>
-          ))}
-          <div className="flex gap-3 pt-2">
-            <Link href="/events" className="px-6 py-2 bg-[#B5B5F3] text-[#000080] rounded-full font-medium">
-              Calendar
-            </Link>
-            <Link href="/csr" className="px-6 py-2 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full">
-              CSR
-            </Link>
           </div>
         </div>
       )}

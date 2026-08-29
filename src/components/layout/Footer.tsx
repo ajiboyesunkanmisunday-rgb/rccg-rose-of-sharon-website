@@ -20,69 +20,67 @@ const helpLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#100e1a] flex flex-col h-[501px] items-center px-[120px] py-[84px] w-full">
-      <div className="flex gap-[64px] items-start flex-shrink-0">
+    <footer className="bg-[#100e1a] w-full px-6 md:px-[60px] lg:px-[120px] py-[48px] md:py-[84px]">
+      <div className="flex flex-col md:flex-row gap-10 md:gap-[64px] items-start">
         {/* Connect With Us */}
-        <div className="flex flex-col items-start justify-center flex-shrink-0">
-          <div className="flex flex-col gap-[12px] h-[77px] items-start flex-shrink-0">
-            <h3
-              className="text-[#FFFDFD] text-[25px] font-bold leading-[32.5px] whitespace-nowrap"
-              style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
+        <div className="flex flex-col gap-[12px]">
+          <h3
+            className="text-[#FFFDFD] text-[20px] md:text-[25px] font-bold leading-[32.5px]"
+            style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
+          >
+            Connect With Us
+          </h3>
+          <div className="flex gap-[8px] items-center">
+            <a
+              href="https://www.instagram.com/rccgros/?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#8A38F5] rounded-[3.2px] size-[32px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
+              aria-label="Instagram"
             >
-              Connect With Us
-            </h3>
-            <div className="flex flex-1 gap-[8px] items-center min-h-0 px-[12px] w-full">
-              <a
-                href="https://www.instagram.com/rccgros/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#8A38F5] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
-                aria-label="Instagram"
-              >
-                <div className="relative size-[15.99px]">
-                  <Image src="/assets/social-1.svg" alt="" fill />
-                </div>
-              </a>
-              <a
-                href="https://www.facebook.com/rccgrospage/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#3B5998] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
-                aria-label="Facebook"
-              >
-                <div className="relative size-[15.99px]">
-                  <Image src="/assets/social-2.svg" alt="" fill />
-                </div>
-              </a>
-              <a
-                href="https://www.youtube.com/@rccgrostv"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#0000BA] rounded-[3.2px] flex-shrink-0 size-[31.99px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
-                aria-label="YouTube"
-              >
-                <div className="relative size-[15.99px]">
-                  <Image src="/assets/social-3.svg" alt="" fill />
-                </div>
-              </a>
-            </div>
+              <div className="relative size-[16px]">
+                <Image src="/assets/social-1.svg" alt="" fill />
+              </div>
+            </a>
+            <a
+              href="https://www.facebook.com/rccgrospage/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#3B5998] rounded-[3.2px] size-[32px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
+              aria-label="Facebook"
+            >
+              <div className="relative size-[16px]">
+                <Image src="/assets/social-2.svg" alt="" fill />
+              </div>
+            </a>
+            <a
+              href="https://www.youtube.com/@rccgrostv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#0000BA] rounded-[3.2px] size-[32px] relative flex items-center justify-center hover:opacity-80 transition-opacity"
+              aria-label="YouTube"
+            >
+              <div className="relative size-[16px]">
+                <Image src="/assets/social-3.svg" alt="" fill />
+              </div>
+            </a>
           </div>
         </div>
 
         {/* Quick Links */}
-        <div className="flex flex-col gap-[20px] items-start flex-shrink-0">
+        <div className="flex flex-col gap-[20px]">
           <h3
-            className="text-[#FFFDFD] text-[25px] font-bold h-[33px] flex flex-col justify-center min-w-full leading-[32.5px] whitespace-nowrap"
+            className="text-[#FFFDFD] text-[20px] md:text-[25px] font-bold leading-[32.5px]"
             style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
           >
             Quick Links
           </h3>
-          <ul className="flex flex-col gap-[16px] items-start flex-shrink-0">
+          <ul className="flex flex-col gap-[12px] md:gap-[16px]">
             {quickLinks.map((link) => (
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="text-white text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors"
+                  className="text-white text-[16px] md:text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors"
                   style={{ fontVariationSettings: '"wdth" 100' }}
                 >
                   {link.label}
@@ -93,19 +91,19 @@ export default function Footer() {
         </div>
 
         {/* Help */}
-        <div className="flex flex-col gap-[20px] items-start flex-shrink-0 w-[268px]">
+        <div className="flex flex-col gap-[20px]">
           <h3
-            className="text-[#FFFDFD] text-[25px] font-bold h-[32.5px] flex flex-col justify-center w-full leading-[32.5px]"
+            className="text-[#FFFDFD] text-[20px] md:text-[25px] font-bold leading-[32.5px]"
             style={{ fontVariationSettings: '"wdth" 100', textShadow: "0px 0px 0px rgba(0,0,0,0.3)" }}
           >
             Help
           </h3>
-          <ul className="flex flex-col gap-[16px] items-start flex-shrink-0 w-full">
+          <ul className="flex flex-col gap-[12px] md:gap-[16px]">
             {helpLinks.map((link) => (
               <li key={link.label}>
                 <Link
                   href={link.href}
-                  className="flex gap-[8px] items-center text-[#FFFDFD] text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors whitespace-nowrap"
+                  className="flex gap-[8px] items-center text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-normal hover:text-[#B5B5F3] transition-colors"
                   style={{ fontVariationSettings: '"wdth" 100' }}
                 >
                   <div className="relative flex-shrink-0 size-[14px]">

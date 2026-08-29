@@ -49,9 +49,9 @@ export default function RequestsGive() {
   }
 
   return (
-    <section id="requests" className="bg-[#3a394f] flex items-start px-[120px] w-full">
+    <section id="requests" className="bg-[#3a394f] flex flex-col md:flex-row items-start w-full">
       {/* Requests form */}
-      <div className="flex flex-1 flex-col gap-[32px] items-center min-w-0 px-[32px] py-[24px] relative self-stretch">
+      <div className="flex flex-1 flex-col gap-[32px] items-center min-w-0 px-6 md:px-[32px] py-[48px] md:py-[24px] relative self-stretch">
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute bg-[#625b5d] inset-0" />
           <div className="absolute inset-0 opacity-15 overflow-hidden">
@@ -62,7 +62,7 @@ export default function RequestsGive() {
 
         <div className="flex flex-col gap-[32px] items-center relative flex-shrink-0 w-full">
           <h2
-            className="text-[#FFFDFD] text-[48px] font-bold leading-normal text-center whitespace-nowrap"
+            className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-normal text-center"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             Requests
@@ -71,7 +71,7 @@ export default function RequestsGive() {
           {status === "success" ? (
             <div className="flex flex-col gap-[16px] items-center py-[32px] text-center">
               <div className="size-[60px] rounded-full bg-[#000080] flex items-center justify-center text-[28px] text-white">✓</div>
-              <p className="text-[#FFFDFD] text-[20px] font-medium" style={{ fontVariationSettings: '"wdth" 100' }}>
+              <p className="text-[#FFFDFD] text-[18px] md:text-[20px] font-medium" style={{ fontVariationSettings: '"wdth" 100' }}>
                 Request submitted! We&apos;ll get back to you soon.
               </p>
               <button
@@ -105,7 +105,7 @@ export default function RequestsGive() {
 
               <div className="flex items-center w-full">
                 <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] flex-shrink-0">
                     Subject <span className="text-[#FF383C]">*</span>
                   </p>
                   <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
@@ -122,7 +122,7 @@ export default function RequestsGive() {
 
               <div className="flex items-center w-full">
                 <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] flex-shrink-0">
                     Category <span className="text-[#FF383C]">*</span>
                   </p>
                   <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[40px] rounded-[4px] flex-shrink-0 w-full">
@@ -143,7 +143,7 @@ export default function RequestsGive() {
 
               <div className="flex items-center w-full">
                 <div className="flex flex-1 flex-col gap-[4px] items-start min-w-0 relative">
-                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] text-center whitespace-nowrap flex-shrink-0">
+                  <p className="text-[#FFFDFD] text-[13px] font-normal leading-[14px] flex-shrink-0">
                     Details <span className="text-[#FF383C]">*</span>
                   </p>
                   <div className="bg-[#FFFDFD] border border-[#A3A1AF] h-[102px] rounded-[10px] flex-shrink-0 w-full">
@@ -164,7 +164,7 @@ export default function RequestsGive() {
               <div className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[33px] flex-shrink-0">
                 <button type="submit" disabled={status === "loading"} className="flex items-center w-full disabled:opacity-60">
                   <span
-                    className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
+                    className="text-[#FFFDFD] text-[18px] md:text-[25px] font-medium leading-normal text-center"
                     style={{ fontVariationSettings: '"wdth" 100' }}
                   >
                     {status === "loading" ? "SENDING..." : "SEND"}
@@ -177,13 +177,13 @@ export default function RequestsGive() {
       </div>
 
       {/* Give Online */}
-      <div className="flex flex-1 flex-col gap-[32px] items-center justify-center min-w-0 px-[32px] py-[72px] relative self-stretch">
+      <div className="flex flex-1 flex-col gap-[32px] items-center justify-center min-w-0 px-6 md:px-[32px] py-[48px] md:py-[72px] relative self-stretch">
         <div aria-hidden className="absolute inset-0 pointer-events-none">
           <div className="absolute bg-[#595587] inset-0" />
           <Image src="/assets/give-bg.png" alt="" fill className="object-cover opacity-15" />
         </div>
 
-        <div className="aspect-[536/354] relative flex-shrink-0 w-full">
+        <div className="aspect-[536/354] relative flex-shrink-0 w-full max-w-[400px]">
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/assets/give-illustration.png" alt="" className="absolute max-w-none w-full" style={{ height: "113.56%", left: 0, top: "-7.53%" }} />
@@ -195,7 +195,7 @@ export default function RequestsGive() {
           className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0 hover:bg-[#0000a0] transition-colors"
         >
           <span
-            className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap"
+            className="text-[#FFFDFD] text-[18px] md:text-[25px] font-medium leading-normal text-center"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             GIVE ONLINE

@@ -9,46 +9,14 @@ import { post } from "@/lib/api";
 const vs = { fontVariationSettings: '"wdth" 100' };
 
 const skills = [
-  {
-    icon: "📱",
-    title: "Digital Marketing",
-    desc: "Learn SEO, social media strategy, content creation, paid advertising, and how to build a brand online.",
-  },
-  {
-    icon: "📸",
-    title: "Photography & Videography",
-    desc: "Master professional photography, photo editing, video production, and visual storytelling techniques.",
-  },
-  {
-    icon: "🧵",
-    title: "Fashion & Tailoring",
-    desc: "From fabric selection to pattern making and sewing — create beautiful garments from scratch.",
-  },
-  {
-    icon: "💻",
-    title: "Graphic Design",
-    desc: "Design logos, flyers, presentations, and brand materials using industry-standard tools.",
-  },
-  {
-    icon: "🍳",
-    title: "Catering & Food Business",
-    desc: "Professional cooking, food hygiene, catering management, and starting a food business.",
-  },
-  {
-    icon: "💇",
-    title: "Beauty & Wellness",
-    desc: "Hair styling, skincare, makeup artistry, and building a professional beauty practice.",
-  },
-  {
-    icon: "🔧",
-    title: "Electrical & Technical Skills",
-    desc: "Practical electrical installation, appliance repair, and basic electronics for everyday use.",
-  },
-  {
-    icon: "📊",
-    title: "Business & Entrepreneurship",
-    desc: "Business planning, financial literacy, record-keeping, and strategies to start and grow your business.",
-  },
+  { icon: "📱", title: "Digital Marketing", desc: "Learn SEO, social media strategy, content creation, paid advertising, and how to build a brand online." },
+  { icon: "📸", title: "Photography & Videography", desc: "Master professional photography, photo editing, video production, and visual storytelling techniques." },
+  { icon: "🧵", title: "Fashion & Tailoring", desc: "From fabric selection to pattern making and sewing — create beautiful garments from scratch." },
+  { icon: "💻", title: "Graphic Design", desc: "Design logos, flyers, presentations, and brand materials using industry-standard tools." },
+  { icon: "🍳", title: "Catering & Food Business", desc: "Professional cooking, food hygiene, catering management, and starting a food business." },
+  { icon: "💇", title: "Beauty & Wellness", desc: "Hair styling, skincare, makeup artistry, and building a professional beauty practice." },
+  { icon: "🔧", title: "Electrical & Technical Skills", desc: "Practical electrical installation, appliance repair, and basic electronics for everyday use." },
+  { icon: "📊", title: "Business & Entrepreneurship", desc: "Business planning, financial literacy, record-keeping, and strategies to start and grow your business." },
 ];
 
 const benefits = [
@@ -84,7 +52,7 @@ export default function CSRPage() {
   return (
     <main>
       {/* ── Hero ── */}
-      <section className="relative h-[540px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[440px] md:h-[540px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(0,0,128,0.85)]" />
@@ -94,23 +62,23 @@ export default function CSRPage() {
           }} />
         </div>
         <Navbar activePage="csr" />
-        <div className="absolute left-1/2 top-[calc(50%+48px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[24px] items-center w-[1148px] z-10 text-center">
+        <div className="relative z-10 flex flex-col gap-4 md:gap-[24px] items-center w-full max-w-[1148px] px-6 md:px-8 text-center mt-16 md:mt-[48px]">
           <div className="flex items-center gap-[10px] px-[16px] py-[8px] rounded-full bg-[#B5B5F3]/15 border border-[#B5B5F3]/30">
             <span className="size-[8px] rounded-full bg-[#B5B5F3] animate-pulse" />
-            <p className="text-[#B5B5F3] text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>Church Skills Resource</p>
+            <p className="text-[#B5B5F3] text-[12px] md:text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>Church Skills Resource</p>
           </div>
-          <h1 className="text-[#FFFDFD] text-[72px] font-medium leading-tight" style={vs}>
+          <h1 className="text-[#FFFDFD] text-[32px] md:text-[52px] lg:text-[72px] font-medium leading-tight" style={vs}>
             Equipping You to<br />
             <span className="italic text-[#B5B5F3]" style={{ fontFamily: "'Playfair Display', serif" }}>Excel &amp; Create</span>
           </h1>
-          <p className="text-[#FFFDFD]/80 text-[20px] font-normal leading-[1.7] max-w-[680px]" style={vs}>
+          <p className="text-[#FFFDFD]/80 text-[15px] md:text-[18px] lg:text-[20px] font-normal leading-[1.7] max-w-[680px]" style={vs}>
             CSR is our church&apos;s skills and vocational training program — empowering members of our community with practical skills to build sustainable livelihoods.
           </p>
-          <div className="flex gap-[16px] flex-wrap justify-center mt-[8px]">
-            <a href="#skills" className="px-[28px] py-[14px] bg-[#FFFDFD] text-[#000080] text-[15px] font-bold rounded-[30px] hover:bg-[#B5B5F3] transition-colors" style={vs}>
+          <div className="flex flex-wrap gap-3 md:gap-[16px] justify-center mt-[8px]">
+            <a href="#skills" className="px-[24px] md:px-[28px] py-[12px] md:py-[14px] bg-[#FFFDFD] text-[#000080] text-[14px] md:text-[15px] font-bold rounded-[30px] hover:bg-[#B5B5F3] transition-colors" style={vs}>
               Explore Skills
             </a>
-            <a href="#register" className="px-[28px] py-[14px] border-2 border-[#B5B5F3]/60 text-[#FFFDFD] text-[15px] font-medium rounded-[30px] hover:border-[#B5B5F3] hover:bg-[#B5B5F3]/10 transition-colors" style={vs}>
+            <a href="#register" className="px-[24px] md:px-[28px] py-[12px] md:py-[14px] border-2 border-[#B5B5F3]/60 text-[#FFFDFD] text-[14px] md:text-[15px] font-medium rounded-[30px] hover:border-[#B5B5F3] hover:bg-[#B5B5F3]/10 transition-colors" style={vs}>
               Register Interest
             </a>
           </div>
@@ -118,14 +86,14 @@ export default function CSRPage() {
       </section>
 
       {/* ── What is CSR ── */}
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex gap-[80px] items-center w-full">
+      <section className="bg-[#100E1A] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col lg:flex-row gap-8 lg:gap-[80px] items-start lg:items-center w-full">
         <div className="flex flex-col gap-[24px] flex-1 min-w-0">
           <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Our Vision</p>
-          <h2 className="text-[#FFFDFD] text-[48px] font-bold leading-[1.2]" style={vs}>What is CSR?</h2>
-          <p className="text-[#A3A1AF] text-[18px] font-normal leading-[1.8]" style={vs}>
+          <h2 className="text-[#FFFDFD] text-[26px] md:text-[38px] lg:text-[48px] font-bold leading-[1.2]" style={vs}>What is CSR?</h2>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
             The Church Skills Resource (CSR) program is Rose of Sharon&apos;s commitment to the total wellbeing of our community — not just spiritual growth, but economic empowerment and social transformation.
           </p>
-          <p className="text-[#A3A1AF] text-[18px] font-normal leading-[1.8]" style={vs}>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
             We believe that when the church equips its people with practical skills, it multiplies its impact in homes, workplaces, and communities. CSR offers structured, hands-on training in a wide range of vocational and professional skills — all rooted in excellence and godly values.
           </p>
           <div className="flex flex-wrap gap-[12px] mt-[8px]">
@@ -137,7 +105,7 @@ export default function CSRPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-[16px] w-[480px] flex-shrink-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full lg:w-[480px] lg:flex-shrink-0">
           {benefits.map(b => (
             <div key={b.label} className="bg-[#1A1826] rounded-[16px] p-[20px] flex flex-col gap-[8px] border border-[#B5B5F3]/10">
               <p className="text-[#FFFDFD] text-[15px] font-bold" style={vs}>{b.label}</p>
@@ -148,26 +116,26 @@ export default function CSRPage() {
       </section>
 
       {/* ── Skills Offered ── */}
-      <section id="skills" className="bg-[#D2D2E2] px-[120px] py-[84px] flex flex-col gap-[48px] items-center w-full">
+      <section id="skills" className="bg-[#D2D2E2] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[40px] md:gap-[48px] items-center w-full">
         <div className="flex flex-col gap-[8px] items-center text-center">
           <p className="text-[#000080] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>What We Teach</p>
-          <h2 className="text-[#100E1A] text-[48px] font-bold leading-normal" style={vs}>Skills We Offer</h2>
-          <p className="text-[#A3A1AF] text-[18px] font-normal max-w-[600px]" style={vs}>
+          <h2 className="text-[#100E1A] text-[24px] md:text-[38px] lg:text-[48px] font-bold leading-normal" style={vs}>Skills We Offer</h2>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal max-w-[600px]" style={vs}>
             Our growing catalogue covers a wide range of practical skills to suit different passions and career paths.
           </p>
         </div>
 
-        <div className="grid grid-cols-4 gap-[20px] w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] md:gap-[20px] w-full">
           {skills.map(skill => (
             <div
               key={skill.title}
-              className="bg-white rounded-[20px] p-[28px] flex flex-col gap-[16px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0px_8px_32px_rgba(0,0,128,0.12)] hover:-translate-y-[4px] transition-all group"
+              className="bg-white rounded-[20px] p-[24px] md:p-[28px] flex flex-col gap-[16px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0px_8px_32px_rgba(0,0,128,0.12)] hover:-translate-y-[4px] transition-all group"
             >
-              <div className="size-[56px] rounded-[14px] bg-[#000080]/8 flex items-center justify-center text-[28px] group-hover:bg-[#000080]/15 transition-colors">
+              <div className="size-[52px] md:size-[56px] rounded-[14px] bg-[#000080]/8 flex items-center justify-center text-[26px] md:text-[28px] group-hover:bg-[#000080]/15 transition-colors">
                 {skill.icon}
               </div>
               <div className="flex flex-col gap-[8px]">
-                <p className="text-[#100E1A] text-[17px] font-bold leading-tight" style={vs}>{skill.title}</p>
+                <p className="text-[#100E1A] text-[16px] md:text-[17px] font-bold leading-tight" style={vs}>{skill.title}</p>
                 <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>{skill.desc}</p>
               </div>
             </div>
@@ -180,31 +148,32 @@ export default function CSRPage() {
       </section>
 
       {/* ── How It Works ── */}
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[48px] items-center w-full">
+      <section className="bg-[#100E1A] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[40px] md:gap-[48px] items-center w-full">
         <div className="flex flex-col gap-[8px] items-center text-center">
           <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Simple Process</p>
-          <h2 className="text-[#FFFDFD] text-[48px] font-bold leading-normal" style={vs}>How to Join</h2>
+          <h2 className="text-[#FFFDFD] text-[24px] md:text-[38px] lg:text-[48px] font-bold leading-normal" style={vs}>How to Join</h2>
         </div>
 
-        <div className="flex items-start gap-0 w-full justify-center">
+        {/* Steps — horizontal on lg, vertical on mobile */}
+        <div className="flex flex-col md:flex-row flex-wrap items-start justify-center gap-8 w-full">
           {[
             { step: "01", title: "Register Interest", desc: "Fill out the form below to let us know which skill you want to learn." },
             { step: "02", title: "Orientation", desc: "Attend a brief orientation session where we'll share schedule, tools, and expectations." },
             { step: "03", title: "Training Begins", desc: "Join your class and learn from expert instructors in hands-on sessions." },
             { step: "04", title: "Certification", desc: "Complete the course and receive your certificate — plus mentorship to launch your business." },
           ].map((item, i, arr) => (
-            <div key={item.step} className="flex items-center">
-              <div className="flex flex-col items-center gap-[16px] w-[220px]">
-                <div className="size-[72px] rounded-full bg-[#000080] flex items-center justify-center border-4 border-[#B5B5F3]/20">
-                  <span className="text-[#FFFDFD] text-[22px] font-bold" style={vs}>{item.step}</span>
+            <div key={item.step} className="flex md:flex-row items-start gap-4 md:gap-0 w-full md:w-auto">
+              <div className="flex flex-col items-center gap-[16px] w-full md:w-[200px] lg:w-[220px]">
+                <div className="size-[60px] md:size-[72px] rounded-full bg-[#000080] flex items-center justify-center border-4 border-[#B5B5F3]/20">
+                  <span className="text-[#FFFDFD] text-[18px] md:text-[22px] font-bold" style={vs}>{item.step}</span>
                 </div>
                 <div className="flex flex-col gap-[6px] text-center">
-                  <p className="text-[#FFFDFD] text-[17px] font-bold" style={vs}>{item.title}</p>
+                  <p className="text-[#FFFDFD] text-[15px] md:text-[17px] font-bold" style={vs}>{item.title}</p>
                   <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>{item.desc}</p>
                 </div>
               </div>
               {i < arr.length - 1 && (
-                <div className="h-[2px] w-[48px] bg-[#B5B5F3]/20 flex-shrink-0 mb-[48px]" />
+                <div className="hidden md:block h-[2px] w-[32px] lg:w-[48px] bg-[#B5B5F3]/20 flex-shrink-0 mt-[34px]" />
               )}
             </div>
           ))}
@@ -212,45 +181,35 @@ export default function CSRPage() {
       </section>
 
       {/* ── Register Form ── */}
-      <section id="register" className="bg-[#EEF0F7] px-[120px] py-[84px] flex gap-[80px] items-start w-full">
-        <div className="flex flex-col gap-[24px] flex-1 min-w-0 max-w-[440px]">
+      <section id="register" className="bg-[#EEF0F7] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col lg:flex-row gap-8 lg:gap-[80px] items-start w-full">
+        <div className="flex flex-col gap-[24px] flex-1 min-w-0 lg:max-w-[440px]">
           <div className="flex flex-col gap-[8px]">
             <p className="text-[#000080] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Get Started</p>
-            <h2 className="text-[#100E1A] text-[40px] font-bold leading-[1.2]" style={vs}>Register Your Interest</h2>
+            <h2 className="text-[#100E1A] text-[26px] md:text-[36px] lg:text-[40px] font-bold leading-[1.2]" style={vs}>Register Your Interest</h2>
           </div>
-          <p className="text-[#A3A1AF] text-[17px] leading-[1.7]" style={vs}>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[17px] leading-[1.7]" style={vs}>
             Tell us which skill excites you — our team will reach out with details about the next available intake, schedule, and how to join.
           </p>
           <div className="flex flex-col gap-[12px]">
-            <div className="flex items-start gap-[12px]">
-              <div className="size-[20px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0 mt-[2px]">
-                <span className="text-white text-[11px] font-bold">✓</span>
+            {["Open to church members & community", "No prior experience required", "Subsidized or free for members"].map(item => (
+              <div key={item} className="flex items-start gap-[12px]">
+                <div className="size-[20px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0 mt-[2px]">
+                  <span className="text-white text-[11px] font-bold">✓</span>
+                </div>
+                <p className="text-[#100E1A] text-[15px]" style={vs}>{item}</p>
               </div>
-              <p className="text-[#100E1A] text-[15px]" style={vs}>Open to church members &amp; community</p>
-            </div>
-            <div className="flex items-start gap-[12px]">
-              <div className="size-[20px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0 mt-[2px]">
-                <span className="text-white text-[11px] font-bold">✓</span>
-              </div>
-              <p className="text-[#100E1A] text-[15px]" style={vs}>No prior experience required</p>
-            </div>
-            <div className="flex items-start gap-[12px]">
-              <div className="size-[20px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0 mt-[2px]">
-                <span className="text-white text-[11px] font-bold">✓</span>
-              </div>
-              <p className="text-[#100E1A] text-[15px]" style={vs}>Subsidized or free for members</p>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Form card */}
-        <div className="flex-1 min-w-0 bg-white rounded-[24px] p-[40px] shadow-[0_8px_40px_rgba(0,0,128,0.10)]">
+        <div className="flex-1 min-w-0 bg-white rounded-[24px] p-[28px] md:p-[40px] shadow-[0_8px_40px_rgba(0,0,128,0.10)]">
           {status === "success" ? (
             <div className="flex flex-col gap-[20px] items-center text-center py-[40px]">
               <div className="size-[64px] rounded-full bg-[#000080] flex items-center justify-center">
                 <span className="text-white text-[28px]">✓</span>
               </div>
-              <h3 className="text-[#100E1A] text-[28px] font-bold" style={vs}>Registration Received!</h3>
+              <h3 className="text-[#100E1A] text-[24px] md:text-[28px] font-bold" style={vs}>Registration Received!</h3>
               <p className="text-[#A3A1AF] text-[16px] leading-[1.7] max-w-[340px]" style={vs}>
                 Thank you for your interest in the CSR program. Our team will contact you soon with next steps.
               </p>
@@ -263,8 +222,8 @@ export default function CSRPage() {
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-[20px]">
-              <h3 className="text-[#100E1A] text-[24px] font-bold" style={vs}>Your Information</h3>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[18px] md:gap-[20px]">
+              <h3 className="text-[#100E1A] text-[20px] md:text-[24px] font-bold" style={vs}>Your Information</h3>
 
               <div className="flex flex-col gap-[6px]">
                 <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Full Name *</label>
@@ -278,7 +237,7 @@ export default function CSRPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-[16px]">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
                 <div className="flex flex-col gap-[6px]">
                   <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Email *</label>
                   <input
@@ -348,11 +307,11 @@ export default function CSRPage() {
       </section>
 
       {/* ── Scripture CTA ── */}
-      <section className="bg-[#000080] px-[120px] py-[64px] flex flex-col gap-[16px] items-center w-full text-center">
-        <p className="text-[#FFFDFD] text-[22px] font-normal italic leading-[1.6] max-w-[700px]" style={{ fontFamily: "'Playfair Display', serif" }}>
+      <section className="bg-[#000080] px-6 md:px-[60px] lg:px-[120px] py-[48px] md:py-[64px] flex flex-col gap-[16px] items-center w-full text-center">
+        <p className="text-[#FFFDFD] text-[18px] md:text-[22px] font-normal italic leading-[1.6] max-w-[700px]" style={{ fontFamily: "'Playfair Display', serif" }}>
           &ldquo;Whatever you do, work heartily, as for the Lord and not for men.&rdquo;
         </p>
-        <p className="text-[#B5B5F3] text-[14px] font-semibold uppercase tracking-widest" style={vs}>Colossians 3:23</p>
+        <p className="text-[#B5B5F3] text-[13px] md:text-[14px] font-semibold uppercase tracking-widest" style={vs}>Colossians 3:23</p>
       </section>
 
       <Footer />

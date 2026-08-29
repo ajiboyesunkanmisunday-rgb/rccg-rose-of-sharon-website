@@ -13,7 +13,7 @@ const highlights = [
 
 export default function CSR() {
   return (
-    <section className="bg-[#100E1A] w-full px-[120px] py-[84px] flex gap-[80px] items-center">
+    <section className="bg-[#100E1A] w-full px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col lg:flex-row gap-8 lg:gap-[80px] items-center">
       {/* Left: content */}
       <div className="flex flex-col gap-[28px] flex-1 min-w-0">
         <div className="flex flex-col gap-[8px]">
@@ -24,14 +24,14 @@ export default function CSR() {
             Church Skills Resource
           </p>
           <h2
-            className="text-[#FFFDFD] text-[48px] font-bold leading-[1.2]"
+            className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-[1.2]"
             style={vs}
           >
             Equipping You to Excel &amp; Create
           </h2>
         </div>
         <p
-          className="text-[#A3A1AF] text-[18px] leading-[1.8]"
+          className="text-[#A3A1AF] text-[16px] md:text-[18px] leading-[1.8]"
           style={vs}
         >
           Our CSR program offers practical, hands-on vocational training across a wide range of
@@ -54,7 +54,7 @@ export default function CSR() {
           ))}
         </div>
 
-        <div className="flex gap-[16px] mt-[4px]">
+        <div className="flex flex-wrap gap-[16px] mt-[4px]">
           <Link
             href="/csr"
             className="px-[32px] py-[14px] bg-[#000080] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] hover:bg-[#0000a0] transition-colors shadow-[0_4px_16px_rgba(0,0,128,0.35)]"
@@ -73,7 +73,7 @@ export default function CSR() {
       </div>
 
       {/* Right: stat cards */}
-      <div className="flex-shrink-0 w-[400px] flex flex-col gap-[16px]">
+      <div className="w-full lg:w-[400px] lg:flex-shrink-0 flex flex-col gap-[16px]">
         {[
           {
             number: "8+",

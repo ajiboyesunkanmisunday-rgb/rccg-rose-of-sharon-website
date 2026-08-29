@@ -31,10 +31,10 @@ export default function Podcast() {
         <div className="absolute bg-[rgba(0,0,0,0.31)] inset-0" />
       </div>
 
-      <div className="relative flex flex-col gap-[32px] py-[84px] w-full">
-        <div className="flex items-center justify-center px-[120px] py-[12px] w-full">
+      <div className="relative flex flex-col gap-[24px] md:gap-[32px] py-[60px] md:py-[84px] w-full">
+        <div className="flex items-center justify-center px-6 md:px-[120px] py-[12px] w-full">
           <h2
-            className="text-[#FFFDFD] text-[48px] font-bold leading-normal text-center flex-1"
+            className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-normal text-center flex-1"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             Audio Podcast
@@ -46,7 +46,39 @@ export default function Podcast() {
           <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-[#B5B5F3] hover:underline">YouTube channel</a>
         </p>
 
-        <div className="flex h-[420px] items-center justify-between px-[120px] w-full">
+        {/* Mobile: just show playlist */}
+        <div className="lg:hidden px-4 md:px-8">
+          <div className="bg-[rgba(255,255,255,0.25)] rounded-[16px] p-[12px] flex flex-col gap-[6px]">
+            {episodes.map((ep, i) => (
+              <a
+                key={ep.title}
+                href="https://www.youtube.com/@rccgrostv"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setPlaying(i)}
+                className="flex gap-[10px] items-center w-full"
+              >
+                <div className="flex items-center justify-center flex-shrink-0 size-[52px] relative rounded-[10px] overflow-hidden">
+                  <Image src={ep.img} alt="" fill className="object-cover" />
+                </div>
+                <div
+                  className={`flex flex-1 items-center min-w-0 px-3 py-2 rounded-[8px] gap-[8px] ${
+                    i === playing ? "bg-[#000080]" : "bg-[rgba(255,255,255,0.7)]"
+                  }`}
+                >
+                  <div className={`flex-1 min-w-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`}>
+                    <div className="text-[14px] font-semibold truncate" style={{ fontVariationSettings: '"wdth" 100' }}>{ep.title}</div>
+                    <div className="text-[11px] truncate opacity-70" style={{ fontVariationSettings: '"wdth" 100' }}>{ep.pastor}</div>
+                  </div>
+                  <span className={`text-[13px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`} style={{ fontVariationSettings: '"wdth" 100' }}>{ep.duration}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: carousel + playlist */}
+        <div className="hidden lg:flex h-[420px] items-center justify-between px-[120px] w-full">
           {/* Album art + controls */}
           <div className="flex flex-col gap-[24px] h-full items-center justify-center px-[4px] py-[16px] flex-shrink-0 w-[546px]">
             <div className="flex flex-1 flex-col gap-[14px] items-center justify-center min-h-0 w-full">
@@ -160,7 +192,7 @@ export default function Podcast() {
                           i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"
                         }`}
                       >
-                        <div className="text-[25px] font-normal leading-normal overflow-hidden text-ellipsis w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
+                        <div className="text-[20px] font-normal leading-normal overflow-hidden text-ellipsis w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
                           {ep.title}
                         </div>
                         <div className="text-[13px] font-normal leading-[14px] overflow-hidden text-ellipsis w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
@@ -169,7 +201,7 @@ export default function Podcast() {
                       </div>
                       <div className="flex gap-[4px] h-full items-center flex-shrink-0">
                         <div className={`flex h-full items-start px-[8px] py-[4px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`}>
-                          <div className="text-[25px] font-normal leading-normal text-right whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
+                          <div className="text-[20px] font-normal leading-normal text-right whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
                             {ep.duration}
                           </div>
                         </div>
