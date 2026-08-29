@@ -5,7 +5,7 @@ const vs = { fontVariationSettings: '"wdth" 100' };
 
 export default function NotFound() {
   return (
-    <main className="bg-[#100E1A] min-h-screen flex flex-col items-center justify-center px-[120px] py-[84px] relative overflow-hidden">
+    <main className="bg-[#100E1A] min-h-screen flex flex-col items-center justify-center px-4 sm:px-[40px] lg:px-[120px] py-[60px] md:py-[84px] relative overflow-hidden">
       <div aria-hidden className="absolute inset-0 pointer-events-none opacity-10">
         <Image src="/assets/hero-bg.png" alt="" fill className="object-cover" />
       </div>
@@ -17,13 +17,13 @@ export default function NotFound() {
         </div>
 
         <h1
-          className="text-[#B5B5F3] text-[120px] font-bold leading-none"
+          className="text-[#B5B5F3] text-[64px] md:text-[96px] lg:text-[120px] font-bold leading-none"
           style={vs}
         >
           404
         </h1>
 
-        <p className="text-[#FFFDFD] text-[32px] font-medium leading-normal" style={vs}>
+        <p className="text-[#FFFDFD] text-[22px] md:text-[28px] lg:text-[32px] font-medium leading-normal" style={vs}>
           Page Not Found
         </p>
 

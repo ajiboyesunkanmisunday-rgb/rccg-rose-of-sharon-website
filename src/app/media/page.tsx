@@ -73,28 +73,28 @@ export default function MediaPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative h-[735px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[500px] md:h-[650px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" />
           <div className="absolute inset-0 bg-[rgba(16,14,26,0.65)]" />
         </div>
         <Navbar activePage="media" />
-        <div className="absolute left-1/2 top-[calc(50%+58px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[84px] items-center justify-center w-[1148px] z-10">
-          <div className="flex flex-col gap-[32px] items-start w-full text-center text-white">
-            <h1 className="text-[#FFFDFD] text-[84px] font-medium leading-normal w-full" style={vs}>
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-14 flex flex-col gap-[32px] items-center text-center">
+          <div className="flex flex-col gap-[16px] items-center">
+            <h1 className="text-[#FFFDFD] text-[38px] md:text-[64px] lg:text-[80px] font-medium leading-tight" style={vs}>
               Oaks of Righteousness
             </h1>
-            <p className="text-[#FFFDFD] text-[25px] font-normal leading-[32px] w-full" style={vs}>
+            <p className="text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-[1.6] max-w-[600px]" style={vs}>
               Watch and be inspired — sermons, teachings and messages from the house of God.
             </p>
           </div>
-          <div className="flex gap-[16px] items-center">
+          <div className="flex gap-[12px] md:gap-[16px] flex-wrap items-center justify-center">
             <Link
               href="#sermons"
-              className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#000080] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors"
+              className="flex items-center gap-[8px] px-[24px] md:px-[32px] py-[13px] md:py-[16px] bg-[#000080] text-[#FFFDFD] text-[16px] md:text-[20px] font-medium rounded-[35px] hover:bg-[#0000a0] transition-colors"
               style={vs}
             >
-              <div className="relative size-[29px] flex-shrink-0">
+              <div className="relative size-[22px] flex-shrink-0">
                 <Image src="/assets/play-filled.svg" alt="" fill />
               </div>
               Watch Sermon
@@ -103,7 +103,7 @@ export default function MediaPage() {
               href="https://www.youtube.com/@rccgrostv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-[5px] px-[32px] py-[16px] border-2 border-[#B5B5F3] text-[#B5B5F3] text-[20px] font-medium rounded-[35px] hover:bg-[#B5B5F3]/10 transition-colors"
+              className="flex items-center gap-[8px] px-[24px] md:px-[32px] py-[13px] md:py-[16px] border-2 border-[#B5B5F3] text-[#B5B5F3] text-[15px] md:text-[18px] font-medium rounded-[35px] hover:bg-[#B5B5F3]/10 transition-colors"
               style={vs}
             >
               YouTube Channel
@@ -113,19 +113,19 @@ export default function MediaPage() {
       </section>
 
       {/* Media Grid */}
-      <section id="sermons" className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
-        <h2 className="text-[#FFFDFD] text-[48px] font-bold leading-normal text-center w-full" style={vs}>
+      <section id="sermons" className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[64px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
+        <h2 className="text-[#FFFDFD] text-[32px] md:text-[48px] font-bold leading-normal text-center w-full" style={vs}>
           Media
         </h2>
 
-        {/* Category filter tabs — only when live data has categories */}
+        {/* Category filter tabs */}
         {useLive && categories.length > 1 && (
           <div className="flex gap-[8px] flex-wrap justify-center">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-[20px] py-[8px] rounded-full text-[14px] font-medium transition-colors ${
+                className={`px-[16px] py-[7px] rounded-full text-[13px] font-medium transition-colors ${
                   activeCategory === cat
                     ? "bg-[#000080] text-[#FFFDFD]"
                     : "border border-[#B5B5F3]/30 text-[#A3A1AF] hover:border-[#B5B5F3] hover:text-[#B5B5F3]"
@@ -139,16 +139,16 @@ export default function MediaPage() {
         )}
 
         {loading && (
-          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[16px] w-full">
             {[1,2,3,4,5,6,7,8].map((i) => (
-              <div key={i} className="rounded-[12px] bg-[#1a1826] h-[240px] animate-pulse" />
+              <div key={i} className="rounded-[12px] bg-[#1a1826] h-[200px] animate-pulse" />
             ))}
           </div>
         )}
 
         {/* Live media grid */}
         {useLive && (
-          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[16px] w-full">
             {filtered.map((item, i) => {
               const href = item.displayUrl || "https://www.youtube.com/@rccgrostv";
               const isExternal = !item.displayUrl || item.displayUrl.startsWith("http");
@@ -160,7 +160,7 @@ export default function MediaPage() {
                   rel={isExternal ? "noopener noreferrer" : undefined}
                   className="flex flex-col overflow-hidden rounded-[12px] bg-[#1a1826] cursor-pointer group hover:scale-[1.02] transition-transform"
                 >
-                  <div className="relative h-[180px] w-full overflow-hidden bg-[#0d0c18]">
+                  <div className="relative h-[140px] sm:h-[160px] lg:h-[180px] w-full overflow-hidden bg-[#0d0c18]">
                     {item.thumbnailUrl ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
                       <img
@@ -177,30 +177,30 @@ export default function MediaPage() {
                       />
                     )}
                     <div className="absolute inset-0 bg-[rgba(0,0,128,0.35)] flex items-center justify-center">
-                      <div className="size-[48px] rounded-full bg-[rgba(0,0,128,0.8)] flex items-center justify-center">
-                        <div className="relative size-[24px]">
+                      <div className="size-[40px] md:size-[48px] rounded-full bg-[rgba(0,0,128,0.8)] flex items-center justify-center">
+                        <div className="relative size-[20px] md:size-[24px]">
                           <Image src="/assets/play-filled.svg" alt="" fill />
                         </div>
                       </div>
                     </div>
                     {item.duration && (
-                      <div className="absolute bottom-[8px] right-[8px] bg-[rgba(0,0,0,0.75)] px-[6px] py-[2px] rounded text-[#FFFDFD] text-[12px]" style={vs}>
+                      <div className="absolute bottom-[6px] right-[6px] bg-[rgba(0,0,0,0.75)] px-[6px] py-[2px] rounded text-[#FFFDFD] text-[11px]" style={vs}>
                         {formatDuration(item.duration)}
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col gap-[8px] p-[16px]">
-                    <p className="text-[#FFFDFD] text-[16px] font-bold leading-[1.3] line-clamp-2" style={vs}>
+                  <div className="flex flex-col gap-[6px] p-[12px] md:p-[16px]">
+                    <p className="text-[#FFFDFD] text-[13px] md:text-[15px] font-bold leading-[1.3] line-clamp-2" style={vs}>
                       {item.title || item.displayName || "Untitled"}
                     </p>
                     {item.speaker && (
-                      <p className="text-[#A3A1AF] text-[13px] font-normal leading-normal" style={vs}>{item.speaker}</p>
+                      <p className="text-[#A3A1AF] text-[12px] font-normal leading-normal" style={vs}>{item.speaker}</p>
                     )}
                     {item.date && (
-                      <p className="text-[#A3A1AF] text-[12px] font-normal leading-normal" style={vs}>{formatDate(item.date)}</p>
+                      <p className="text-[#A3A1AF] text-[11px] font-normal leading-normal" style={vs}>{formatDate(item.date)}</p>
                     )}
                     {item.mediaCategory && (
-                      <span className="self-start px-[8px] py-[2px] rounded-full bg-[#000080]/50 text-[#B5B5F3] text-[11px] uppercase tracking-wide" style={vs}>
+                      <span className="self-start px-[8px] py-[2px] rounded-full bg-[#000080]/50 text-[#B5B5F3] text-[10px] uppercase tracking-wide" style={vs}>
                         {item.mediaCategory}
                       </span>
                     )}
@@ -213,22 +213,22 @@ export default function MediaPage() {
 
         {/* Fallback static grid */}
         {!loading && !useLive && (
-          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[16px] w-full">
             {staticSermons.map((sermon, i) => (
               <a key={i} href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer"
                 className="flex flex-col overflow-hidden rounded-[12px] bg-[#1a1826] cursor-pointer group hover:scale-[1.02] transition-transform">
-                <div className="relative h-[180px] w-full overflow-hidden">
+                <div className="relative h-[140px] sm:h-[160px] lg:h-[180px] w-full overflow-hidden">
                   <Image src={sermon.img} alt={sermon.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
                   <div className="absolute inset-0 bg-[rgba(0,0,128,0.35)] flex items-center justify-center">
-                    <div className="size-[48px] rounded-full bg-[rgba(0,0,128,0.8)] flex items-center justify-center">
-                      <div className="relative size-[24px]"><Image src="/assets/play-filled.svg" alt="" fill /></div>
+                    <div className="size-[40px] md:size-[48px] rounded-full bg-[rgba(0,0,128,0.8)] flex items-center justify-center">
+                      <div className="relative size-[20px] md:size-[24px]"><Image src="/assets/play-filled.svg" alt="" fill /></div>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-[8px] p-[16px]">
-                  <p className="text-[#FFFDFD] text-[16px] font-bold leading-[1.3] line-clamp-2" style={vs}>{sermon.title}</p>
-                  <p className="text-[#A3A1AF] text-[13px] font-normal leading-normal" style={vs}>{sermon.speaker}</p>
-                  <p className="text-[#A3A1AF] text-[12px] font-normal leading-normal" style={vs}>{sermon.date}</p>
+                <div className="flex flex-col gap-[6px] p-[12px] md:p-[16px]">
+                  <p className="text-[#FFFDFD] text-[13px] md:text-[15px] font-bold leading-[1.3] line-clamp-2" style={vs}>{sermon.title}</p>
+                  <p className="text-[#A3A1AF] text-[12px] font-normal leading-normal" style={vs}>{sermon.speaker}</p>
+                  <p className="text-[#A3A1AF] text-[11px] font-normal leading-normal" style={vs}>{sermon.date}</p>
                 </div>
               </a>
             ))}
@@ -239,9 +239,9 @@ export default function MediaPage() {
           href="https://www.youtube.com/@rccgrostv"
           target="_blank"
           rel="noopener noreferrer"
-          className="bg-[#000080] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] flex flex-col items-center justify-center px-[32px] py-[16px] rounded-[35px] flex-shrink-0 hover:bg-[#0000a0] transition-colors"
+          className="bg-[#000080] flex items-center justify-center px-[28px] md:px-[40px] py-[13px] md:py-[16px] rounded-[35px] hover:bg-[#0000a0] transition-colors"
         >
-          <span className="text-[#FFFDFD] text-[25px] font-medium leading-normal text-center whitespace-nowrap" style={vs}>
+          <span className="text-[#FFFDFD] text-[16px] md:text-[20px] font-medium leading-normal text-center whitespace-nowrap" style={vs}>
             View More on YouTube
           </span>
         </a>

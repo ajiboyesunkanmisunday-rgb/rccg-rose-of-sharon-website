@@ -76,26 +76,26 @@ export default function SchoolOfDisciplesPage() {
 
   return (
     <main>
-      <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[400px] md:h-[500px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(0,0,128,0.75)]" />
         </div>
         <Navbar activePage="trainings" />
-        <div className="absolute left-1/2 top-[calc(50%+48px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[16px] items-center w-[1148px] z-10 text-center">
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-[48px] flex flex-col gap-[16px] items-center text-center">
           <p className="text-[#B5B5F3] text-[16px] font-normal uppercase tracking-[0.15em]" style={vs}>Training Program</p>
-          <h1 className="text-[#FFFDFD] text-[72px] font-medium leading-normal w-full" style={vs}>School of Disciples</h1>
-          <p className="text-[#FFFDFD] text-[20px] font-normal leading-[32px]" style={vs}>Grounded in the Word. Formed for ministry.</p>
+          <h1 className="text-[#FFFDFD] text-[36px] md:text-[56px] lg:text-[72px] font-medium leading-tight w-full" style={vs}>School of Disciples</h1>
+          <p className="text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-[1.5] md:leading-[32px]" style={vs}>Grounded in the Word. Formed for ministry.</p>
         </div>
       </section>
 
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+      <section className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
         <div className="flex items-center gap-[8px]">
           <Link href="/trainings" className="text-[#B5B5F3] text-[16px] hover:underline" style={vs}>Training Programs</Link>
           <span className="text-[#A3A1AF]">/</span>
           <span className="text-[#FFFDFD] text-[16px]" style={vs}>School of Disciples</span>
         </div>
-        <h2 className="text-[#FFFDFD] text-[48px] font-bold text-center" style={vs}>SOD Application Form</h2>
+        <h2 className="text-[#FFFDFD] text-[28px] md:text-[40px] lg:text-[48px] font-bold text-center" style={vs}>SOD Application Form</h2>
 
         {status === "success" ? (
           <div className="flex flex-col gap-[24px] items-center max-w-[600px] text-center">
@@ -107,12 +107,12 @@ export default function SchoolOfDisciplesPage() {
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-[16px] w-full max-w-[900px]">
             <SectionHeading>Personal Information</SectionHeading>
-            <div className="grid grid-cols-3 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] w-full">
               <FormField label="First Name" required><div className={wrapCls}><input type="text" required value={form.firstName} onChange={set("firstName")} className={inputCls} /></div></FormField>
               <FormField label="Middle Name"><div className={wrapCls}><input type="text" value={form.middleName} onChange={set("middleName")} className={inputCls} /></div></FormField>
               <FormField label="Last Name" required><div className={wrapCls}><input type="text" required value={form.lastName} onChange={set("lastName")} className={inputCls} /></div></FormField>
             </div>
-            <div className="grid grid-cols-3 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] w-full">
               <FormField label="Gender" required>
                 <div className={wrapCls}><select required value={form.sex} onChange={set("sex")} className={selectCls}><option value="">Select</option><option value="MALE">Male</option><option value="FEMALE">Female</option></select></div>
               </FormField>
@@ -121,14 +121,14 @@ export default function SchoolOfDisciplesPage() {
                 <div className={wrapCls}><select value={form.maritalStatus} onChange={set("maritalStatus")} className={selectCls}><option value="">Select</option><option value="SINGLE">Single</option><option value="MARRIED">Married</option><option value="DIVORCED">Divorced</option><option value="WIDOWED">Widowed</option></select></div>
               </FormField>
             </div>
-            <div className="grid grid-cols-3 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] w-full">
               <FormField label="Number of Children"><div className={wrapCls}><input type="number" min={0} value={form.noOfChildren} onChange={set("noOfChildren")} className={inputCls} placeholder="0" /></div></FormField>
               <FormField label="Spouse Name"><div className={wrapCls}><input type="text" value={form.spouseName} onChange={set("spouseName")} className={inputCls} /></div></FormField>
               <FormField label="Spouse Phone"><div className={wrapCls}><input type="tel" value={form.spousePhoneNumber} onChange={set("spousePhoneNumber")} className={inputCls} /></div></FormField>
             </div>
 
             <SectionHeading>Contact & Address</SectionHeading>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Phone Number" required>
                 <div className="flex gap-[8px] w-full h-[40px]">
                   <div className="bg-[#FFFDFD] border border-[#A3A1AF] rounded-[4px] flex-shrink-0 w-[90px] flex items-center">
@@ -140,40 +140,40 @@ export default function SchoolOfDisciplesPage() {
               <FormField label="Email"><div className={wrapCls}><input type="email" value={form.email} onChange={set("email")} className={inputCls} /></div></FormField>
             </div>
             <FormField label="Home Address"><div className={wrapCls}><input type="text" value={form.street} onChange={set("street")} className={inputCls} /></div></FormField>
-            <div className="grid grid-cols-4 gap-[16px] w-full">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[16px] w-full">
               <FormField label="City"><div className={wrapCls}><input type="text" value={form.city} onChange={set("city")} className={inputCls} /></div></FormField>
               <FormField label="State"><div className={wrapCls}><input type="text" value={form.state} onChange={set("state")} className={inputCls} /></div></FormField>
               <FormField label="State of Origin"><div className={wrapCls}><input type="text" value={form.stateOfOrigin} onChange={set("stateOfOrigin")} className={inputCls} /></div></FormField>
               <FormField label="Country"><div className={wrapCls}><input type="text" value={form.country} onChange={set("country")} className={inputCls} /></div></FormField>
             </div>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Nationality"><div className={wrapCls}><input type="text" value={form.nationality} onChange={set("nationality")} className={inputCls} /></div></FormField>
               <FormField label="Home Town"><div className={wrapCls}><input type="text" value={form.homeTown} onChange={set("homeTown")} className={inputCls} /></div></FormField>
             </div>
 
             <SectionHeading>Employment</SectionHeading>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Occupation"><div className={wrapCls}><input type="text" value={form.occupation} onChange={set("occupation")} className={inputCls} /></div></FormField>
               <FormField label="Spouse Occupation"><div className={wrapCls}><input type="text" value={form.spouseOccupation} onChange={set("spouseOccupation")} className={inputCls} /></div></FormField>
             </div>
             <FormField label="Office Address"><div className={wrapCls}><input type="text" value={form.officeFullAddress} onChange={set("officeFullAddress")} className={inputCls} /></div></FormField>
 
             <SectionHeading>Spiritual Journey</SectionHeading>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Date of Salvation"><div className={wrapCls}><input type="text" value={form.salvationDate} onChange={set("salvationDate")} className={inputCls} placeholder="e.g. January 2020" /></div></FormField>
               <FormField label="Location"><div className={wrapCls}><input type="text" value={form.salvationLocation} onChange={set("salvationLocation")} className={inputCls} /></div></FormField>
             </div>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Date of Water Baptism"><div className={wrapCls}><input type="text" value={form.waterBaptismDate} onChange={set("waterBaptismDate")} className={inputCls} placeholder="e.g. March 2020" /></div></FormField>
               <FormField label="Location"><div className={wrapCls}><input type="text" value={form.waterBaptismLocation} onChange={set("waterBaptismLocation")} className={inputCls} /></div></FormField>
             </div>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Date of Holy Spirit Baptism"><div className={wrapCls}><input type="text" value={form.holySpiritBaptismDate} onChange={set("holySpiritBaptismDate")} className={inputCls} placeholder="e.g. June 2020" /></div></FormField>
               <FormField label="Location"><div className={wrapCls}><input type="text" value={form.holySpiritBaptismLocation} onChange={set("holySpiritBaptismLocation")} className={inputCls} /></div></FormField>
             </div>
 
             <SectionHeading>Current Parish Information</SectionHeading>
-            <div className="grid grid-cols-2 gap-[16px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full">
               <FormField label="Pastor's Name"><div className={wrapCls}><input type="text" value={form.currentParishPastorName} onChange={set("currentParishPastorName")} className={inputCls} /></div></FormField>
               <FormField label="Pastor's Phone"><div className={wrapCls}><input type="tel" value={form.currentParishPastorPhoneNumber} onChange={set("currentParishPastorPhoneNumber")} className={inputCls} /></div></FormField>
             </div>

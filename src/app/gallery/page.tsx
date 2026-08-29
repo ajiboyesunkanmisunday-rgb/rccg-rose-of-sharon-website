@@ -29,22 +29,22 @@ export default function GalleryPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative h-[735px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[400px] md:h-[735px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(16,14,26,0.65)]" />
         </div>
         <Navbar activePage="gallery" />
-        <div className="absolute left-1/2 top-[calc(50%+58px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[84px] items-center justify-center w-[1148px] z-10">
-          <div className="flex flex-col gap-[32px] items-start w-full text-center text-white">
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-[58px] flex flex-col gap-[48px] md:gap-[84px] items-center text-center">
+          <div className="flex flex-col gap-[24px] md:gap-[32px] items-center w-full text-white">
             <h1
-              className="text-[#FFFDFD] text-[84px] font-medium leading-normal w-full"
+              className="text-[#FFFDFD] text-[36px] md:text-[56px] lg:text-[84px] font-medium leading-tight w-full"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               Our Moments
             </h1>
             <p
-              className="text-[#FFFDFD] text-[25px] font-normal leading-[32px] w-full"
+              className="text-[#FFFDFD] text-[16px] md:text-[20px] md:text-[25px] font-normal leading-[1.5] md:leading-[32px] w-full"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               A glimpse into the life and fellowship of RCCG Rose of Sharon.
@@ -54,16 +54,16 @@ export default function GalleryPage() {
       </section>
 
       {/* Pictures Section */}
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+      <section className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
         <h2
-          className="text-[#FFFDFD] text-[48px] font-bold leading-normal text-center w-full"
+          className="text-[#FFFDFD] text-[28px] md:text-[40px] lg:text-[48px] font-bold leading-normal text-center w-full"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >
           Pictures
         </h2>
 
         {/* Featured image with navigation */}
-        <div className="relative w-full" style={{ height: "600px" }}>
+        <div className="relative w-full min-h-[280px] md:h-[600px]">
           <div className="relative w-full h-full overflow-hidden rounded-[16px]">
             <Image
               key={featured}
@@ -118,16 +118,12 @@ export default function GalleryPage() {
         </div>
 
         {/* Thumbnail strip */}
-        <div
-          className="grid gap-[12px] w-full"
-          style={{ gridTemplateColumns: "repeat(4, 1fr)" }}
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-[12px] w-full">
           {allImages.map((src, i) => (
             <button
               key={i}
               onClick={() => setFeatured(i)}
-              className={`relative overflow-hidden rounded-[8px] transition-all ${i === featured ? "ring-2 ring-[#B5B5F3] ring-offset-2 ring-offset-[#100E1A]" : "opacity-70 hover:opacity-100"}`}
-              style={{ height: "140px" }}
+              className={`relative overflow-hidden rounded-[8px] transition-all h-[100px] md:h-[140px] ${i === featured ? "ring-2 ring-[#B5B5F3] ring-offset-2 ring-offset-[#100E1A]" : "opacity-70 hover:opacity-100"}`}
             >
               <Image src={src} alt="" fill className="object-cover" />
             </button>

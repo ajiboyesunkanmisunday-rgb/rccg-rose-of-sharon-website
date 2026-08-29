@@ -46,23 +46,23 @@ export default function AnnouncementsPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[400px] md:h-[500px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(16,14,26,0.75)]" />
         </div>
         <Navbar />
-        <div className="absolute left-1/2 top-[calc(50%+48px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[16px] items-center w-[1148px] z-10 text-center">
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-[48px] flex flex-col gap-[16px] items-center text-center">
           <p className="text-[#B5B5F3] text-[16px] font-normal uppercase tracking-[0.15em]" style={vs}>Stay Informed</p>
-          <h1 className="text-[#FFFDFD] text-[72px] font-medium leading-normal w-full" style={vs}>Announcements</h1>
-          <p className="text-[#FFFDFD] text-[20px] font-normal leading-[32px]" style={vs}>
+          <h1 className="text-[#FFFDFD] text-[36px] md:text-[56px] lg:text-[72px] font-medium leading-tight w-full" style={vs}>Announcements</h1>
+          <p className="text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-[1.5] md:leading-[32px]" style={vs}>
             Latest news, updates and notices from the house of God.
           </p>
         </div>
       </section>
 
       {/* Announcements list */}
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full min-h-[400px]">
+      <section className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full min-h-[400px]">
         <div className="flex items-center gap-[8px]">
           <Link href="/" className="text-[#B5B5F3] text-[16px] hover:underline" style={vs}>Home</Link>
           <span className="text-[#A3A1AF]">/</span>
@@ -96,12 +96,12 @@ export default function AnnouncementsPage() {
                 key={item.id}
                 className="bg-[#1a1826] rounded-[16px] p-[32px] flex flex-col gap-[16px] border border-[#B5B5F3]/10 hover:border-[#B5B5F3]/25 transition-colors"
               >
-                <div className="flex items-start justify-between gap-[16px]">
+                <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-[12px] sm:gap-[16px]">
                   <div className="flex items-center gap-[12px]">
                     <div className="size-[40px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0">
                       <span className="text-[#FFFDFD] text-[16px] font-bold" style={vs}>{idx + 1}</span>
                     </div>
-                    <h2 className="text-[#FFFDFD] text-[22px] font-bold leading-[1.3]" style={vs}>
+                    <h2 className="text-[#FFFDFD] text-[18px] md:text-[22px] font-bold leading-[1.3]" style={vs}>
                       {item.subject}
                     </h2>
                   </div>

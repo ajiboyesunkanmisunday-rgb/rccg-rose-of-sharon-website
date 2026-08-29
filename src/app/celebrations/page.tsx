@@ -61,29 +61,29 @@ export default function CelebrationsPage() {
   return (
     <main>
       {/* Hero */}
-      <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[400px] md:h-[500px] w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0">
           <Image src="/assets/thanksgiving-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
           <div className="absolute inset-0 bg-[rgba(0,0,128,0.75)]" />
         </div>
         <Navbar />
-        <div className="absolute left-1/2 top-[calc(50%+48px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[16px] items-center w-[1148px] z-10 text-center">
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-[48px] flex flex-col gap-[16px] items-center text-center">
           <p className="text-[#B5B5F3] text-[16px] font-normal uppercase tracking-[0.15em]" style={vs}>Special Day</p>
-          <h1 className="text-[#FFFDFD] text-[72px] font-medium leading-normal w-full" style={vs}>Send Us Your Special Day</h1>
-          <p className="text-[#FFFDFD] text-[20px] font-normal leading-[32px]" style={vs}>
+          <h1 className="text-[#FFFDFD] text-[28px] md:text-[48px] lg:text-[72px] font-medium leading-tight w-full" style={vs}>Send Us Your Special Day</h1>
+          <p className="text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-[1.5] md:leading-[32px]" style={vs}>
             Let the church rejoice with you — birthdays, weddings, anniversaries and more.
           </p>
         </div>
       </section>
 
       {/* Form */}
-      <section className="bg-[#100E1A] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+      <section className="bg-[#100E1A] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full">
         <div className="flex items-center gap-[8px]">
           <Link href="/" className="text-[#B5B5F3] text-[16px] hover:underline" style={vs}>Home</Link>
           <span className="text-[#A3A1AF]">/</span>
           <span className="text-[#FFFDFD] text-[16px]" style={vs}>Special Thanksgiving</span>
         </div>
-        <h2 className="text-[#FFFDFD] text-[48px] font-bold text-center" style={vs}>Celebration Request</h2>
+        <h2 className="text-[#FFFDFD] text-[28px] md:text-[40px] lg:text-[48px] font-bold text-center" style={vs}>Celebration Request</h2>
         <p className="text-[#A3A1AF] text-[20px] font-normal text-center max-w-[700px]" style={vs}>
           The church would love to celebrate and pray for you on your special day. Fill the form below and we&apos;ll make it extra special.
         </p>
@@ -110,7 +110,7 @@ export default function CelebrationsPage() {
               <div className={fieldCls}><input type="text" required value={form.name} onChange={set("name")} className={inputCls} /></div>
             </div>
 
-            <div className="grid grid-cols-2 gap-[12px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[12px] w-full">
               <div className="flex flex-col gap-[4px] items-start">
                 <p className={labelCls} style={vs}>Phone Number <span className="text-[#FF383C]">*</span></p>
                 <div className={fieldCls}><input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} /></div>
@@ -126,7 +126,7 @@ export default function CelebrationsPage() {
               <p className="text-[#B5B5F3] text-[13px] font-medium uppercase tracking-[0.12em]" style={vs}>Celebration Details</p>
             </div>
 
-            <div className="grid grid-cols-2 gap-[12px] w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[12px] w-full">
               <div className="flex flex-col gap-[4px] items-start">
                 <p className={labelCls} style={vs}>Celebration Type <span className="text-[#FF383C]">*</span></p>
                 <div className={fieldCls}>
