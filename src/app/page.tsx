@@ -4,9 +4,8 @@ import Events from "@/components/sections/Events";
 import Groups from "@/components/sections/Groups";
 import CSR from "@/components/sections/CSR";
 import Thanksgiving from "@/components/sections/Thanksgiving";
-import Gallery from "@/components/sections/Gallery";
 import Podcast from "@/components/sections/Podcast";
-import RequestsGive from "@/components/sections/RequestsGive";
+import GiveOnline from "@/components/sections/GiveOnline";
 import Footer from "@/components/layout/Footer";
 
 export default function Home() {
@@ -18,9 +17,8 @@ export default function Home() {
       <Groups />
       <CSR />
       <Thanksgiving />
-      <Gallery />
       <Podcast />
-      <RequestsGive />
+      <GiveOnline />
       <Footer />
     </main>
   );

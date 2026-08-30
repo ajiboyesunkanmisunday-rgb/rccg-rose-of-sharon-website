@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
+const vs = { fontVariationSettings: '"wdth" 100' };
+
 const episodes = [
   { title: "I'm in Your Mind", pastor: "Pastor E.A Adeboye - Daddy G.O", duration: "2:02", img: "/assets/podcast-5.png" },
   { title: "Walking with God", pastor: "Pastor E.A Adeboye - Daddy G.O", duration: "5:51", img: "/assets/podcast-1.png" },
@@ -16,13 +18,15 @@ const episodes = [
   { title: "Holiness", pastor: "Pastor E.A Adeboye - Daddy G.O", duration: "1:09", img: "/assets/podcast-1.png" },
 ];
 
+const len = episodes.length;
+
 export default function Podcast() {
   const [playing, setPlaying] = useState(3);
 
-  const prev = (playing - 2 + episodes.length) % episodes.length;
-  const prevActive = (playing - 1 + episodes.length) % episodes.length;
-  const nextActive = (playing + 1) % episodes.length;
-  const next = (playing + 2) % episodes.length;
+  const prev = (playing - 2 + len) % len;
+  const prevActive = (playing - 1 + len) % len;
+  const nextActive = (playing + 1) % len;
+  const next = (playing + 2) % len;
 
   return (
     <section className="relative w-full shadow-[4px_12px_32px_0px_rgba(28,33,53,0.08)]">
@@ -31,31 +35,27 @@ export default function Podcast() {
         <div className="absolute bg-[rgba(0,0,0,0.31)] inset-0" />
       </div>
 
-      <div className="relative flex flex-col gap-[24px] md:gap-[32px] py-[60px] md:py-[84px] w-full">
-        <div className="flex items-center justify-center px-6 md:px-[120px] py-[12px] w-full">
+      <div className="relative flex flex-col gap-[16px] md:gap-[24px] py-[60px] md:py-[84px] w-full px-6 md:px-[60px] lg:px-[120px]">
+        {/* Title — left-aligned */}
+        <div className="flex flex-col gap-[8px]">
           <h2
-            className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-normal text-center flex-1"
-            style={{ fontVariationSettings: '"wdth" 100' }}
+            className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-normal text-left"
+            style={vs}
           >
             Audio Podcast
           </h2>
+          <p className="text-[#FFFDFD]/60 text-[14px] text-left" style={vs}>
+            Click any episode to listen on our{" "}
+            <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-[#B5B5F3] hover:underline">YouTube channel</a>
+          </p>
         </div>
 
-        <p className="text-center text-[#FFFDFD]/60 text-[14px] pb-[8px]" style={{ fontVariationSettings: '"wdth" 100' }}>
-          Click any episode to listen on our{" "}
-          <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-[#B5B5F3] hover:underline">YouTube channel</a>
-        </p>
-
-        {/* Mobile: just show playlist */}
-        <div className="lg:hidden px-4 md:px-8">
-          <div className="bg-[rgba(255,255,255,0.25)] rounded-[16px] p-[12px] flex flex-col gap-[6px]">
+        {/* Mobile: scrollable playlist */}
+        <div className="lg:hidden">
+          <div className="bg-[rgba(255,255,255,0.20)] rounded-[16px] p-[12px] flex flex-col gap-[6px] max-h-[420px] overflow-y-auto">
             {episodes.map((ep, i) => (
-              <a
+              <div
                 key={ep.title}
-                href="https://www.youtube.com/@rccgrostv"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setPlaying(i)}
                 className="flex gap-[10px] items-center w-full"
               >
                 <div className="flex items-center justify-center flex-shrink-0 size-[52px] relative rounded-[10px] overflow-hidden">
@@ -67,20 +67,36 @@ export default function Podcast() {
                   }`}
                 >
                   <div className={`flex-1 min-w-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`}>
-                    <div className="text-[14px] font-semibold truncate" style={{ fontVariationSettings: '"wdth" 100' }}>{ep.title}</div>
-                    <div className="text-[11px] truncate opacity-70" style={{ fontVariationSettings: '"wdth" 100' }}>{ep.pastor}</div>
+                    <div className="text-[14px] font-semibold truncate" style={vs}>{ep.title}</div>
+                    <div className="text-[11px] truncate opacity-70" style={vs}>{ep.pastor}</div>
                   </div>
-                  <span className={`text-[13px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`} style={{ fontVariationSettings: '"wdth" 100' }}>{ep.duration}</span>
+                  <span className={`text-[12px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`} style={vs}>{ep.duration}</span>
+                  <button
+                    onClick={() => setPlaying(i)}
+                    className="size-[28px] flex-shrink-0 rounded-full bg-[#000080] flex items-center justify-center hover:bg-[#0000a0] transition-colors"
+                    aria-label={i === playing ? "Now playing" : "Play"}
+                  >
+                    {i === playing ? (
+                      <svg width="10" height="12" viewBox="0 0 10 12" fill="#FFFDFD">
+                        <rect x="1" y="1" width="3" height="10" rx="1" />
+                        <rect x="6" y="1" width="3" height="10" rx="1" />
+                      </svg>
+                    ) : (
+                      <svg width="10" height="12" viewBox="0 0 10 12" fill="#FFFDFD">
+                        <path d="M1 1l8 5-8 5V1z" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
 
         {/* Desktop: carousel + playlist */}
-        <div className="hidden lg:flex h-[420px] items-center justify-between px-[120px] w-full">
+        <div className="hidden lg:flex h-[420px] items-center justify-between gap-[40px] w-full">
           {/* Album art + controls */}
-          <div className="flex flex-col gap-[24px] h-full items-center justify-center px-[4px] py-[16px] flex-shrink-0 w-[546px]">
+          <div className="flex flex-col gap-[24px] h-full items-center justify-center flex-shrink-0 w-[546px]">
             <div className="flex flex-1 flex-col gap-[14px] items-center justify-center min-h-0 w-full">
               {/* Album art carousel */}
               <div className="flex items-center justify-between w-full flex-shrink-0">
@@ -132,92 +148,99 @@ export default function Podcast() {
                 </div>
               </div>
 
-              {/* Player controls */}
-              <div className="flex gap-[24px] items-end justify-center flex-shrink-0 w-full">
-                <div className="h-[39px] w-[38px] relative flex-shrink-0">
-                  <Image src="/assets/icon-redo.svg" alt="Replay" fill />
-                </div>
-                <div className="flex gap-[12px] items-center justify-center flex-shrink-0">
-                  <div className="h-[54px] w-[56px] relative flex-shrink-0">
-                    <Image src="/assets/icon-frame-2.svg" alt="Previous" fill />
-                  </div>
-                  <a
-                    href="https://www.youtube.com/@rccgrostv"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#000080] flex items-center justify-center p-[8px] rounded-[5px] flex-shrink-0 size-[54px] hover:bg-[#0000a0] transition-colors"
-                  >
-                    <div className="bg-[#FFFDFD] rounded-[3px] flex-shrink-0 size-[24px]" />
-                  </a>
-                  <div className="h-[54px] w-[57px] relative flex-shrink-0">
-                    <Image src="/assets/icon-frame-1.svg" alt="Next" fill />
-                  </div>
-                </div>
-                <div className="bg-[#000080] flex flex-col items-center justify-center overflow-clip p-[8px] rounded-[5px] flex-shrink-0">
-                  <div className="h-[22px] w-[24.694px] relative flex-shrink-0">
-                    <Image src="/assets/icon-align.svg" alt="Shuffle" fill />
-                  </div>
-                </div>
+              {/* Now playing info */}
+              <div className="text-center flex-shrink-0">
+                <p className="text-[#FFFDFD] text-[16px] font-bold truncate max-w-[400px]" style={vs}>{episodes[playing].title}</p>
+                <p className="text-[#FFFDFD]/60 text-[13px] truncate max-w-[400px]" style={vs}>{episodes[playing].pastor}</p>
+              </div>
+
+              {/* Player controls — Prev / central play / Next + Repeat */}
+              <div className="flex gap-[12px] items-center justify-center flex-shrink-0">
+                <button
+                  onClick={() => setPlaying((playing - 1 + len) % len)}
+                  className="px-[16px] py-[8px] bg-[rgba(255,255,255,0.15)] text-[#FFFDFD] text-[14px] font-medium rounded-[20px] hover:bg-[rgba(255,255,255,0.25)] transition-colors"
+                  style={vs}
+                >
+                  Prev
+                </button>
+                <a
+                  href="https://www.youtube.com/@rccgrostv"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#000080] flex items-center justify-center rounded-full size-[54px] hover:bg-[#0000a0] transition-colors flex-shrink-0"
+                  aria-label="Play on YouTube"
+                >
+                  <svg width="18" height="22" viewBox="0 0 18 22" fill="none">
+                    <path d="M2 2l14 9L2 20V2z" fill="#FFFDFD" />
+                  </svg>
+                </a>
+                <button
+                  onClick={() => setPlaying((playing + 1) % len)}
+                  className="px-[16px] py-[8px] bg-[rgba(255,255,255,0.15)] text-[#FFFDFD] text-[14px] font-medium rounded-[20px] hover:bg-[rgba(255,255,255,0.25)] transition-colors"
+                  style={vs}
+                >
+                  Next
+                </button>
+                <button
+                  className="px-[16px] py-[8px] bg-[rgba(255,255,255,0.10)] text-[#FFFDFD]/60 text-[14px] font-medium rounded-[20px] hover:bg-[rgba(255,255,255,0.20)] hover:text-[#FFFDFD] transition-colors"
+                  style={vs}
+                >
+                  Repeat
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Playlist */}
-          <div className="bg-[rgba(255,255,255,0.25)] flex gap-[4px] h-full items-start overflow-clip px-[12px] py-[16px] flex-shrink-0 w-[643px]">
-            <div className="flex flex-1 flex-col gap-[8px] items-start min-w-0 overflow-clip">
+          {/* Playlist — scrollable */}
+          <div className="bg-[rgba(255,255,255,0.20)] flex gap-[4px] h-full items-start overflow-y-auto px-[12px] py-[16px] flex-shrink-0 w-[580px] rounded-[12px]">
+            <div className="flex flex-1 flex-col gap-[6px] items-start min-w-0">
               {episodes.map((ep, i) => (
-                <a
+                <div
                   key={ep.title}
-                  href="https://www.youtube.com/@rccgrostv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setPlaying(i)}
-                  className="flex gap-[12px] items-center w-full text-left flex-shrink-0"
+                  className="flex gap-[12px] items-center w-full flex-shrink-0"
                 >
-                  <div className="flex items-center justify-center flex-shrink-0">
-                    <div className="flex items-center justify-center p-[4px] size-[60px]">
-                      <div className="rounded-[12px] flex-shrink-0 relative overflow-hidden size-[52px]">
-                        <Image src={ep.img} alt="" fill className="object-cover rounded-[12px]" />
-                      </div>
-                    </div>
+                  <div className="flex items-center justify-center flex-shrink-0 size-[60px] relative rounded-[12px] overflow-hidden">
+                    <Image src={ep.img} alt="" fill className="object-cover" />
                   </div>
-                  <div className="flex flex-1 flex-row items-center self-stretch min-w-0">
+                  <div
+                    className={`flex flex-1 gap-[8px] h-[52px] items-center min-w-0 px-[8px] rounded-[6px] ${
+                      i === playing ? "bg-[#000080]" : "bg-[rgba(255,255,255,0.75)]"
+                    }`}
+                  >
                     <div
-                      className={`flex flex-1 gap-[12px] h-full items-center min-w-0 p-[8px] ${
-                        i === playing ? "bg-[#000080]" : "bg-[rgba(255,255,255,0.75)]"
+                      className={`flex flex-1 flex-col items-start justify-center min-w-0 ${
+                        i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"
                       }`}
                     >
-                      <div
-                        className={`flex flex-1 flex-col items-start justify-center min-w-0 whitespace-nowrap py-[4px] ${
-                          i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"
-                        }`}
-                      >
-                        <div className="text-[20px] font-normal leading-normal overflow-hidden text-ellipsis w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
-                          {ep.title}
-                        </div>
-                        <div className="text-[13px] font-normal leading-[14px] overflow-hidden text-ellipsis w-full" style={{ fontVariationSettings: '"wdth" 100' }}>
-                          {ep.pastor}
-                        </div>
+                      <div className="text-[15px] font-normal leading-tight overflow-hidden text-ellipsis w-full whitespace-nowrap" style={vs}>
+                        {ep.title}
                       </div>
-                      <div className="flex gap-[4px] h-full items-center flex-shrink-0">
-                        <div className={`flex h-full items-start px-[8px] py-[4px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`}>
-                          <div className="text-[20px] font-normal leading-normal text-right whitespace-nowrap" style={{ fontVariationSettings: '"wdth" 100' }}>
-                            {ep.duration}
-                          </div>
-                        </div>
-                        <div className="flex h-full items-start px-[8px] py-[4px] flex-shrink-0">
-                          <div className="relative flex-shrink-0 size-[20px]">
-                            <Image
-                              src={i === playing ? "/assets/icon-download2.svg" : "/assets/icon-download.svg"}
-                              alt="Download"
-                              fill
-                            />
-                          </div>
-                        </div>
+                      <div className="text-[12px] font-normal leading-tight overflow-hidden text-ellipsis w-full whitespace-nowrap opacity-70" style={vs}>
+                        {ep.pastor}
                       </div>
                     </div>
+                    <span className={`text-[14px] flex-shrink-0 ${i === playing ? "text-[#FFFDFD]" : "text-[#100E1A]"}`} style={vs}>
+                      {ep.duration}
+                    </span>
+                    {/* Play/pause button per item */}
+                    <button
+                      onClick={() => setPlaying(i)}
+                      className="size-[30px] flex-shrink-0 rounded-full bg-[#000080] flex items-center justify-center hover:bg-[#0000a0] transition-colors"
+                      aria-label={i === playing ? "Now playing" : "Play"}
+                    >
+                      {i === playing ? (
+                        <svg width="10" height="12" viewBox="0 0 10 12" fill="#FFFDFD">
+                          <rect x="1" y="1" width="3" height="10" rx="1" />
+                          <rect x="6" y="1" width="3" height="10" rx="1" />
+                        </svg>
+                      ) : (
+                        <svg width="10" height="12" viewBox="0 0 10 12" fill="#FFFDFD">
+                          <path d="M1 1l8 5-8 5V1z" />
+                        </svg>
+                      )}
+                    </button>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </div>

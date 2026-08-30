@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+const vs = { fontVariationSettings: '"wdth" 100' };
+
+const tags = ["Birthdays", "Weddings", "Child Dedication"];
+
 export default function Thanksgiving() {
   return (
     <section id="thanksgiving" className="flex items-center relative w-full min-h-[400px] md:min-h-[510px]">
@@ -17,46 +21,45 @@ export default function Thanksgiving() {
         <div className="absolute inset-0 bg-gradient-to-l from-[rgba(255,255,255,0)] from-[39.9%] to-[#000080] to-[75.5%]" />
       </div>
 
-      <div className="flex flex-1 flex-col gap-6 md:gap-[32px] items-center min-w-0 px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] relative">
+      <div className="flex flex-1 flex-col gap-6 md:gap-[28px] items-start min-w-0 px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] relative max-w-[680px]">
+        <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.15em]" style={vs}>
+          Special Occasion
+        </p>
+
         <h2
-          className="text-[#FFFDFD] text-[24px] md:text-[32px] lg:text-[39px] font-semibold leading-normal text-center w-full"
-          style={{ fontVariationSettings: '"wdth" 100' }}
+          className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-[1.2] text-left w-full"
+          style={vs}
         >
           Special Thanksgiving Request
         </h2>
 
-        <div className="flex flex-col gap-[24px] items-center w-full">
-          <div className="h-[4px] w-[127px] relative flex-shrink-0 overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/icon-frame-1.svg" alt="" className="absolute inset-0 w-full h-full" />
-          </div>
-          <p
-            className="text-[#FFFDFD] text-[14px] md:text-[17px] lg:text-[20px] font-normal leading-normal text-center w-full max-w-[800px]"
-            style={{ fontVariationSettings: '"wdth" 100' }}
-          >
-            The church would love to rejoice with you on your special day! Whether you&apos;re marking a
-            birthday, wedding, or anniversary, we want to celebrate and pray for you. Fill out the form
-            below to notify us, and let&apos;s make your day even more special with love, prayers, and warm
-            wishes from the church family.
-          </p>
+        {/* Tags */}
+        <div className="flex flex-wrap gap-[10px]">
+          {tags.map((tag) => (
+            <div
+              key={tag}
+              className="flex items-center gap-[8px] px-[14px] py-[8px] rounded-full bg-[#B5B5F3]/10 border border-[#B5B5F3]/30"
+            >
+              <span className="text-[#B5B5F3] text-[13px] font-medium" style={vs}>{tag}</span>
+            </div>
+          ))}
         </div>
 
-        <h3
-          className="text-[#B5B5F3] text-[22px] md:text-[32px] lg:text-[48px] font-bold leading-normal text-center w-full"
-          style={{ fontVariationSettings: '"wdth" 100' }}
+        <p
+          className="text-[#FFFDFD] text-[14px] md:text-[17px] lg:text-[19px] font-normal leading-[1.8] text-left w-full"
+          style={vs}
         >
-          Is Your Day Let&apos;s Celebrate With You
-        </h3>
+          The church would love to rejoice with you on your special day! Whether you&apos;re marking a
+          birthday, wedding, or child dedication, we want to celebrate and pray for you. Let us make
+          your day even more special with love, prayers, and warm wishes from the church family.
+        </p>
 
         <Link
           href="/celebrations"
-          className="flex items-center gap-[5px] px-6 md:px-[32px] py-3 md:py-[16px] bg-[#000080] text-[#FFFDFD] text-[15px] md:text-[20px] lg:text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#0000a0] transition-colors flex-shrink-0"
+          className="flex items-center gap-[8px] px-[32px] py-[14px] bg-[#000080] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] hover:bg-[#0000a0] transition-colors shadow-[0_4px_16px_rgba(0,0,128,0.35)] flex-shrink-0"
+          style={vs}
         >
-          <div className="h-[18px] w-[20px] md:h-[22px] md:w-[24px] flex-shrink-0 overflow-hidden relative">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/assets/icon-vector.svg" alt="" className="absolute inset-0 w-full h-full" />
-          </div>
-          SEND US YOUR SPECIAL DAY
+          Let&apos;s Celebrate You
         </Link>
       </div>
     </section>

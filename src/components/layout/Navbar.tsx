@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+const vs = { fontVariationSettings: '"wdth" 100' };
+
 const trainingLinks = [
   { label: "Water Baptism", href: "/trainings/water-baptism" },
   { label: "Workers in Training", href: "/trainings/workers-in-training" },
@@ -12,17 +14,25 @@ const trainingLinks = [
   { label: "RILA", href: "/trainings/rila" },
 ];
 
+const groupLinks = [
+  { label: "Hearts of David", href: "/groups" },
+  { label: "Oaks of Righteousness", href: "/groups" },
+  { label: "Young Professionals", href: "/groups" },
+];
+
+const dropdownLinks: Record<string, { label: string; href: string }[]> = {
+  trainings: trainingLinks,
+  groups: groupLinks,
+};
+
 const navLinks = [
   { label: "Meet the Church", href: "/about", key: "about" },
   { label: "Media", href: "/media", key: "media" },
-  { label: "Trainings", href: "/trainings", hasDropdown: true, key: "trainings" },
-  { label: "Groups", href: "/groups", key: "groups" },
+  { label: "Trainings", href: "/trainings", dropdown: "trainings", key: "trainings" },
+  { label: "Groups", href: "/groups", dropdown: "groups", key: "groups" },
   { label: "Testimonies", href: "/testimonies", key: "testimonies" },
-  { label: "Online Give", href: "/give", key: "give" },
-  { label: "Market Place", href: "/marketplace", key: "marketplace" },
+  { label: "Marketplace", href: "/marketplace", key: "marketplace" },
 ];
-
-const vs = { fontVariationSettings: '"wdth" 100' };
 
 interface NavbarProps {
   activePage?: string;
@@ -30,13 +40,14 @@ interface NavbarProps {
 
 export default function Navbar({ activePage }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [trainingsOpen, setTrainingsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setTrainingsOpen(false);
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
       }
     }
     document.addEventListener("mousedown", handleClick);
@@ -44,7 +55,7 @@ export default function Navbar({ activePage }: NavbarProps) {
   }, []);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] py-[16px]">
+    <nav ref={navRef} className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] py-[16px]">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-[12px]">
         <div className="relative w-[36px] h-[36px] xl:w-[46px] xl:h-[46px]">
@@ -58,13 +69,15 @@ export default function Navbar({ activePage }: NavbarProps) {
       {/* Desktop nav — xl and above */}
       <div className="hidden xl:flex items-center gap-[12px]">
         {navLinks.map((link) => {
-          const isActive = link.key ? link.key === activePage : false;
+          const isActive = link.key === activePage;
 
-          if (link.hasDropdown) {
+          if (link.dropdown) {
+            const isOpen = openDropdown === link.dropdown;
+            const links = dropdownLinks[link.dropdown];
             return (
-              <div key={link.label} className="relative" ref={dropdownRef}>
+              <div key={link.key} className="relative">
                 <button
-                  onClick={() => setTrainingsOpen((o) => !o)}
+                  onClick={() => setOpenDropdown(isOpen ? null : link.dropdown!)}
                   className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
                     isActive ? "border-b-[3px] border-[#000080]" : ""
                   }`}
@@ -72,33 +85,33 @@ export default function Navbar({ activePage }: NavbarProps) {
                 >
                   {link.label}
                   <svg
-                    className={`w-3 h-3 ml-0.5 flex-shrink-0 transition-transform ${trainingsOpen ? "rotate-180" : ""}`}
+                    className={`w-3 h-3 ml-0.5 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
                     fill="none" stroke="currentColor" viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
 
-                {trainingsOpen && (
+                {isOpen && (
                   <div className="absolute top-full left-0 mt-[8px] bg-[#100E1A] border border-[#B5B5F3]/20 rounded-[12px] py-[8px] min-w-[220px] shadow-[0px_8px_32px_rgba(0,0,0,0.4)] z-50">
                     <Link
-                      href="/trainings"
-                      onClick={() => setTrainingsOpen(false)}
+                      href={link.href}
+                      onClick={() => setOpenDropdown(null)}
                       className="block px-[16px] py-[8px] text-[#B5B5F3] text-[13px] font-medium uppercase tracking-wider hover:bg-[#B5B5F3]/10 transition-colors"
                       style={vs}
                     >
-                      All Programs
+                      All {link.label}
                     </Link>
                     <div className="border-t border-[#B5B5F3]/10 my-[4px]" />
-                    {trainingLinks.map((t) => (
+                    {links.map((l) => (
                       <Link
-                        key={t.href}
-                        href={t.href}
-                        onClick={() => setTrainingsOpen(false)}
+                        key={l.label}
+                        href={l.href}
+                        onClick={() => setOpenDropdown(null)}
                         className="block px-[16px] py-[10px] text-[#FFFDFD] text-[15px] font-normal hover:bg-[#B5B5F3]/10 hover:text-[#B5B5F3] transition-colors"
                         style={vs}
                       >
-                        {t.label}
+                        {l.label}
                       </Link>
                     ))}
                   </div>
@@ -109,7 +122,7 @@ export default function Navbar({ activePage }: NavbarProps) {
 
           return (
             <Link
-              key={link.label}
+              key={link.key}
               href={link.href}
               className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
                 isActive ? "border-b-[3px] border-[#000080]" : ""
@@ -160,31 +173,51 @@ export default function Navbar({ activePage }: NavbarProps) {
         <div className="absolute top-full left-0 right-0 bg-[#100E1A] xl:hidden flex flex-col z-40 shadow-xl">
           <div className="px-6 py-4 flex flex-col gap-1">
             {navLinks.map((link) => (
-              <div key={link.label}>
-                <Link
-                  href={link.href}
-                  className={`block py-3 text-white text-[16px] font-normal border-b border-white/10 ${
-                    link.key === activePage ? "text-[#B5B5F3]" : ""
-                  }`}
-                  onClick={() => setMenuOpen(false)}
-                  style={vs}
-                >
-                  {link.label}
-                </Link>
-                {link.hasDropdown && (
-                  <div className="pl-4 flex flex-col gap-0 bg-[#1A1826]">
-                    {trainingLinks.map((t) => (
-                      <Link
-                        key={t.href}
-                        href={t.href}
-                        className="block py-2 text-[#B5B5F3] text-[14px] border-b border-white/5"
-                        onClick={() => setMenuOpen(false)}
-                        style={vs}
+              <div key={link.key}>
+                {link.dropdown ? (
+                  <>
+                    <button
+                      className={`flex items-center justify-between w-full py-3 text-white text-[16px] font-normal border-b border-white/10 ${
+                        link.key === activePage ? "text-[#B5B5F3]" : ""
+                      }`}
+                      onClick={() => setMobileExpanded(mobileExpanded === link.dropdown ? null : link.dropdown!)}
+                      style={vs}
+                    >
+                      {link.label}
+                      <svg
+                        className={`w-4 h-4 transition-transform ${mobileExpanded === link.dropdown ? "rotate-180" : ""}`}
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
                       >
-                        {t.label}
-                      </Link>
-                    ))}
-                  </div>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    {mobileExpanded === link.dropdown && (
+                      <div className="pl-4 flex flex-col gap-0 bg-[#1A1826]">
+                        {dropdownLinks[link.dropdown].map((l) => (
+                          <Link
+                            key={l.label}
+                            href={l.href}
+                            className="block py-2 text-[#B5B5F3] text-[14px] border-b border-white/5"
+                            onClick={() => setMenuOpen(false)}
+                            style={vs}
+                          >
+                            {l.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className={`block py-3 text-white text-[16px] font-normal border-b border-white/10 ${
+                      link.key === activePage ? "text-[#B5B5F3]" : ""
+                    }`}
+                    onClick={() => setMenuOpen(false)}
+                    style={vs}
+                  >
+                    {link.label}
+                  </Link>
                 )}
               </div>
             ))}
