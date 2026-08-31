@@ -21,13 +21,13 @@ export default function Thanksgiving() {
         <div className="absolute inset-0 bg-gradient-to-l from-[rgba(255,255,255,0)] from-[39.9%] to-[#000080] to-[75.5%]" />
       </div>
 
-      <div className="flex flex-1 flex-col gap-6 md:gap-[28px] items-start min-w-0 px-6 md:px-[60px] lg:px-[120px] py-[72px] md:py-[96px] relative max-w-[680px]">
-        <p className="reveal text-[#B5B5F3] text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>
+      <div className="flex flex-1 flex-col gap-6 md:gap-[28px] items-start min-w-0 px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] relative max-w-[680px]">
+        <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.15em]" style={vs}>
           Special Occasion
         </p>
 
         <h2
-          className="reveal reveal-delay-1 text-[#FFFDFD] text-[28px] md:text-[40px] lg:text-[50px] font-bold leading-[1.15] tracking-[-0.02em] text-left w-full"
+          className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-[1.2] text-left w-full"
           style={vs}
         >
           Special Thanksgiving Request

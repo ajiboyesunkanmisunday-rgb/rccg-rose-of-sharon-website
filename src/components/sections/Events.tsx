@@ -120,15 +120,15 @@ export default function Events() {
   const useFallback = !loading && events.length === 0;
 
   return (
-    <section id="calendar" className="bg-[#D2D2E2] px-4 md:px-[60px] lg:px-[120px] py-[72px] md:py-[96px] flex flex-col gap-[36px] w-full">
+    <section id="calendar" className="bg-[#D2D2E2] px-4 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] w-full">
       <h2
-        className="reveal text-[#100E1A] text-[28px] md:text-[40px] lg:text-[50px] font-bold text-center leading-[1.1] tracking-[-0.02em]"
+        className="text-[#100E1A] text-[28px] md:text-[38px] lg:text-[48px] font-bold text-center leading-normal"
         style={vs}
       >
         Upcoming Services
       </h2>
 
-      <div className="reveal reveal-delay-1 flex flex-col gap-[12px] md:gap-[16px]">
+      <div className="flex flex-col gap-[12px] md:gap-[16px]">
         {loading && [0, 1, 2].map((i) => (
           <div key={i} className="flex items-center p-[12px] rounded-[24px] bg-[#FFFDFD]/40 animate-pulse h-[64px]" />
         ))}

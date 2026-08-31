@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import FloatingRequestButton from "@/components/sections/FloatingRequestButton";
-import ScrollRevealInit from "@/components/ScrollRevealInit";
 
 const SITE_URL = "https://rccg-rose-of-sharon.netlify.app";
 const OG_IMAGE = `${SITE_URL}/assets/og-image.png`;
@@ -39,7 +38,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <FloatingRequestButton />
-        <ScrollRevealInit />
       </body>
     </html>
   );

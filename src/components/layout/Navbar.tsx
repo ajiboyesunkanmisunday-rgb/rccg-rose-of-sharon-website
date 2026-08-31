@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -42,18 +42,7 @@ export default function Navbar({ activePage }: NavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 30);
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -66,14 +55,7 @@ export default function Navbar({ activePage }: NavbarProps) {
   }, []);
 
   return (
-    <nav
-      ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] transition-all duration-300 ${
-        scrolled
-          ? "py-[12px] bg-[rgba(10,8,24,0.88)] backdrop-blur-[14px] border-b border-[#B5B5F3]/10 shadow-[0_4px_32px_rgba(0,0,0,0.35)]"
-          : "py-[18px] bg-transparent"
-      }`}
-    >
+    <nav ref={navRef} className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] py-[16px]">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-[12px]">
         <div className="relative w-[36px] h-[36px] xl:w-[46px] xl:h-[46px]">
@@ -111,7 +93,7 @@ export default function Navbar({ activePage }: NavbarProps) {
                 </button>
 
                 {isOpen && (
-                  <div className="dropdown-enter absolute top-full left-0 mt-[8px] bg-[rgba(10,8,24,0.95)] backdrop-blur-[12px] border border-[#B5B5F3]/20 rounded-[16px] py-[8px] min-w-[220px] shadow-[0px_16px_48px_rgba(0,0,0,0.5)] z-50">
+                  <div className="absolute top-full left-0 mt-[8px] bg-[#100E1A] border border-[#B5B5F3]/20 rounded-[12px] py-[8px] min-w-[220px] shadow-[0px_8px_32px_rgba(0,0,0,0.4)] z-50">
                     <Link
                       href={link.href}
                       onClick={() => setOpenDropdown(null)}
@@ -188,7 +170,7 @@ export default function Navbar({ activePage }: NavbarProps) {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="dropdown-enter absolute top-full left-0 right-0 bg-[rgba(10,8,24,0.96)] backdrop-blur-[16px] xl:hidden flex flex-col z-40 shadow-[0_16px_48px_rgba(0,0,0,0.5)] border-b border-[#B5B5F3]/10">
+        <div className="absolute top-full left-0 right-0 bg-[#100E1A] xl:hidden flex flex-col z-40 shadow-xl">
           <div className="px-6 py-4 flex flex-col gap-1">
             {navLinks.map((link) => (
               <div key={link.key}>
