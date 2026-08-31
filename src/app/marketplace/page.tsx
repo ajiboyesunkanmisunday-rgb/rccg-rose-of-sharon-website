@@ -348,8 +348,53 @@ export default function MarketplacePage() {
 
         <Navbar activePage="marketplace" />
 
-        {/* Carousel banner */}
+        {/* Search + actions row — above carousel */}
         <div className="pt-[80px] px-4 md:px-10 pb-0">
+          <div className="flex items-center gap-[10px] md:gap-[14px] bg-white rounded-[12px] px-[16px] py-[10px] mb-[10px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
+            {/* Search input — longer */}
+            <div className="flex items-center gap-[10px] px-[16px] py-[6px] h-[44px] rounded-[30px] border-[1.5px] border-[#00003D] bg-[#FFFDFD] flex-1">
+              <svg viewBox="0 0 21 21" fill="none" className="size-[18px] flex-shrink-0">
+                <circle cx="9.5" cy="9.5" r="7.5" stroke="#00003D" strokeWidth="2" />
+                <path d="M15.5 15.5l4 4" stroke="#00003D" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search Product"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="bg-transparent outline-none text-[#00003D] font-bold text-[15px] md:text-[17px] placeholder:text-[#00003D]/60 w-full"
+                style={vs}
+              />
+            </div>
+
+            {/* + Sell an Item */}
+            <button
+              onClick={() => openModal("sell")}
+              className="flex-shrink-0 bg-[#000080] text-[#FFFDFD] text-[13px] md:text-[15px] font-bold px-[18px] md:px-[24px] py-[10px] rounded-[30px] hover:bg-[#0000a0] transition-colors whitespace-nowrap"
+              style={vs}
+            >
+              + Sell an Item
+            </button>
+
+            {/* Cart icon */}
+            <button
+              onClick={() => setCartOpen(!cartOpen)}
+              className="relative flex-shrink-0 size-[44px] flex items-center justify-center"
+            >
+              <svg viewBox="0 0 64 64" fill="none" className="size-[36px] text-[#100E1A]">
+                <path d="M10 10h6l6 28h22l6-20H20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                <circle cx="28" cy="52" r="4" fill="currentColor" />
+                <circle cx="46" cy="52" r="4" fill="currentColor" />
+              </svg>
+              <div className="absolute top-0 right-0 bg-[#000080] rounded-full min-w-[20px] h-[20px] flex items-center justify-center px-[4px]">
+                <span className="text-[#FFFDFD] text-[11px] font-bold" style={vs}>{cartCount}</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        {/* Carousel banner */}
+        <div className="px-4 md:px-10 pb-0">
           {/* Gradient border wrapper */}
           <div
             className="w-full rounded-[12px] p-[2.5px]"
@@ -501,57 +546,6 @@ export default function MarketplacePage() {
         </div>
       </section>
 
-      {/* ── Search + Cart bar ── */}
-      <div id="products" className="flex flex-wrap items-center gap-3 justify-center px-4 md:px-[60px] lg:px-[100px] py-[16px] mt-[16px]">
-        {/* Search input */}
-        <div className="flex items-center gap-[10px] px-[16px] md:px-[30px] py-[7px] h-[48px] rounded-[30px] border-[1.5px] border-[#00003D] bg-[#FFFDFD] flex-1 max-w-[411px]">
-          <svg viewBox="0 0 21 21" fill="none" className="size-[18px] md:size-[21px] flex-shrink-0">
-            <circle cx="9.5" cy="9.5" r="7.5" stroke="#00003D" strokeWidth="2" />
-            <path d="M15.5 15.5l4 4" stroke="#00003D" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search Product"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-transparent outline-none text-[#00003D] font-bold text-[15px] md:text-[18px] placeholder:text-[#00003D]/70 w-full"
-            style={vs}
-          />
-        </div>
-
-        {/* Cart */}
-        <button
-          onClick={() => setCartOpen(!cartOpen)}
-          className="relative size-[52px] md:size-[64px] flex items-center justify-center"
-        >
-          <svg viewBox="0 0 64 64" fill="none" className="size-full text-[#100E1A]">
-            <path d="M10 10h6l6 28h22l6-20H20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="28" cy="52" r="4" fill="currentColor" />
-            <circle cx="46" cy="52" r="4" fill="currentColor" />
-          </svg>
-          <div className="absolute top-0 right-0 bg-[#000080] rounded-[19px] min-w-[24px] h-[24px] flex items-center justify-center px-[4px]">
-            <span className="text-[#FFFDFD] text-[12px] font-bold" style={vs}>{cartCount}</span>
-          </div>
-        </button>
-
-        {/* Check Out */}
-        <button
-          onClick={() => openModal("checkout")}
-          className="bg-[#100E1A] text-[#FFFDFD] text-[14px] md:text-[16px] px-[24px] md:px-[32px] py-[12px] rounded-[30px] hover:bg-[#1A1826] transition-colors"
-          style={vs}
-        >
-          Check Out
-        </button>
-
-        {/* Sell button */}
-        <button
-          onClick={() => openModal("sell")}
-          className="bg-[#000080] text-[#FFFDFD] text-[14px] md:text-[16px] px-[24px] md:px-[32px] py-[12px] rounded-[30px] hover:bg-[#0000a0] transition-colors border-2 border-[#000080]"
-          style={vs}
-        >
-          + Sell an Item
-        </button>
-      </div>
 
       {/* Cart dropdown */}
       {cartOpen && (
@@ -833,7 +827,7 @@ export default function MarketplacePage() {
       )}
 
       {/* ── Main content: sidebar + grid ── */}
-      <div className="flex flex-col md:flex-row gap-6 md:gap-[32px] px-4 md:px-[40px] py-[24px] md:py-[32px] w-full">
+      <div id="products" className="flex flex-col md:flex-row gap-6 md:gap-[32px] px-4 md:px-[40px] py-[24px] md:py-[32px] w-full">
 
         {/* Category Sidebar — mobile: horizontal scroll, desktop: vertical */}
         <aside className="w-full md:w-[181px] md:flex-shrink-0">
