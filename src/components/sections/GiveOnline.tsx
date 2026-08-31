@@ -17,11 +17,11 @@ export default function GiveOnline() {
 
         {/* Left: text */}
         <div className="flex flex-col gap-[24px] flex-1 min-w-0">
-          <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.15em]" style={vs}>
+          <p className="reveal text-[#B5B5F3] text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>
             Support the Mission
           </p>
           <h2
-            className="text-[#FFFDFD] text-[32px] md:text-[42px] lg:text-[52px] font-bold leading-[1.15]"
+            className="reveal reveal-delay-1 text-[#FFFDFD] text-[32px] md:text-[44px] lg:text-[54px] font-bold leading-[1.12] tracking-[-0.02em]"
             style={vs}
           >
             Give Online

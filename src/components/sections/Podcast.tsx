@@ -35,9 +35,9 @@ export default function Podcast() {
         <div className="absolute bg-[rgba(0,0,0,0.31)] inset-0" />
       </div>
 
-      <div className="relative flex flex-col gap-[16px] md:gap-[24px] py-[60px] md:py-[84px] w-full px-6 md:px-[60px] lg:px-[120px]">
+      <div className="relative flex flex-col gap-[16px] md:gap-[24px] py-[72px] md:py-[96px] w-full px-6 md:px-[60px] lg:px-[120px]">
         {/* Title — left-aligned */}
-        <div className="flex flex-col gap-[8px]">
+        <div className="reveal flex flex-col gap-[8px]">
           <h2
             className="text-[#FFFDFD] text-[28px] md:text-[38px] lg:text-[48px] font-bold leading-normal text-left"
             style={vs}
