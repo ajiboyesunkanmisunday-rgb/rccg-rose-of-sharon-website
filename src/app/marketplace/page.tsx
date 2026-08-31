@@ -1,12 +1,75 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { API_BASE } from "@/lib/api";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
+
+const AD_SLIDES = [
+  {
+    id: 1,
+    bgFrom: "#E8F0FF",
+    bgTo: "#D4E0F5",
+    borderColor: "#000080",
+    badge: "MEMBER EXCLUSIVE",
+    badgeBg: "#000080",
+    title: "SHOP WITHIN\nTHE FAMILY",
+    tagline: "QUALITY GOODS FROM YOUR CHURCH COMMUNITY AT VERY AFFORDABLE PRICES",
+    taglineBg: "#000080",
+    cta: "SHOP NOW",
+    ctaHref: "#products",
+    note: "Open to all church members",
+    visual: "store" as const,
+  },
+  {
+    id: 2,
+    bgFrom: "#FFF8E8",
+    bgTo: "#FFF0CC",
+    borderColor: "#D97706",
+    badge: "FEATURED BOOK",
+    badgeBg: "#B45309",
+    title: "PURPOSE\nDRIVEN LIFE",
+    tagline: "BY RICK WARREN — AVAILABLE NOW IN THE MARKETPLACE",
+    taglineBg: "#D97706",
+    cta: "BUY NOW — ₦4,000",
+    ctaHref: "#products",
+    note: "Limited stock available",
+    image: "https://www.figma.com/api/mcp/asset/05981ae8-ffab-4368-a514-3a3ca960b52e.png",
+  },
+  {
+    id: 3,
+    bgFrom: "#F0EEFF",
+    bgTo: "#E2DDFF",
+    borderColor: "#7C3AED",
+    badge: "FREE TRAINING",
+    badgeBg: "#7C3AED",
+    title: "CSR SKILLS\nPROGRAM",
+    tagline: "DIGITAL MARKETING, GRAPHIC DESIGN & MORE — ENROL TODAY",
+    taglineBg: "#7C3AED",
+    cta: "EXPLORE CSR",
+    ctaHref: "/csr",
+    note: "Open to all community members",
+    visual: "csr" as const,
+  },
+  {
+    id: 4,
+    bgFrom: "#FFF0F0",
+    bgTo: "#FFE0E0",
+    borderColor: "#DC2626",
+    badge: "NEW LISTING",
+    badgeBg: "#DC2626",
+    title: "ITALIAN\nLEATHER SHOES",
+    tagline: "PREMIUM QUALITY FROM A CHURCH MEMBER — FORMAL & SPECIAL OCCASIONS",
+    taglineBg: "#DC2626",
+    cta: "VIEW PRODUCT",
+    ctaHref: "#products",
+    note: "₦75,000 · Limited quantity",
+    image: "https://www.figma.com/api/mcp/asset/6b05ca7f-d0a1-4c58-ba9d-e113ab18b019.png",
+  },
+];
 
 const CATEGORIES = [
   "All",
@@ -130,6 +193,18 @@ export default function MarketplacePage() {
   const [verifyStatus, setVerifyStatus] = useState<"idle" | "loading" | "error">("idle");
   const [verifyError, setVerifyError] = useState("");
   const [verifiedMember, setVerifiedMember] = useState<VerifiedMember | null>(null);
+
+  // Carousel state
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setSlideIndex((i) => (i + 1) % AD_SLIDES.length);
+  }, []);
+
+  useEffect(() => {
+    const t = setInterval(nextSlide, 4500);
+    return () => clearInterval(t);
+  }, [nextSlide]);
 
   // Sell flow state
   const [sellStep, setSellStep] = useState<"verify" | "form" | "success">("verify");
@@ -273,47 +348,155 @@ export default function MarketplacePage() {
 
         <Navbar activePage="marketplace" />
 
-        {/* Hero card */}
+        {/* Carousel banner */}
         <div className="pt-[80px] px-4 md:px-10 pb-0">
+          {/* Gradient border wrapper */}
           <div
-            className="relative w-full rounded-[10px] overflow-hidden min-h-[260px] md:min-h-[360px] flex flex-col md:flex-row items-center"
-            style={{
-              background: "radial-gradient(ellipse at 90% 80%, rgba(255,255,255,1) 0%, rgba(229,229,229,1) 35%, rgba(217,217,217,0.6) 100%)",
-            }}
+            className="w-full rounded-[12px] p-[2.5px]"
+            style={{ background: `linear-gradient(135deg, ${AD_SLIDES[slideIndex].borderColor}, #B5B5F3, ${AD_SLIDES[slideIndex].borderColor})` }}
           >
-            {/* Decorative icons */}
-            <div className="absolute left-[10%] top-[30%] size-[45px] opacity-30 rotate-[-38deg] hidden md:block">
-              <svg viewBox="0 0 32 32" fill="none" className="size-full text-[#000080]">
-                <path d="M6 6h20l-2 12H8L6 6z" fill="currentColor" opacity="0.3" />
-                <circle cx="10" cy="26" r="2" fill="currentColor" opacity="0.5" />
-                <circle cx="22" cy="26" r="2" fill="currentColor" opacity="0.5" />
-              </svg>
-            </div>
-
-            <div className="absolute right-0 bottom-0 w-[40%] h-[60%] opacity-40 pointer-events-none"
-              style={{ background: "radial-gradient(ellipse at 80% 100%, rgba(181,181,243,0.5) 0%, transparent 70%)" }}
-            />
-
-            {/* Text — left on mobile, right on desktop */}
-            <div className="flex flex-col gap-6 md:gap-[30px] p-6 md:p-8 md:ml-auto md:w-1/2 lg:w-[480px] relative z-10">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-[#000080] font-bold text-[28px] md:text-[37px] leading-tight" style={vs}>Welcome To</h1>
-                <h1 className="text-[#000080] font-bold text-[28px] md:text-[37px] leading-tight" style={vs}>ROS Market Place</h1>
+            <div
+              className="relative w-full rounded-[10px] overflow-hidden min-h-[200px] md:min-h-[320px] flex flex-col md:flex-row items-stretch transition-all duration-500"
+              style={{ background: `linear-gradient(120deg, ${AD_SLIDES[slideIndex].bgFrom} 0%, ${AD_SLIDES[slideIndex].bgTo} 100%)` }}
+            >
+              {/* Left: visual */}
+              <div className="relative flex items-center justify-center w-full md:w-[45%] min-h-[160px] md:min-h-[320px] overflow-hidden flex-shrink-0">
+                {AD_SLIDES[slideIndex].image ? (
+                  /* Product image */
+                  <>
+                    <div className="absolute inset-0 opacity-10"
+                      style={{ background: `radial-gradient(ellipse at 50% 120%, ${AD_SLIDES[slideIndex].borderColor} 0%, transparent 70%)` }}
+                    />
+                    <img
+                      src={AD_SLIDES[slideIndex].image}
+                      alt=""
+                      className="relative z-10 max-h-[180px] md:max-h-[280px] w-auto object-contain drop-shadow-2xl transition-all duration-500"
+                    />
+                  </>
+                ) : AD_SLIDES[slideIndex].visual === "store" ? (
+                  /* Store / shopping illustration */
+                  <div className="relative z-10 flex items-end justify-center gap-[-8px] h-[160px] md:h-[260px] w-full px-6">
+                    <div className="absolute inset-0 opacity-10"
+                      style={{ background: `radial-gradient(ellipse at 50% 100%, ${AD_SLIDES[slideIndex].borderColor} 0%, transparent 70%)` }}
+                    />
+                    {[
+                      { label: "Reading", emoji: "📚", h: "100px", md: "160px", rot: "-6deg" },
+                      { label: "Clothing", emoji: "👔", h: "120px", md: "200px", rot: "0deg" },
+                      { label: "Food", emoji: "🍱", h: "90px", md: "150px", rot: "5deg" },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        className="flex flex-col items-center justify-end rounded-[16px] bg-white/70 backdrop-blur-sm border border-white/80 shadow-lg px-3 py-4 mx-1"
+                        style={{ height: item.h, transform: `rotate(${item.rot})` }}
+                      >
+                        <span style={{ fontSize: "clamp(24px, 5vw, 40px)" }}>{item.emoji}</span>
+                        <span className="text-[10px] md:text-[12px] font-semibold text-[#374151] mt-1 whitespace-nowrap">{item.label}</span>
+                      </div>
+                    ))}
+                    {/* "UP TO" badge */}
+                    <div className="absolute top-4 left-4 md:top-6 md:left-8 size-[64px] md:size-[84px] rounded-full flex flex-col items-center justify-center text-center shadow-xl"
+                      style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
+                      <span className="text-white text-[10px] md:text-[11px] font-bold leading-tight">MEMBER</span>
+                      <span className="text-white text-[14px] md:text-[18px] font-black leading-tight">ONLY</span>
+                    </div>
+                  </div>
+                ) : (
+                  /* CSR illustration */
+                  <div className="relative z-10 flex items-end justify-center gap-3 h-[160px] md:h-[260px] w-full px-6">
+                    <div className="absolute inset-0 opacity-10"
+                      style={{ background: `radial-gradient(ellipse at 50% 100%, ${AD_SLIDES[slideIndex].borderColor} 0%, transparent 70%)` }}
+                    />
+                    {[
+                      { label: "Marketing", emoji: "📣", h: "110px", md: "170px", rot: "-5deg" },
+                      { label: "Design", emoji: "🎨", h: "130px", md: "210px", rot: "0deg" },
+                      { label: "Business", emoji: "💼", h: "100px", md: "160px", rot: "4deg" },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        className="flex flex-col items-center justify-end rounded-[16px] bg-white/70 backdrop-blur-sm border border-white/80 shadow-lg px-3 py-4 mx-1"
+                        style={{ height: item.h, transform: `rotate(${item.rot})` }}
+                      >
+                        <span style={{ fontSize: "clamp(24px, 5vw, 40px)" }}>{item.emoji}</span>
+                        <span className="text-[10px] md:text-[12px] font-semibold text-[#374151] mt-1 whitespace-nowrap">{item.label}</span>
+                      </div>
+                    ))}
+                    <div className="absolute top-4 left-4 md:top-6 md:left-8 size-[64px] md:size-[84px] rounded-full flex flex-col items-center justify-center text-center shadow-xl"
+                      style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
+                      <span className="text-white text-[10px] md:text-[11px] font-bold leading-tight">100%</span>
+                      <span className="text-white text-[13px] md:text-[15px] font-black leading-tight">FREE</span>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className="text-[#100E1A] text-[15px] md:text-[18px] leading-[1.6]" style={vs}>
-                Purchase reading materials, Children wear, foodstuffs, prepared meal at very affordable price
-              </p>
-              <a
-                href="#products"
-                className="flex items-center gap-1 text-[#000080] font-bold text-[18px] md:text-[22px]"
-                style={vs}
-              >
-                Buy Now
-                <svg viewBox="0 0 51 51" fill="none" className="size-[40px] md:size-[51px]">
-                  <path d="M20 14l10 10-10 10" stroke="#000080" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
+
+              {/* Right: text */}
+              <div className="flex flex-col justify-center gap-[10px] md:gap-[16px] px-5 md:px-8 py-5 md:py-8 flex-1 relative z-10">
+                {/* Brand/label */}
+                <div className="flex items-center gap-[10px]">
+                  <div className="size-[36px] md:size-[46px] rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
+                    <svg width="20" height="16" viewBox="0 0 25 23" fill="none">
+                      <path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="10" cy="20" r="1.5" fill="white" />
+                      <circle cx="19" cy="20" r="1.5" fill="white" />
+                    </svg>
+                  </div>
+                  <span className="font-black text-[14px] md:text-[18px] tracking-wider"
+                    style={{ color: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>
+                    ROS MARKETPLACE
+                  </span>
+                </div>
+
+                {/* Headline */}
+                <h2
+                  className="font-black text-[20px] md:text-[28px] lg:text-[34px] leading-tight text-[#100E1A] whitespace-pre-line"
+                  style={{ fontVariationSettings: '"wdth" 100' }}
+                >
+                  {AD_SLIDES[slideIndex].title}
+                </h2>
+
+                {/* Tagline block */}
+                <div className="rounded-[6px] px-3 py-[10px] md:px-4 md:py-[12px]"
+                  style={{ background: AD_SLIDES[slideIndex].taglineBg }}>
+                  <p className="text-white font-bold text-[11px] md:text-[14px] leading-tight"
+                    style={{ fontVariationSettings: '"wdth" 100' }}>
+                    {AD_SLIDES[slideIndex].tagline}
+                  </p>
+                </div>
+
+                {/* CTA */}
+                <div className="flex flex-col gap-[6px]">
+                  <Link
+                    href={AD_SLIDES[slideIndex].ctaHref}
+                    className="self-start px-[20px] md:px-[28px] py-[10px] md:py-[12px] rounded-[6px] text-white font-black text-[13px] md:text-[16px] tracking-wide hover:opacity-90 transition-opacity"
+                    style={{ background: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}
+                  >
+                    {AD_SLIDES[slideIndex].cta}
+                  </Link>
+                  <p className="text-[#6B7280] text-[11px] md:text-[12px]"
+                    style={{ fontVariationSettings: '"wdth" 100' }}>
+                    {AD_SLIDES[slideIndex].note}
+                  </p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          {/* Dot indicators */}
+          <div className="flex items-center justify-center gap-[8px] mt-[12px] pb-[4px]">
+            {AD_SLIDES.map((slide, i) => (
+              <button
+                key={slide.id}
+                onClick={() => setSlideIndex(i)}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  background: i === slideIndex ? AD_SLIDES[slideIndex].borderColor : "#D1D5DB",
+                  width: i === slideIndex ? "28px" : "8px",
+                  height: "8px",
+                }}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
       </section>
