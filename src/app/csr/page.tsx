@@ -9,14 +9,38 @@ import { post } from "@/lib/api";
 const vs = { fontVariationSettings: '"wdth" 100' };
 
 const skills = [
-  { icon: "📱", title: "Digital Marketing", desc: "Learn SEO, social media strategy, content creation, paid advertising, and how to build a brand online." },
-  { icon: "📸", title: "Photography & Videography", desc: "Master professional photography, photo editing, video production, and visual storytelling techniques." },
-  { icon: "🧵", title: "Fashion & Tailoring", desc: "From fabric selection to pattern making and sewing — create beautiful garments from scratch." },
-  { icon: "💻", title: "Graphic Design", desc: "Design logos, flyers, presentations, and brand materials using industry-standard tools." },
-  { icon: "🍳", title: "Catering & Food Business", desc: "Professional cooking, food hygiene, catering management, and starting a food business." },
-  { icon: "💇", title: "Beauty & Wellness", desc: "Hair styling, skincare, makeup artistry, and building a professional beauty practice." },
-  { icon: "🔧", title: "Electrical & Technical Skills", desc: "Practical electrical installation, appliance repair, and basic electronics for everyday use." },
-  { icon: "📊", title: "Business & Entrepreneurship", desc: "Business planning, financial literacy, record-keeping, and strategies to start and grow your business." },
+  {
+    icon: "💄",
+    title: "Make Up & Gele Tying",
+    desc: "Professional makeup artistry and the art of gele tying — from bridal to everyday looks and editorial styling.",
+  },
+  {
+    icon: "📱",
+    title: "Digital Marketing & AI",
+    desc: "Learn SEO, social media strategy, paid advertising, AI-powered tools, and how to grow a business online.",
+    highlight: true,
+    badge: "14–16 weeks · ₦10,000",
+  },
+  {
+    icon: "✂️",
+    title: "Hair Dressing",
+    desc: "Hair styling, braiding, colouring, treatments, and building a professional salon practice.",
+  },
+  {
+    icon: "🍳",
+    title: "Catering",
+    desc: "Professional cooking, food hygiene, event catering management, and starting a food business.",
+  },
+  {
+    icon: "🧵",
+    title: "Textile Design",
+    desc: "Fabric selection, dyeing, weaving, and creating beautiful textile products from scratch.",
+  },
+  {
+    icon: "👗",
+    title: "Fashion Design",
+    desc: "Pattern making, garment construction, and building a fashion brand — from sketch to finished piece.",
+  },
 ];
 
 const benefits = [
@@ -24,7 +48,7 @@ const benefits = [
   { label: "Hands-On Training", desc: "Practical sessions — not just theory" },
   { label: "Certification", desc: "Receive a certificate of completion for each course" },
   { label: "Community Network", desc: "Connect with fellow graduates for referrals and opportunities" },
-  { label: "Affordable or Free", desc: "Subsidized training for church members and community" },
+  { label: "Free Registration", desc: "No registration fee — tuition is only ₦10,000 per course" },
   { label: "Spiritual Foundation", desc: "Skills training grounded in godly values and purpose" },
 ];
 
@@ -65,14 +89,14 @@ export default function CSRPage() {
         <div className="relative z-10 flex flex-col gap-4 md:gap-[24px] items-center w-full max-w-[1148px] px-6 md:px-8 text-center mt-16 md:mt-[48px]">
           <div className="flex items-center gap-[10px] px-[16px] py-[8px] rounded-full bg-[#B5B5F3]/15 border border-[#B5B5F3]/30">
             <span className="size-[8px] rounded-full bg-[#B5B5F3] animate-pulse" />
-            <p className="text-[#B5B5F3] text-[12px] md:text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>Church Skills Resource</p>
+            <p className="text-[#B5B5F3] text-[12px] md:text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>Christian Social Responsibility</p>
           </div>
           <h1 className="text-[#FFFDFD] text-[32px] md:text-[52px] lg:text-[72px] font-medium leading-tight" style={vs}>
             Equipping You to<br />
             <span className="italic text-[#B5B5F3]" style={{ fontFamily: "'Playfair Display', serif" }}>Excel &amp; Create</span>
           </h1>
           <p className="text-[#FFFDFD]/80 text-[15px] md:text-[18px] lg:text-[20px] font-normal leading-[1.7] max-w-[680px]" style={vs}>
-            CSR is our church&apos;s skills and vocational training program — empowering members of our community with practical skills to build sustainable livelihoods.
+            CSR is our church&apos;s vocational training centre — empowering members of our community with practical skills to build sustainable livelihoods.
           </p>
           <div className="flex flex-wrap gap-3 md:gap-[16px] justify-center mt-[8px]">
             <a href="#skills" className="px-[24px] md:px-[28px] py-[12px] md:py-[14px] bg-[#FFFDFD] text-[#000080] text-[14px] md:text-[15px] font-bold rounded-[30px] hover:bg-[#B5B5F3] transition-colors" style={vs}>
@@ -91,12 +115,45 @@ export default function CSRPage() {
           <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Our Vision</p>
           <h2 className="text-[#FFFDFD] text-[26px] md:text-[38px] lg:text-[48px] font-bold leading-[1.2]" style={vs}>What is CSR?</h2>
           <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
-            The Church Skills Resource (CSR) program is Rose of Sharon&apos;s commitment to the total wellbeing of our community — not just spiritual growth, but economic empowerment and social transformation.
+            The Christian Social Responsibility (CSR) centre is Rose of Sharon&apos;s commitment to the total wellbeing of our community — not just spiritual growth, but economic empowerment and social transformation.
           </p>
           <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
-            We believe that when the church equips its people with practical skills, it multiplies its impact in homes, workplaces, and communities. CSR offers structured, hands-on training in a wide range of vocational and professional skills — all rooted in excellence and godly values.
+            We believe that when the church equips its people with practical skills, it multiplies its impact in homes, workplaces, and communities. CSR offers structured, hands-on vocational training — all rooted in excellence and godly values.
           </p>
-          <div className="flex flex-wrap gap-[12px] mt-[8px]">
+
+          {/* Practical info strip */}
+          <div className="flex flex-col gap-[14px] mt-[4px] bg-[#1A1826] rounded-[16px] p-[20px] border border-[#B5B5F3]/10">
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">📍</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Location</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>49B, Ladipo Bateye Street (Street Behind Church), GRA, Ikeja Lagos</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">🗓️</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Days & Hours</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>Monday, Tuesday, Thursday &amp; Friday · 9:00 AM – 2:00 PM</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">💰</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Fees</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>Registration is <span className="text-[#B5B5F3] font-semibold">FREE</span> · Tuition is <span className="text-[#B5B5F3] font-semibold">₦10,000</span> per course</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">📞</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Enquiries</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>08175856498 · 07061939710 · 08053649231</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-[12px] mt-[4px]">
             {["Vocational Training", "Professional Skills", "Business Mentoring", "Community Impact"].map(tag => (
               <span key={tag} className="px-[16px] py-[8px] rounded-full bg-[#B5B5F3]/10 border border-[#B5B5F3]/20 text-[#B5B5F3] text-[13px] font-medium" style={vs}>
                 {tag}
@@ -121,29 +178,43 @@ export default function CSRPage() {
           <p className="text-[#000080] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>What We Teach</p>
           <h2 className="text-[#100E1A] text-[24px] md:text-[38px] lg:text-[48px] font-bold leading-normal" style={vs}>Skills We Offer</h2>
           <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal max-w-[600px]" style={vs}>
-            Our growing catalogue covers a wide range of practical skills to suit different passions and career paths.
+            Practical, hands-on courses taught by experienced professionals — each one designed to help you build a real livelihood.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] md:gap-[20px] w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[20px] w-full">
           {skills.map(skill => (
             <div
               key={skill.title}
-              className="bg-white rounded-[20px] p-[24px] md:p-[28px] flex flex-col gap-[16px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0px_8px_32px_rgba(0,0,128,0.12)] hover:-translate-y-[4px] transition-all group"
+              className={`rounded-[20px] p-[24px] md:p-[28px] flex flex-col gap-[16px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0px_8px_32px_rgba(0,0,128,0.12)] hover:-translate-y-[4px] transition-all group relative overflow-hidden ${skill.highlight ? "bg-[#000080]" : "bg-white"}`}
             >
-              <div className="size-[52px] md:size-[56px] rounded-[14px] bg-[#000080]/8 flex items-center justify-center text-[26px] md:text-[28px] group-hover:bg-[#000080]/15 transition-colors">
+              {skill.highlight && (
+                <div className="absolute top-[16px] right-[16px]">
+                  <span className="px-[10px] py-[4px] bg-[#B5B5F3] text-[#000080] text-[10px] font-bold rounded-full uppercase tracking-wider" style={vs}>
+                    Featured
+                  </span>
+                </div>
+              )}
+              <div className={`size-[52px] md:size-[56px] rounded-[14px] flex items-center justify-center text-[26px] md:text-[28px] transition-colors ${skill.highlight ? "bg-white/15" : "bg-[#000080]/8 group-hover:bg-[#000080]/15"}`}>
                 {skill.icon}
               </div>
               <div className="flex flex-col gap-[8px]">
-                <p className="text-[#100E1A] text-[16px] md:text-[17px] font-bold leading-tight" style={vs}>{skill.title}</p>
-                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>{skill.desc}</p>
+                <p className={`text-[16px] md:text-[17px] font-bold leading-tight ${skill.highlight ? "text-[#FFFDFD]" : "text-[#100E1A]"}`} style={vs}>
+                  {skill.title}
+                </p>
+                <p className={`text-[13px] leading-[1.6] ${skill.highlight ? "text-[#B5B5F3]" : "text-[#A3A1AF]"}`} style={vs}>
+                  {skill.desc}
+                </p>
+                {skill.badge && (
+                  <p className="text-[#FFFDFD]/60 text-[11px] font-semibold mt-[4px]" style={vs}>{skill.badge}</p>
+                )}
               </div>
             </div>
           ))}
         </div>
 
         <p className="text-[#A3A1AF] text-[15px] text-center italic" style={vs}>
-          And many more skills being added each season — check back regularly for new programs.
+          New skills added each season — check back regularly or call us to ask about upcoming courses.
         </p>
       </section>
 
@@ -154,13 +225,12 @@ export default function CSRPage() {
           <h2 className="text-[#FFFDFD] text-[24px] md:text-[38px] lg:text-[48px] font-bold leading-normal" style={vs}>How to Join</h2>
         </div>
 
-        {/* Steps — horizontal on lg, vertical on mobile */}
         <div className="flex flex-col md:flex-row flex-wrap items-start justify-center gap-8 w-full">
           {[
-            { step: "01", title: "Register Interest", desc: "Fill out the form below to let us know which skill you want to learn." },
-            { step: "02", title: "Orientation", desc: "Attend a brief orientation session where we'll share schedule, tools, and expectations." },
-            { step: "03", title: "Training Begins", desc: "Join your class and learn from expert instructors in hands-on sessions." },
-            { step: "04", title: "Certification", desc: "Complete the course and receive your certificate — plus mentorship to launch your business." },
+            { step: "01", title: "Register Interest", desc: "Fill out the form below or call us to express interest in a course." },
+            { step: "02", title: "Orientation", desc: "Attend a brief orientation — we share the schedule, tools needed, and expectations." },
+            { step: "03", title: "Training Begins", desc: "Join your class and learn from expert instructors in hands-on sessions, Mon–Fri." },
+            { step: "04", title: "Graduation", desc: "Complete the course, receive your certificate, and join our growing community of graduates." },
           ].map((item, i, arr) => (
             <div key={item.step} className="flex md:flex-row items-start gap-4 md:gap-0 w-full md:w-auto">
               <div className="flex flex-col items-center gap-[16px] w-full md:w-[200px] lg:w-[220px]">
@@ -191,7 +261,7 @@ export default function CSRPage() {
             Tell us which skill excites you — our team will reach out with details about the next available intake, schedule, and how to join.
           </p>
           <div className="flex flex-col gap-[12px]">
-            {["Open to church members & community", "No prior experience required", "Subsidized or free for members"].map(item => (
+            {["Open to church members & the community", "No prior experience required", "Registration is FREE — tuition only ₦10,000 per course"].map(item => (
               <div key={item} className="flex items-start gap-[12px]">
                 <div className="size-[20px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0 mt-[2px]">
                   <span className="text-white text-[11px] font-bold">✓</span>
@@ -199,6 +269,15 @@ export default function CSRPage() {
                 <p className="text-[#100E1A] text-[15px]" style={vs}>{item}</p>
               </div>
             ))}
+          </div>
+
+          {/* Contact block */}
+          <div className="mt-[8px] flex flex-col gap-[10px] bg-white rounded-[16px] p-[20px] border border-[#D2D2E2]">
+            <p className="text-[#100E1A] text-[14px] font-semibold" style={vs}>Prefer to call?</p>
+            <p className="text-[#000080] text-[13px] font-medium" style={vs}>08175856498</p>
+            <p className="text-[#000080] text-[13px] font-medium" style={vs}>07061939710</p>
+            <p className="text-[#000080] text-[13px] font-medium" style={vs}>08053649231</p>
+            <p className="text-[#A3A1AF] text-[12px] mt-[2px]" style={vs}>Or visit us at 49B, Ladipo Bateye Street (behind the church), GRA</p>
           </div>
         </div>
 
@@ -211,7 +290,7 @@ export default function CSRPage() {
               </div>
               <h3 className="text-[#100E1A] text-[24px] md:text-[28px] font-bold" style={vs}>Registration Received!</h3>
               <p className="text-[#A3A1AF] text-[16px] leading-[1.7] max-w-[340px]" style={vs}>
-                Thank you for your interest in the CSR program. Our team will contact you soon with next steps.
+                Thank you for your interest in the CSR programme. Our team will contact you soon with next steps.
               </p>
               <button
                 onClick={() => { setStatus("idle"); setForm({ fullName: "", email: "", phone: "", skill: "", message: "" }); }}
@@ -250,12 +329,12 @@ export default function CSRPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-[6px]">
-                  <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Phone</label>
+                  <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Phone *</label>
                   <input
-                    type="tel"
+                    required type="tel"
                     value={form.phone}
                     onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                    placeholder="+234 xxx xxx xxxx"
+                    placeholder="08xxxxxxxxx"
                     className="w-full border border-[#D2D2E2] rounded-[12px] px-[16px] py-[12px] text-[#100E1A] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10 transition-all"
                     style={vs}
                   />
@@ -263,7 +342,7 @@ export default function CSRPage() {
               </div>
 
               <div className="flex flex-col gap-[6px]">
-                <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Skill of Interest *</label>
+                <label className="text-[#100E1A] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Course of Interest *</label>
                 <select
                   required
                   value={form.skill}
@@ -271,9 +350,9 @@ export default function CSRPage() {
                   className="w-full border border-[#D2D2E2] rounded-[12px] px-[16px] py-[12px] text-[#100E1A] text-[15px] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10 transition-all bg-white"
                   style={vs}
                 >
-                  <option value="">Select a skill...</option>
+                  <option value="">Select a course...</option>
                   {skills.map(s => <option key={s.title} value={s.title}>{s.title}</option>)}
-                  <option value="Other">Other</option>
+                  <option value="Other">Other / Not sure yet</option>
                 </select>
               </div>
 
@@ -283,14 +362,14 @@ export default function CSRPage() {
                   rows={3}
                   value={form.message}
                   onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                  placeholder="Tell us a bit about yourself or any specific questions..."
+                  placeholder="Tell us a bit about yourself or any questions you have..."
                   className="w-full border border-[#D2D2E2] rounded-[12px] px-[16px] py-[12px] text-[#100E1A] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#000080] focus:ring-2 focus:ring-[#000080]/10 transition-all resize-none"
                   style={vs}
                 />
               </div>
 
               {status === "error" && (
-                <p className="text-[#FF383C] text-[14px]" style={vs}>Something went wrong. Please try again.</p>
+                <p className="text-[#FF383C] text-[14px]" style={vs}>Something went wrong. Please try again or call us directly.</p>
               )}
 
               <button
