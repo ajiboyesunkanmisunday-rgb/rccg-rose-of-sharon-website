@@ -37,7 +37,7 @@ const AD_SLIDES = [
     cta: "BUY NOW — ₦4,000",
     ctaHref: "#products",
     note: "Limited stock available",
-    image: "https://www.figma.com/api/mcp/asset/05981ae8-ffab-4368-a514-3a3ca960b52e.png",
+    image: "https://picsum.photos/seed/purposedrivenlife/400/500",
   },
   {
     id: 3,
@@ -67,7 +67,7 @@ const AD_SLIDES = [
     cta: "VIEW PRODUCT",
     ctaHref: "#products",
     note: "₦75,000 · Limited quantity",
-    image: "https://www.figma.com/api/mcp/asset/6b05ca7f-d0a1-4c58-ba9d-e113ab18b019.png",
+    image: "https://picsum.photos/seed/italianshoe/400/500",
   },
 ];
 
@@ -88,8 +88,19 @@ const SORT_OPTIONS = [
   { label: "Featured", value: "featured" },
   { label: "Price: Low to High", value: "price_asc" },
   { label: "Price: High to Low", value: "price_desc" },
-  { label: "Newest", value: "newest" },
+  { label: "Newest First", value: "newest" },
+  { label: "Name A–Z", value: "name_asc" },
+  { label: "Name Z–A", value: "name_desc" },
 ];
+
+const QUICK_FILTERS = [
+  { label: "New Arrivals", key: "new" },
+  { label: "Under ₦10,000", key: "under10k" },
+  { label: "Under ₦50,000", key: "under50k" },
+  { label: "₦50k+", key: "above50k" },
+];
+
+const AVAILABILITY_OPTIONS = ["All", "In Stock", "Limited Stock"];
 
 const ITEMS_PER_PAGE = 9;
 
@@ -101,18 +112,20 @@ interface Product {
   category: string;
   image: string;
   isNew?: boolean;
+  stock: "in_stock" | "limited" | "out";
+  tags: string[];
 }
 
 const PRODUCTS: Product[] = [
-  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "https://www.figma.com/api/mcp/asset/1153e10c-c55b-4ac2-8749-14ef42a64066.png" },
-  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "https://www.figma.com/api/mcp/asset/a916d6b8-1b7b-42c8-85fc-724432ca1a3c.png", isNew: true },
-  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦45,000.00", category: "Books", image: "https://www.figma.com/api/mcp/asset/05981ae8-ffab-4368-a514-3a3ca960b52e.png" },
-  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "https://www.figma.com/api/mcp/asset/6b05ca7f-d0a1-4c58-ba9d-e113ab18b019.png" },
-  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "https://www.figma.com/api/mcp/asset/746cda1b-3b87-47b0-8677-fa2d55d0bd04.png" },
-  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "https://www.figma.com/api/mcp/asset/ba329fc1-db3e-4d6d-828a-7b1819f694c1.png" },
-  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "https://www.figma.com/api/mcp/asset/ebe62225-db16-4a2c-9e99-d820eb7830d7.png" },
-  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "https://www.figma.com/api/mcp/asset/e0127f48-0aeb-4d45-97c0-cc8d6485d923.png" },
-  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "https://www.figma.com/api/mcp/asset/4b6ab26c-e188-4441-bd21-61c5e7e7793b.png" },
+  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "https://picsum.photos/seed/nikeroundneck/400/400", stock: "in_stock", tags: ["clothing", "men", "nike"] },
+  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "https://picsum.photos/seed/sportsneaker/400/400", isNew: true, stock: "limited", tags: ["shoes", "sport", "new"] },
+  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "https://picsum.photos/seed/purposedrivenbook/400/400", stock: "limited", tags: ["book", "spiritual", "rick warren"] },
+  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "https://picsum.photos/seed/italianshoe/400/400", stock: "limited", tags: ["shoes", "formal", "leather"] },
+  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "https://picsum.photos/seed/menbluesuit/400/400", stock: "in_stock", tags: ["formal", "men", "suit"] },
+  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "https://picsum.photos/seed/snackspicy/400/400", stock: "in_stock", tags: ["food", "snack", "restaurant"] },
+  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "https://picsum.photos/seed/friedricechicken/400/400", stock: "in_stock", tags: ["food", "rice", "restaurant"] },
+  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "https://picsum.photos/seed/femredleatherbag/400/400", stock: "limited", tags: ["bag", "women", "leather"] },
+  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "https://picsum.photos/seed/powerofcharacter/400/400", stock: "in_stock", tags: ["book", "spiritual", "myles munroe"] },
 ];
 
 const PRODUCT_CATEGORIES = [
@@ -140,6 +153,13 @@ export default function MarketplacePage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [page, setPage] = useState(1);
 
+  // Filter state
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
+  const [availability, setAvailability] = useState("All");
+  const [activeQuickFilters, setActiveQuickFilters] = useState<string[]>([]);
+  const [filterOpen, setFilterOpen] = useState(false); // mobile filter panel
+
   const [modalMode, setModalMode] = useState<"sell" | "checkout" | null>(null);
   const [verifyInput, setVerifyInput] = useState("");
   const [verifyStatus, setVerifyStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -157,22 +177,50 @@ export default function MarketplacePage() {
 
   const productsRef = useRef<HTMLDivElement>(null);
 
+  function toggleQuickFilter(key: string) {
+    setActiveQuickFilters((prev) => prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]);
+  }
+
+  const activeFilterCount = [
+    activeCategory !== "All" ? 1 : 0,
+    priceMin || priceMax ? 1 : 0,
+    availability !== "All" ? 1 : 0,
+    activeQuickFilters.length,
+  ].reduce((a, b) => a + b, 0);
+
   const filtered = useMemo(() => {
     let list = PRODUCTS.filter((p) => {
       const matchCat = activeCategory === "All" || p.category === activeCategory;
-      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase());
-      return matchCat && matchSearch;
+      const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase()) || p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
+      const num = priceToNum(p.price);
+      const matchMin = !priceMin || num >= parseFloat(priceMin);
+      const matchMax = !priceMax || num <= parseFloat(priceMax);
+      const matchAvail = availability === "All" || (availability === "In Stock" && p.stock === "in_stock") || (availability === "Limited Stock" && p.stock === "limited");
+      let matchQuick = true;
+      if (activeQuickFilters.length > 0) {
+        matchQuick = activeQuickFilters.every((f) => {
+          if (f === "new") return !!p.isNew;
+          if (f === "under10k") return num < 10000;
+          if (f === "under50k") return num < 50000;
+          if (f === "above50k") return num >= 50000;
+          return true;
+        });
+      }
+      return matchCat && matchSearch && matchMin && matchMax && matchAvail && matchQuick;
     });
+
     if (sort === "price_asc") list = [...list].sort((a, b) => priceToNum(a.price) - priceToNum(b.price));
     if (sort === "price_desc") list = [...list].sort((a, b) => priceToNum(b.price) - priceToNum(a.price));
     if (sort === "newest") list = [...list].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+    if (sort === "name_asc") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
+    if (sort === "name_desc") list = [...list].sort((a, b) => b.name.localeCompare(a.name));
     return list;
-  }, [search, activeCategory, sort]);
+  }, [search, activeCategory, sort, priceMin, priceMax, availability, activeQuickFilters]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-  useEffect(() => { setPage(1); }, [search, activeCategory, sort]);
+  useEffect(() => { setPage(1); }, [search, activeCategory, sort, priceMin, priceMax, availability, activeQuickFilters]);
 
   function goToPage(p: number) {
     setPage(p);
@@ -183,6 +231,10 @@ export default function MarketplacePage() {
   function toggleWishlist(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setWishlist((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]); }
 
   const cartCount = cart.length;
+
+  function clearAllFilters() {
+    setActiveCategory("All"); setPriceMin(""); setPriceMax(""); setAvailability("All"); setActiveQuickFilters([]); setSearch("");
+  }
 
   function openModal(mode: "sell" | "checkout") {
     setModalMode(mode); setSellStep("verify"); setVerifyInput(""); setVerifyStatus("idle"); setVerifyError(""); setVerifiedMember(null);
@@ -208,7 +260,7 @@ export default function MarketplacePage() {
         const users = Array.isArray(data) ? data : (data.content || data.data || []);
         if (users.length > 0) { const u = users[0]; setVerifiedMember({ id: u.id, name: `${u.firstName} ${u.lastName}`, type: "emember" }); setSellStep("form"); setVerifyStatus("idle"); return; }
       }
-      setVerifyStatus("error"); setVerifyError("No church member found with that phone number or email. Please register first.");
+      setVerifyStatus("error"); setVerifyError("No church member found. Please register first.");
     } catch { setVerifyStatus("error"); setVerifyError("Could not verify membership. Please try again."); }
   }
 
@@ -223,10 +275,98 @@ export default function MarketplacePage() {
       if (listForm.tags.trim()) body.tags = listForm.tags.split(",").map((t) => t.trim()).filter(Boolean);
       await fetch(`${API_BASE}/products`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
       setSellStep("success"); setListStatus("idle");
-    } catch { setListStatus("error"); setListError("Failed to submit product listing. Please try again."); }
+    } catch { setListStatus("error"); setListError("Failed to submit. Please try again."); }
   }
 
   const inputBase = "w-full rounded-lg border border-[#E5E7EB] px-4 py-3 text-sm text-[#374151] outline-none placeholder:text-[#9CA3AF] focus:border-[#000080] focus:ring-1 focus:ring-[#000080]";
+
+  // Sidebar filter panel (shared between desktop and mobile drawer)
+  const FilterPanel = () => (
+    <div className="flex flex-col gap-0">
+      {/* Category */}
+      <div className="pb-5 mb-5 border-b border-[#F0F0F0]">
+        <h3 className="text-black font-bold text-[22px] lg:text-[25px] mb-5" style={vs}>Category</h3>
+        <div className="flex flex-col gap-[18px] lg:gap-[22px]">
+          {CATEGORIES.map((cat) => (
+            <button key={cat} onClick={() => setActiveCategory(cat)} className="flex items-center gap-[16px] lg:gap-[20px] text-left group">
+              <div className={["size-[36px] lg:size-[40px] rounded-[10px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeCategory === cat ? "bg-[#000080] border-[#000080]" : "border-[#3A394F] group-hover:border-[#000080]"].join(" ")}>
+                {activeCategory === cat && (
+                  <svg viewBox="0 0 16 16" fill="none" className="size-[14px]"><path d="M3 8l4 4 6-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                )}
+              </div>
+              <span className={["text-[16px] lg:text-[20px]", activeCategory === cat ? "text-[#000080] font-bold" : "text-black"].join(" ")} style={vs}>{cat}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Price Range */}
+      <div className="pb-5 mb-5 border-b border-[#F0F0F0]">
+        <h3 className="text-black font-bold text-[17px] mb-4" style={vs}>Price Range (₦)</h3>
+        <div className="flex items-center gap-2">
+          <input type="number" placeholder="Min" value={priceMin} onChange={(e) => setPriceMin(e.target.value)} min="0"
+            className="w-full border border-[#3A394F] rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#000080] text-[#100E1A] placeholder:text-[#A3A1AF]" style={vs} />
+          <span className="text-[#A3A1AF] text-[13px] flex-shrink-0">–</span>
+          <input type="number" placeholder="Max" value={priceMax} onChange={(e) => setPriceMax(e.target.value)} min="0"
+            className="w-full border border-[#3A394F] rounded-[8px] px-3 py-2 text-[13px] outline-none focus:border-[#000080] text-[#100E1A] placeholder:text-[#A3A1AF]" style={vs} />
+        </div>
+        {(priceMin || priceMax) && (
+          <button onClick={() => { setPriceMin(""); setPriceMax(""); }} className="mt-2 text-[12px] text-[#000080] underline" style={vs}>Clear price</button>
+        )}
+      </div>
+
+      {/* Availability */}
+      <div className="pb-5 mb-5 border-b border-[#F0F0F0]">
+        <h3 className="text-black font-bold text-[17px] mb-4" style={vs}>Availability</h3>
+        <div className="flex flex-col gap-3">
+          {AVAILABILITY_OPTIONS.map((opt) => (
+            <button key={opt} onClick={() => setAvailability(opt)} className="flex items-center gap-3 text-left group">
+              <div className={["size-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", availability === opt ? "bg-[#000080] border-[#000080]" : "border-[#3A394F] group-hover:border-[#000080]"].join(" ")}>
+                {availability === opt && <div className="size-[8px] rounded-full bg-white" />}
+              </div>
+              <span className={["text-[15px]", availability === opt ? "text-[#000080] font-semibold" : "text-black"].join(" ")} style={vs}>{opt}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick Filters */}
+      <div className="pb-5 mb-5 border-b border-[#F0F0F0]">
+        <h3 className="text-black font-bold text-[17px] mb-4" style={vs}>Quick Filters</h3>
+        <div className="flex flex-col gap-3">
+          {QUICK_FILTERS.map((qf) => (
+            <button key={qf.key} onClick={() => toggleQuickFilter(qf.key)} className="flex items-center gap-3 text-left group">
+              <div className={["size-[18px] rounded-[4px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeQuickFilters.includes(qf.key) ? "bg-[#000080] border-[#000080]" : "border-[#3A394F] group-hover:border-[#000080]"].join(" ")}>
+                {activeQuickFilters.includes(qf.key) && <svg viewBox="0 0 10 10" fill="none" className="size-[10px]"><path d="M2 5l2.5 2.5 4-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+              </div>
+              <span className={["text-[15px]", activeQuickFilters.includes(qf.key) ? "text-[#000080] font-semibold" : "text-black"].join(" ")} style={vs}>{qf.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Sort (in sidebar on desktop too) */}
+      <div className="pb-5">
+        <h3 className="text-black font-bold text-[17px] mb-4" style={vs}>Sort By</h3>
+        <div className="flex flex-col gap-3">
+          {SORT_OPTIONS.map((opt) => (
+            <button key={opt.value} onClick={() => setSort(opt.value)} className="flex items-center gap-3 text-left group">
+              <div className={["size-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", sort === opt.value ? "bg-[#000080] border-[#000080]" : "border-[#3A394F] group-hover:border-[#000080]"].join(" ")}>
+                {sort === opt.value && <div className="size-[8px] rounded-full bg-white" />}
+              </div>
+              <span className={["text-[15px]", sort === opt.value ? "text-[#000080] font-semibold" : "text-black"].join(" ")} style={vs}>{opt.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {activeFilterCount > 0 && (
+        <button onClick={clearAllFilters} className="w-full border-2 border-red-500 text-red-500 text-[13px] font-semibold py-[10px] rounded-[20px] hover:bg-red-50 transition-colors" style={vs}>
+          Clear All Filters ({activeFilterCount})
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <main className="bg-[#FFFDFD] min-h-screen">
@@ -236,7 +376,7 @@ export default function MarketplacePage() {
         <div className="absolute top-0 left-0 right-0 h-[120px] z-10 bg-gradient-to-b from-[rgba(0,0,0,0.65)] to-transparent pointer-events-none" />
         <Navbar activePage="marketplace" />
 
-        {/* ── 2. ROTATING BANNER (carousel) ── */}
+        {/* ── 2. ROTATING BANNER ── */}
         <div className="px-4 md:px-10 pt-[80px] pb-0">
           <div
             className="w-full rounded-[12px] p-[2.5px]"
@@ -251,7 +391,7 @@ export default function MarketplacePage() {
                 {AD_SLIDES[slideIndex].image ? (
                   <>
                     <div className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(ellipse at 50% 120%, ${AD_SLIDES[slideIndex].borderColor} 0%, transparent 70%)` }} />
-                    <img src={AD_SLIDES[slideIndex].image} alt="" className="relative z-10 max-h-[180px] md:max-h-[280px] w-auto object-contain drop-shadow-2xl transition-all duration-500" />
+                    <img src={AD_SLIDES[slideIndex].image} alt="" className="relative z-10 max-h-[180px] md:max-h-[280px] w-auto object-contain drop-shadow-2xl" />
                   </>
                 ) : AD_SLIDES[slideIndex].visual === "store" ? (
                   <div className="relative z-10 flex items-end justify-center h-[160px] md:h-[260px] w-full px-6">
@@ -314,7 +454,7 @@ export default function MarketplacePage() {
           </div>
         </div>
 
-        {/* ── 3. SEARCH ROW — below the banner ── */}
+        {/* ── 3. SEARCH ROW ── */}
         <div className="px-4 md:px-10 py-[14px]">
           <div className="flex items-center gap-[10px] md:gap-[14px] bg-white rounded-[12px] px-[16px] py-[10px] shadow-[0_2px_12px_rgba(0,0,0,0.08)]">
             {/* Long search bar */}
@@ -390,10 +530,15 @@ export default function MarketplacePage() {
               <h2 className="text-[#100E1A] text-[22px] font-bold" style={vs}>{selectedProduct.name}</h2>
               <button onClick={() => setSelectedProduct(null)} className="text-[#A3A1AF] text-[24px] leading-none hover:text-[#100E1A]">×</button>
             </div>
-            <div className="h-[260px] w-full rounded-[16px] overflow-hidden">
+            <div className="h-[260px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]">
               <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
             </div>
             <p className="text-[#A3A1AF] text-[14px] leading-[1.6]" style={vs}>{selectedProduct.description}</p>
+            <div className="flex flex-wrap gap-2">
+              {selectedProduct.tags.map((tag) => (
+                <span key={tag} className="px-3 py-1 bg-[#F3F4F6] rounded-full text-[12px] text-[#6B7280]" style={vs}>{tag}</span>
+              ))}
+            </div>
             <div className="flex items-center justify-between">
               <div className="bg-[#100E1A] px-6 py-3 rounded-[33px]">
                 <span className="text-[#FFFDFD] text-[18px] font-black" style={vs}>{selectedProduct.price}</span>
@@ -429,7 +574,7 @@ export default function MarketplacePage() {
               <form onSubmit={handleVerify} className="flex flex-col gap-4">
                 <div className="bg-[#F3F4F6] rounded-[16px] p-4 flex items-start gap-3">
                   <span className="text-[20px]">🔒</span>
-                  <p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>This feature is for <strong>registered church members only</strong>. Enter your registered phone number or email address to verify.</p>
+                  <p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>This feature is for <strong>registered church members only</strong>. Enter your registered phone number or email to verify.</p>
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] font-semibold text-[#111827]">Phone Number or Email</label>
@@ -456,12 +601,12 @@ export default function MarketplacePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Product Name *</label><input type="text" required value={listForm.name} onChange={(e) => setListForm(p => ({ ...p, name: e.target.value }))} className={inputBase} placeholder="e.g. Men's Leather Shoes" style={vs} /></div>
                   <div className="flex flex-col gap-1"><label className="text-[14px] font-semibold text-[#111827]">Price (₦) *</label><input type="number" required min="0" step="0.01" value={listForm.price} onChange={(e) => setListForm(p => ({ ...p, price: e.target.value }))} className={inputBase} placeholder="e.g. 5000" style={vs} /></div>
-                  <div className="flex flex-col gap-1"><label className="text-[14px] font-semibold text-[#111827]">Quantity Available *</label><input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="e.g. 10" style={vs} /></div>
+                  <div className="flex flex-col gap-1"><label className="text-[14px] font-semibold text-[#111827]">Quantity *</label><input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="e.g. 10" style={vs} /></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Category *</label><select required value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}><option value="">Select category</option>{PRODUCT_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Description *</label><textarea required rows={3} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe your product..." style={vs} /></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Product Image URL <span className="text-[#9CA3AF] font-normal">(optional)</span></label><input type="url" value={listForm.imageUrl} onChange={(e) => setListForm(p => ({ ...p, imageUrl: e.target.value }))} className={inputBase} placeholder="https://..." style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated, optional)</span></label><input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="e.g. leather, formal, men" style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Other Information <span className="text-[#9CA3AF] font-normal">(optional)</span></label><textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact preference, pickup location, etc." style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated)</span></label><input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="e.g. leather, formal, men" style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[14px] font-semibold text-[#111827]">Other Info <span className="text-[#9CA3AF] font-normal">(optional)</span></label><textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact preference, pickup location, etc." style={vs} /></div>
                 </div>
                 {listStatus === "error" && <p className="text-red-600 text-[13px]" style={vs}>{listError}</p>}
                 <div className="flex gap-3">
@@ -484,14 +629,14 @@ export default function MarketplacePage() {
                         const p = PRODUCTS.find((x) => x.id === id);
                         return p ? (
                           <div key={i} className="flex items-center gap-3 p-3 bg-[#F3F4F6] rounded-[12px]">
-                            <img src={p.image} alt={p.name} className="size-[48px] rounded-[8px] object-cover flex-shrink-0" />
+                            <img src={p.image} alt={p.name} className="size-[48px] rounded-[8px] object-cover flex-shrink-0 bg-[#E5E7EB]" />
                             <div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[13px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[12px] font-semibold" style={vs}>{p.price}</p></div>
                           </div>
                         ) : null;
                       })}
                     </div>
                     <div className="bg-[#000080]/5 rounded-[12px] p-4 text-center">
-                      <p className="text-[#100E1A] text-[13px] leading-[1.6]" style={vs}>Your order has been noted. Please bring this list to church on Sunday or contact the seller directly to arrange pickup.</p>
+                      <p className="text-[#100E1A] text-[13px] leading-[1.6]" style={vs}>Your order has been noted. Please contact the seller or arrange pickup at church on Sunday.</p>
                     </div>
                     <button onClick={closeModal} className="w-full bg-[#000080] text-[#FFFDFD] py-[14px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors" style={vs}>Done</button>
                   </>
@@ -505,7 +650,7 @@ export default function MarketplacePage() {
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
                 </div>
                 <p className="text-[#000080] text-[20px] font-bold" style={vs}>Product Submitted!</p>
-                <p className="text-[#6B7280] text-[14px] leading-[1.6]" style={vs}>Your product listing has been submitted and is pending approval from the church admin. It will appear in the marketplace once approved.</p>
+                <p className="text-[#6B7280] text-[14px] leading-[1.6]" style={vs}>Your product listing has been submitted and is pending approval. It will appear in the marketplace once approved.</p>
                 <button onClick={closeModal} className="w-full bg-[#000080] text-[#FFFDFD] py-[14px] rounded-[24px] text-[15px] font-bold hover:bg-[#0000a0] transition-colors" style={vs}>Done</button>
               </div>
             )}
@@ -513,49 +658,50 @@ export default function MarketplacePage() {
         </div>
       )}
 
+      {/* Mobile filter drawer */}
+      {filterOpen && (
+        <div className="fixed inset-0 z-50 flex md:hidden" onClick={() => setFilterOpen(false)}>
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative ml-auto w-[min(320px,90vw)] h-full bg-white overflow-y-auto p-6 flex flex-col gap-0" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-[#100E1A] text-[18px] font-bold" style={vs}>Filter & Sort</h2>
+              <button onClick={() => setFilterOpen(false)} className="text-[#A3A1AF] text-[24px] leading-none">×</button>
+            </div>
+            <FilterPanel />
+          </div>
+        </div>
+      )}
+
       {/* ── 4. PRODUCTS: sidebar + grid ── */}
       <div id="products" ref={productsRef} className="flex flex-col md:flex-row gap-6 md:gap-[32px] px-4 md:px-[40px] py-[24px] md:py-[32px] w-full">
 
-        {/* Category Sidebar */}
-        <aside className="w-full md:w-[181px] md:flex-shrink-0">
-          {/* Mobile pills */}
-          <div className="flex md:hidden items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {CATEGORIES.map((cat) => (
-              <button key={cat} onClick={() => setActiveCategory(cat)}
-                className={["flex-shrink-0 px-4 py-2 rounded-full text-[13px] font-medium border transition-colors", activeCategory === cat ? "bg-[#000080] border-[#000080] text-white" : "border-[#3A394F] text-black hover:border-[#000080]"].join(" ")}
-                style={vs}>{cat}</button>
-            ))}
-          </div>
-
-          {/* Desktop vertical */}
-          <div className="hidden md:flex flex-col gap-[20px]">
-            <h2 className="text-black font-bold text-[22px] lg:text-[25px]" style={vs}>Category</h2>
-            <div className="flex flex-col gap-[18px] lg:gap-[24px]">
-              {CATEGORIES.map((cat) => (
-                <button key={cat} onClick={() => setActiveCategory(cat)} className="flex items-center gap-[16px] lg:gap-[21px] text-left group">
-                  <div className={["size-[36px] lg:size-[40px] rounded-[10px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeCategory === cat ? "bg-[#000080] border-[#000080]" : "border-[#3A394F] group-hover:border-[#000080]"].join(" ")}>
-                    {activeCategory === cat && (
-                      <svg viewBox="0 0 16 16" fill="none" className="size-[14px]"><path d="M3 8l4 4 6-8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                    )}
-                  </div>
-                  <span className={["text-[16px] lg:text-[20px]", activeCategory === cat ? "text-[#000080] font-bold" : "text-black"].join(" ")} style={vs}>{cat}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+        {/* Desktop Sidebar */}
+        <aside className="hidden md:block w-[200px] lg:w-[220px] flex-shrink-0">
+          <FilterPanel />
         </aside>
 
         {/* Product area */}
         <div className="flex-1 min-w-0">
-          {/* Toolbar: count + sort + view toggle */}
+          {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-5">
-            <p className="text-[#6B7280] text-[14px]" style={vs}>
-              <span className="font-bold text-[#100E1A]">{filtered.length}</span> product{filtered.length !== 1 ? "s" : ""}
-              {activeCategory !== "All" && <span> in <span className="text-[#000080] font-semibold">{activeCategory}</span></span>}
-              {search && <span> matching &ldquo;<span className="text-[#000080] font-semibold">{search}</span>&rdquo;</span>}
-            </p>
+            <div className="flex items-center gap-3 flex-wrap">
+              {/* Mobile filter button */}
+              <button onClick={() => setFilterOpen(true)} className="flex md:hidden items-center gap-2 border-2 border-[#3A394F] rounded-[8px] px-3 py-[7px] text-[#100E1A] text-[13px] font-medium hover:border-[#000080] transition-colors bg-white" style={vs}>
+                <svg viewBox="0 0 16 12" className="size-[14px]" fill="none"><path d="M1 1h14M3 6h10M6 11h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
+                Filter{activeFilterCount > 0 && <span className="bg-[#000080] text-white text-[10px] rounded-full px-[5px] py-[1px]">{activeFilterCount}</span>}
+              </button>
+              <p className="text-[#6B7280] text-[14px]" style={vs}>
+                <span className="font-bold text-[#100E1A]">{filtered.length}</span> product{filtered.length !== 1 ? "s" : ""}
+                {activeCategory !== "All" && <span> in <span className="text-[#000080] font-semibold">{activeCategory}</span></span>}
+                {search && <span className="hidden sm:inline"> for &ldquo;<span className="text-[#000080] font-semibold">{search}</span>&rdquo;</span>}
+              </p>
+              {activeFilterCount > 0 && (
+                <button onClick={clearAllFilters} className="text-[12px] text-red-500 underline" style={vs}>Clear all</button>
+              )}
+            </div>
             <div className="flex items-center gap-3">
-              <select value={sort} onChange={(e) => setSort(e.target.value)} className="text-[13px] border border-[#3A394F] rounded-[8px] px-3 py-[7px] text-[#100E1A] bg-white outline-none focus:border-[#000080] cursor-pointer" style={vs}>
+              {/* Desktop sort dropdown (compact, for quick access) */}
+              <select value={sort} onChange={(e) => setSort(e.target.value)} className="hidden sm:block text-[13px] border border-[#3A394F] rounded-[8px] px-3 py-[7px] text-[#100E1A] bg-white outline-none focus:border-[#000080] cursor-pointer" style={vs}>
                 {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
               <div className="flex items-center border border-[#3A394F] rounded-[8px] overflow-hidden">
@@ -569,37 +715,74 @@ export default function MarketplacePage() {
             </div>
           </div>
 
+          {/* Active filter chips */}
+          {activeFilterCount > 0 && (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {activeCategory !== "All" && (
+                <span className="flex items-center gap-1 bg-[#000080]/10 text-[#000080] text-[12px] font-medium px-3 py-1 rounded-full" style={vs}>
+                  {activeCategory}
+                  <button onClick={() => setActiveCategory("All")} className="ml-1 text-[#000080]/60 hover:text-[#000080] text-[14px] leading-none">×</button>
+                </span>
+              )}
+              {(priceMin || priceMax) && (
+                <span className="flex items-center gap-1 bg-[#000080]/10 text-[#000080] text-[12px] font-medium px-3 py-1 rounded-full" style={vs}>
+                  {priceMin ? `₦${priceMin}` : "₦0"} – {priceMax ? `₦${priceMax}` : "any"}
+                  <button onClick={() => { setPriceMin(""); setPriceMax(""); }} className="ml-1 text-[#000080]/60 hover:text-[#000080] text-[14px] leading-none">×</button>
+                </span>
+              )}
+              {availability !== "All" && (
+                <span className="flex items-center gap-1 bg-[#000080]/10 text-[#000080] text-[12px] font-medium px-3 py-1 rounded-full" style={vs}>
+                  {availability}
+                  <button onClick={() => setAvailability("All")} className="ml-1 text-[#000080]/60 hover:text-[#000080] text-[14px] leading-none">×</button>
+                </span>
+              )}
+              {activeQuickFilters.map((qf) => {
+                const label = QUICK_FILTERS.find((q) => q.key === qf)?.label || qf;
+                return (
+                  <span key={qf} className="flex items-center gap-1 bg-[#000080]/10 text-[#000080] text-[12px] font-medium px-3 py-1 rounded-full" style={vs}>
+                    {label}
+                    <button onClick={() => toggleQuickFilter(qf)} className="ml-1 text-[#000080]/60 hover:text-[#000080] text-[14px] leading-none">×</button>
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-[400px] gap-4">
+              <span className="text-[48px]">🔍</span>
               <p className="text-[#A3A1AF] text-[18px]" style={vs}>No products found.</p>
-              <button onClick={() => { setSearch(""); setActiveCategory("All"); }} className="text-[#000080] text-[14px] font-semibold underline" style={vs}>Clear filters</button>
+              <button onClick={clearAllFilters} className="text-[#000080] text-[14px] font-semibold underline" style={vs}>Clear all filters</button>
             </div>
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[24px]">
               {paginated.map((product) => (
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[20px] p-[14px] flex flex-col gap-[20px] md:gap-[24px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
-                  <div className="relative h-[220px] md:h-[280px] w-full rounded-[18px] overflow-hidden">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    {product.isNew && <span className="absolute top-3 left-3 bg-[#000080] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">New</span>}
+                  <div className="relative h-[220px] md:h-[260px] w-full rounded-[18px] overflow-hidden bg-[#F3F4F6]">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                    <div className="absolute top-3 left-3 flex flex-col gap-1">
+                      {product.isNew && <span className="bg-[#000080] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">New</span>}
+                      {product.stock === "limited" && <span className="bg-[#D97706] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Low Stock</span>}
+                    </div>
                   </div>
-                  <div className="flex flex-col gap-[16px] md:gap-[28px]">
+                  <div className="flex flex-col gap-[16px] md:gap-[20px]">
                     <div className="flex flex-col gap-[6px] md:gap-[10px]">
-                      <h3 className="text-black font-bold text-[18px] md:text-[22px] leading-[28px]" style={vs}>{product.name}</h3>
-                      <p className="text-[#100E1A] text-[14px] md:text-[16px] leading-[1.5] line-clamp-2" style={vs}>{product.description}</p>
+                      <h3 className="text-black font-bold text-[18px] md:text-[20px] leading-[28px]" style={vs}>{product.name}</h3>
+                      <p className="text-[#100E1A] text-[14px] md:text-[15px] leading-[1.5] line-clamp-2" style={vs}>{product.description}</p>
                     </div>
                     <div className="flex items-center justify-between">
-                      <div className="bg-[#100E1A] px-4 md:px-[36px] py-[10px] md:py-[13px] rounded-[33px]">
-                        <span className="text-[#FFFDFD] text-[14px] md:text-[18px] font-black" style={vs}>{product.price}</span>
+                      <div className="bg-[#100E1A] px-4 md:px-[28px] py-[10px] md:py-[13px] rounded-[33px]">
+                        <span className="text-[#FFFDFD] text-[14px] md:text-[16px] font-black" style={vs}>{product.price}</span>
                       </div>
-                      <div className="flex items-center gap-3 md:gap-[25px]">
+                      <div className="flex items-center gap-3 md:gap-[20px]">
                         <button onClick={(e) => toggleWishlist(product.id, e)} className="flex items-center justify-center" aria-label="Add to wishlist">
-                          <svg viewBox="0 0 37 32" fill="none" className="w-[30px] h-[26px] md:w-[37px] md:h-[32px]">
+                          <svg viewBox="0 0 37 32" fill="none" className="w-[28px] h-[24px] md:w-[34px] md:h-[28px]">
                             <path d="M18.5 28S3 19.5 3 10.5C3 7 5.5 4 9 4c2.5 0 4.8 1.5 6 3.8a7.15 7.15 0 0 1 12 3.5c.5 6.3-8.5 16.7-8.5 16.7z" fill={wishlist.includes(product.id) ? "#FF4D6D" : "none"} stroke={wishlist.includes(product.id) ? "#FF4D6D" : "#100E1A"} strokeWidth="2" />
                           </svg>
                         </button>
-                        <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[40px] md:size-[48px] rounded-[24px] flex items-center justify-center hover:bg-[#000080] transition-colors" aria-label="Add to cart">
-                          <svg viewBox="0 0 25 23" fill="none" className="w-[20px] h-[18px] md:w-[25px] md:h-[23px]"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
+                        <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[40px] md:size-[44px] rounded-[24px] flex items-center justify-center hover:bg-[#000080] transition-colors" aria-label="Add to cart">
+                          <svg viewBox="0 0 25 23" fill="none" className="w-[18px] h-[16px] md:w-[22px] md:h-[20px]"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
                         </button>
                       </div>
                     </div>
@@ -612,21 +795,22 @@ export default function MarketplacePage() {
               {paginated.map((product) => (
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[20px] p-[14px] flex items-center gap-4 shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
-                  <div className="relative size-[90px] md:size-[110px] rounded-[14px] overflow-hidden flex-shrink-0">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <div className="relative size-[90px] md:size-[110px] rounded-[14px] overflow-hidden flex-shrink-0 bg-[#F3F4F6]">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     {product.isNew && <span className="absolute top-1 left-1 bg-[#000080] text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full">New</span>}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-black font-bold text-[16px] md:text-[20px] leading-tight" style={vs}>{product.name}</h3>
                     <p className="text-[#100E1A] text-[13px] md:text-[15px] leading-[1.5] mt-1 line-clamp-1" style={vs}>{product.description}</p>
+                    {product.stock === "limited" && <span className="text-[11px] text-[#D97706] font-semibold">Low Stock</span>}
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0">
                     <div className="bg-[#100E1A] px-4 py-[10px] rounded-[33px]"><span className="text-[#FFFDFD] text-[14px] md:text-[16px] font-black" style={vs}>{product.price}</span></div>
                     <button onClick={(e) => toggleWishlist(product.id, e)} aria-label="Add to wishlist">
-                      <svg viewBox="0 0 37 32" fill="none" className="w-[26px] h-[22px]"><path d="M18.5 28S3 19.5 3 10.5C3 7 5.5 4 9 4c2.5 0 4.8 1.5 6 3.8a7.15 7.15 0 0 1 12 3.5c.5 6.3-8.5 16.7-8.5 16.7z" fill={wishlist.includes(product.id) ? "#FF4D6D" : "none"} stroke={wishlist.includes(product.id) ? "#FF4D6D" : "#100E1A"} strokeWidth="2" /></svg>
+                      <svg viewBox="0 0 37 32" fill="none" className="w-[24px] h-[20px]"><path d="M18.5 28S3 19.5 3 10.5C3 7 5.5 4 9 4c2.5 0 4.8 1.5 6 3.8a7.15 7.15 0 0 1 12 3.5c.5 6.3-8.5 16.7-8.5 16.7z" fill={wishlist.includes(product.id) ? "#FF4D6D" : "none"} stroke={wishlist.includes(product.id) ? "#FF4D6D" : "#100E1A"} strokeWidth="2" /></svg>
                     </button>
-                    <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[40px] rounded-[24px] flex items-center justify-center hover:bg-[#000080] transition-colors" aria-label="Add to cart">
-                      <svg viewBox="0 0 25 23" fill="none" className="w-[18px] h-[16px]"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
+                    <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[38px] rounded-[24px] flex items-center justify-center hover:bg-[#000080] transition-colors" aria-label="Add to cart">
+                      <svg viewBox="0 0 25 23" fill="none" className="w-[16px] h-[14px]"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
                     </button>
                   </div>
                 </div>
@@ -709,7 +893,7 @@ export default function MarketplacePage() {
           <div className="flex flex-col gap-5 flex-1">
             <p className="text-[#000080] text-[13px] uppercase tracking-[0.2em] font-medium" style={vs}>For Sellers</p>
             <h2 className="text-[#100E1A] text-[24px] md:text-[36px] font-bold" style={vs}>Want to Sell on ROS Marketplace?</h2>
-            <p className="text-[#A3A1AF] text-[16px] leading-[1.7]" style={vs}>If you are a church member with products or services to offer, join our marketplace! Reach hundreds of fellow church members and community customers, all while supporting the church community.</p>
+            <p className="text-[#A3A1AF] text-[16px] leading-[1.7]" style={vs}>If you are a church member with products or services to offer, join our marketplace! Reach hundreds of fellow church members and community customers.</p>
             <ul className="flex flex-col gap-3">
               {["Free to list for church members", "No commission on first 3 months", "Get visibility in weekly announcements", "Access to church logistics network"].map(item => (
                 <li key={item} className="flex items-center gap-3">
