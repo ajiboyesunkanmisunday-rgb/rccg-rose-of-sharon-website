@@ -37,7 +37,7 @@ const AD_SLIDES = [
     cta: "BUY NOW — ₦4,000",
     ctaHref: "#products",
     note: "Limited stock available",
-    image: "https://picsum.photos/seed/purposedrivenlife/400/500",
+    image: "/marketplace/img4.jpg",
   },
   {
     id: 3,
@@ -67,7 +67,7 @@ const AD_SLIDES = [
     cta: "VIEW PRODUCT",
     ctaHref: "#products",
     note: "₦75,000 · Limited quantity",
-    image: "https://picsum.photos/seed/italianshoe/400/500",
+    image: "/marketplace/img5.jpg",
   },
 ];
 
@@ -117,15 +117,15 @@ interface Product {
 }
 
 const PRODUCTS: Product[] = [
-  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "https://picsum.photos/seed/nikeroundneck/400/400", stock: "in_stock", tags: ["clothing", "men", "nike"] },
-  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "https://picsum.photos/seed/sportsneaker/400/400", isNew: true, stock: "limited", tags: ["shoes", "sport", "new"] },
-  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "https://picsum.photos/seed/purposedrivenbook/400/400", stock: "limited", tags: ["book", "spiritual", "rick warren"] },
-  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "https://picsum.photos/seed/italianshoe/400/400", stock: "limited", tags: ["shoes", "formal", "leather"] },
-  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "https://picsum.photos/seed/menbluesuit/400/400", stock: "in_stock", tags: ["formal", "men", "suit"] },
-  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "https://picsum.photos/seed/snackspicy/400/400", stock: "in_stock", tags: ["food", "snack", "restaurant"] },
-  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "https://picsum.photos/seed/friedricechicken/400/400", stock: "in_stock", tags: ["food", "rice", "restaurant"] },
-  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "https://picsum.photos/seed/femredleatherbag/400/400", stock: "limited", tags: ["bag", "women", "leather"] },
-  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "https://picsum.photos/seed/powerofcharacter/400/400", stock: "in_stock", tags: ["book", "spiritual", "myles munroe"] },
+  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "/marketplace/img2.jpg", stock: "in_stock", tags: ["clothing", "men", "nike"] },
+  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "/marketplace/img3.jpg", isNew: true, stock: "limited", tags: ["shoes", "sport", "new"] },
+  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "/marketplace/img4.jpg", stock: "limited", tags: ["book", "spiritual", "rick warren"] },
+  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "/marketplace/img5.jpg", stock: "limited", tags: ["shoes", "formal", "leather"] },
+  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "/marketplace/img6.jpg", stock: "in_stock", tags: ["formal", "men", "suit"] },
+  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "/marketplace/img7.jpg", stock: "in_stock", tags: ["food", "snack", "restaurant"] },
+  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "/marketplace/img8.jpg", stock: "in_stock", tags: ["food", "rice", "restaurant"] },
+  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "/marketplace/img9.jpg", stock: "limited", tags: ["bag", "women", "leather"] },
+  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "/marketplace/img10.jpg", stock: "in_stock", tags: ["book", "spiritual", "myles munroe"] },
 ];
 
 const PRODUCT_CATEGORIES = [
