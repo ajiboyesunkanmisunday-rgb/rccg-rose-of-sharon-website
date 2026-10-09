@@ -1,248 +1,201 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const vs = { fontVariationSettings: '"wdth" 100' };
-
-const trainingLinks = [
-  { label: "Water Baptism", href: "/trainings/water-baptism" },
-  { label: "Workers in Training", href: "/trainings/workers-in-training" },
-  { label: "School of Disciples", href: "/trainings/school-of-disciples" },
-  { label: "School of Ministry", href: "/trainings/school-of-ministry" },
-  { label: "RILA", href: "/trainings/rila" },
+const NAV_LINKS = [
+  { label: "ABOUT", href: "/about" },
+  { label: "MEDIA", href: "/media" },
+  { label: "GROUPS", href: "/groups" },
+  { label: "TRAININGS", href: "/trainings" },
+  { label: "EVENTS", href: "/events" },
+  { label: "MARKETPLACE", href: "/marketplace" },
 ];
 
-const groupLinks = [
-  { label: "Hearts of David", href: "/groups" },
-  { label: "Oaks of Righteousness", href: "/groups" },
-  { label: "Young Professionals", href: "/groups" },
+const MENU_SECTIONS = [
+  {
+    title: "CONNECT",
+    links: [
+      { label: "Meet the Church", href: "/about" },
+      { label: "First-Timer", href: "/first-timer" },
+      { label: "Become an E-Member", href: "/e-member" },
+      { label: "Prayer Request", href: "/requests/prayer" },
+    ],
+  },
+  {
+    title: "MINISTRIES",
+    links: [
+      { label: "Church Groups", href: "/groups" },
+      { label: "CSR Program", href: "/csr" },
+      { label: "New Believer", href: "/new-believer" },
+    ],
+  },
+  {
+    title: "RESOURCES",
+    links: [
+      { label: "Training Programs", href: "/trainings" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "Announcements", href: "/announcements" },
+      { label: "Celebrations", href: "/celebrations" },
+      { label: "Testimonies", href: "/testimonies" },
+    ],
+  },
+  {
+    title: "MEDIA",
+    links: [
+      { label: "Watch Online", href: "/media" },
+      { label: "Upcoming Events", href: "/events" },
+      { label: "Marketplace", href: "/marketplace" },
+    ],
+  },
 ];
 
-const dropdownLinks: Record<string, { label: string; href: string }[]> = {
-  trainings: trainingLinks,
-  groups: groupLinks,
-};
-
-const navLinks = [
-  { label: "Meet the Church", href: "/about", key: "about" },
-  { label: "Media", href: "/media", key: "media" },
-  { label: "Trainings", href: "/trainings", dropdown: "trainings", key: "trainings" },
-  { label: "Groups", href: "/groups", dropdown: "groups", key: "groups" },
-  { label: "Testimonies", href: "/testimonies", key: "testimonies" },
-  { label: "Marketplace", href: "/marketplace", key: "marketplace" },
-];
-
-interface NavbarProps {
-  activePage?: string;
-}
-
-export default function Navbar({ activePage }: NavbarProps) {
+export default function Navbar(_: { activePage?: string }) {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
-  const navRef = useRef<HTMLElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setOpenDropdown(null);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (menuOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
-    <nav ref={navRef} className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 xl:px-[100px] py-[16px]">
-      {/* Logo */}
-      <Link href="/" className="flex items-center gap-[12px]">
-        <div className="relative w-[36px] h-[36px] xl:w-[46px] xl:h-[46px]">
-          <Image src="/assets/logo.png" alt="RCCG Rose of Sharon logo" fill className="object-contain" />
-        </div>
-        <div className="relative w-[130px] h-[20px] xl:w-[194px] xl:h-[30px]">
-          <Image src="/assets/logo-text.svg" alt="Rose of Sharon" fill className="object-contain" />
-        </div>
-      </Link>
-
-      {/* Desktop nav — xl and above */}
-      <div className="hidden xl:flex items-center gap-[12px]">
-        {navLinks.map((link) => {
-          const isActive = link.key === activePage;
-
-          if (link.dropdown) {
-            const isOpen = openDropdown === link.dropdown;
-            const links = dropdownLinks[link.dropdown];
-            return (
-              <div key={link.key} className="relative">
-                <button
-                  onClick={() => setOpenDropdown(isOpen ? null : link.dropdown!)}
-                  className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
-                    isActive ? "border-b-[3px] border-[#000080]" : ""
-                  }`}
-                  style={vs}
-                >
-                  {link.label}
-                  <svg
-                    className={`w-3 h-3 ml-0.5 flex-shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {isOpen && (
-                  <div className="absolute top-full left-0 mt-[8px] bg-[#100E1A] border border-[#B5B5F3]/20 rounded-[12px] py-[8px] min-w-[220px] shadow-[0px_8px_32px_rgba(0,0,0,0.4)] z-50">
-                    <Link
-                      href={link.href}
-                      onClick={() => setOpenDropdown(null)}
-                      className="block px-[16px] py-[8px] text-[#B5B5F3] text-[13px] font-medium uppercase tracking-wider hover:bg-[#B5B5F3]/10 transition-colors"
-                      style={vs}
-                    >
-                      All {link.label}
-                    </Link>
-                    <div className="border-t border-[#B5B5F3]/10 my-[4px]" />
-                    {links.map((l) => (
-                      <Link
-                        key={l.label}
-                        href={l.href}
-                        onClick={() => setOpenDropdown(null)}
-                        className="block px-[16px] py-[10px] text-[#FFFDFD] text-[15px] font-normal hover:bg-[#B5B5F3]/10 hover:text-[#B5B5F3] transition-colors"
-                        style={vs}
-                      >
-                        {l.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          }
-
-          return (
-            <Link
-              key={link.key}
-              href={link.href}
-              className={`flex items-center gap-1 py-1 text-[#FFFDFD] text-[15px] font-normal hover:text-white transition-colors ${
-                isActive ? "border-b-[3px] border-[#000080]" : ""
-              }`}
-              style={vs}
-            >
-              {link.label}
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Desktop CTA buttons */}
-      <div className="hidden xl:flex items-center gap-3">
-        <Link
-          href="/events"
-          className="px-[24px] py-[10px] bg-[#B5B5F3] text-[#000080] rounded-[30px] text-[14px] font-normal hover:opacity-90 transition-opacity"
-          style={vs}
-        >
-          Calendar
-        </Link>
-        <Link
-          href="/csr"
-          className="px-[24px] py-[10px] border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-[30px] text-[14px] font-normal hover:bg-[#B5B5F3]/10 transition-colors"
-          style={vs}
-        >
-          CSR
-        </Link>
-      </div>
-
-      {/* Hamburger — below xl */}
-      <button
-        className="xl:hidden text-white p-2 z-50"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Toggle menu"
+    <>
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-[#0F0F0F]/95 backdrop-blur-md shadow-xl"
+            : "bg-transparent"
+        }`}
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          {menuOpen ? (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          ) : (
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          )}
-        </svg>
-      </button>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-[#100E1A] xl:hidden flex flex-col z-40 shadow-xl">
-          <div className="px-6 py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <div key={link.key}>
-                {link.dropdown ? (
-                  <>
-                    <button
-                      className={`flex items-center justify-between w-full py-3 text-white text-[16px] font-normal border-b border-white/10 ${
-                        link.key === activePage ? "text-[#B5B5F3]" : ""
-                      }`}
-                      onClick={() => setMobileExpanded(mobileExpanded === link.dropdown ? null : link.dropdown!)}
-                      style={vs}
-                    >
-                      {link.label}
-                      <svg
-                        className={`w-4 h-4 transition-transform ${mobileExpanded === link.dropdown ? "rotate-180" : ""}`}
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    {mobileExpanded === link.dropdown && (
-                      <div className="pl-4 flex flex-col gap-0 bg-[#1A1826]">
-                        {dropdownLinks[link.dropdown].map((l) => (
-                          <Link
-                            key={l.label}
-                            href={l.href}
-                            className="block py-2 text-[#B5B5F3] text-[14px] border-b border-white/5"
-                            onClick={() => setMenuOpen(false)}
-                            style={vs}
-                          >
-                            {l.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className={`block py-3 text-white text-[16px] font-normal border-b border-white/10 ${
-                      link.key === activePage ? "text-[#B5B5F3]" : ""
-                    }`}
-                    onClick={() => setMenuOpen(false)}
-                    style={vs}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-              </div>
-            ))}
-
-            <div className="flex gap-3 pt-4 pb-2">
-              <Link
-                href="/events"
-                className="flex-1 text-center px-4 py-3 bg-[#B5B5F3] text-[#000080] rounded-full text-[14px] font-bold"
-                onClick={() => setMenuOpen(false)}
-                style={vs}
-              >
-                Calendar
-              </Link>
-              <Link
-                href="/csr"
-                className="flex-1 text-center px-4 py-3 border-2 border-[#B5B5F3] text-[#B5B5F3] rounded-full text-[14px] font-medium"
-                onClick={() => setMenuOpen(false)}
-                style={vs}
-              >
-                CSR
-              </Link>
+        <div className="flex items-center justify-between px-6 md:px-10 xl:px-16 h-[72px]">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 z-10">
+            <div className="relative w-9 h-9">
+              <Image src="/assets/logo.png" alt="RCCG Rose of Sharon" fill className="object-contain" />
             </div>
+            <div className="relative w-[130px] h-[18px] hidden sm:block">
+              <Image src="/assets/logo-text.svg" alt="Rose of Sharon" fill className="object-contain" />
+            </div>
+          </Link>
+
+          {/* Desktop nav links — centered */}
+          <div className="hidden lg:flex items-center gap-7">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="font-barlow-condensed text-white/90 text-[13px] font-semibold tracking-[0.12em] hover:text-[#C1272D] transition-colors duration-200"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Right: Give CTA + Hamburger */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/give"
+              className="hidden sm:inline-flex font-barlow-condensed items-center px-5 py-2 bg-[#C1272D] text-white text-[13px] font-bold tracking-[0.1em] rounded-full hover:bg-[#A01F23] transition-colors duration-200"
+            >
+              GIVE
+            </Link>
+
+            {/* Hamburger */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex flex-col justify-center items-center w-10 h-10 gap-[5px] group"
+              aria-label="Menu"
+            >
+              <span
+                className={`block h-[2px] bg-white rounded-full transition-all duration-300 ${
+                  menuOpen ? "w-6 rotate-45 translate-y-[7px]" : "w-6"
+                }`}
+              />
+              <span
+                className={`block h-[2px] bg-white rounded-full transition-all duration-300 ${
+                  menuOpen ? "w-0 opacity-0" : "w-4 group-hover:w-6"
+                }`}
+              />
+              <span
+                className={`block h-[2px] bg-white rounded-full transition-all duration-300 ${
+                  menuOpen ? "w-6 -rotate-45 -translate-y-[7px]" : "w-6"
+                }`}
+              />
+            </button>
           </div>
         </div>
-      )}
-    </nav>
+      </nav>
+
+      {/* Fullscreen menu overlay */}
+      <div
+        ref={menuRef}
+        className={`fixed inset-0 z-40 bg-[#0F0F0F] transition-all duration-500 overflow-y-auto ${
+          menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <div className="min-h-full px-6 md:px-16 xl:px-24 pt-28 pb-16">
+          {/* 4-column link grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6">
+            {MENU_SECTIONS.map((section) => (
+              <div key={section.title} className="flex flex-col gap-5">
+                <p className="font-barlow-condensed text-[#C1272D] text-[11px] font-bold tracking-[0.2em] uppercase border-b border-white/10 pb-3">
+                  {section.title}
+                </p>
+                <ul className="flex flex-col gap-3">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        onClick={() => setMenuOpen(false)}
+                        className="font-barlow text-white/80 text-[15px] font-normal hover:text-white hover:translate-x-1 inline-block transition-all duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom: social + CTA */}
+          <div className="mt-16 pt-10 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <a href="https://www.instagram.com/rccgros/?hl=en" target="_blank" rel="noopener noreferrer"
+                className="font-barlow-condensed text-white/50 text-[12px] font-semibold tracking-widest hover:text-white transition-colors">
+                INSTAGRAM
+              </a>
+              <span className="text-white/20">·</span>
+              <a href="https://www.facebook.com/rccgrospage/" target="_blank" rel="noopener noreferrer"
+                className="font-barlow-condensed text-white/50 text-[12px] font-semibold tracking-widest hover:text-white transition-colors">
+                FACEBOOK
+              </a>
+              <span className="text-white/20">·</span>
+              <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer"
+                className="font-barlow-condensed text-white/50 text-[12px] font-semibold tracking-widest hover:text-white transition-colors">
+                YOUTUBE
+              </a>
+            </div>
+            <Link
+              href="/give"
+              onClick={() => setMenuOpen(false)}
+              className="font-barlow-condensed px-8 py-3 bg-[#C1272D] text-white text-[14px] font-bold tracking-[0.1em] rounded-full hover:bg-[#A01F23] transition-colors"
+            >
+              GIVE NOW →
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
