@@ -252,9 +252,9 @@ export default function Home() {
           <div className="max-w-[1280px] mx-auto">
             <div className="text-center mb-14" data-reveal>
               <Pill v="outline-dark"><Dot /> COMMUNITY</Pill>
-              <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] leading-[0.88] mt-5 text-[clamp(32px,5.5vw,72px)]">
+              <h2 className="font-oswald font-bold text-[#0E0E0E] leading-[0.92] mt-5 text-[clamp(32px,5.5vw,72px)]">
                 We do community differently<br />at{" "}
-                <span className="text-[#C0362A] italic font-playfair font-bold not-italic" style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}>
+                <span style={{ color: "#C0362A" }}>
                   Rose of Sharon
                 </span>
               </h2>
@@ -336,9 +336,9 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════
-            §8 · MINISTRIES — dark, huge faded EVERYONE, photo cards right
+            §8 · MINISTRIES — white bg, huge faded EVERYONE, photo cards right
         ═══════════════════════════════════ */}
-        <section className="bg-[#0E0E0E] py-20 px-6 md:px-12 xl:px-20">
+        <section className="bg-white py-20 px-6 md:px-12 xl:px-20">
           <div className="max-w-[1280px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-start">
               {/* Left: text column */}
@@ -348,13 +348,13 @@ export default function Home() {
                 </p>
                 {/* EVERYONE as huge faded decorative text — the CCI signature element */}
                 <div className="relative">
-                  <p className="font-oswald font-bold uppercase text-white text-[clamp(32px,5.5vw,64px)] leading-[0.88]">
+                  <p className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(32px,5.5vw,64px)] leading-[0.88]">
                     THERE&apos;S A<br />PLACE FOR
                   </p>
                   <p className="font-oswald font-bold uppercase leading-none select-none"
                     style={{
                       fontSize: "clamp(72px, 18vw, 200px)",
-                      color: "rgba(192, 54, 42, 0.12)",
+                      color: "rgba(192, 54, 42, 0.1)",
                       lineHeight: 0.85,
                       marginTop: "4px",
                       letterSpacing: "-0.02em",
@@ -363,28 +363,28 @@ export default function Home() {
                   </p>
                 </div>
                 <Link href="/groups"
-                  className="font-barlow-condensed inline-flex items-center gap-2 mt-6 px-8 py-[12px] border border-white/25 text-white/60 text-[11px] font-bold tracking-[0.2em] rounded-full hover:border-white hover:text-white transition-all w-fit">
+                  className="font-barlow-condensed inline-flex items-center gap-2 mt-6 px-8 py-[12px] border border-[#0E0E0E]/30 text-[#0E0E0E]/60 text-[11px] font-bold tracking-[0.2em] rounded-full hover:border-[#0E0E0E] hover:text-[#0E0E0E] transition-all w-fit">
                   SEE ALL MINISTRIES
                 </Link>
               </div>
 
-              {/* Right: ministry photo cards */}
-              <div className="flex flex-col gap-3" data-stagger>
+              {/* Right: ministry photo cards — photo on top, text below */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[3px]" data-stagger>
                 {[
-                  { img: IMG.min1, title: "Youth Ministry",            sub: "Celeb Kids & Young Adults" },
-                  { img: IMG.min2, title: "Celebration Church Worship", sub: "ROS Choir & Music Ministry" },
+                  { img: IMG.min1, title: "Youth Ministry",             sub: "Celeb Kids & Young Adults" },
+                  { img: IMG.min2, title: "Celebration Church Worship",  sub: "ROS Choir & Music Ministry" },
                 ].map((m) => (
-                  <Link key={m.title} href="/groups" className="group flex items-center gap-4 relative overflow-hidden">
-                    <div className="relative flex-shrink-0 overflow-hidden" style={{ width: "200px", aspectRatio: "3/2" }}>
+                  <Link key={m.title} href="/groups" className="group block">
+                    <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
                       <img src={m.img} alt={m.title}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out brightness-75" />
+                        className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-barlow-condensed text-white font-bold text-[16px] uppercase tracking-wide group-hover:text-[#C0362A] transition-colors">
+                    <div className="pt-4 pb-5">
+                      <h3 className="font-barlow-condensed text-[#0E0E0E] font-bold text-[16px] uppercase tracking-wide group-hover:text-[#C0362A] transition-colors">
                         {m.title}
                       </h3>
-                      <p className="font-barlow text-white/40 text-[13px] mt-1">{m.sub}</p>
-                      <p className="font-barlow-condensed text-white/30 text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1 group-hover:text-[#C0362A] transition-colors">
+                      <p className="font-barlow text-[#888] text-[13px] mt-1">{m.sub}</p>
+                      <p className="font-barlow-condensed text-[#aaa] text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1 group-hover:text-[#C0362A] transition-colors">
                         VISIT <Arr />
                       </p>
                     </div>
@@ -433,6 +433,32 @@ export default function Home() {
                 BUILDING PROJECT
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════
+            §10 · MAILING LIST — deep red, centered
+        ═══════════════════════════════════ */}
+        <section className="bg-[#7B1113] py-16 px-6 md:px-12 xl:px-20">
+          <div className="max-w-[560px] mx-auto text-center" data-reveal>
+            <h2 className="font-oswald font-bold uppercase text-white tracking-[0.08em] text-[clamp(18px,3vw,26px)] mb-3">
+              JOIN OUR MAILING LIST
+            </h2>
+            <p className="font-barlow text-white/60 text-[14px] leading-relaxed mb-8">
+              We promise not to spam you, but send you edifying and amazing content regularly from Rose of Sharon.
+            </p>
+            <form className="flex flex-col sm:flex-row gap-3 justify-center">
+              <input
+                type="email"
+                placeholder="Email"
+                className="font-barlow flex-1 px-5 py-[13px] bg-white/10 border border-white/20 text-white placeholder-white/40 text-[14px] rounded-none outline-none focus:border-white/50 transition-colors"
+              />
+              <button
+                type="submit"
+                className="font-barlow-condensed px-8 py-[13px] bg-white text-[#7B1113] text-[12px] font-bold tracking-[0.18em] hover:bg-white/90 transition-colors">
+                SUBMIT
+              </button>
+            </form>
           </div>
         </section>
 
