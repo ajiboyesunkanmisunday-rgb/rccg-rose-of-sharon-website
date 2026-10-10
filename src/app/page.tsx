@@ -221,27 +221,24 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════
-            §5 · BOAST — white text LEFT, photo RIGHT (CCI-precise split)
+            §5 · BOAST — full-width photo bg, white text at bottom (CCI layout)
         ═══════════════════════════════════ */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-          {/* Left: white bg with dark text — matches CCI */}
-          <div className="bg-white flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20 lg:py-0" data-reveal-left>
-            <h2 className="font-anton uppercase text-[#0E0E0E] leading-[0.9] text-[clamp(30px,4.7vw,60px)]">
-              WE BOAST IN<br />CHRIST JESUS
-            </h2>
-            <p className="font-barlow text-[#555] text-[16px] mt-6 leading-relaxed max-w-md">
-              Our greatest success story at Rose of Sharon has been the grace to effectively evangelize, make disciples of, and deploy people who once upon a time were mere seekers, as mature disciples and vibrant ministers of the gospel.
-            </p>
-            <Link href="/about"
-              className="font-barlow-condensed inline-flex items-center gap-2 mt-9 px-8 py-[13px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors w-fit">
-              LEARN MORE <Arr />
-            </Link>
-          </div>
-          {/* Right: dark concert/worship photo */}
-          <div className="relative min-h-[400px] lg:min-h-0" data-reveal-right>
-            <img src={IMG.boast} alt="" aria-hidden
-              className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-[#0E0E0E]/25" />
+        <section className="relative h-[560px] md:h-[700px] overflow-hidden">
+          <img src={IMG.boast} alt="" aria-hidden
+            className="absolute inset-0 w-full h-full object-cover object-top" />
+          <div className="absolute inset-0 flex items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
+            <div className="w-full max-w-6xl mx-auto mb-14 flex flex-col items-start gap-4 px-8 md:px-14 xl:px-20" data-reveal>
+              <h2 className="font-anton uppercase text-white leading-[0.9] text-[clamp(30px,4.7vw,60px)]">
+                WE BOAST IN<br />CHRIST JESUS
+              </h2>
+              <p className="font-barlow text-white/65 text-[16px] leading-relaxed max-w-md">
+                Our greatest success story at Rose of Sharon has been the grace to effectively evangelize, make disciples of, and deploy people who once upon a time were mere seekers, as mature disciples and vibrant ministers of the gospel.
+              </p>
+              <Link href="/about"
+                className="font-barlow-condensed inline-flex items-center gap-2 mt-5 px-8 py-[13px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors w-fit">
+                LEARN MORE <Arr />
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -322,7 +319,7 @@ export default function Home() {
               </span>
             </div>
 
-            <h2 className="font-barlow font-black text-white text-[24px] leading-tight mb-5">
+            <h2 className="font-barlow font-black text-white text-[24px] leading-tight mb-5 uppercase tracking-[0.2em]">
               Our lead pastor
             </h2>
             <p className="font-barlow text-white/65 text-[15px] leading-relaxed max-w-md mb-8">
