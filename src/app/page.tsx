@@ -85,16 +85,16 @@ export default function Home() {
             style={{ animation: "kenBurns 24s ease-in-out infinite alternate" }} />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0E0E0E]/75 via-[#0E0E0E]/50 to-[#0E0E0E]/80" />
 
-          <div className="relative z-10 flex flex-col items-center gap-5 px-6 max-w-3xl mx-auto pt-24">
+          <div className="relative z-10 flex flex-col items-center gap-4 px-6 max-w-3xl mx-auto pt-24">
             <Pill v="glass"><Dot /> OUR VISION</Pill>
 
-            <h1 className="font-oswald font-bold uppercase text-white leading-[0.88] tracking-tight mt-1">
-              <span className="block text-[clamp(40px,7.5vw,96px)]">WE ENVISION ALL</span>
-              <span className="block text-[clamp(40px,7.5vw,96px)]">WHO ENTER OUR</span>
-              <span className="block text-[clamp(40px,7.5vw,96px)] text-[#C0362A]">DOORS TRANSFORMED</span>
+            <h1 className="font-oswald font-bold uppercase text-white leading-[0.88] tracking-tight mt-2">
+              <span className="block text-[clamp(44px,8vw,104px)]">WE ENVISION ALL</span>
+              <span className="block text-[clamp(44px,8vw,104px)]">WHO ENTER OUR</span>
+              <span className="block text-[clamp(44px,8vw,104px)] text-[#C0362A]">DOORS TRANSFORMED</span>
             </h1>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
               <Link href="/media"
                 className="font-barlow-condensed px-8 py-[12px] bg-white text-[#0E0E0E] text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-white/90 active:scale-95 transition-all">
                 WATCH LIVE
@@ -115,9 +115,9 @@ export default function Home() {
         </section>
 
         {/* Building Project floating CTA — between hero and welcome, matching CCI */}
-        <div className="bg-white flex justify-center py-8 border-b border-[#F0F0F0]">
+        <div className="bg-white flex justify-center py-6">
           <Link href="/give"
-            className="font-barlow-condensed px-10 py-[13px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.2em] rounded-full hover:bg-[#A02820] transition-colors">
+            className="font-barlow-condensed px-10 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.2em] rounded-full hover:bg-[#A02820] transition-colors">
             BUILDING PROJECT
           </Link>
         </div>
@@ -125,35 +125,36 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §2 · WELCOME HOME  (white, left-aligned)
         ═══════════════════════════════════ */}
-        <section className="bg-white pt-14 pb-0 px-6 md:px-12 xl:px-20">
+        <section className="bg-white pt-8 pb-0 px-6 md:px-12 xl:px-20">
           <div className="max-w-[1280px] mx-auto">
-            <div className="mb-10" data-reveal>
-              <Pill v="red"><Dot c="white" /> WELCOME TO ROS</Pill>
-              <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(48px,8vw,96px)] leading-[0.88] mt-4">
+            <div className="mb-8" data-reveal>
+              <Pill v="outline-dark">🤝 WELCOME TO ROS</Pill>
+              <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(36px,5.5vw,68px)] leading-[0.9] mt-4">
                 WELCOME HOME!
               </h2>
-              <p className="font-barlow text-[#666] text-[15px] mt-3 leading-relaxed max-w-sm">
+              <p className="font-barlow text-[#666] text-[15px] mt-3 mb-6 leading-relaxed">
                 Dive into our teachings, events and community.<br />Your journey of faith begins here.
               </p>
             </div>
 
-            {/* 3 photo cards — ZERO gap, ZERO border-radius, matching CCI exactly */}
+            {/* 3 photo cards — ZERO gap, ZERO border-radius, CCI-exact */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-[3px]" data-stagger>
               {[
-                { img: IMG.w1, cat: "WHO WE ARE",        title: "About us",          label: "LEARN MORE", href: "/about" },
-                { img: IMG.w2, cat: "JOIN OUR COMMUNITY", title: "Connect with us",   label: "SIGN UP",    href: "/first-timer" },
-                { img: IMG.w3, cat: "ENDLESS CELEBRATION", title: "Celebrations",     label: "LEARN MORE", href: "/celebrations" },
+                { img: IMG.w1, cat: "WHO WE ARE",         title: "About us",        label: "LEARN MORE", href: "/about" },
+                { img: IMG.w2, cat: "JOIN OUR COMMUNITY", title: "Connect with us", label: "SIGN UP",    href: "/first-timer" },
+                { img: IMG.w3, cat: "ENDLESS CELEBRATION", title: "Celebrations",   label: "LEARN MORE", href: "/celebrations" },
               ].map((c) => (
                 <Link key={c.cat} href={c.href}
                   className="relative overflow-hidden group block"
                   style={{ aspectRatio: "4/5" }}>
                   <img src={c.img} alt={c.title}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <p className="font-barlow-condensed text-white/50 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">{c.cat}</p>
-                    <p className="font-oswald text-white font-semibold text-[22px] uppercase leading-tight">{c.title}</p>
-                    <p className="font-barlow-condensed text-white/70 text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1">
+                    <p className="font-barlow-condensed text-white/55 text-[10px] font-bold tracking-[0.22em] uppercase mb-1">{c.cat}</p>
+                    {/* Card title: sentence case, Barlow Bold — matches CCI card title style exactly */}
+                    <p className="font-barlow text-white font-bold text-[26px] leading-tight">{c.title}</p>
+                    <p className="font-barlow-condensed text-white/65 text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1.5 uppercase">
                       {c.label} <Arr />
                     </p>
                   </div>
@@ -166,22 +167,22 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §3 · MISSION STATEMENT  (dark, centered)
         ═══════════════════════════════════ */}
-        <section className="bg-[#0E0E0E] py-28 md:py-44 px-6 md:px-12 xl:px-20">
+        <section className="bg-[#0E0E0E] py-24 md:py-36 px-6 md:px-12 xl:px-20">
           <div className="max-w-[1280px] mx-auto text-center">
             <div data-reveal>
               <Pill v="glass"><Dot /> RCCG WORLDWIDE</Pill>
             </div>
             <h2 data-reveal
-              className="font-oswald font-bold uppercase text-white leading-[0.88] mt-10 text-[clamp(38px,7vw,92px)]">
+              className="font-oswald font-bold uppercase text-white leading-[0.88] mt-8 text-[clamp(34px,6vw,80px)]">
               WE ENLIST, DISCIPLE AND<br />REDEPLOY A PEOPLE<br />
-              <span className="text-[#C0362A]">IN CHRIST, FOR CHRIST,<br />WITH JOY.</span>
+              <span className="text-[#C0362A]">IN CHRIST, FOR CHRIST, WITH JOY.</span>
             </h2>
-            <p data-reveal className="font-barlow text-white/40 text-[16px] max-w-lg mx-auto mt-10 leading-relaxed">
+            <p data-reveal className="font-barlow text-white/40 text-[16px] max-w-lg mx-auto mt-8 leading-relaxed">
               Join us at a Rose of Sharon church near you
             </p>
-            <div data-reveal className="mt-8 flex justify-center">
+            <div data-reveal className="mt-7 flex justify-center">
               <Link href="/about"
-                className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[13px] border border-white/30 text-white/70 text-[12px] font-bold tracking-[0.16em] rounded-full hover:border-white hover:text-white transition-all">
+                className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[12px] border border-white/25 text-white/60 text-[12px] font-bold tracking-[0.16em] rounded-full hover:border-white hover:text-white transition-all">
                 LEARN MORE ABOUT US
               </Link>
             </div>
