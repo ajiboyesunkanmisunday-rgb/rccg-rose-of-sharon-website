@@ -44,12 +44,12 @@ function useReveal() {
 
 function Pill({ children, v = "glass" }: { children: React.ReactNode; v?: "glass" | "red" | "outline-dark" }) {
   const cls = {
-    glass:        "bg-white/10 border border-white/25 text-white",
+    glass:        "bg-[#1F1F1F] text-white",
     red:          "bg-[#C0362A] text-white",
-    "outline-dark": "bg-transparent border border-[#0E0E0E]/20 text-[#0E0E0E]",
+    "outline-dark": "bg-[#F4F4F4] text-[#0E0E0E]",
   }[v];
   return (
-    <span className={`inline-flex items-center gap-2 px-[18px] py-[7px] rounded-full font-barlow-condensed text-[11px] font-bold tracking-[0.22em] uppercase ${cls}`}>
+    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full font-barlow text-[12px] font-bold ${cls}`}>
       {children}
     </span>
   );
