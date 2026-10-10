@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Barlow:wght@300;400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@1,700&family=Raleway:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600;700&family=Roboto:ital,wght@0,300;0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,700&family=Raleway:wght@700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --red: #C1272D;
-  --red-dark: #8B1A1A;
-  --footer-red: #7B1113;
-  --dark: #0F0F0F;
-  --dark-2: #1A1A1A;
-  --off-white: #F5F5F2;
-  --give-bg: #F5EAE8;
+  --red:        #C0362A;
+  --red-hover:  #A02820;
+  --footer-red: #7A1214;
+  --dark:       #0E0E0E;
+  --dark-2:     #181818;
+  --off-white:  #F5F5F2;
+  --give-bg:    #F4EAE7;
 
-  /* legacy (kept for marketplace) */
+  /* legacy — kept for marketplace */
   --navy: #000080;
   --navy-dark: #00003D;
   --dark-bg: #100E1A;
@@ -22,65 +22,78 @@
   --gray-text: #A3A1AF;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Barlow', 'Roboto', sans-serif;
   background: #fff;
-  color: #0F0F0F;
+  color: #0E0E0E;
   overflow-x: hidden;
 }
 
-.font-barlow-condensed {
-  font-family: 'Barlow Condensed', sans-serif;
-}
-
-.font-barlow {
-  font-family: 'Barlow', sans-serif;
-}
-
+/* ── Font helpers ── */
+.font-oswald            { font-family: 'Oswald', sans-serif; }
+.font-barlow-condensed  { font-family: 'Barlow Condensed', sans-serif; }
+.font-barlow            { font-family: 'Barlow', sans-serif; }
 /* legacy */
 .font-playfair { font-family: 'Playfair Display', serif; }
 .font-raleway  { font-family: 'Raleway', sans-serif; }
 
-/* ── Scroll-reveal animations ── */
-[data-fade] {
+/* ══════════════════════════════════════════
+   SCROLL-REVEAL  —  safe-to-SSR approach
+   Elements are VISIBLE by default.
+   After React hydrates it adds .anim-ready to <html>;
+   only then do we hide elements and fade them in.
+   This means the content is never permanently invisible.
+════════════════════════════════════════════ */
+
+html.anim-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
 }
-[data-fade].visible {
+html.anim-ready [data-reveal].in {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
-[data-fade-left] {
+
+html.anim-ready [data-reveal-left] {
   opacity: 0;
   transform: translateX(-48px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
+              transform 0.75s cubic-bezier(0.16,1,0.3,1);
 }
-[data-fade-left].visible {
+html.anim-ready [data-reveal-left].in {
   opacity: 1;
-  transform: translateX(0);
+  transform: none;
 }
-[data-fade-right] {
+
+html.anim-ready [data-reveal-right] {
   opacity: 0;
   transform: translateX(48px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
+              transform 0.75s cubic-bezier(0.16,1,0.3,1);
 }
-[data-fade-right].visible {
+html.anim-ready [data-reveal-right].in {
   opacity: 1;
-  transform: translateX(0);
+  transform: none;
 }
 
 /* stagger children */
-[data-stagger] > * {
+html.anim-ready [data-stagger] > * {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1),
+              transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
-[data-stagger].visible > *:nth-child(1) { transition-delay: 0s;    opacity: 1; transform: none; }
-[data-stagger].visible > *:nth-child(2) { transition-delay: 0.12s; opacity: 1; transform: none; }
-[data-stagger].visible > *:nth-child(3) { transition-delay: 0.24s; opacity: 1; transform: none; }
-[data-stagger].visible > *:nth-child(4) { transition-delay: 0.36s; opacity: 1; transform: none; }
+html.anim-ready [data-stagger].in > *:nth-child(1) { transition-delay: 0.00s; opacity:1; transform:none; }
+html.anim-ready [data-stagger].in > *:nth-child(2) { transition-delay: 0.10s; opacity:1; transform:none; }
+html.anim-ready [data-stagger].in > *:nth-child(3) { transition-delay: 0.20s; opacity:1; transform:none; }
+html.anim-ready [data-stagger].in > *:nth-child(4) { transition-delay: 0.30s; opacity:1; transform:none; }
+
+/* Ken Burns hero */
+@keyframes kenBurns {
+  0%   { transform: scale(1.06) translateX(0); }
+  100% { transform: scale(1.0)  translateX(-1.5%); }
+}
