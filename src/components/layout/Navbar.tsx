@@ -7,12 +7,12 @@ import { usePathname } from "next/navigation";
 
 /* ── Top bar center links (desktop) ── */
 const NAV_LINKS = [
-  { label: "ABOUT",     href: "/about" },
-  { label: "QUICK LINKS", href: "/events" },
-  { label: "GROUPS",    href: "/groups" },
-  { label: "SERMONS",   href: "/media" },
-  { label: "TRAININGS", href: "/trainings" },
-  { label: "GIVE",      href: "/give" },
+  { label: "About",       href: "/about" },
+  { label: "Quick Links", href: "/events" },
+  { label: "Groups",      href: "/groups" },
+  { label: "Sermons",     href: "/media" },
+  { label: "Trainings",   href: "/trainings" },
+  { label: "Give",        href: "/give" },
 ];
 
 /* ── Overlay: left-column primary items ── */
@@ -147,13 +147,13 @@ export default function Navbar(_: { activePage?: string }) {
             </div>
           </Link>
 
-          {/* Desktop center links — no separate GIVE button, matching CCI */}
-          <div className="hidden xl:flex items-center gap-8">
+          {/* Desktop center links — shown at lg+, matching CCI breakpoint */}
+          <div className="hidden lg:flex items-center gap-6">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className={`font-barlow-condensed text-[12px] font-semibold tracking-[0.18em] hover:text-white transition-colors duration-200 whitespace-nowrap ${
+                className={`font-barlow text-[14px] font-normal hover:text-white transition-colors duration-200 whitespace-nowrap ${
                   isActive(link.href) ? "text-white" : "text-white/70"
                 }`}
               >

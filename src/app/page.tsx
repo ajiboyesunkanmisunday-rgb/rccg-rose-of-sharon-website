@@ -88,10 +88,10 @@ export default function Home() {
           <div className="relative z-10 flex flex-col items-center gap-4 px-6 max-w-3xl mx-auto pt-24">
             <Pill v="glass"><Dot /> OUR VISION</Pill>
 
-            <h1 className="font-oswald font-bold uppercase text-white leading-[0.88] tracking-tight mt-2">
-              <span className="block text-[clamp(44px,8vw,104px)]">WE ENVISION ALL</span>
-              <span className="block text-[clamp(44px,8vw,104px)]">WHO ENTER OUR</span>
-              <span className="block text-[clamp(44px,8vw,104px)] text-[#C0362A]">DOORS TRANSFORMED</span>
+            <h1 className="font-anton uppercase text-white leading-[0.88] mt-2">
+              <span className="block text-[clamp(44px,7vw,100px)]">WE ENVISION ALL</span>
+              <span className="block text-[clamp(44px,7vw,100px)]">WHO ENTER OUR</span>
+              <span className="block text-[clamp(44px,7vw,100px)] text-[#C0362A]">DOORS TRANSFORMED</span>
             </h1>
 
             <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
@@ -129,7 +129,7 @@ export default function Home() {
           <div className="max-w-[1280px] mx-auto">
             <div className="mb-8" data-reveal>
               <Pill v="outline-dark">🤝 WELCOME TO ROS</Pill>
-              <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(36px,5.5vw,68px)] leading-[0.9] mt-4">
+              <h2 className="font-anton uppercase text-[#0E0E0E] text-[clamp(40px,5.9vw,76px)] leading-[0.9] mt-4">
                 WELCOME HOME!
               </h2>
               <p className="font-barlow text-[#666] text-[15px] mt-3 mb-6 leading-relaxed">
@@ -153,7 +153,7 @@ export default function Home() {
                   <div className="absolute bottom-0 left-0 right-0 p-5">
                     <p className="font-barlow-condensed text-white/55 text-[10px] font-bold tracking-[0.22em] uppercase mb-1">{c.cat}</p>
                     {/* Card title: sentence case, Barlow Bold — matches CCI card title style exactly */}
-                    <p className="font-barlow text-white font-bold text-[26px] leading-tight">{c.title}</p>
+                    <p className="font-barlow text-white font-bold text-[28px] leading-tight">{c.title}</p>
                     <p className="font-barlow-condensed text-white/65 text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1.5 uppercase">
                       {c.label} <Arr />
                     </p>
@@ -173,8 +173,8 @@ export default function Home() {
               <Pill v="glass"><Dot /> RCCG WORLDWIDE</Pill>
             </div>
             <h2 data-reveal
-              className="font-oswald font-bold uppercase text-white leading-[0.88] mt-8 text-[clamp(34px,6vw,80px)]">
-              WE ENLIST, DISCIPLE AND<br />REDEPLOY A PEOPLE<br />
+              className="font-anton uppercase text-white leading-[0.9] mt-8 text-[clamp(28px,4.5vw,56px)]">
+              WE ENLIST, DISCIPLE AND REDEPLOY A PEOPLE<br />
               <span className="text-[#C0362A]">IN CHRIST, FOR CHRIST, WITH JOY.</span>
             </h2>
             <p data-reveal className="font-barlow text-white/40 text-[16px] max-w-lg mx-auto mt-8 leading-relaxed">
@@ -195,7 +195,7 @@ export default function Home() {
         <section className="bg-white pt-14 pb-0 px-6 md:px-12 xl:px-20">
           <div className="max-w-[1280px] mx-auto">
             <h2 data-reveal
-              className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(32px,5vw,60px)] leading-[0.9] mb-5">
+              className="font-anton uppercase text-[#0E0E0E] text-[clamp(32px,4.5vw,56px)] leading-[0.9] mb-5">
               VISIT ROSE OF SHARON
             </h2>
 
@@ -211,7 +211,7 @@ export default function Home() {
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out brightness-75" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   <div className="absolute bottom-0 left-0 p-4">
-                    <p className="font-oswald text-white font-semibold text-[16px] uppercase leading-tight">{item.name}</p>
+                    <p className="font-anton text-white text-[16px] uppercase leading-tight">{item.name}</p>
                     <p className="font-barlow text-white/55 text-[12px]">{item.sub}</p>
                   </div>
                 </div>
@@ -226,7 +226,7 @@ export default function Home() {
         <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
           {/* Left: white bg with dark text — matches CCI */}
           <div className="bg-white flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20 lg:py-0" data-reveal-left>
-            <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] leading-[0.88] text-[clamp(44px,7vw,88px)]">
+            <h2 className="font-anton uppercase text-[#0E0E0E] leading-[0.9] text-[clamp(30px,4.7vw,60px)]">
               WE BOAST IN<br />CHRIST JESUS
             </h2>
             <p className="font-barlow text-[#555] text-[16px] mt-6 leading-relaxed max-w-md">
@@ -252,7 +252,7 @@ export default function Home() {
           <div className="max-w-[1280px] mx-auto">
             <div className="text-center mb-14" data-reveal>
               <Pill v="outline-dark"><Dot /> COMMUNITY</Pill>
-              <h2 className="font-oswald font-bold text-[#0E0E0E] leading-[0.92] mt-5 text-[clamp(32px,5.5vw,72px)]">
+              <h2 className="font-anton text-[#0E0E0E] leading-[0.92] mt-5 text-[clamp(28px,4.3vw,56px)]">
                 We do community differently<br />at{" "}
                 <span style={{ color: "#C0362A" }}>
                   Rose of Sharon
@@ -311,25 +311,25 @@ export default function Home() {
             <div className="absolute inset-0 bg-[#0E0E0E]/30" />
           </div>
 
-          {/* Right: white background with text — matches CCI precisely */}
-          <div className="bg-white flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20 lg:py-0 order-1 lg:order-2" data-reveal-right>
-            <div className="flex items-center gap-3 mb-6">
-              <div className="relative w-7 h-7 flex-shrink-0">
+          {/* Right: BLACK background with text — matches CCI precisely */}
+          <div className="bg-black flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20 lg:py-0 order-1 lg:order-2" data-reveal-right>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="relative w-6 h-6 flex-shrink-0">
                 <Image src="/assets/logo.png" alt="" fill className="object-contain" />
               </div>
-              <span className="font-barlow-condensed text-[#AAA] text-[10px] font-bold tracking-[0.3em] uppercase">
+              <span className="font-barlow-condensed text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
                 ROSE OF SHARON GLOBAL
               </span>
             </div>
 
-            <h2 className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(32px,5vw,60px)] leading-[0.9] mb-6">
-              OUR LEAD PASTOR
+            <h2 className="font-barlow font-black text-white text-[24px] leading-tight mb-5">
+              Our lead pastor
             </h2>
-            <p className="font-barlow text-[#555] text-[15px] leading-relaxed max-w-md mb-9">
+            <p className="font-barlow text-white/65 text-[15px] leading-relaxed max-w-md mb-8">
               Our lead pastor is a visionary minister dedicated to building a church community rooted in the Word of God, passionate about worship, and committed to transforming lives through the power of the Holy Spirit. Under their leadership, Rose of Sharon has grown into a thriving hub of faith, discipleship, and community impact.
             </p>
             <Link href="/about"
-              className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[13px] border-2 border-[#0E0E0E] text-[#0E0E0E] text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#0E0E0E] hover:text-white transition-all w-fit">
+              className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors w-fit">
               READ MORE
             </Link>
           </div>
@@ -346,22 +346,10 @@ export default function Home() {
                 <p className="font-barlow-condensed text-[#C0362A] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">
                   MINISTRIES
                 </p>
-                {/* EVERYONE as huge faded decorative text — the CCI signature element */}
-                <div className="relative">
-                  <p className="font-oswald font-bold uppercase text-[#0E0E0E] text-[clamp(32px,5.5vw,64px)] leading-[0.88]">
-                    THERE&apos;S A<br />PLACE FOR
-                  </p>
-                  <p className="font-oswald font-bold uppercase leading-none select-none"
-                    style={{
-                      fontSize: "clamp(72px, 18vw, 200px)",
-                      color: "rgba(192, 54, 42, 0.1)",
-                      lineHeight: 0.85,
-                      marginTop: "4px",
-                      letterSpacing: "-0.02em",
-                    }}>
-                    EVERY<br />ONE
-                  </p>
-                </div>
+                {/* CCI-exact: one Anton heading, EVERYONE in red */}
+                <h2 className="font-anton uppercase text-[#0E0E0E] text-[clamp(40px,6.25vw,80px)] leading-[0.9]">
+                  THERE&apos;S A PLACE FOR <span className="text-[#C0362A]">EVERYONE</span>
+                </h2>
                 <Link href="/groups"
                   className="font-barlow-condensed inline-flex items-center gap-2 mt-6 px-8 py-[12px] border border-[#0E0E0E]/30 text-[#0E0E0E]/60 text-[11px] font-bold tracking-[0.2em] rounded-full hover:border-[#0E0E0E] hover:text-[#0E0E0E] transition-all w-fit">
                   SEE ALL MINISTRIES
@@ -410,14 +398,7 @@ export default function Home() {
           </svg>
 
           <div className="max-w-[700px] relative z-10" data-reveal>
-            <h2 className="text-[#0E0E0E] leading-tight"
-              style={{
-                fontFamily: "'Playfair Display', serif",
-                fontSize: "clamp(40px,7vw,80px)",
-                fontStyle: "italic",
-                fontWeight: 700,
-                lineHeight: 1.05,
-              }}>
+            <h2 className="font-anton text-[#0E0E0E] leading-tight text-[clamp(36px,5.9vw,72px)]">
               Give to Rose of Sharon
             </h2>
             <p className="font-barlow text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
