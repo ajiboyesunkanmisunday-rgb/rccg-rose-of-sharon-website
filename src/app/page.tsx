@@ -167,7 +167,7 @@ export default function Home() {
                     className="absolute left-0 top-0 h-full w-full object-cover" />
                   <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
                   <p className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">{c.cat}</p>
-                  <h2 className="absolute left-4 top-10 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
+                  <h2 className="absolute left-4 top-8 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
                   <span className="absolute bottom-4 left-4 z-10 flex items-center gap-2">
                     <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white">{c.label}</h3>
                     <Arr />
@@ -181,7 +181,9 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §3 · MISSION STATEMENT  (dark, centered)
         ═══════════════════════════════════ */}
-        <section className="flex h-[500px] w-full items-center justify-center bg-black">
+        <section className="flex h-[500px] w-full items-center justify-center bg-black"
+          style={{ backgroundImage: "url(/assets/family.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
+          <div className="flex h-full w-full items-center justify-center bg-black/85">
           <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4 text-center">
             <Pill v="glass">🌍 RCCG WORLDWIDE</Pill>
             <div>
@@ -192,13 +194,14 @@ export default function Home() {
                 IN CHRIST, FOR CHRIST, WITH JOY.
               </h2>
             </div>
-            <p className="text-center text-base text-white/60 md:text-lg">
+            <p className="text-center text-base text-white md:text-lg lg:text-xl">
               Join us at a Rose of Sharon church near you
             </p>
             <Link href="/about"
               className="font-barlow-condensed rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black">
               LEARN MORE ABOUT US
             </Link>
+          </div>
           </div>
         </section>
 
@@ -244,8 +247,8 @@ export default function Home() {
         <section className="relative h-[780px] overflow-hidden bg-cover bg-top bg-no-repeat"
           style={{ backgroundImage: `url(${IMG.boast})` }}>
           <div className="flex h-[780px] items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
-            <div className="mx-auto mb-16 flex w-full max-w-6xl flex-col flex-wrap items-start gap-4 px-4 md:px-8">
-              <h2 className="font-anton text-white md:text-5xl md:leading-[3.5rem] text-[clamp(28px,4.7vw,48px)]">
+            <div className="mx-auto mb-16 flex w-full max-w-6xl flex-col flex-wrap items-start gap-4 px-4">
+              <h2 className="font-anton text-2xl font-medium text-white md:text-5xl md:leading-[3.5rem]">
                 WE BOAST IN <br />CHRIST JESUS
               </h2>
               <p className="w-full max-w-[560px] text-left text-white">
@@ -265,18 +268,20 @@ export default function Home() {
         <section className="bg-white">
           <div className="mx-auto max-w-7xl px-4 pt-20 pb-14">
             <div className="text-center mb-14" data-reveal>
-              <Pill v="outline-dark"><Dot /> COMMUNITY</Pill>
-              <h2 className="font-anton text-[#0E0E0E] leading-[0.92] mt-5 text-[clamp(28px,4.3vw,56px)]">
+              <h2 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-[10px] font-black tracking-[0.2em] text-[#000000CC]">
+                <span className="mr-1">🌍</span>COMMUNITY
+              </h2>
+              <h2 className="font-anton text-[#0E0E0E] text-3xl leading-tight mt-5 md:text-[44px]">
                 We do community differently<br />at{" "}
                 <span style={{ color: "#C0362A" }}>
                   Rose of Sharon
                 </span>
               </h2>
-              <p className="text-[#888] text-[16px] mt-3">More than a church, a place to grow</p>
+              <p className="text-center text-xl text-[#00000080] mt-3">More than a church, a place to grow</p>
             </div>
 
             {/* Community cards — gap-8, rounded-lg images, plain font-bold title (CCI-exact) */}
-            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
               {[
                 {
                   img: IMG.cm1,
@@ -317,11 +322,11 @@ export default function Home() {
             §7 · LEAD PASTOR — dark bg, fixed-width photo + centered text (CCI-exact)
         ═══════════════════════════════════ */}
         <section className="bg-black py-6">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-4 md:grid-cols-2 px-4">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-4 md:grid-cols-2">
             {/* Left: centered fixed-width pastor photo */}
             <div className="flex items-center justify-center">
               <img src={IMG.pastor} alt="Lead Pastor"
-                className="h-auto w-[300px] lg:w-[540px] grayscale" />
+                className="h-auto w-[300px] lg:w-[540px]" />
             </div>
 
             {/* Right: centered text content */}
@@ -356,15 +361,14 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-start">
               {/* Left: text column */}
               <div data-reveal-left className="flex flex-col justify-start pt-4">
-                <p className="font-barlow-condensed text-[#C0362A] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">
+                <h6 className="text-center text-xs font-black tracking-[0.2em] text-[#000000CC] mb-3">
                   MINISTRIES
-                </p>
-                {/* CCI-exact: one Anton heading, EVERYONE in red */}
-                <h2 className="font-anton uppercase text-[#0E0E0E] text-[clamp(40px,6.25vw,80px)] leading-[0.9]">
-                  THERE&apos;S A PLACE FOR <span className="text-[#C0362A]">EVERYONE</span>
+                </h6>
+                <h2 className="font-anton text-center text-[#0E0E0E] text-3xl leading-none md:text-[64px]">
+                  THERE&apos;S A PLACE FOR <span className="font-anton text-[#C0362A]">EVERYONE</span>
                 </h2>
                 <Link href="/groups"
-                  className="font-barlow-condensed inline-flex items-center gap-2 mt-6 px-8 py-[12px] border border-[#0E0E0E]/30 text-[#0E0E0E]/60 text-[11px] font-bold tracking-[0.2em] rounded-full hover:border-[#0E0E0E] hover:text-[#0E0E0E] transition-all w-fit">
+                  className="whitespace-nowrap mt-6 rounded-[20px] border border-black bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white transition-all w-fit">
                   SEE ALL MINISTRIES
                 </Link>
               </div>
