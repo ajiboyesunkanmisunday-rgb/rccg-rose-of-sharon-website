@@ -146,7 +146,7 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
             <div className="mb-8" data-reveal>
               <Pill v="outline-dark">🤝 WELCOME TO ROS</Pill>
-              <h2 className="font-anton text-[#0E0E0E] text-3xl leading-none mt-4 md:my-6 md:text-6xl">
+              <h2 className="font-anton text-[#0E0E0E] text-3xl font-medium leading-loose mt-4 md:my-6 md:text-6xl">
                 WELCOME HOME!
               </h2>
               <p className="max-w-[360px] text-xs text-[#000000CC] leading-relaxed md:text-sm lg:text-base">
@@ -183,12 +183,12 @@ export default function Home() {
         ═══════════════════════════════════ */}
         <section className="flex h-[500px] w-full items-center justify-center bg-black">
           <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4 text-center">
-            <Pill v="glass"><Dot /> RCCG WORLDWIDE</Pill>
+            <Pill v="glass">🌍 RCCG WORLDWIDE</Pill>
             <div>
-              <h2 className="font-anton text-center text-[clamp(24px,4.5vw,46px)] uppercase leading-[55px] text-white">
+              <h2 className="font-anton text-center text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
                 WE ENLIST, DISCIPLE AND REDEPLOY A PEOPLE
               </h2>
-              <h2 className="font-anton text-center text-[clamp(24px,4.5vw,46px)] uppercase leading-[55px] text-[#C0362A]">
+              <h2 className="font-anton text-center text-2xl uppercase text-[#C0362A] md:text-[46px] md:leading-[55px]">
                 IN CHRIST, FOR CHRIST, WITH JOY.
               </h2>
             </div>
@@ -226,6 +226,10 @@ export default function Home() {
                   <img src={item.img} alt={item.name}
                     className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/30" />
+                  <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth={2}
+                    className="absolute right-4 top-4 h-6 w-6 -rotate-45 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
                   <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{item.name}</h5>
                   <h5 className="absolute bottom-4 left-4 text-base text-[#FFFFFF99]">{item.sub}</h5>
                 </Link>
