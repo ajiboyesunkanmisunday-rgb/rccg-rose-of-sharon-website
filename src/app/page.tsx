@@ -113,7 +113,7 @@ export default function Home() {
         </section>
 
         {/* 30th Anniversary Banner */}
-        <div className="bg-[#0E0E0E] py-8 px-6 md:px-12 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10">
+        <div className="bg-[#0E0E0E] py-8 px-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10">
           <div className="flex items-center gap-4">
             <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-[#C0362A] flex items-center justify-center">
               <span className="font-anton text-white text-[14px] leading-none">30</span>
@@ -142,11 +142,11 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §2 · WELCOME HOME  (white, left-aligned)
         ═══════════════════════════════════ */}
-        <section className="bg-white pt-8 pb-0 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto">
+        <section className="bg-white overflow-hidden">
+          <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
             <div className="mb-8" data-reveal>
               <Pill v="outline-dark">🤝 WELCOME TO ROS</Pill>
-              <h2 className="font-anton text-[#0E0E0E] text-3xl leading-tight mt-4 md:my-6 md:text-6xl">
+              <h2 className="font-anton text-[#0E0E0E] text-3xl leading-none mt-4 md:my-6 md:text-6xl">
                 WELCOME HOME!
               </h2>
               <p className="max-w-[360px] text-xs text-[#000000CC] leading-relaxed md:text-sm lg:text-base">
@@ -205,8 +205,8 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §4 · VISIT — dark bg, scrollable cards (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="w-full bg-black px-4 pb-6 md:pb-10">
-          <div className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0">
+        <section className="w-full bg-black">
+          <div className="mx-auto max-w-7xl px-4 py-12 md:py-16">
             <div className="flex w-full flex-wrap items-center justify-between gap-4">
               <h2 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">
                 VISIT ROSE OF SHARON
@@ -258,8 +258,8 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §6 · COMMUNITY — centered heading, photo cards with text BELOW
         ═══════════════════════════════════ */}
-        <section className="bg-white pt-20 pb-14 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto">
+        <section className="bg-white">
+          <div className="mx-auto max-w-7xl px-4 pt-20 pb-14">
             <div className="text-center mb-14" data-reveal>
               <Pill v="outline-dark"><Dot /> COMMUNITY</Pill>
               <h2 className="font-anton text-[#0E0E0E] leading-[0.92] mt-5 text-[clamp(28px,4.3vw,56px)]">
@@ -347,8 +347,8 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §8 · MINISTRIES — white bg, huge faded EVERYONE, photo cards right
         ═══════════════════════════════════ */}
-        <section className="bg-white py-20 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto">
+        <section className="bg-white">
+          <div className="mx-auto max-w-7xl px-4 py-20">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-10 lg:gap-16 items-start">
               {/* Left: text column */}
               <div data-reveal-left className="flex flex-col justify-start pt-4">
@@ -395,9 +395,9 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §9 · GIVE — floating card on red bg (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="bg-[#7B1113] py-8 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto">
-            <div className="bg-[#F4EAE7] rounded-2xl px-8 md:px-14 xl:px-20 py-20 relative overflow-hidden">
+        <section className="bg-white py-8">
+          <div className="mx-auto max-w-6xl px-4 md:px-8">
+            <div className="bg-[#F8EAEA] rounded-lg px-8 md:px-16 h-[350px] relative overflow-hidden">
               {/* Decorative hand-drawn rose element matching CCI */}
               <svg aria-hidden className="absolute right-0 top-0 h-full w-[55%] opacity-[0.2] pointer-events-none"
                 viewBox="0 0 700 600" fill="none">
@@ -408,11 +408,11 @@ export default function Home() {
                 <circle cx="520" cy="180" r="80" stroke="#C0362A" strokeWidth="0.6" fill="none" />
               </svg>
 
-              <div className="max-w-[600px] relative z-10" data-reveal>
-                <h2 className="font-anton text-[#0E0E0E] leading-tight text-[clamp(36px,5.9vw,72px)]">
+              <div className="relative z-10">
+                <h2 className="font-anton text-[#0E0E0E] leading-none text-3xl md:text-6xl lg:text-[80px] pt-6 md:pt-12">
                   Give to Rose of Sharon
                 </h2>
-                <p className="text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
+                <p className="text-[#000000B2] text-base md:text-lg mt-2 mb-8">
                   Your generosity keeps blessing lives, thank you for giving.
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
@@ -433,7 +433,7 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §10 · MAILING LIST — deep red, centered
         ═══════════════════════════════════ */}
-        <section className="bg-[#7B1113] py-16 px-6 md:px-12 xl:px-20">
+        <section className="bg-[#7B1113] py-16 px-4">
           <div className="max-w-[560px] mx-auto text-center" data-reveal>
             <h2 className="font-oswald font-bold uppercase text-white tracking-[0.08em] text-[clamp(18px,3vw,26px)] mb-3">
               JOIN OUR MAILING LIST
