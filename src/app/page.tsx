@@ -184,7 +184,7 @@ export default function Home() {
         <section className="flex h-[500px] w-full items-center justify-center bg-black"
           style={{ backgroundImage: "url(/assets/family.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
           <div className="flex h-full w-full items-center justify-center bg-black/85">
-          <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4 text-center">
+          <div className="flex w-full max-w-3xl flex-col items-center gap-6 text-center">
             <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white"><span className="mr-1">🌍</span>RCCG WORLDWIDE</h2>
             <div>
               <h2 className="font-anton text-center text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
