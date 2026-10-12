@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: "Groups",      href: "/groups" },
   { label: "Sermons",     href: "/media" },
   { label: "Trainings",   href: "/trainings" },
+  { label: "CSR",         href: "/csr" },
   { label: "Give",        href: "/give" },
 ];
 
@@ -22,7 +23,7 @@ const PRIMARY_NAV = [
   { label: "GROUPS",    href: "/groups" },
   { label: "SERMONS",   href: "/media" },
   { label: "TRAININGS", href: "/trainings" },
-  { label: "MAP",       href: "/events" },
+  { label: "CSR",       href: "/csr" },
   { label: "GIVE",      href: "/give" },
 ];
 
@@ -31,7 +32,7 @@ const SUB_COLS = [
   {
     title: "MINISTRIES",
     links: [
-      { label: "Church Groups",    href: "/groups" },
+      { label: "Hearts of David",  href: "/groups" },
       { label: "Youth Ministry",   href: "/groups" },
       { label: "Women's Ministry", href: "/groups" },
       { label: "CSR Program",      href: "/csr" },
@@ -40,7 +41,6 @@ const SUB_COLS = [
   {
     title: "RESOURCES",
     links: [
-      { label: "Membership Classes", href: "/first-timer" },
       { label: "Celebrations",       href: "/celebrations" },
       { label: "Counselling",        href: "/requests/counseling" },
       { label: "Announcements",      href: "/announcements" },
