@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               {CONNECT.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="font-barlow text-white/80 text-[15px] hover:text-white transition-colors">
+                  <Link href={l.href} className="text-white/80 text-[15px] hover:text-white transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               {MINISTRIES.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="font-barlow text-white/80 text-[15px] hover:text-white transition-colors">
+                  <Link href={l.href} className="text-white/80 text-[15px] hover:text-white transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -83,7 +83,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               {RESOURCES.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="font-barlow text-white/80 text-[15px] hover:text-white transition-colors">
+                  <Link href={l.href} className="text-white/80 text-[15px] hover:text-white transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -97,7 +97,7 @@ export default function Footer() {
             <ul className="flex flex-col gap-3">
               {MEDIA.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="font-barlow text-white/80 text-[15px] hover:text-white transition-colors">
+                  <Link href={l.href} className="text-white/80 text-[15px] hover:text-white transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -108,7 +108,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-white/15 pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="font-barlow text-white/40 text-[13px]">
+          <p className="text-white/40 text-[13px]">
             © {new Date().getFullYear()} RCCG Rose of Sharon. All rights reserved.
           </p>
 

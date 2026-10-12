@@ -153,7 +153,7 @@ export default function Navbar(_: { activePage?: string }) {
               <Link
                 key={link.label}
                 href={link.href}
-                className={`font-barlow text-[14px] font-normal hover:text-white transition-colors duration-200 whitespace-nowrap ${
+                className={`text-[11px] font-bold uppercase tracking-[0.12em] hover:text-white transition-colors duration-200 whitespace-nowrap ${
                   isActive(link.href) ? "text-white" : "text-white/70"
                 }`}
               >
@@ -235,7 +235,7 @@ export default function Navbar(_: { activePage?: string }) {
                         <Link
                           href={l.href}
                           onClick={() => setMenuOpen(false)}
-                          className="font-barlow text-white/60 text-[14px] hover:text-white transition-colors duration-200 inline-block"
+                          className="text-white/60 text-[14px] hover:text-white transition-colors duration-200 inline-block"
                         >
                           {l.label}
                         </Link>
@@ -257,7 +257,7 @@ export default function Navbar(_: { activePage?: string }) {
                     key={l.label}
                     href={l.href}
                     onClick={() => setMenuOpen(false)}
-                    className="font-barlow text-white/60 text-[14px] hover:text-white transition-colors duration-200"
+                    className="text-white/60 text-[14px] hover:text-white transition-colors duration-200"
                   >
                     {l.label}
                   </Link>
@@ -269,7 +269,7 @@ export default function Navbar(_: { activePage?: string }) {
 
         {/* Bottom bar: copyright + social icon circles */}
         <div className="px-6 md:px-12 xl:px-16 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/[0.08] pt-6 mt-auto">
-          <p className="font-barlow text-white/25 text-[12px]">
+          <p className="text-white/25 text-[12px]">
             © Copyright {new Date().getFullYear()} RCCG Rose of Sharon. All Rights Reserved.
           </p>
 

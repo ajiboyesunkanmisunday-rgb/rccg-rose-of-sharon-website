@@ -49,7 +49,7 @@ function Pill({ children, v = "glass" }: { children: React.ReactNode; v?: "glass
     "outline-dark": "bg-[#F4F4F4] text-[#0E0E0E]",
   }[v];
   return (
-    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full font-barlow text-[12px] font-bold ${cls}`}>
+    <span className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[12px] font-bold ${cls}`}>
       {children}
     </span>
   );
@@ -146,10 +146,10 @@ export default function Home() {
           <div className="max-w-[1280px] mx-auto">
             <div className="mb-8" data-reveal>
               <Pill v="outline-dark">🤝 WELCOME TO ROS</Pill>
-              <h2 className="font-anton uppercase text-[#0E0E0E] text-[clamp(40px,5.9vw,76px)] leading-[0.9] mt-4">
+              <h2 className="font-anton text-[#0E0E0E] text-3xl leading-tight mt-4 md:my-6 md:text-6xl">
                 WELCOME HOME!
               </h2>
-              <p className="font-barlow text-[#666] text-[15px] mt-3 mb-6 leading-relaxed">
+              <p className="max-w-[360px] text-xs text-[#000000CC] leading-relaxed md:text-sm lg:text-base">
                 Dive into our teachings, events and community.<br />Your journey of faith begins here.
               </p>
             </div>
@@ -166,8 +166,8 @@ export default function Home() {
                   <img src={c.img} alt={c.title}
                     className="absolute left-0 top-0 h-full w-full object-cover" />
                   <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
-                  <h2 className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">{c.cat}</h2>
-                  <h2 className="absolute left-4 top-8 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
+                  <p className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">{c.cat}</p>
+                  <h2 className="absolute left-4 top-10 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
                   <span className="absolute bottom-4 left-4 z-10 flex items-center gap-2">
                     <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white">{c.label}</h3>
                     <Arr />
@@ -192,7 +192,7 @@ export default function Home() {
                 IN CHRIST, FOR CHRIST, WITH JOY.
               </h2>
             </div>
-            <p className="font-barlow text-center text-base text-white/60 md:text-lg">
+            <p className="text-center text-base text-white/60 md:text-lg">
               Join us at a Rose of Sharon church near you
             </p>
             <Link href="/about"
@@ -268,7 +268,7 @@ export default function Home() {
                   Rose of Sharon
                 </span>
               </h2>
-              <p className="font-barlow text-[#888] text-[16px] mt-3">More than a church, a place to grow</p>
+              <p className="text-[#888] text-[16px] mt-3">More than a church, a place to grow</p>
             </div>
 
             {/* Community cards — gap-8, rounded-lg images, plain font-bold title (CCI-exact) */}
@@ -380,7 +380,7 @@ export default function Home() {
                       <h3 className="font-barlow-condensed text-[#0E0E0E] font-bold text-[16px] uppercase tracking-wide group-hover:text-[#C0362A] transition-colors">
                         {m.title}
                       </h3>
-                      <p className="font-barlow text-[#888] text-[13px] mt-1">{m.sub}</p>
+                      <p className="text-[#888] text-[13px] mt-1">{m.sub}</p>
                       <p className="font-barlow-condensed text-[#aaa] text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1 group-hover:text-[#C0362A] transition-colors">
                         VISIT <Arr />
                       </p>
@@ -412,7 +412,7 @@ export default function Home() {
                 <h2 className="font-anton text-[#0E0E0E] leading-tight text-[clamp(36px,5.9vw,72px)]">
                   Give to Rose of Sharon
                 </h2>
-                <p className="font-barlow text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
+                <p className="text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
                   Your generosity keeps blessing lives, thank you for giving.
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
@@ -438,14 +438,14 @@ export default function Home() {
             <h2 className="font-oswald font-bold uppercase text-white tracking-[0.08em] text-[clamp(18px,3vw,26px)] mb-3">
               JOIN OUR MAILING LIST
             </h2>
-            <p className="font-barlow text-white/60 text-[14px] leading-relaxed mb-8">
+            <p className="text-white/60 text-[14px] leading-relaxed mb-8">
               We promise not to spam you, but send you edifying and amazing content regularly from Rose of Sharon.
             </p>
             <form className="flex flex-col gap-3">
               <input
                 type="email"
                 placeholder="Email"
-                className="font-barlow w-full px-5 py-[13px] bg-white/10 border border-white/20 text-white placeholder-white/40 text-[14px] rounded-none outline-none focus:border-white/50 transition-colors"
+                className="w-full px-5 py-[13px] bg-white/10 border border-white/20 text-white placeholder-white/40 text-[14px] rounded-none outline-none focus:border-white/50 transition-colors"
               />
               <button
                 type="submit"
