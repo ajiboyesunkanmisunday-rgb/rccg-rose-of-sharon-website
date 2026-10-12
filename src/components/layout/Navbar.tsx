@@ -147,8 +147,8 @@ export default function Navbar(_: { activePage?: string }) {
             </div>
           </Link>
 
-          {/* Desktop center links — shown at lg+, matching CCI breakpoint */}
-          <div className="hidden lg:flex items-center gap-6">
+          {/* Desktop center links — hidden when overlay is open, matching CCI */}
+          <div className={`items-center gap-6 ${menuOpen ? "hidden" : "hidden lg:flex"}`}>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.label}
@@ -187,7 +187,7 @@ export default function Navbar(_: { activePage?: string }) {
         }`}
       >
         {/* Top bar within overlay */}
-        <div className="flex items-center justify-between px-6 md:px-12 xl:px-16 h-[68px]">
+        <div className="flex items-center justify-between px-6 md:px-10 xl:px-12 h-[68px]">
           <Link href="/" onClick={() => setMenuOpen(false)}
             className="flex items-center gap-2.5 flex-shrink-0">
             <div className="relative w-9 h-9">
@@ -197,7 +197,7 @@ export default function Navbar(_: { activePage?: string }) {
         </div>
 
         {/* Main content: left primary nav + right sub-links */}
-        <div className="flex flex-col lg:flex-row min-h-[calc(100vh-68px)] px-6 md:px-12 xl:px-16 pb-10">
+        <div className="flex flex-col lg:flex-row min-h-[calc(100vh-68px)] px-6 md:px-10 xl:px-12 pb-10">
 
           {/* LEFT: Huge primary navigation links */}
           <div className="flex flex-col justify-center lg:w-[42%] lg:pr-12 py-8 lg:py-0">
@@ -212,7 +212,7 @@ export default function Navbar(_: { activePage?: string }) {
                       ? "text-[#C0362A]"
                       : "text-white opacity-90 hover:text-[#C0362A]"
                   }`}
-                  style={{ fontSize: "clamp(36px, 6.5vw, 76px)" }}
+                  style={{ fontSize: "clamp(36px, 7vw, 96px)" }}
                 >
                   {item.label}
                 </Link>
@@ -268,7 +268,7 @@ export default function Navbar(_: { activePage?: string }) {
         </div>
 
         {/* Bottom bar: copyright + social icon circles */}
-        <div className="px-6 md:px-12 xl:px-16 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/[0.08] pt-6 mt-auto">
+        <div className="px-6 md:px-10 xl:px-12 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/[0.08] pt-6 mt-auto">
           <p className="text-white/25 text-[12px]">
             © Copyright {new Date().getFullYear()} RCCG Rose of Sharon. All Rights Reserved.
           </p>
