@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
+import { Anton } from "next/font/google";
 import "./globals.css";
 import FloatingRequestButton from "@/components/sections/FloatingRequestButton";
+
+const anton = Anton({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-anton",
+  display: "swap",
+});
 
 const SITE_URL = "https://rccg-rose-of-sharon.netlify.app";
 const OG_IMAGE = `${SITE_URL}/assets/og-image.png`;
@@ -34,7 +42,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={anton.variable}>
       <body>
         {children}
         <FloatingRequestButton />
