@@ -10,32 +10,26 @@ export const metadata: Metadata = {
 };
 
 const BELIEFS = [
+  { title: "The Word of God", desc: "We believe the Bible is the inspired, infallible Word of God — the final authority for faith and practice." },
+  { title: "The Trinity", desc: "We believe in one God eternally existing in three persons: Father, Son, and Holy Spirit." },
+  { title: "Salvation", desc: "We believe in salvation by grace through faith in Jesus Christ alone, available to all who repent and believe." },
+  { title: "The Holy Spirit", desc: "We believe in the baptism of the Holy Spirit as a distinct experience that empowers believers for service." },
+  { title: "Healing", desc: "We believe in divine healing as provided for in the redemptive work of Christ for spirit, soul, and body." },
+  { title: "The Second Coming", desc: "We believe in the personal, visible, and imminent return of our Lord Jesus Christ." },
+];
+
+const WE_BELIEVE = [
   "That the Father's biggest display of affection towards us is the redemptive work of Christ.",
   "That the Word of God is the ultimate standard for doctrine and godly living.",
   "The gifts of the Spirit are at work in the life of every believer — through prayer, healing, and spiritual gifts.",
   "That we are blessed because righteousness is credited to us through the grace of our Lord Jesus Christ.",
 ];
 
-const APPROACH = [
-  {
-    title: "Know it",
-    desc: "At RCCG Rose of Sharon, the Word of God is central — ensuring every member knows and understands the lordship of Jesus and experiences joy and progress in the faith.",
-  },
-  {
-    title: "Live it",
-    desc: "Your life should reflect the grace and resurrection of Jesus Christ every single day. It is not enough to simply know that Jesus is Lord — you must live out that truth in everything you do.",
-  },
-  {
-    title: "Tell it",
-    desc: "Celebrating the finished work of Jesus means sharing it with the world. We are called to boldly proclaim His love and grace to as many people as we can.",
-  },
-];
-
 const SERVICES = [
-  { day: "Sunday", name: "Sunday Service", time: "7:45 AM", desc: "Main worship service with praise, Word, and prayer" },
-  { day: "Wednesday", name: "Digging Deep", time: "6:30 PM", desc: "Mid-week Bible study and prayer meeting" },
-  { day: "Friday", name: "Vigil / Night Prayer", time: "10:00 PM", desc: "All-night prayer for special seasons" },
-  { day: "Monthly", name: "Holy Communion", time: "First Sunday", desc: "Communion service — first Sunday of every month" },
+  { day: "Sunday", name: "Sunday Service", time: "7:45 AM", desc: "Main worship service with praise, Word, and prayer", image: "/assets/gallery-1.png" },
+  { day: "Wednesday", name: "Digging Deep", time: "6:30 PM", desc: "Mid-week Bible study and prayer meeting", image: "/assets/gallery-2.png" },
+  { day: "Friday", name: "Vigil / Night Prayer", time: "10:00 PM", desc: "All-night prayer for special seasons", image: "/assets/gallery-3.png" },
+  { day: "Monthly", name: "Thanksgiving Sunday", time: "First Sunday", desc: "Thanksgiving service — first Sunday of every month", image: "/assets/gallery-4.png" },
 ];
 
 const COMMUNITY = [
@@ -123,72 +117,102 @@ export default function AboutPage() {
         </p>
       </div>
 
+      {/* ── Who We Are (text + image) ── */}
+      <section id="about" className="bg-[#100E1A] px-4 sm:px-[60px] lg:px-[120px] py-[64px] md:py-[84px] flex flex-col gap-[48px] items-center w-full">
+        <div className="flex flex-col lg:flex-row gap-[48px] lg:gap-[64px] items-center w-full max-w-[1148px]">
+          <div className="flex flex-col gap-[24px] flex-1 min-w-0">
+            <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.15em]">Our Story</p>
+            <h2 className="text-[#FFFDFD] font-anton text-3xl md:text-5xl md:leading-[55px]">
+              RCCG Rose of Sharon
+            </h2>
+            <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]">
+              RCCG Rose of Sharon is a vibrant assembly of the Redeemed Christian Church of God,
+              a global church movement founded on the unchanging Word of God. We are a community
+              where lives are transformed, destinies are shaped, and God&apos;s presence is constant.
+            </p>
+            <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]">
+              We believe in the power of God&apos;s Word to save, heal, restore and transform. Our church
+              is a place of love, belonging, and growth — where every person is welcomed, valued, and
+              equipped to fulfil their God-given purpose.
+            </p>
+            <div className="flex gap-[16px] flex-wrap">
+              <Link
+                href="/first-timer"
+                className="px-[28px] py-[13px] bg-[#C0362A] text-[#FFFDFD] text-[15px] font-medium rounded-[30px] hover:bg-[#a02820] transition-colors"
+              >
+                I&apos;m a First Timer
+              </Link>
+              <Link
+                href="/e-member"
+                className="px-[28px] py-[13px] border-2 border-[#B5B5F3] text-[#B5B5F3] text-[15px] font-medium rounded-[30px] hover:bg-[#B5B5F3]/10 transition-colors"
+              >
+                Become an E-Member
+              </Link>
+            </div>
+          </div>
+          <div className="relative w-full lg:w-[440px] h-[280px] md:h-[360px] lg:h-[420px] flex-shrink-0 rounded-[20px] overflow-hidden">
+            <Image src="/assets/thanksgiving-bg.png" alt="Church" fill className="object-cover" />
+            <div className="absolute inset-0 bg-[rgba(192,54,42,0.25)]" />
+          </div>
+        </div>
+      </section>
+
       {/* ── We Believe (background image + white content box) ── */}
       <section
         className="mx-auto mb-10 flex max-w-7xl justify-end bg-left bg-no-repeat px-5 py-8 md:mb-20 md:px-11 md:py-14"
-        style={{ backgroundImage: "url(/assets/thanksgiving-bg.png)", backgroundSize: "55%" }}
+        style={{ backgroundImage: "url(/assets/hero-bg.png)", backgroundSize: "52%" }}
       >
         <div className="w-full max-w-[594px] bg-white px-6 py-6 shadow-xl md:px-10 md:py-[60px]">
           <h4 className="mb-6 font-anton text-3xl uppercase md:text-5xl">
             We <span className="text-[#C0362A]">Believe</span>
           </h4>
           <div>
-            {BELIEFS.map((b) => (
+            {WE_BELIEVE.map((b) => (
               <BeliefItem key={b} label={b} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Our Approach ── */}
-      <div className="relative overflow-hidden">
-        <div className="px-4 pb-12">
-          <h2 className="text-center text-2xl font-medium md:text-[44px]">Our Approach</h2>
-          <p className="mt-2 text-center text-sm text-[#00000080] md:text-lg">
-            Celebrating endless life in Christ Jesus demands that you:
-          </p>
-          <div className="mx-auto mt-8 flex max-w-7xl flex-wrap justify-center gap-6">
-            {APPROACH.map((a) => (
-              <div key={a.title} className="w-full max-w-[346px] space-y-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#C0362A]/10">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#C0362A]">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-medium">{a.title}</h2>
-                <p className="text-[#0000007A]">{a.desc}</p>
+      {/* ── What We Believe (6 belief cards) ── */}
+      <section className="bg-[#100E1A] px-4 sm:px-[60px] lg:px-[120px] py-[64px] md:py-[84px] flex flex-col gap-[48px] items-center w-full">
+        <div className="flex flex-col gap-[8px] items-center text-center">
+          <p className="text-[#B5B5F3] text-[14px] font-normal uppercase tracking-[0.15em]">Our Foundation</p>
+          <h2 className="text-[#FFFDFD] font-anton text-3xl md:text-5xl">What We Believe</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[20px] w-full max-w-[1148px]">
+          {BELIEFS.map((b, i) => (
+            <div
+              key={b.title}
+              className="bg-[#1a1826] rounded-[16px] p-[24px] md:p-[28px] flex flex-col gap-[12px] border border-[#B5B5F3]/10 hover:border-[#B5B5F3]/25 transition-colors"
+            >
+              <div className="size-[40px] rounded-full bg-[#C0362A] flex items-center justify-center flex-shrink-0">
+                <span className="text-white text-[16px] font-bold">{i + 1}</span>
               </div>
-            ))}
-          </div>
+              <p className="text-[#FFFDFD] text-[18px] md:text-[20px] font-bold leading-normal">{b.title}</p>
+              <p className="text-[#A3A1AF] text-[14px] md:text-[15px] font-normal leading-[1.7]">{b.desc}</p>
+            </div>
+          ))}
         </div>
+      </section>
 
-        {/* Full-width banner image */}
-        <div className="relative mx-auto mt-8 h-[240px] w-full max-w-screen-2xl overflow-hidden md:h-[400px]">
-          <Image src="/assets/hero-bg.png" alt="Rose of Sharon" fill className="object-cover" />
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-      </div>
-
-      {/* ── Service Times ── */}
+      {/* ── Service Times (image boxes, 4 in a row) ── */}
       <section className="bg-white px-1 py-12 md:py-16">
         <h5 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-center text-[10px] font-bold tracking-[0.3em] text-[#00000099]">
           📅 JOIN US
         </h5>
-        <h2 className="my-2 text-center text-2xl font-black tracking-wide md:mt-5 md:text-4xl">Service Times</h2>
-        <p className="mb-2 text-center text-xl text-[#00000080]">Come as you are — everyone is welcome</p>
-        <div className="mx-auto my-4 grid max-w-4xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 md:my-8">
+        <h2 className="my-2 text-center font-anton text-2xl tracking-wide md:mt-5 md:text-4xl">Service Times</h2>
+        <p className="mb-8 text-center text-[#00000080] md:text-lg">Come as you are — everyone is welcome</p>
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES.map((s) => (
-            <div
-              key={s.name}
-              className="flex items-start gap-4 rounded-lg bg-white px-6 py-6 shadow-[0px_4px_20px_rgba(0,0,0,0.06)]"
-            >
-              <div className="flex h-[76px] w-[76px] flex-shrink-0 flex-col items-center justify-center rounded-[14px] bg-[#C0362A]">
-                <span className="text-[11px] font-medium uppercase tracking-wider text-white/70">{s.day}</span>
-                <span className="px-1 text-center text-[15px] font-bold text-white">{s.time}</span>
-              </div>
-              <div className="flex flex-1 flex-col gap-1">
-                <p className="text-[17px] font-bold text-[#0E0E0E]">{s.name}</p>
-                <p className="text-[14px] leading-[1.6] text-[#666666]">{s.desc}</p>
+            <div key={s.name} className="relative h-[320px] overflow-hidden rounded-lg">
+              <Image src={s.image} alt={s.name} fill className="object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
+                <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">{s.day}</span>
+                <h3 className="text-[18px] font-black leading-tight">{s.name}</h3>
+                <p className="mt-1 text-[13px] font-bold text-[#C0362A]">{s.time}</p>
+                <p className="mt-1 text-[12px] leading-[1.5] text-white/70">{s.desc}</p>
               </div>
             </div>
           ))}
@@ -219,15 +243,6 @@ export default function AboutPage() {
                 </div>
                 <div className="flex cursor-pointer items-center gap-1">
                   <h1 className="text-lg font-bold underline-offset-8 hover:underline">{item.title}</h1>
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="h-5 w-5">
-                    <path
-                      d="M4 10h12M12 6l4 4-4 4"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
                 </div>
                 <p className="line-clamp-3 text-[#00000099]">{item.description}</p>
               </div>
@@ -235,6 +250,32 @@ export default function AboutPage() {
           ))}
         </div>
       </div>
+
+      {/* ── Get Involved (CTA) ── */}
+      <section className="bg-[#C0362A] px-4 sm:px-[60px] lg:px-[120px] py-[64px] md:py-[84px] flex flex-col gap-[32px] items-center w-full text-center">
+        <h2 className="text-[#FFFDFD] font-anton text-3xl md:text-5xl">Ready to Take a Step?</h2>
+        <p className="text-[#FFFDFD]/80 text-[16px] md:text-[20px] font-normal leading-[1.7] max-w-[600px]">
+          Whether you&apos;re visiting for the first time, looking to grow in faith, or ready to serve —
+          there&apos;s a place for you here.
+        </p>
+        <div className="flex flex-wrap gap-[12px] justify-center">
+          {[
+            { label: "First Timer Registration", href: "/first-timer" },
+            { label: "New Believer", href: "/new-believer" },
+            { label: "Church Groups", href: "/groups" },
+            { label: "Training Programs", href: "/trainings" },
+            { label: "Prayer Request", href: "/requests/prayer" },
+          ].map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="px-[22px] py-[11px] border-2 border-white text-white text-[14px] md:text-[15px] font-medium rounded-[30px] hover:bg-white/20 transition-colors"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
+      </section>
 
       <Footer />
     </main>
