@@ -18,7 +18,7 @@ const IMG = {
   v2:      "https://images.unsplash.com/photo-1527261834078-9b37d35a4a32?w=800&q=70",
   v3:      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=70",
   v4:      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&q=70",
-  boast:   "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200&q=80",
+  boast:   "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?w=1200&q=80",
   /* Community cards — learning, celebration, counselling */
   cm1:     "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
   cm2:     "https://images.unsplash.com/photo-1504680177321-2e6a879aac86?w=800&q=80",
@@ -207,12 +207,12 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════
-            §4 · VISIT — white bg, landscape photo cards
+            §4 · VISIT — dark bg, landscape photo cards (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="bg-white pt-14 pb-0 px-6 md:px-12 xl:px-20">
+        <section className="bg-[#0E0E0E] pt-14 pb-0 px-6 md:px-12 xl:px-20">
           <div className="max-w-[1280px] mx-auto">
             <h2 data-reveal
-              className="font-anton uppercase text-[#0E0E0E] text-[clamp(32px,4.5vw,56px)] leading-[0.9] mb-5">
+              className="font-anton uppercase text-white text-[clamp(32px,4.5vw,56px)] leading-[0.9] mb-5">
               VISIT ROSE OF SHARON
             </h2>
 
@@ -303,7 +303,7 @@ export default function Home() {
                       className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
                   </div>
                   <div className="pt-5 pb-6">
-                    <h3 className="font-barlow-condensed text-[#0E0E0E] font-bold text-[17px] uppercase tracking-wide flex items-center gap-2 group-hover:text-[#C0362A] transition-colors">
+                    <h3 className="font-barlow-condensed text-[#0E0E0E] font-bold text-[17px] tracking-wide flex items-center gap-2 group-hover:text-[#C0362A] transition-colors">
                       {item.title} <Arr />
                     </h3>
                     <p className="font-barlow text-[#666] text-[14px] mt-2 leading-relaxed line-clamp-3">{item.body}</p>
@@ -398,35 +398,39 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════
-            §9 · GIVE — rose bg, italic serif heading (CCI-precise)
+            §9 · GIVE — floating card on red bg (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="bg-[#F4EAE7] py-20 md:py-28 px-6 md:px-12 xl:px-20 relative overflow-hidden">
-          {/* Decorative hand-drawn rose element matching CCI */}
-          <svg aria-hidden className="absolute right-0 top-0 h-full w-[55%] opacity-[0.2] pointer-events-none"
-            viewBox="0 0 700 600" fill="none">
-            <path d="M500 50 Q600 200 500 350 Q400 500 300 550 Q200 600 150 500 Q100 400 200 300 Q300 200 250 100 Q300 50 400 80 Q500 110 500 50Z"
-              stroke="#C0362A" strokeWidth="1" fill="none" />
-            <path d="M520 80 Q620 220 530 380 Q440 540 340 580" stroke="#C0362A" strokeWidth="0.8" fill="none" />
-            <circle cx="400" cy="300" r="120" stroke="#C0362A" strokeWidth="0.8" fill="none" />
-            <circle cx="520" cy="180" r="80" stroke="#C0362A" strokeWidth="0.6" fill="none" />
-          </svg>
+        <section className="bg-[#7B1113] py-8 px-6 md:px-12 xl:px-20">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="bg-[#F4EAE7] rounded-2xl px-8 md:px-14 xl:px-20 py-20 relative overflow-hidden">
+              {/* Decorative hand-drawn rose element matching CCI */}
+              <svg aria-hidden className="absolute right-0 top-0 h-full w-[55%] opacity-[0.2] pointer-events-none"
+                viewBox="0 0 700 600" fill="none">
+                <path d="M500 50 Q600 200 500 350 Q400 500 300 550 Q200 600 150 500 Q100 400 200 300 Q300 200 250 100 Q300 50 400 80 Q500 110 500 50Z"
+                  stroke="#C0362A" strokeWidth="1" fill="none" />
+                <path d="M520 80 Q620 220 530 380 Q440 540 340 580" stroke="#C0362A" strokeWidth="0.8" fill="none" />
+                <circle cx="400" cy="300" r="120" stroke="#C0362A" strokeWidth="0.8" fill="none" />
+                <circle cx="520" cy="180" r="80" stroke="#C0362A" strokeWidth="0.6" fill="none" />
+              </svg>
 
-          <div className="max-w-[700px] relative z-10" data-reveal>
-            <h2 className="font-anton text-[#0E0E0E] leading-tight text-[clamp(36px,5.9vw,72px)]">
-              Give to Rose of Sharon
-            </h2>
-            <p className="font-barlow text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
-              Your generosity keeps blessing lives, thank you for giving.
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Link href="/give"
-                className="font-barlow-condensed px-8 py-[12px] border-2 border-[#0E0E0E] text-[#0E0E0E] text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#0E0E0E] hover:text-white transition-all">
-                GIVE NOW
-              </Link>
-              <Link href="/give"
-                className="font-barlow-condensed px-8 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors">
-                BUILDING PROJECT
-              </Link>
+              <div className="max-w-[600px] relative z-10" data-reveal>
+                <h2 className="font-anton text-[#0E0E0E] leading-tight text-[clamp(36px,5.9vw,72px)]">
+                  Give to Rose of Sharon
+                </h2>
+                <p className="font-barlow text-[#666] text-[16px] leading-relaxed mt-4 mb-10">
+                  Your generosity keeps blessing lives, thank you for giving.
+                </p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link href="/give"
+                    className="font-barlow-condensed px-8 py-[12px] border-2 border-[#0E0E0E] text-[#0E0E0E] text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#0E0E0E] hover:text-white transition-all">
+                    GIVE NOW
+                  </Link>
+                  <Link href="/give"
+                    className="font-barlow-condensed px-8 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors">
+                    BUILDING PROJECT
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -442,16 +446,16 @@ export default function Home() {
             <p className="font-barlow text-white/60 text-[14px] leading-relaxed mb-8">
               We promise not to spam you, but send you edifying and amazing content regularly from Rose of Sharon.
             </p>
-            <form className="flex flex-col sm:flex-row gap-3 justify-center">
+            <form className="flex flex-col gap-3">
               <input
                 type="email"
                 placeholder="Email"
-                className="font-barlow flex-1 px-5 py-[13px] bg-white/10 border border-white/20 text-white placeholder-white/40 text-[14px] rounded-none outline-none focus:border-white/50 transition-colors"
+                className="font-barlow w-full px-5 py-[13px] bg-white/10 border border-white/20 text-white placeholder-white/40 text-[14px] rounded-none outline-none focus:border-white/50 transition-colors"
               />
               <button
                 type="submit"
-                className="font-barlow-condensed px-8 py-[13px] bg-white text-[#7B1113] text-[12px] font-bold tracking-[0.18em] hover:bg-white/90 transition-colors">
-                SUBMIT
+                className="font-barlow-condensed w-full py-[13px] bg-white text-[#7B1113] text-[12px] font-bold tracking-[0.18em] hover:bg-white/90 transition-colors">
+                Submit
               </button>
             </form>
           </div>
