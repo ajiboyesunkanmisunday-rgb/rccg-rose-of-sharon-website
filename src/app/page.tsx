@@ -77,31 +77,29 @@ export default function Home() {
       <main>
 
         {/* ═══════════════════════════════════
-            §1 · HERO — centered, 3 lines
+            §1 · HERO — left-aligned
         ═══════════════════════════════════ */}
-        <section className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden text-center">
-          <img src={IMG.hero} alt="" aria-hidden
+        <section className="relative flex flex-col items-start justify-center min-h-screen overflow-hidden">
+          <img src="/assets/hero-bg.png" alt="" aria-hidden
             className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
             style={{ animation: "kenBurns 24s ease-in-out infinite alternate" }} />
           <div className="absolute inset-0 bg-gradient-to-b from-[#0E0E0E]/75 via-[#0E0E0E]/50 to-[#0E0E0E]/80" />
 
-          <div className="relative z-10 flex flex-col items-center gap-4 px-6 max-w-3xl mx-auto pt-24">
-            <Pill v="glass"><Dot /> OUR VISION</Pill>
-
-            <h1 className="font-anton uppercase text-white leading-[0.88] mt-2">
-              <span className="block text-[clamp(44px,7vw,100px)]">WE ENVISION ALL</span>
-              <span className="block text-[clamp(44px,7vw,100px)]">WHO ENTER OUR</span>
-              <span className="block text-[clamp(44px,7vw,100px)] text-[#C0362A]">DOORS TRANSFORMED</span>
+          <div className="relative z-10 flex flex-col items-start gap-4 px-6 md:px-14 xl:px-20 max-w-5xl pt-24">
+            <h1 className="font-anton uppercase text-white leading-[0.88]">
+              <span className="block text-[clamp(44px,7vw,100px)]">WHERE GOD HAS</span>
+              <span className="block text-[clamp(44px,7vw,100px)]">A PERMANENT</span>
+              <span className="block text-[clamp(44px,7vw,100px)] text-[#C0362A]">SEAT</span>
             </h1>
 
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+            <div className="flex flex-wrap items-center justify-start gap-3 mt-4">
               <Link href="/media"
                 className="font-barlow-condensed px-8 py-[12px] bg-white text-[#0E0E0E] text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-white/90 active:scale-95 transition-all">
                 WATCH LIVE
               </Link>
-              <Link href="/events"
+              <Link href="/give"
                 className="font-barlow-condensed px-8 py-[11px] border-[1.5px] border-white text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-white/10 active:scale-95 transition-all">
-                QUICK LINKS
+                BUILDING PROJECT
               </Link>
             </div>
           </div>
@@ -114,7 +112,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Building Project floating CTA — between hero and welcome, matching CCI */}
+        {/* 30th Anniversary Banner */}
+        <div className="bg-[#0E0E0E] py-8 px-6 md:px-12 xl:px-20 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="flex-shrink-0 w-12 h-12 rounded-full border-2 border-[#C0362A] flex items-center justify-center">
+              <span className="font-anton text-white text-[14px] leading-none">30</span>
+            </div>
+            <div>
+              <p className="font-barlow-condensed text-[#C0362A] text-[10px] font-bold tracking-[0.3em] uppercase mb-0.5">MILESTONE</p>
+              <h3 className="font-anton text-white text-[clamp(18px,2.5vw,28px)] uppercase leading-tight">
+                30TH ANNIVERSARY CELEBRATION
+              </h3>
+            </div>
+          </div>
+          <Link href="/events"
+            className="font-barlow-condensed flex-shrink-0 px-7 py-[10px] bg-[#C0362A] text-white text-[11px] font-bold tracking-[0.18em] rounded-full hover:bg-[#A02820] transition-colors">
+            LEARN MORE
+          </Link>
+        </div>
+
+        {/* Building Project floating CTA — between anniversary banner and welcome, matching CCI */}
         <div className="bg-white flex justify-center py-6">
           <Link href="/give"
             className="font-barlow-condensed px-10 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.2em] rounded-full hover:bg-[#A02820] transition-colors">
@@ -141,7 +158,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-[3px]" data-stagger>
               {[
                 { img: IMG.w1, cat: "WHO WE ARE",         title: "About us",        label: "LEARN MORE", href: "/about" },
-                { img: IMG.w2, cat: "JOIN OUR COMMUNITY", title: "Connect with us", label: "SIGN UP",    href: "/first-timer" },
+                { img: IMG.w2, cat: "JOIN OUR COMMUNITY", title: "Connect with us", label: "JOIN US",    href: "/first-timer" },
                 { img: IMG.w3, cat: "ENDLESS CELEBRATION", title: "Celebrations",   label: "LEARN MORE", href: "/celebrations" },
               ].map((c) => (
                 <Link key={c.cat} href={c.href}
