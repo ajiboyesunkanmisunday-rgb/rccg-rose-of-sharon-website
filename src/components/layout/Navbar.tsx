@@ -176,117 +176,91 @@ export default function Navbar(_: { activePage?: string }) {
       </nav>
 
       {/* ══════════════════════════════════════════════
-          FULLSCREEN OVERLAY — CCI-precise layout
-          LEFT: Huge primary nav
-          RIGHT: Sub-link columns + media
-          BOTTOM: Copyright + social icons
+          FULLSCREEN OVERLAY — CCI-exact layout
       ══════════════════════════════════════════════ */}
       <div
-        className={`fixed inset-0 z-40 bg-black overflow-y-auto transition-all duration-500 ${
+        className={`fixed inset-0 z-40 bg-black overflow-y-auto no-scrollbar transition-all duration-500 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         {/* Top bar within overlay */}
-        <div className="flex items-center justify-between px-6 md:px-10 xl:px-12 h-[68px]">
-          <Link href="/" onClick={() => setMenuOpen(false)}
-            className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="flex justify-between items-center p-4 w-full">
+          <Link href="/" onClick={() => setMenuOpen(false)}>
             <div className="relative w-9 h-9">
               <Image src="/assets/logo.png" alt="RCCG Rose of Sharon" fill className="object-contain brightness-0 invert" />
             </div>
           </Link>
+          <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
+            className="text-white/60 hover:text-white transition-colors">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
-        {/* Main content: left primary nav + right sub-links */}
-        <div className="flex flex-col lg:flex-row min-h-[calc(100vh-68px)] px-6 md:px-10 xl:px-12 pb-10">
+        {/* Centered content: left primary nav + right sub-links */}
+        <div className="flex justify-center items-center mx-auto max-w-screen-2xl min-h-[calc(100vh-68px)]">
+          <div className="flex md:flex-row flex-col justify-between items-start lg:items-center gap-4 w-[90%]">
 
-          {/* LEFT: Huge primary navigation links */}
-          <div className="flex flex-col justify-center lg:w-[42%] lg:pr-12 py-8 lg:py-0">
-            <nav className="flex flex-col">
+            {/* LEFT: Primary navigation */}
+            <div className="w-full max-w-full lg:max-w-[450px] md:max-w-xs font-anton font-medium text-white text-5xl lg:text-7xl uppercase leading-tight">
               {PRIMARY_NAV.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className={`font-oswald font-bold uppercase leading-[0.95] tracking-tight transition-all duration-200 hover:opacity-100 ${
-                    isActive(item.href)
-                      ? "text-[#C0362A]"
-                      : "text-white opacity-90 hover:text-[#C0362A]"
+                  className={`block font-anton font-medium hover:text-[#C0362A] transition-colors duration-200 ${
+                    isActive(item.href) ? "text-[#C0362A]" : "text-white"
                   }`}
-                  style={{ fontSize: "clamp(36px, 7vw, 96px)" }}
                 >
                   {item.label}
                 </Link>
               ))}
-            </nav>
-          </div>
-
-          {/* RIGHT: Sub-link columns */}
-          <div className="lg:w-[58%] flex flex-col justify-center py-8 lg:py-0 lg:pl-8 border-t border-white/10 lg:border-t-0 lg:border-l lg:border-white/10">
-            {/* 3-col sub-links grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
-              {SUB_COLS.map((col) => (
-                <div key={col.title}>
-                  <p className="font-barlow-condensed text-[#C0362A] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">
-                    {col.title}
-                  </p>
-                  <ul className="flex flex-col gap-2.5">
-                    {col.links.map((l) => (
-                      <li key={l.label}>
-                        <Link
-                          href={l.href}
-                          onClick={() => setMenuOpen(false)}
-                          className="text-white/60 text-[14px] hover:text-white transition-colors duration-200 inline-block"
-                        >
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
             </div>
 
-            {/* MEDIA sub-section */}
-            <div className="border-t border-white/10 pt-8">
-              <p className="font-barlow-condensed text-[#C0362A] text-[10px] font-bold tracking-[0.25em] uppercase mb-4">
-                MEDIA
-              </p>
-              <div className="flex flex-wrap gap-x-8 gap-y-2">
-                {MEDIA_LINKS.map((l) => (
-                  <Link
-                    key={l.label}
-                    href={l.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-white/60 text-[14px] hover:text-white transition-colors duration-200"
-                  >
-                    {l.label}
-                  </Link>
+            {/* RIGHT: Sub-link columns */}
+            <div className="w-full py-8 md:py-0">
+              <div className="gap-y-12 grid grid-cols-2 lg:grid-cols-3">
+                {SUB_COLS.map((col) => (
+                  <div key={col.title} className="flex flex-col gap-4 text-white">
+                    <h2 className="font-bold text-[#FFFFFFAA] text-xs">{col.title}</h2>
+                    {col.links.map((l) => (
+                      <Link key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
+                        className="text-sm hover:underline">
+                        {l.label}
+                      </Link>
+                    ))}
+                  </div>
                 ))}
+                {/* MEDIA as 4th grid item */}
+                <div className="flex flex-col gap-4 text-white">
+                  <h2 className="font-bold text-[#FFFFFFAA] text-xs">MEDIA</h2>
+                  {MEDIA_LINKS.map((l) => (
+                    <Link key={l.label} href={l.href} onClick={() => setMenuOpen(false)}
+                      className="text-sm hover:underline">
+                      {l.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom bar: copyright + socials */}
+              <div className="flex md:flex-row flex-col justify-between items-center gap-2 my-6 w-full">
+                <p className="text-[#FFFFFF66] text-[10px] md:text-xs">
+                  © Copyright {new Date().getFullYear()} RCCG Rose of Sharon. All Rights Reserved.
+                </p>
+                <div className="flex items-center gap-2">
+                  {SOCIALS.map((s) => (
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="flex justify-center items-center bg-[#FFFFFF1F] rounded-full w-10 h-10 text-white hover:bg-white/30 transition-colors">
+                      {s.icon}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Bottom bar: copyright + social icon circles */}
-        <div className="px-6 md:px-10 xl:px-12 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/[0.08] pt-6 mt-auto">
-          <p className="text-white/25 text-[12px]">
-            © Copyright {new Date().getFullYear()} RCCG Rose of Sharon. All Rights Reserved.
-          </p>
-
-          {/* Social icons in dark circles — matching CCI exactly */}
-          <div className="flex items-center gap-2">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 hover:text-white transition-all duration-200"
-              >
-                {s.icon}
-              </a>
-            ))}
           </div>
         </div>
       </div>
