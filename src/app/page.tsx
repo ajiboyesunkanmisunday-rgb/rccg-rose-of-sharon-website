@@ -154,27 +154,24 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 3 photo cards — ZERO gap, ZERO border-radius, CCI-exact */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-[3px]" data-stagger>
+            {/* 3 photo cards — horizontal scrollable row, text at TOP, CTA at bottom (CCI-exact) */}
+            <div className="no-scrollbar my-12 flex w-full max-w-7xl justify-between gap-4 overflow-x-auto md:my-16">
               {[
                 { img: IMG.w1, cat: "WHO WE ARE",         title: "About us",        label: "LEARN MORE", href: "/about" },
                 { img: IMG.w2, cat: "JOIN OUR COMMUNITY", title: "Connect with us", label: "JOIN US",    href: "/first-timer" },
                 { img: IMG.w3, cat: "ENDLESS CELEBRATION", title: "Celebrations",   label: "LEARN MORE", href: "/celebrations" },
               ].map((c) => (
                 <Link key={c.cat} href={c.href}
-                  className="relative overflow-hidden group block"
-                  style={{ aspectRatio: "4/5" }}>
+                  className="relative h-[440px] w-full min-w-[320px] overflow-hidden block">
                   <img src={c.img} alt={c.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
-                    <p className="font-barlow-condensed text-white/55 text-[10px] font-bold tracking-[0.22em] uppercase mb-1">{c.cat}</p>
-                    {/* Card title: sentence case, Barlow Bold — matches CCI card title style exactly */}
-                    <p className="font-barlow text-white font-bold text-[28px] leading-tight">{c.title}</p>
-                    <p className="font-barlow-condensed text-white/65 text-[11px] font-bold tracking-[0.18em] mt-3 flex items-center gap-1.5 uppercase">
-                      {c.label} <Arr />
-                    </p>
-                  </div>
+                    className="absolute left-0 top-0 h-full w-full object-cover" />
+                  <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
+                  <h2 className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">{c.cat}</h2>
+                  <h2 className="absolute left-4 top-8 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
+                  <span className="absolute bottom-4 left-4 z-10 flex items-center gap-2">
+                    <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white">{c.label}</h3>
+                    <Arr />
+                  </span>
                 </Link>
               ))}
             </div>
@@ -184,54 +181,54 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §3 · MISSION STATEMENT  (dark, centered)
         ═══════════════════════════════════ */}
-        <section className="bg-[#0E0E0E] py-24 md:py-36 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto text-center">
-            <div data-reveal>
-              <Pill v="glass"><Dot /> RCCG WORLDWIDE</Pill>
+        <section className="flex h-[500px] w-full items-center justify-center bg-black">
+          <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4 text-center">
+            <Pill v="glass"><Dot /> RCCG WORLDWIDE</Pill>
+            <div>
+              <h2 className="font-anton text-center text-[clamp(24px,4.5vw,46px)] uppercase leading-[55px] text-white">
+                WE ENLIST, DISCIPLE AND REDEPLOY A PEOPLE
+              </h2>
+              <h2 className="font-anton text-center text-[clamp(24px,4.5vw,46px)] uppercase leading-[55px] text-[#C0362A]">
+                IN CHRIST, FOR CHRIST, WITH JOY.
+              </h2>
             </div>
-            <h2 data-reveal
-              className="font-anton uppercase text-white leading-[0.9] mt-8 text-[clamp(28px,4.5vw,56px)]">
-              WE ENLIST, DISCIPLE AND REDEPLOY A PEOPLE<br />
-              <span className="text-[#C0362A]">IN CHRIST, FOR CHRIST, WITH JOY.</span>
-            </h2>
-            <p data-reveal className="font-barlow text-white/40 text-[16px] max-w-lg mx-auto mt-8 leading-relaxed">
+            <p className="font-barlow text-center text-base text-white/60 md:text-lg">
               Join us at a Rose of Sharon church near you
             </p>
-            <div data-reveal className="mt-7 flex justify-center">
-              <Link href="/about"
-                className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[12px] border border-white/25 text-white/60 text-[12px] font-bold tracking-[0.16em] rounded-full hover:border-white hover:text-white transition-all">
-                LEARN MORE ABOUT US
-              </Link>
-            </div>
+            <Link href="/about"
+              className="font-barlow-condensed rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black">
+              LEARN MORE ABOUT US
+            </Link>
           </div>
         </section>
 
         {/* ═══════════════════════════════════
-            §4 · VISIT — dark bg, landscape photo cards (CCI-exact)
+            §4 · VISIT — dark bg, scrollable cards (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="bg-[#0E0E0E] pt-14 pb-0 px-6 md:px-12 xl:px-20">
-          <div className="max-w-[1280px] mx-auto">
-            <h2 data-reveal
-              className="font-anton uppercase text-white text-[clamp(32px,4.5vw,56px)] leading-[0.9] mb-5">
-              VISIT ROSE OF SHARON
-            </h2>
+        <section className="w-full bg-black px-4 pb-6 md:pb-10">
+          <div className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0">
+            <div className="flex w-full flex-wrap items-center justify-between gap-4">
+              <h2 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">
+                VISIT ROSE OF SHARON
+              </h2>
+            </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-[3px]" data-stagger>
+            <div className="no-scrollbar my-6 flex w-full justify-between gap-4 overflow-x-auto">
               {[
-                { img: IMG.v1, name: "Sunday Service",    sub: "7am & 10am" },
-                { img: IMG.v2, name: "Youth Church",      sub: "Sunday 10am" },
-                { img: IMG.v3, name: "Women's Fellowship",sub: "Saturday" },
-                { img: IMG.v4, name: "Night Vigil",       sub: "Friday 10pm" },
+                { img: IMG.v1, name: "Sunday Service",     sub: "7am & 10am" },
+                { img: IMG.v2, name: "Youth Church",       sub: "Sunday 10am" },
+                { img: IMG.v3, name: "Women's Fellowship", sub: "Saturday" },
+                { img: IMG.v4, name: "Night Vigil",        sub: "Friday 10pm" },
+                { img: IMG.v1, name: "Watch Online",       sub: "On any device" },
               ].map((item) => (
-                <div key={item.name} className="relative overflow-hidden group" style={{ aspectRatio: "3/2" }}>
+                <Link key={item.name} href="/media"
+                  className="group relative h-[360px] min-w-[240px] cursor-pointer overflow-hidden block">
                   <img src={item.img} alt={item.name}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out brightness-75" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-4">
-                    <p className="font-anton text-white text-[16px] uppercase leading-tight">{item.name}</p>
-                    <p className="font-barlow text-white/55 text-[12px]">{item.sub}</p>
-                  </div>
-                </div>
+                    className="h-full w-full object-cover" />
+                  <div className="absolute inset-0 bg-black/30" />
+                  <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{item.name}</h5>
+                  <h5 className="absolute bottom-4 left-4 text-base text-[#FFFFFF99]">{item.sub}</h5>
+                </Link>
               ))}
             </div>
           </div>
@@ -240,19 +237,18 @@ export default function Home() {
         {/* ═══════════════════════════════════
             §5 · BOAST — full-width photo bg, white text at bottom (CCI layout)
         ═══════════════════════════════════ */}
-        <section className="relative h-[560px] md:h-[700px] overflow-hidden">
-          <img src={IMG.boast} alt="" aria-hidden
-            className="absolute inset-0 w-full h-full object-cover object-top" />
-          <div className="absolute inset-0 flex items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
-            <div className="w-full max-w-6xl mx-auto mb-14 flex flex-col items-start gap-4 px-8 md:px-14 xl:px-20" data-reveal>
-              <h2 className="font-anton uppercase text-white leading-[0.9] text-[clamp(30px,4.7vw,60px)]">
-                WE BOAST IN<br />CHRIST JESUS
+        <section className="relative h-[780px] overflow-hidden bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: `url(${IMG.boast})` }}>
+          <div className="flex h-[780px] items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
+            <div className="mx-auto mb-16 flex w-full max-w-6xl flex-col flex-wrap items-start gap-4 px-4 md:px-8">
+              <h2 className="font-anton text-white md:text-5xl md:leading-[3.5rem] text-[clamp(28px,4.7vw,48px)]">
+                WE BOAST IN <br />CHRIST JESUS
               </h2>
-              <p className="font-barlow text-white/65 text-[16px] leading-relaxed max-w-md">
+              <p className="w-full max-w-[560px] text-left text-white">
                 Our greatest success story at Rose of Sharon has been the grace to effectively evangelize, make disciples of, and deploy people who once upon a time were mere seekers, as mature disciples and vibrant ministers of the gospel.
               </p>
               <Link href="/about"
-                className="font-barlow-condensed inline-flex items-center gap-2 mt-5 px-8 py-[13px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors w-fit">
+                className="font-barlow-condensed inline-flex items-center gap-2.5 rounded-[20px] border border-[#C0362A] bg-[#C0362A] px-5 py-2.5 text-xs font-extrabold uppercase tracking-wide text-white hover:border-white hover:bg-transparent transition-all">
                 LEARN MORE <Arr />
               </Link>
             </div>
@@ -275,8 +271,8 @@ export default function Home() {
               <p className="font-barlow text-[#888] text-[16px] mt-3">More than a church, a place to grow</p>
             </div>
 
-            {/* Photo cards — image on top, text BELOW (no overlay), matching CCI community layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-[3px]" data-stagger>
+            {/* Community cards — gap-8, rounded-lg images, plain font-bold title (CCI-exact) */}
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
               {[
                 {
                   img: IMG.cm1,
@@ -298,15 +294,14 @@ export default function Home() {
                 },
               ].map((item) => (
                 <Link key={item.title} href={item.href} className="group block">
-                  <div className="relative overflow-hidden" style={{ aspectRatio: "4/3" }}>
+                  <div className="flex w-full flex-col gap-3 rounded-lg">
                     <img src={item.img} alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out" />
-                  </div>
-                  <div className="pt-5 pb-6">
-                    <h3 className="font-barlow-condensed text-[#0E0E0E] font-bold text-[17px] tracking-wide flex items-center gap-2 group-hover:text-[#C0362A] transition-colors">
-                      {item.title} <Arr />
-                    </h3>
-                    <p className="font-barlow text-[#666] text-[14px] mt-2 leading-relaxed line-clamp-3">{item.body}</p>
+                      className="h-[250px] rounded-lg object-cover object-center" />
+                    <div className="flex cursor-pointer items-center gap-1">
+                      <h3 className="text-lg font-bold underline-offset-8 group-hover:underline">{item.title}</h3>
+                      <Arr />
+                    </div>
+                    <p className="line-clamp-3 text-[#00000099]">{item.body}</p>
                   </div>
                 </Link>
               ))}
@@ -315,37 +310,37 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════
-            §7 · LEAD PASTOR — dark photo LEFT, white text RIGHT
+            §7 · LEAD PASTOR — dark bg, fixed-width photo + centered text (CCI-exact)
         ═══════════════════════════════════ */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
-          {/* Left: dark photo */}
-          <div className="relative min-h-[400px] lg:min-h-0 order-2 lg:order-1" data-reveal-left>
-            <img src={IMG.pastor} alt="Lead Pastor"
-              className="absolute inset-0 w-full h-full object-cover object-top grayscale" />
-            <div className="absolute inset-0 bg-[#0E0E0E]/30" />
-          </div>
-
-          {/* Right: BLACK background with text — matches CCI precisely */}
-          <div className="bg-black flex flex-col justify-center px-8 md:px-14 xl:px-20 py-20 lg:py-0 order-1 lg:order-2" data-reveal-right>
-            <div className="flex items-center gap-3 mb-5">
-              <div className="relative w-6 h-6 flex-shrink-0">
-                <Image src="/assets/logo.png" alt="" fill className="object-contain" />
-              </div>
-              <span className="font-barlow-condensed text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
-                ROSE OF SHARON GLOBAL
-              </span>
+        <section className="bg-black py-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-4 md:grid-cols-2 px-4">
+            {/* Left: centered fixed-width pastor photo */}
+            <div className="flex items-center justify-center">
+              <img src={IMG.pastor} alt="Lead Pastor"
+                className="h-auto w-[300px] lg:w-[540px] grayscale" />
             </div>
 
-            <h2 className="font-barlow font-black text-white text-[24px] leading-tight mb-5 uppercase tracking-[0.2em]">
-              Our lead pastor
-            </h2>
-            <p className="font-barlow text-white/65 text-[15px] leading-relaxed max-w-md mb-8">
-              Our lead pastor is a visionary minister dedicated to building a church community rooted in the Word of God, passionate about worship, and committed to transforming lives through the power of the Holy Spirit. Under their leadership, Rose of Sharon has grown into a thriving hub of faith, discipleship, and community impact.
-            </p>
-            <Link href="/about"
-              className="font-barlow-condensed inline-flex items-center gap-2 px-9 py-[12px] bg-[#C0362A] text-white text-[12px] font-bold tracking-[0.14em] rounded-full hover:bg-[#A02820] transition-colors w-fit">
-              READ MORE
-            </Link>
+            {/* Right: centered text content */}
+            <div className="flex items-center justify-center text-white">
+              <div className="flex w-full max-w-[444px] flex-col items-center gap-5 px-4 py-10 text-center lg:py-2">
+                <div className="flex items-center gap-3">
+                  <div className="relative w-6 h-6 flex-shrink-0">
+                    <Image src="/assets/logo.png" alt="" fill className="object-contain" />
+                  </div>
+                  <span className="font-barlow-condensed text-white/40 text-[10px] font-bold tracking-[0.3em] uppercase">
+                    ROSE OF SHARON GLOBAL
+                  </span>
+                </div>
+                <h2 className="text-2xl font-black uppercase tracking-[0.2em]">Our lead pastor</h2>
+                <p className="font-medium leading-7 text-[#FFFFFFA3]">
+                  Our lead pastor is a visionary minister dedicated to building a church community rooted in the Word of God, passionate about worship, and committed to transforming lives through the power of the Holy Spirit. Under their leadership, Rose of Sharon has grown into a thriving hub of faith, discipleship, and community impact.
+                </p>
+                <Link href="/about"
+                  className="font-barlow-condensed rounded-[20px] border px-5 py-2.5 text-xs font-extrabold uppercase tracking-wide text-white hover:bg-white hover:text-black transition-all">
+                  READ MORE
+                </Link>
+              </div>
+            </div>
           </div>
         </section>
 
