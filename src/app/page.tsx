@@ -169,7 +169,7 @@ export default function Home() {
                   <p className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">{c.cat}</p>
                   <h2 className="absolute left-4 top-8 z-10 text-[28px] font-bold tracking-wide text-white">{c.title}</h2>
                   <span className="absolute bottom-4 left-4 z-10 flex items-center gap-2">
-                    <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white">{c.label}</h3>
+                    <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white underline-offset-8 hover:underline">{c.label}</h3>
                     <Arr />
                   </span>
                 </Link>
@@ -185,7 +185,7 @@ export default function Home() {
           style={{ backgroundImage: "url(/assets/family.jpg)", backgroundSize: "cover", backgroundPosition: "center" }}>
           <div className="flex h-full w-full items-center justify-center bg-black/85">
           <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4 text-center">
-            <Pill v="glass">🌍 RCCG WORLDWIDE</Pill>
+            <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white"><span className="mr-1">🌍</span>RCCG WORLDWIDE</h2>
             <div>
               <h2 className="font-anton text-center text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
                 WE ENLIST, DISCIPLE AND REDEPLOY A PEOPLE
