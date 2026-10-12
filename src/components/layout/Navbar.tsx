@@ -183,23 +183,8 @@ export default function Navbar(_: { activePage?: string }) {
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
-        {/* Top bar within overlay */}
-        <div className="flex justify-between items-center p-4 w-full">
-          <Link href="/" onClick={() => setMenuOpen(false)}>
-            <div className="relative w-9 h-9">
-              <Image src="/assets/logo.png" alt="RCCG Rose of Sharon" fill className="object-contain brightness-0 invert" />
-            </div>
-          </Link>
-          <button onClick={() => setMenuOpen(false)} aria-label="Close menu"
-            className="text-white/60 hover:text-white transition-colors">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
         {/* Centered content: left primary nav + right sub-links */}
-        <div className="flex justify-center items-center mx-auto max-w-screen-2xl min-h-[calc(100vh-68px)]">
+        <div className="flex justify-center items-center mx-auto max-w-screen-2xl min-h-screen">
           <div className="flex md:flex-row flex-col justify-between items-start lg:items-center gap-4 w-[90%]">
 
             {/* LEFT: Primary navigation */}
