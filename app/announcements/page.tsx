@@ -1,0 +1,127 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { API_BASE } from "@/lib/api";
+
+const vs = { fontVariationSettings: '"wdth" 100' };
+
+interface Announcement {
+  id: string;
+  subject: string;
+  content: string;
+  startDate?: string;
+  endDate?: string;
+  createdOn?: string;
+}
+
+function formatDate(d?: string) {
+  if (!d) return "";
+  try {
+    return new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  } catch {
+    return d;
+  }
+}
+
+export default function AnnouncementsPage() {
+  const [items, setItems] = useState<Announcement[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch(`${API_BASE}/announcements/read`)
+      .then((r) => {
+        if (!r.ok) throw new Error();
+        return r.json();
+      })
+      .then((data) => setItems(Array.isArray(data) ? data : data.content ?? []))
+      .catch(() => setError("Unable to load announcements at this time."))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="relative min-h-[400px] md:h-[500px] w-full overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0">
+          <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
+          <div className="absolute inset-0 bg-[rgba(16,14,26,0.75)]" />
+        </div>
+        <div className="relative z-10 w-full max-w-[860px] px-6 mt-16 md:mt-[48px] flex flex-col gap-[16px] items-center text-center">
+          <p className="w-fit rounded-full bg-[#00000078] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]" style={vs}>Stay Informed</p>
+          <h1 className="font-anton uppercase text-[#FFFDFD] text-[36px] md:text-[56px] lg:text-[72px] leading-tight w-full" style={vs}>Announcements</h1>
+          <p className="text-[#FFFDFD] text-[16px] md:text-[20px] font-normal leading-[1.5] md:leading-[32px]" style={vs}>
+            Latest news, updates and notices from the house of God.
+          </p>
+        </div>
+      </section>
+
+      {/* Announcements list */}
+      <section className="bg-[#000000] px-4 sm:px-[40px] lg:px-[80px] xl:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[32px] items-center w-full min-h-[400px]">
+        <div className="flex items-center gap-[8px]">
+          <Link href="/" className="text-[#FFFFFFB3] text-[16px] hover:underline" style={vs}>Home</Link>
+          <span className="text-[#A3A1AF]">/</span>
+          <span className="text-[#FFFDFD] text-[16px]" style={vs}>Announcements</span>
+        </div>
+
+        {loading && (
+          <div className="flex flex-col gap-[20px] w-full max-w-[900px]">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-[140px] rounded-[16px] bg-[#111111] animate-pulse" />
+            ))}
+          </div>
+        )}
+
+        {error && (
+          <p className="text-[#A3A1AF] text-[18px] text-center" style={vs}>{error}</p>
+        )}
+
+        {!loading && !error && items.length === 0 && (
+          <div className="flex flex-col gap-[16px] items-center py-[48px] text-center">
+            <p className="text-[#FFFDFD] text-[25px] font-medium" style={vs}>No current announcements</p>
+            <p className="text-[#A3A1AF] text-[16px]" style={vs}>Check back soon for updates from the church.</p>
+            <Link href="/" className="text-[#FFFFFFB3] text-[16px] hover:underline mt-[8px]" style={vs}>← Back to Home</Link>
+          </div>
+        )}
+
+        {!loading && items.length > 0 && (
+          <div className="flex flex-col gap-[20px] w-full max-w-[900px]">
+            {items.map((item, idx) => (
+              <div
+                key={item.id}
+                className="bg-[#111111] rounded-[16px] p-[32px] flex flex-col gap-[16px] border border-[#FFFFFFB3]/10 hover:border-[#FFFFFFB3]/25 transition-colors"
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-[12px] sm:gap-[16px]">
+                  <div className="flex items-center gap-[12px]">
+                    <div className="size-[40px] rounded-full bg-[#C0362A] flex items-center justify-center flex-shrink-0">
+                      <span className="text-[#FFFDFD] text-[16px] font-bold" style={vs}>{idx + 1}</span>
+                    </div>
+                    <h2 className="text-[#FFFDFD] text-[18px] md:text-[22px] font-bold leading-[1.3]" style={vs}>
+                      {item.subject}
+                    </h2>
+                  </div>
+                  {item.startDate && (
+                    <div className="bg-[#C0362A]/40 px-[12px] py-[6px] rounded-full flex-shrink-0">
+                      <span className="text-[#FFFFFFB3] text-[13px] font-normal whitespace-nowrap" style={vs}>
+                        {formatDate(item.startDate)}
+                        {item.endDate && item.endDate !== item.startDate
+                          ? ` – ${formatDate(item.endDate)}`
+                          : ""}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-[#A3A1AF] text-[16px] font-normal leading-[1.7] whitespace-pre-line" style={vs}>
+                  {item.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}

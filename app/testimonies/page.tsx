@@ -1,0 +1,306 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { FormField, FormCard, inputCls, textareaCls } from "@/components/ui/FormField";
+import { post, API_BASE } from "@/lib/api";
+
+interface TestimonyItem {
+  id: string;
+  subject: string;
+  content: string;
+  owner?: { firstName?: string; lastName?: string };
+  state?: string;
+  country?: string;
+  createdOn?: string;
+}
+
+const fallbackTestimonies = [
+  { name: "Brother David", img: "/assets/podcast-1.png", quote: "God turned my situation around completely. I was at my lowest point but His grace found me." },
+  { name: "Sister Grace", img: "/assets/podcast-2.png", quote: "The healing power of God is real. I witnessed it firsthand in my family." },
+  { name: "Brother James", img: "/assets/podcast-3.png", quote: "From nothing to abundance — only God could have done this in my life." },
+  { name: "Sister Mercy", img: "/assets/podcast-4.png", quote: "I received my long-awaited miracle after years of waiting on the Lord." },
+  { name: "Brother Paul", img: "/assets/podcast-5.png", quote: "His faithfulness endures forever. My testimony is a testament to His love." },
+  { name: "Sister Ruth", img: "/assets/podcast-6.png", quote: "God opened doors that no man could open. I am forever grateful." },
+  { name: "Brother Samuel", img: "/assets/podcast-7.png", quote: "What seemed impossible became possible through the power of prayer." },
+  { name: "Sister Esther", img: "/assets/podcast-8.png", quote: "God restored my marriage and brought peace to my home. To Him be glory!" },
+];
+
+const avatarImgs = [
+  "/assets/podcast-1.png", "/assets/podcast-2.png", "/assets/podcast-3.png",
+  "/assets/podcast-4.png", "/assets/podcast-5.png", "/assets/podcast-6.png",
+  "/assets/podcast-7.png", "/assets/podcast-8.png",
+];
+
+const vs = { fontVariationSettings: '"wdth" 100' };
+
+export default function TestimoniesPage() {
+  const [liveTestimonies, setLiveTestimonies] = useState<TestimonyItem[]>([]);
+  const [loadingTestimonies, setLoadingTestimonies] = useState(true);
+
+  const [form, setForm] = useState({
+    name: "", subject: "", testimony: "",
+    state: "", country: "Nigeria", rosTVStory: false,
+  });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch(`${API_BASE}/testimonies/featured?pageSize=8`)
+      .then((r) => r.ok ? r.json() : Promise.reject())
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.content ?? [];
+        setLiveTestimonies(list);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingTestimonies(false));
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    setError("");
+    try {
+      await post("/testimonies", {
+        subject: form.subject,
+        content: `From: ${form.name}\n\n${form.testimony}`,
+        state: form.state || undefined,
+        country: form.country || undefined,
+        rosTVStory: form.rosTVStory,
+      });
+      setStatus("success");
+    } catch (err: unknown) {
+      setStatus("error");
+      setError(err instanceof Error ? err.message : "Submission failed. Please try again.");
+    }
+  }
+
+  return (
+    <div>
+      {/* Hero */}
+      <section className="relative h-[735px] w-full overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0">
+          <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
+          <div className="absolute inset-0 bg-[rgba(16,14,26,0.65)]" />
+        </div>
+        <div className="absolute left-1/2 top-[calc(50%+58px)] -translate-x-1/2 -translate-y-1/2 flex flex-col gap-[84px] items-center justify-center w-[1148px] z-10">
+          <div className="flex flex-col gap-[32px] items-start w-full text-center text-white">
+            <h1
+              className="text-[#FFFDFD] text-[84px] font-medium leading-normal w-full"
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            >
+              Amazing Evidences
+            </h1>
+            <p
+              className="text-[#FFFDFD] text-[25px] font-normal leading-[32px] w-full"
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            >
+              Real stories of God&apos;s faithfulness — lives transformed by the power of the Holy Spirit.
+            </p>
+          </div>
+          <Link
+            href="#share"
+            className="flex items-center gap-[5px] px-[32px] py-[16px] bg-[#C0362A] text-[#FFFDFD] text-[25px] font-medium rounded-[35px] drop-shadow-[19px_19px_20px_rgba(0,0,0,0.1)] hover:bg-[#A02820] transition-colors"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            Share Your Testimony
+          </Link>
+        </div>
+      </section>
+
+      {/* Featured Testimony */}
+      <section className="relative h-[510px] w-full overflow-hidden flex items-center">
+        <div className="absolute inset-0">
+          <Image src="/assets/thanksgiving-bg.png" alt="" fill className="object-cover pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#C0362A] from-[39.9%] to-[rgba(255,255,255,0)] to-[75.5%]" />
+        </div>
+        <div className="relative z-10 flex flex-col gap-[24px] items-start px-[120px] w-[760px]">
+          <p className="w-fit rounded-full bg-[#00000078] px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]" style={{ fontVariationSettings: '"wdth" 100' }}>
+            Featured Testimony
+          </p>
+          <h2
+            className="text-[#FFFDFD] text-[48px] font-bold leading-[1.2]"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            God&apos;s Grace is Sufficient
+          </h2>
+          <p
+            className="text-[#FFFDFD] text-[20px] font-normal leading-[1.6] italic"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            &ldquo;I came to this church broken and without hope. Today I stand as a living witness
+            that God restores, heals and renews. His faithfulness has no end.&rdquo;
+          </p>
+          <p className="text-[#FFFFFFB3] text-[16px] font-medium" style={{ fontVariationSettings: '"wdth" 100' }}>
+            — Bro. Emmanuel Okafor, Member since 2019
+          </p>
+        </div>
+      </section>
+
+      {/* Testimonies Grid */}
+      <section className="bg-[#F4F4F4] px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+        <h2
+          className="text-[#000000] text-[48px] font-bold leading-normal text-center w-full"
+          style={vs}
+        >
+          {liveTestimonies.length > 0 ? "Featured Testimonies" : "More Testimonies"}
+        </h2>
+
+        {loadingTestimonies && (
+          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            {[1,2,3,4].map((i) => (
+              <div key={i} className="bg-white rounded-[16px] h-[160px] animate-pulse" />
+            ))}
+          </div>
+        )}
+
+        {!loadingTestimonies && (
+          <div className="grid gap-[20px] w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+            {liveTestimonies.length > 0
+              ? liveTestimonies.map((t, i) => {
+                  const ownerName = t.owner
+                    ? `${t.owner.firstName ?? ""} ${t.owner.lastName ?? ""}`.trim()
+                    : "Church Member";
+                  const lines = t.content.split("\n").filter(Boolean);
+                  const quote = lines.length > 1 ? lines.slice(1).join(" ") : t.content;
+                  return (
+                    <div key={t.id} className="bg-white rounded-[16px] flex flex-col gap-[16px] p-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
+                      <div className="flex items-center gap-[12px]">
+                        <div className="size-[60px] rounded-full overflow-hidden relative flex-shrink-0 bg-[#C0362A] flex items-center justify-center">
+                          <span className="text-white text-[22px] font-bold" style={vs}>
+                            {ownerName.charAt(0) || "M"}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="text-[#000000] text-[16px] font-bold leading-normal" style={vs}>
+                            {ownerName || "Anonymous"}
+                          </p>
+                          {(t.state || t.country) && (
+                            <p className="text-[#A3A1AF] text-[13px] font-normal" style={vs}>
+                              {[t.state, t.country].filter(Boolean).join(", ")}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <p className="text-[#000000] text-[14px] font-normal leading-[1.6] italic line-clamp-4" style={vs}>
+                        &ldquo;{t.subject ? `${t.subject} — ` : ""}{quote}&rdquo;
+                      </p>
+                    </div>
+                  );
+                })
+              : fallbackTestimonies.map((person, i) => (
+                  <div key={i} className="bg-white rounded-[16px] flex flex-col gap-[16px] p-[20px] shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
+                    <div className="flex items-center gap-[12px]">
+                      <div className="size-[60px] rounded-full overflow-hidden relative flex-shrink-0">
+                        <Image src={avatarImgs[i % avatarImgs.length]} alt={person.name} fill className="object-cover" />
+                      </div>
+                      <div>
+                        <p className="text-[#000000] text-[16px] font-bold leading-normal" style={vs}>{person.name}</p>
+                        <p className="text-[#A3A1AF] text-[13px] font-normal" style={vs}>Member</p>
+                      </div>
+                    </div>
+                    <p className="text-[#000000] text-[15px] font-normal leading-[1.6] italic" style={vs}>
+                      &ldquo;{person.quote}&rdquo;
+                    </p>
+                  </div>
+                ))
+            }
+          </div>
+        )}
+      </section>
+
+      {/* Share Your Testimony */}
+      <section id="share" className="bg-[#F3F4F6] px-4 md:px-[60px] lg:px-[120px] py-[84px] flex flex-col gap-[32px] items-center w-full">
+        <h2 className="font-anton uppercase text-[#C0362A] text-[48px] leading-normal text-center" style={vs}>
+          Share Your Testimony
+        </h2>
+
+        <div className="relative size-[54px] flex-shrink-0">
+          <Image src="/assets/icon-watch.svg" alt="" fill />
+        </div>
+
+        {status === "success" ? (
+          <div className="bg-white rounded-2xl p-10 shadow-sm flex flex-col gap-[24px] items-center max-w-[600px] text-center">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="32" r="32" fill="#16A34A" fillOpacity="0.12" />
+              <circle cx="32" cy="32" r="24" fill="#16A34A" fillOpacity="0.2" />
+              <path d="M20 32L28 40L44 24" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <p className="text-[#111827] text-[25px] font-medium" style={vs}>Thank You!</p>
+            <p className="text-[#6B7280] text-[16px]" style={vs}>Your testimony has been received. May God continue to bless you.</p>
+            <button
+              onClick={() => setStatus("idle")}
+              className="text-[#C0362A] text-[16px] hover:underline"
+              style={vs}
+            >
+              Share another testimony
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-[16px] items-center w-full max-w-[600px]">
+            <FormCard title="Your Details">
+              <div className="flex flex-col gap-[16px]">
+                <FormField label="Name" required>
+                  <input type="text" required value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    className={inputCls} />
+                </FormField>
+                <FormField label="Subject" required>
+                  <input type="text" required value={form.subject}
+                    onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                    className={inputCls} />
+                </FormField>
+                <div className="grid grid-cols-2 gap-[12px]">
+                  <FormField label="State">
+                    <input type="text" value={form.state}
+                      onChange={(e) => setForm({ ...form, state: e.target.value })}
+                      className={inputCls} />
+                  </FormField>
+                  <FormField label="Country">
+                    <input type="text" value={form.country}
+                      onChange={(e) => setForm({ ...form, country: e.target.value })}
+                      className={inputCls} />
+                  </FormField>
+                </div>
+              </div>
+            </FormCard>
+
+            <FormCard title="Your Testimony">
+              <div className="flex flex-col gap-[16px]">
+                <FormField label="Your Testimony" required>
+                  <textarea required value={form.testimony}
+                    onChange={(e) => setForm({ ...form, testimony: e.target.value })}
+                    className={textareaCls}
+                    rows={5}
+                    placeholder="Share what God has done for you..." />
+                </FormField>
+                <label className="flex items-center gap-[10px] w-full cursor-pointer">
+                  <input type="checkbox" checked={form.rosTVStory}
+                    onChange={(e) => setForm({ ...form, rosTVStory: e.target.checked })}
+                    className="size-[16px] accent-[#C0362A]" />
+                  <span className="text-[#374151] text-[14px] font-normal" style={vs}>
+                    I would like this testimony shared on ROS TV
+                  </span>
+                </label>
+              </div>
+            </FormCard>
+
+            {status === "error" && (
+              <p className="text-[#FF383C] text-[14px] text-center w-full" style={vs}>{error}</p>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === "loading"}
+              className="bg-[#C0362A] px-[40px] py-[16px] rounded-[33px] text-[#FFFDFD] text-[18px] md:text-[22px] font-medium hover:bg-[#A02820] transition-colors disabled:opacity-60"
+              style={vs}
+            >
+              {status === "loading" ? "SUBMITTING..." : "SUBMIT"}
+            </button>
+          </form>
+        )}
+      </section>
+    </div>
+  );
+}
