@@ -93,7 +93,7 @@ const communityCards = [
   {
     image: IMG.cm1,
     title: "Membership Classes",
-    href: "/first-timer",
+    href: "/membership-class",
     description:
       "Our Membership Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth.",
   },
@@ -122,8 +122,8 @@ const visitCards = [
 ];
 
 const ministriesData = [
-  { image: IMG.min1, title: "Youth Ministry", link: "/groups", description: "Celeb Kids & Young Adults" },
-  { image: IMG.min2, title: "Rose of Sharon Choir", link: "/groups", description: "ROS Choir & Music Ministry" },
+  { image: IMG.min1, title: "Youth Ministry", link: "/ministries", description: "Celeb Kids & Young Adults" },
+  { image: IMG.min2, title: "Rose of Sharon Choir", link: "/ministries", description: "ROS Choir & Music Ministry" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -253,12 +253,20 @@ export default function Home() {
                 in Christ, for Christ, with joy.
               </h1>
               <p className="text-center text-base text-white md:text-lg">Join us at a Rose of Sharon church near you</p>
-              <Link
-                href="/about"
-                className="rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black"
-              >
-                learn more about us
-              </Link>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <Link
+                  href="/campuses"
+                  className="rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black"
+                >
+                  see all campuses
+                </Link>
+                <Link
+                  href="/about"
+                  className="rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black"
+                >
+                  learn more about us
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -390,7 +398,7 @@ export default function Home() {
                   THERE&apos;S A PLACE FOR <span className="font-anton text-textRed">EVERYONE</span>
                 </h2>
                 <Link
-                  href="/groups"
+                  href="/ministries"
                   className="whitespace-nowrap rounded-[20px] border border-black bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
                 >
                   see all ministries
