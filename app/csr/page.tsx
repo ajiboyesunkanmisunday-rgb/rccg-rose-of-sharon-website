@@ -1,0 +1,394 @@
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
+import { post } from "@/lib/api";
+
+const vs = { fontVariationSettings: '"wdth" 100' };
+
+const skills = [
+  {
+    icon: "💄",
+    title: "Make Up & Gele Tying",
+    desc: "Professional makeup artistry and the art of gele tying — from bridal to everyday looks and editorial styling.",
+  },
+  {
+    icon: "📱",
+    title: "Digital Marketing & AI",
+    desc: "Learn SEO, social media strategy, paid advertising, AI-powered tools, and how to grow a business online.",
+    highlight: true,
+    badge: "14–16 weeks · ₦10,000",
+  },
+  {
+    icon: "✂️",
+    title: "Hair Dressing",
+    desc: "Hair styling, braiding, colouring, treatments, and building a professional salon practice.",
+  },
+  {
+    icon: "🍳",
+    title: "Catering",
+    desc: "Professional cooking, food hygiene, event catering management, and starting a food business.",
+  },
+  {
+    icon: "🧵",
+    title: "Textile Design",
+    desc: "Fabric selection, dyeing, weaving, and creating beautiful textile products from scratch.",
+  },
+  {
+    icon: "👗",
+    title: "Fashion Design",
+    desc: "Pattern making, garment construction, and building a fashion brand — from sketch to finished piece.",
+  },
+];
+
+const benefits = [
+  { label: "Expert Instructors", desc: "Learn from experienced professionals in each field" },
+  { label: "Hands-On Training", desc: "Practical sessions — not just theory" },
+  { label: "Certification", desc: "Receive a certificate of completion for each course" },
+  { label: "Community Network", desc: "Connect with fellow graduates for referrals and opportunities" },
+  { label: "Free Registration", desc: "No registration fee — tuition is only ₦10,000 per course" },
+  { label: "Spiritual Foundation", desc: "Skills training grounded in godly values and purpose" },
+];
+
+export default function CSRPage() {
+  const [form, setForm] = useState({ fullName: "", email: "", phone: "", skill: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("loading");
+    try {
+      await post("/requests/suggestion", {
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        subject: `CSR Interest — ${form.skill || "General"}`,
+        content: `Name: ${form.fullName}\nEmail: ${form.email}\nPhone: ${form.phone}\nSkill of Interest: ${form.skill}\nMessage: ${form.message}`,
+      });
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  return (
+    <div>
+      {/* ── Hero ── */}
+      <section className="relative min-h-[440px] md:h-[540px] w-full overflow-hidden flex items-center justify-center">
+        <div className="absolute inset-0">
+          <Image src="/assets/hero-bg.png" alt="" fill className="object-cover pointer-events-none" priority />
+          <div className="absolute inset-0 bg-[rgba(0,0,0,0.85)]" />
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: "radial-gradient(circle, rgba(181,181,243,0.6) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+          }} />
+        </div>
+        <div className="relative z-10 flex flex-col gap-4 md:gap-[24px] items-center w-full max-w-[1148px] px-6 md:px-8 text-center mt-16 md:mt-[48px]">
+          <div className="flex items-center gap-[10px] px-[16px] py-[8px] rounded-full bg-[#FFFFFFB3]/15 border border-[#FFFFFFB3]/30">
+            <span className="size-[8px] rounded-full bg-[#FFFFFFB3] animate-pulse" />
+            <p className="text-[#FFFFFFB3] text-[12px] md:text-[13px] font-medium uppercase tracking-[0.2em]" style={vs}>Christian Social Responsibility</p>
+          </div>
+          <h1 className="font-anton uppercase text-[#FFFDFD] text-[32px] md:text-[52px] lg:text-[72px] leading-tight" style={vs}>
+            Equipping You to<br />
+            <span className="italic text-[#FFFFFFB3]" style={{ fontFamily: "'Playfair Display', serif" }}>Excel &amp; Create</span>
+          </h1>
+          <p className="text-[#FFFDFD]/80 text-[15px] md:text-[18px] lg:text-[20px] font-normal leading-[1.7] max-w-[680px]" style={vs}>
+            CSR is our church&apos;s vocational training centre — empowering members of our community with practical skills to build sustainable livelihoods.
+          </p>
+          <div className="flex flex-wrap gap-3 md:gap-[16px] justify-center mt-[8px]">
+            <a href="#skills" className="px-[24px] md:px-[28px] py-[12px] md:py-[14px] bg-[#FFFDFD] text-[#C0362A] text-[14px] md:text-[15px] font-bold rounded-[30px] hover:bg-[#FFFFFFB3] transition-colors" style={vs}>
+              Explore Skills
+            </a>
+            <a href="#register" className="px-[24px] md:px-[28px] py-[12px] md:py-[14px] border-2 border-[#FFFFFFB3]/60 text-[#FFFDFD] text-[14px] md:text-[15px] font-medium rounded-[30px] hover:border-[#FFFFFFB3] hover:bg-[#FFFFFFB3]/10 transition-colors" style={vs}>
+              Register Interest
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── What is CSR ── */}
+      <section className="bg-[#000000] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col lg:flex-row gap-8 lg:gap-[80px] items-start lg:items-center w-full">
+        <div className="flex flex-col gap-[24px] flex-1 min-w-0">
+          <p className="text-[#FFFFFFB3] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Our Vision</p>
+          <h2 className="font-anton uppercase text-[#FFFDFD] text-[26px] md:text-[38px] lg:text-[48px] leading-[1.2]" style={vs}>What is CSR?</h2>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
+            The Christian Social Responsibility (CSR) centre is Rose of Sharon&apos;s commitment to the total wellbeing of our community — not just spiritual growth, but economic empowerment and social transformation.
+          </p>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal leading-[1.8]" style={vs}>
+            We believe that when the church equips its people with practical skills, it multiplies its impact in homes, workplaces, and communities. CSR offers structured, hands-on vocational training — all rooted in excellence and godly values.
+          </p>
+
+          {/* Practical info strip */}
+          <div className="flex flex-col gap-[14px] mt-[4px] bg-[#1A1826] rounded-[16px] p-[20px] border border-[#FFFFFFB3]/10">
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">📍</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Location</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>49B, Ladipo Bateye Street (Street Behind Church), GRA, Ikeja Lagos</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">🗓️</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Days & Hours</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>Monday, Tuesday, Thursday &amp; Friday · 9:00 AM – 2:00 PM</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">💰</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Fees</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>Registration is <span className="text-[#FFFFFFB3] font-semibold">FREE</span> · Tuition is <span className="text-[#FFFFFFB3] font-semibold">₦10,000</span> per course</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-[12px]">
+              <span className="text-[18px] mt-[1px]">📞</span>
+              <div>
+                <p className="text-[#FFFDFD] text-[14px] font-semibold" style={vs}>Enquiries</p>
+                <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>08175856498 · 07061939710 · 08053649231</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-[12px] mt-[4px]">
+            {["Vocational Training", "Professional Skills", "Business Mentoring", "Community Impact"].map(tag => (
+              <span key={tag} className="px-[16px] py-[8px] rounded-full bg-[#FFFFFFB3]/10 border border-[#FFFFFFB3]/20 text-[#FFFFFFB3] text-[13px] font-medium" style={vs}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px] w-full lg:w-[480px] lg:flex-shrink-0">
+          {benefits.map(b => (
+            <div key={b.label} className="bg-[#1A1826] rounded-[16px] p-[20px] flex flex-col gap-[8px] border border-[#FFFFFFB3]/10">
+              <p className="text-[#FFFDFD] text-[15px] font-bold" style={vs}>{b.label}</p>
+              <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>{b.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Skills Offered ── */}
+      <section id="skills" className="bg-[#F4F4F4] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[40px] md:gap-[48px] items-center w-full">
+        <div className="flex flex-col gap-[8px] items-center text-center">
+          <p className="text-[#C0362A] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>What We Teach</p>
+          <h2 className="font-anton uppercase text-[#000000] text-[24px] md:text-[38px] lg:text-[48px] leading-normal" style={vs}>Skills We Offer</h2>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[18px] font-normal max-w-[600px]" style={vs}>
+            Practical, hands-on courses taught by experienced professionals — each one designed to help you build a real livelihood.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] md:gap-[20px] w-full">
+          {skills.map(skill => (
+            <div
+              key={skill.title}
+              className={`rounded-[20px] p-[24px] md:p-[28px] flex flex-col gap-[16px] shadow-[0px_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0px_8px_32px_rgba(0,0,0,0.12)] hover:-translate-y-[4px] transition-all group relative overflow-hidden ${skill.highlight ? "bg-[#C0362A]" : "bg-white"}`}
+            >
+              {skill.highlight && (
+                <div className="absolute top-[16px] right-[16px]">
+                  <span className="px-[10px] py-[4px] bg-[#FFFFFFB3] text-[#C0362A] text-[10px] font-bold rounded-full uppercase tracking-wider" style={vs}>
+                    Featured
+                  </span>
+                </div>
+              )}
+              <div className={`size-[52px] md:size-[56px] rounded-[14px] flex items-center justify-center text-[26px] md:text-[28px] transition-colors ${skill.highlight ? "bg-white/15" : "bg-[#C0362A]/8 group-hover:bg-[#C0362A]/15"}`}>
+                {skill.icon}
+              </div>
+              <div className="flex flex-col gap-[8px]">
+                <p className={`text-[16px] md:text-[17px] font-bold leading-tight ${skill.highlight ? "text-[#FFFDFD]" : "text-[#000000]"}`} style={vs}>
+                  {skill.title}
+                </p>
+                <p className={`text-[13px] leading-[1.6] ${skill.highlight ? "text-[#FFFFFFB3]" : "text-[#A3A1AF]"}`} style={vs}>
+                  {skill.desc}
+                </p>
+                {skill.badge && (
+                  <p className="text-[#FFFDFD]/60 text-[11px] font-semibold mt-[4px]" style={vs}>{skill.badge}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-[#A3A1AF] text-[15px] text-center italic" style={vs}>
+          New skills added each season — check back regularly or call us to ask about upcoming courses.
+        </p>
+      </section>
+
+      {/* ── How It Works ── */}
+      <section className="bg-[#000000] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col gap-[40px] md:gap-[48px] items-center w-full">
+        <div className="flex flex-col gap-[8px] items-center text-center">
+          <p className="text-[#FFFFFFB3] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Simple Process</p>
+          <h2 className="font-anton uppercase text-[#FFFDFD] text-[24px] md:text-[38px] lg:text-[48px] leading-normal" style={vs}>How to Join</h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row flex-wrap items-start justify-center gap-8 w-full">
+          {[
+            { step: "01", title: "Register Interest", desc: "Fill out the form below or call us to express interest in a course." },
+            { step: "02", title: "Orientation", desc: "Attend a brief orientation — we share the schedule, tools needed, and expectations." },
+            { step: "03", title: "Training Begins", desc: "Join your class and learn from expert instructors in hands-on sessions, Mon–Fri." },
+            { step: "04", title: "Graduation", desc: "Complete the course, receive your certificate, and join our growing community of graduates." },
+          ].map((item, i, arr) => (
+            <div key={item.step} className="flex md:flex-row items-start gap-4 md:gap-0 w-full md:w-auto">
+              <div className="flex flex-col items-center gap-[16px] w-full md:w-[200px] lg:w-[220px]">
+                <div className="size-[60px] md:size-[72px] rounded-full bg-[#C0362A] flex items-center justify-center border-4 border-[#FFFFFFB3]/20">
+                  <span className="text-[#FFFDFD] text-[18px] md:text-[22px] font-bold" style={vs}>{item.step}</span>
+                </div>
+                <div className="flex flex-col gap-[6px] text-center">
+                  <p className="text-[#FFFDFD] text-[15px] md:text-[17px] font-bold" style={vs}>{item.title}</p>
+                  <p className="text-[#A3A1AF] text-[13px] leading-[1.6]" style={vs}>{item.desc}</p>
+                </div>
+              </div>
+              {i < arr.length - 1 && (
+                <div className="hidden md:block h-[2px] w-[32px] lg:w-[48px] bg-[#FFFFFFB3]/20 flex-shrink-0 mt-[34px]" />
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Register Form ── */}
+      <section id="register" className="bg-[#EEF0F7] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[84px] flex flex-col lg:flex-row gap-8 lg:gap-[80px] items-start w-full">
+        <div className="flex flex-col gap-[24px] flex-1 min-w-0 lg:max-w-[440px]">
+          <div className="flex flex-col gap-[8px]">
+            <p className="text-[#C0362A] text-[14px] font-normal uppercase tracking-[0.2em]" style={vs}>Get Started</p>
+            <h2 className="font-anton uppercase text-[#000000] text-[26px] md:text-[36px] lg:text-[40px] leading-[1.2]" style={vs}>Register Your Interest</h2>
+          </div>
+          <p className="text-[#A3A1AF] text-[16px] md:text-[17px] leading-[1.7]" style={vs}>
+            Tell us which skill excites you — our team will reach out with details about the next available intake, schedule, and how to join.
+          </p>
+          <div className="flex flex-col gap-[12px]">
+            {["Open to church members & the community", "No prior experience required", "Registration is FREE — tuition only ₦10,000 per course"].map(item => (
+              <div key={item} className="flex items-start gap-[12px]">
+                <div className="size-[20px] rounded-full bg-[#C0362A] flex items-center justify-center flex-shrink-0 mt-[2px]">
+                  <span className="text-white text-[11px] font-bold">✓</span>
+                </div>
+                <p className="text-[#000000] text-[15px]" style={vs}>{item}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Contact block */}
+          <div className="mt-[8px] flex flex-col gap-[10px] bg-white rounded-[16px] p-[20px] border border-[#F4F4F4]">
+            <p className="text-[#000000] text-[14px] font-semibold" style={vs}>Prefer to call?</p>
+            <p className="text-[#C0362A] text-[13px] font-medium" style={vs}>08175856498</p>
+            <p className="text-[#C0362A] text-[13px] font-medium" style={vs}>07061939710</p>
+            <p className="text-[#C0362A] text-[13px] font-medium" style={vs}>08053649231</p>
+            <p className="text-[#A3A1AF] text-[12px] mt-[2px]" style={vs}>Or visit us at 49B, Ladipo Bateye Street (behind the church), GRA</p>
+          </div>
+        </div>
+
+        {/* Form card */}
+        <div className="flex-1 min-w-0 bg-white rounded-[24px] p-[28px] md:p-[40px] shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
+          {status === "success" ? (
+            <div className="flex flex-col gap-[20px] items-center text-center py-[40px]">
+              <div className="size-[64px] rounded-full bg-[#C0362A] flex items-center justify-center">
+                <span className="text-white text-[28px]">✓</span>
+              </div>
+              <h3 className="text-[#000000] text-[24px] md:text-[28px] font-bold" style={vs}>Registration Received!</h3>
+              <p className="text-[#A3A1AF] text-[16px] leading-[1.7] max-w-[340px]" style={vs}>
+                Thank you for your interest in the CSR programme. Our team will contact you soon with next steps.
+              </p>
+              <button
+                onClick={() => { setStatus("idle"); setForm({ fullName: "", email: "", phone: "", skill: "", message: "" }); }}
+                className="px-[28px] py-[12px] bg-[#C0362A] text-[#FFFDFD] rounded-[30px] text-[15px] font-medium hover:bg-[#A02820] transition-colors"
+                style={vs}
+              >
+                Register for Another
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-[18px] md:gap-[20px]">
+              <h3 className="text-[#000000] text-[20px] md:text-[24px] font-bold" style={vs}>Your Information</h3>
+
+              <div className="flex flex-col gap-[6px]">
+                <label className="text-[#000000] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Full Name *</label>
+                <input
+                  required
+                  value={form.fullName}
+                  onChange={e => setForm(f => ({ ...f, fullName: e.target.value }))}
+                  placeholder="Your full name"
+                  className="w-full border border-[#F4F4F4] rounded-[12px] px-[16px] py-[12px] text-[#000000] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#C0362A] focus:ring-2 focus:ring-[#C0362A]/10 transition-all"
+                  style={vs}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-[16px]">
+                <div className="flex flex-col gap-[6px]">
+                  <label className="text-[#000000] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Email *</label>
+                  <input
+                    required type="email"
+                    value={form.email}
+                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    placeholder="your@email.com"
+                    className="w-full border border-[#F4F4F4] rounded-[12px] px-[16px] py-[12px] text-[#000000] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#C0362A] focus:ring-2 focus:ring-[#C0362A]/10 transition-all"
+                    style={vs}
+                  />
+                </div>
+                <div className="flex flex-col gap-[6px]">
+                  <label className="text-[#000000] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Phone *</label>
+                  <input
+                    required type="tel"
+                    value={form.phone}
+                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                    placeholder="08xxxxxxxxx"
+                    className="w-full border border-[#F4F4F4] rounded-[12px] px-[16px] py-[12px] text-[#000000] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#C0362A] focus:ring-2 focus:ring-[#C0362A]/10 transition-all"
+                    style={vs}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-[6px]">
+                <label className="text-[#000000] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Course of Interest *</label>
+                <select
+                  required
+                  value={form.skill}
+                  onChange={e => setForm(f => ({ ...f, skill: e.target.value }))}
+                  className="w-full border border-[#F4F4F4] rounded-[12px] px-[16px] py-[12px] text-[#000000] text-[15px] focus:outline-none focus:border-[#C0362A] focus:ring-2 focus:ring-[#C0362A]/10 transition-all bg-white"
+                  style={vs}
+                >
+                  <option value="">Select a course...</option>
+                  {skills.map(s => <option key={s.title} value={s.title}>{s.title}</option>)}
+                  <option value="Other">Other / Not sure yet</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col gap-[6px]">
+                <label className="text-[#000000] text-[13px] font-semibold uppercase tracking-wider" style={vs}>Message (Optional)</label>
+                <textarea
+                  rows={3}
+                  value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                  placeholder="Tell us a bit about yourself or any questions you have..."
+                  className="w-full border border-[#F4F4F4] rounded-[12px] px-[16px] py-[12px] text-[#000000] text-[15px] placeholder:text-[#C0BFCF] focus:outline-none focus:border-[#C0362A] focus:ring-2 focus:ring-[#C0362A]/10 transition-all resize-none"
+                  style={vs}
+                />
+              </div>
+
+              {status === "error" && (
+                <p className="text-[#FF383C] text-[14px]" style={vs}>Something went wrong. Please try again or call us directly.</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={status === "loading"}
+                className="w-full py-[16px] bg-[#C0362A] text-[#FFFDFD] text-[16px] font-bold rounded-[30px] hover:bg-[#A02820] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                style={vs}
+              >
+                {status === "loading" ? "Submitting..." : "Register My Interest →"}
+              </button>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* ── Scripture CTA ── */}
+      <section className="bg-[#C0362A] px-6 md:px-[60px] lg:px-[120px] py-[48px] md:py-[64px] flex flex-col gap-[16px] items-center w-full text-center">
+        <p className="text-[#FFFDFD] text-[18px] md:text-[22px] font-normal italic leading-[1.6] max-w-[700px]" style={{ fontFamily: "'Playfair Display', serif" }}>
+          &ldquo;Whatever you do, work heartily, as for the Lord and not for men.&rdquo;
+        </p>
+        <p className="text-[#FFFFFFB3] text-[13px] md:text-[14px] font-semibold uppercase tracking-widest" style={vs}>Colossians 3:23</p>
+      </section>
+    </div>
+  );
+}
