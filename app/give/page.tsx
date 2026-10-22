@@ -229,25 +229,6 @@ export default function GivePage() {
         </motion.div>
       </motion.div>
 
-      {/* ── GIVING CATEGORIES ── */}
-      <section className="mx-auto max-w-7xl px-4 py-12 md:py-20">
-        <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
-          💝 <span className="ml-1">GIVING CATEGORIES</span>
-        </h6>
-        <h2 className="mb-10 mt-4 font-anton text-3xl font-normal leading-[120%] text-black md:text-5xl">
-          WHAT YOU CAN GIVE
-        </h2>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {givingCategories.map((g) => (
-            <div key={g.label} className="flex flex-col gap-3 rounded-lg border border-[#00000014] bg-[#FAFAFA8F] p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-[22px]">{g.icon}</div>
-              <h3 className="text-lg font-bold">{g.label}</h3>
-              <p className="text-[#00000099]">{g.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── GLOBAL GIVING ── */}
       <motion.div
         id="global"
@@ -352,6 +333,51 @@ export default function GivePage() {
           </div>
         )}
       </motion.div>
+
+      {/* ── CAMPUS GIVING ── */}
+      <motion.div
+        id="campuses"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12"
+      >
+        <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
+          🌍 <span className="ml-1 uppercase">Give to Specific Rose of Sharon Campuses</span>
+        </h6>
+        <h2 className="mb-4 font-anton text-3xl font-normal leading-[120%] text-black md:text-5xl">GIVE TO SPECIFIC CAMPUSES</h2>
+        <p className="mb-8 text-[#00000099]">
+          Join us as we put our money right where our faith is, partnering with God for the spread of the gospel in our day.
+        </p>
+        <CampusGivingSelector />
+      </motion.div>
+
+      {/* ── FAQs ── */}
+      <div className="mx-auto max-w-3xl px-4 pb-20">
+        <h2 className="mb-8 font-anton text-3xl font-medium uppercase md:text-5xl">FAQs</h2>
+        {faqs.map((faq, i) => (
+          <FAQItem key={i} q={faq.q} a={faq.a} index={i} />
+        ))}
+      </div>
+      {/* ── GIVING CATEGORIES ── */}
+      <section className="mx-auto max-w-7xl px-4 py-12 md:py-20">
+        <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
+          💝 <span className="ml-1">GIVING CATEGORIES</span>
+        </h6>
+        <h2 className="mb-10 mt-4 font-anton text-3xl font-normal leading-[120%] text-black md:text-5xl">
+          WHAT YOU CAN GIVE
+        </h2>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {givingCategories.map((g) => (
+            <div key={g.label} className="flex flex-col gap-3 rounded-lg border border-[#00000014] bg-[#FAFAFA8F] p-6">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-[22px]">{g.icon}</div>
+              <h3 className="text-lg font-bold">{g.label}</h3>
+              <p className="text-[#00000099]">{g.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ── GIVING NOTIFICATION ── */}
       <section id="notify" className="scroll-to-plus-nav bg-[#F4F4F4] px-4 py-12 md:py-20">
@@ -458,25 +484,6 @@ export default function GivePage() {
         </div>
       </section>
 
-      {/* ── CAMPUS GIVING ── */}
-      <motion.div
-        id="campuses"
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12"
-      >
-        <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
-          🌍 <span className="ml-1 uppercase">Give to Specific Rose of Sharon Campuses</span>
-        </h6>
-        <h2 className="mb-4 font-anton text-3xl font-normal leading-[120%] text-black md:text-5xl">GIVE TO SPECIFIC CAMPUSES</h2>
-        <p className="mb-8 text-[#00000099]">
-          Join us as we put our money right where our faith is, partnering with God for the spread of the gospel in our day.
-        </p>
-        <CampusGivingSelector />
-      </motion.div>
-
       {/* ── SCRIPTURE ── */}
       <section className="bg-black px-4 py-16">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
@@ -488,13 +495,6 @@ export default function GivePage() {
         </div>
       </section>
 
-      {/* ── FAQs ── */}
-      <div className="mx-auto max-w-3xl px-4 py-20">
-        <h2 className="mb-8 font-anton text-3xl font-medium uppercase md:text-5xl">FAQs</h2>
-        {faqs.map((faq, i) => (
-          <FAQItem key={i} q={faq.q} a={faq.a} index={i} />
-        ))}
-      </div>
     </>
   );
 }

@@ -1,15 +1,16 @@
+// Order: the original cci-web links first, then the additional Rose of Sharon links.
 // `wide` links are only shown in the top bar on extra-wide screens; they are always in the full menu.
 export const NAV_LINKS: { label: string; href: string; wide?: boolean }[] = [
   { label: "About", href: "/about" },
   { label: "Quick Links", href: "/ql" },
-  { label: "Campuses", href: "/campuses", wide: true },
-  { label: "Cell Church", href: "/cell-church", wide: true },
-  { label: "Groups", href: "/groups" },
+  { label: "Campuses", href: "/campuses" },
+  { label: "Cell Church", href: "/cell-church" },
   { label: "Sermons", href: "/media" },
-  { label: "Trainings", href: "/trainings" },
-  { label: "Map", href: "/map", wide: true },
-  { label: "CSR", href: "/csr" },
+  { label: "Map", href: "/map" },
   { label: "Give", href: "/give" },
+  { label: "Groups", href: "/groups", wide: true },
+  { label: "Trainings", href: "/trainings", wide: true },
+  { label: "CSR", href: "/csr", wide: true },
 ];
 
 export const PRIMARY_NAV = [
@@ -19,31 +20,34 @@ export const PRIMARY_NAV = [
   { label: "Campuses", href: "/campuses" },
   { label: "Ministries", href: "/ministries" },
   { label: "Cell Church", href: "/cell-church" },
-  { label: "Groups", href: "/groups" },
   { label: "Sermons", href: "/media" },
-  { label: "Trainings", href: "/trainings" },
   { label: "Map", href: "/map" },
+  { label: "Give", href: "/give" },
+  { label: "Groups", href: "/groups" },
+  { label: "Trainings", href: "/trainings" },
   { label: "Marketplace", href: "/marketplace" },
   { label: "CSR", href: "/csr" },
-  { label: "Give", href: "/give" },
 ];
 
 export const FOOTER_SECTIONS = [
   {
     title: "Connect",
     links: [
-      { title: "Become a Member", href: "/e-member" },
+      { title: "Become a member", href: "/e-member" },
       { title: "Prayer Request", href: "/requests/prayer" },
       { title: "First Timers", href: "/first-timer" },
-      { title: "New Believer", href: "/new-believer" },
       { title: "Online Community", href: "/online-community" },
+      { title: "New Believer", href: "/new-believer" },
       { title: "Cell Church", href: "/cell-church" },
     ],
   },
   {
     title: "Ministries",
     links: [
-      { title: "Ministries", href: "/ministries" },
+      { title: "Rose of Sharon Choir", href: "/ministries#ccw" },
+      { title: "Celeb Teens", href: "/ministries#celeb-kids" },
+      { title: "Celeb Kids", href: "/ministries#celeb-kids" },
+      { title: "All Ministries", href: "/ministries" },
       { title: "Church Groups", href: "/groups" },
       { title: "CSR Program", href: "/csr" },
       { title: "Training Programs", href: "/trainings" },
@@ -69,6 +73,7 @@ export const FOOTER_SECTIONS = [
     title: "Media",
     links: [
       { title: "Watch Online", href: "/media" },
+      { title: "Sermons", href: "/media" },
       { title: "Upcoming Events", href: "/events" },
       { title: "Visit Rose of Sharon", href: "/campuses" },
       { title: "Map", href: "/map" },
@@ -82,7 +87,8 @@ export const MOBILE_COLUMNS = [
     title: "Ministries",
     links: [
       { label: "Rose of Sharon Choir", href: "/ministries#ccw" },
-      { label: "Youth & Children Ministry", href: "/ministries#celeb-kids" },
+      { label: "Celeb Teens", href: "/ministries#celeb-kids" },
+      { label: "Celeb Kids", href: "/ministries#celeb-kids" },
       { label: "Hearts of David", href: "/groups" },
       { label: "Youth Ministry", href: "/groups" },
       { label: "Women's Ministry", href: "/groups" },
@@ -106,12 +112,12 @@ export const MOBILE_COLUMNS = [
   {
     title: "Connect",
     links: [
+      { label: "Cell Church", href: "/cell-church" },
+      { label: "Become a member", href: "/e-member" },
+      { label: "Visit Rose of Sharon", href: "/campuses" },
       { label: "First-Timer", href: "/first-timer" },
-      { label: "Become a Member", href: "/e-member" },
       { label: "New Believer", href: "/new-believer" },
       { label: "Prayer Request", href: "/requests/prayer" },
-      { label: "Cell Church", href: "/cell-church" },
-      { label: "Visit Rose of Sharon", href: "/campuses" },
     ],
   },
   {
