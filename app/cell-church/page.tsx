@@ -121,7 +121,7 @@ export default function CellChurchPage() {
   const locationBadges = ["Rose of Sharon", "And many more"];
 
   return (
-    <>
+    <div className="overflow-x-hidden">
       {/* ── HERO ── */}
       <div
         className="cell-church-hero-banner relative flex h-[600px] flex-col items-center justify-center bg-cover bg-center bg-no-repeat lg:h-[700px]"
@@ -335,6 +335,6 @@ export default function CellChurchPage() {
           <CellFAQItem key={i} q={faq.q} a={faq.a} index={i} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
