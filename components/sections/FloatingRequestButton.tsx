@@ -62,7 +62,7 @@ export default function FloatingRequestButton() {
       {/* Floating button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 flex items-center gap-[8px] px-[24px] py-[14px] bg-[#C0362A] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] shadow-[0_8px_32px_rgba(0,0,128,0.45)] hover:bg-[#A02820] transition-all"
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-[8px] px-[24px] py-[14px] bg-[#C0362A] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] shadow-[0_8px_32px_rgba(0,0,0,0.45)] hover:bg-[#A02820] transition-all"
         style={vs}
         aria-label="Send a request"
       >
@@ -190,7 +190,7 @@ export default function FloatingRequestButton() {
                     <button
                       type="submit"
                       disabled={status === "loading"}
-                      className="w-full px-[32px] py-[14px] bg-[#C0362A] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] hover:bg-[#A02820] transition-colors shadow-[0_4px_16px_rgba(0,0,128,0.35)] disabled:opacity-60 mt-[4px]"
+                      className="w-full px-[32px] py-[14px] bg-[#C0362A] text-[#FFFDFD] text-[15px] font-bold rounded-[30px] hover:bg-[#A02820] transition-colors shadow-[0_4px_16px_rgba(0,0,0,0.35)] disabled:opacity-60 mt-[4px]"
                       style={vs}
                     >
                       {status === "loading" ? "Sending..." : "Send Request"}
