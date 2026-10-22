@@ -51,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${anton.variable} ${lato.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${anton.variable} ${lato.variable}`}>
       <body className="fade-in relative font-lato">
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>

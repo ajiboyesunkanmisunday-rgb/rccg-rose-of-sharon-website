@@ -20,7 +20,7 @@ function Logo({ className = "h-9" }: { className?: string }) {
 
 function DesktopNav({ pathname }: { pathname: string }) {
   return (
-    <nav className="flex items-baseline gap-4 lg:gap-6">
+    <nav className="flex items-baseline gap-3 lg:gap-4 xl:gap-5">
       {NAV_LINKS.map((route) => {
         const isActive = pathname === route.href || pathname.startsWith(`${route.href}/`);
         return (
@@ -29,6 +29,7 @@ function DesktopNav({ pathname }: { pathname: string }) {
             href={route.href}
             className={[
               "text-[10px] uppercase tracking-[0.3em]",
+              route.wide ? "hidden xl:inline" : "",
               isActive
                 ? "font-black text-white hover:text-white/90"
                 : "font-bold text-white/70 hover:text-white/90",
