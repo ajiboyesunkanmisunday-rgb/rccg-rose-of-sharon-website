@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&family=Playfair+Display:ital,wght@1,700&display=swap');
+@import "tailwindcss" source(none);
+@source "./marketplace";
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Lato', 'Roboto', sans-serif;
+  background: #fffdfd;
+  color: #0e0e0e;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}

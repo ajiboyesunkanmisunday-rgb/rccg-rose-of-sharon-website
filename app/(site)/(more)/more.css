@@ -1,0 +1,14 @@
+/*
+ * Styles for the additional Rose of Sharon pages.
+ * Tailwind utilities are PREFIXED with "ros:" and scoped to the files in this folder, with no
+ * base reset, so they can never change the original cci-web pages.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(ros);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(ros) important source(none);
+@source "./";
+
+/* cci-web signature display font (same variable the original pages use) */
+.ros-anton {
+  font-family: var(--font-anton), "Anton", sans-serif;
+}
