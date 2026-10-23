@@ -8,7 +8,6 @@ import { PROGRAMS, programPages } from "@/app/(site)/(more)/_kit/programs";
 const navRoutes = [
   { path: "/about",                              name: "About" },
   { path: "/ql",                                 name: "Quick Links" },
-  { path: "/campuses",                           name: "Campuses" },
   { path: "/cell-church",                        name: "Cell Church" },
   { path: "https://www.youtube.com/@rccgrostv",         name: "Sermons",  isExternal: true },
   { path: "/map",                                name: "Map" },
@@ -81,7 +80,6 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               { href: "/",            label: "Home" },
               { href: "/about",       label: "About" },
               { href: "/ql",          label: "Quick-Links" },
-              { href: "/campuses",    label: "Campuses" },
               { href: "/ministries",  label: "Ministries" },
               { href: "/cell-church", label: "Cell Church" },
               { href: "https://www.youtube.com/@rccgrostv", label: "Sermons", external: true },
@@ -137,7 +135,6 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">CONNECT</h2>
                 <a onClick={() => setOpen(false)} href="/cell-church" className="text-sm hover:underline">Cell Church</a>
                 <a onClick={() => setOpen(false)} href="/membership" className="text-sm hover:underline">Become a member</a>
-                <a onClick={() => setOpen(false)} href="/campuses" className="text-sm hover:underline">Visit Rose of Sharon</a>
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">New here</h2>
                 <a onClick={() => setOpen(false)} href="/first-timer" className="text-sm hover:underline">First-Timer Registration</a>
                 <a onClick={() => setOpen(false)} href="/e-member" className="text-sm hover:underline">E-Member Registration</a>
