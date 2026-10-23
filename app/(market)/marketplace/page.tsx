@@ -475,8 +475,8 @@ export default function MarketplacePage() {
 
         {/* BANNER */}
         <div className="px-4 md:px-10 pt-4 pb-0">
-          <div className="w-full rounded-[12px] p-[2.5px]" style={{ background: `linear-gradient(135deg, ${AD_SLIDES[slideIndex].borderColor}, #B5B5F3, ${AD_SLIDES[slideIndex].borderColor})` }}>
-            <div className="relative w-full rounded-[10px] overflow-hidden min-h-[200px] md:min-h-[300px] flex flex-col md:flex-row items-stretch transition-all duration-500"
+          <div className="w-full rounded-[12px]">
+            <div className="relative w-full rounded-[12px] overflow-hidden min-h-[200px] md:min-h-[300px] flex flex-col md:flex-row items-stretch transition-all duration-500"
               style={{ background: `linear-gradient(120deg, ${AD_SLIDES[slideIndex].bgFrom} 0%, ${AD_SLIDES[slideIndex].bgTo} 100%)` }}>
               {/* Visual */}
               <div className="relative flex items-center justify-center w-full md:w-[42%] min-h-[160px] md:min-h-[300px] overflow-hidden flex-shrink-0">
