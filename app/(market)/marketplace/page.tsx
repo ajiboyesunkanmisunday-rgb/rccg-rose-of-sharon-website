@@ -2,7 +2,11 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { API_BASE } from "@/lib/api";
+import { PRODUCTS, CONDITIONS, SELLER_PROFILES, naira, priceToNum, sellerSlug, type Product, type Condition } from "./_lib/catalog";
+import * as mkt from "./_lib/store";
+import { findProduct } from "./_lib/store";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
@@ -35,8 +39,6 @@ const PRICE_BUCKETS = [
 ];
 
 const SELLERS = ["All Sellers", "Church Members", "ROS Restaurant", "CSR Program"];
-const CONDITIONS = ["new", "used", "refurbished"] as const;
-type Condition = typeof CONDITIONS[number];
 
 const PRODUCT_CATEGORIES_API = [
   { label: "Books", value: "BOOK" },
@@ -48,39 +50,8 @@ const PRODUCT_CATEGORIES_API = [
 
 const ITEMS_PER_PAGE = 9;
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  originalPrice?: string;
-  category: string;
-  image: string;
-  isNew?: boolean;
-  onSale?: boolean;
-  stock: "in_stock" | "limited" | "out";
-  rating: number;
-  ratingCount: number;
-  condition: Condition;
-  seller: string;
-  tags: string[];
-}
-
-const PRODUCTS: Product[] = [
-  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "/marketplace/img2.jpg", stock: "in_stock", rating: 4.5, ratingCount: 128, condition: "new", seller: "Church Members", tags: ["clothing", "men", "nike"] },
-  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", originalPrice: "₦55,000.00", category: "Sneakers", image: "/marketplace/img3.jpg", isNew: true, onSale: true, stock: "limited", rating: 4.2, ratingCount: 64, condition: "new", seller: "Church Members", tags: ["shoes", "sport", "new"] },
-  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "/marketplace/img4.jpg", stock: "limited", rating: 5.0, ratingCount: 312, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "rick warren"] },
-  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "/marketplace/img5.jpg", stock: "limited", rating: 4.7, ratingCount: 44, condition: "new", seller: "Church Members", tags: ["shoes", "formal", "leather"] },
-  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "/marketplace/img6.jpg", stock: "in_stock", rating: 4.3, ratingCount: 87, condition: "new", seller: "Church Members", tags: ["formal", "men", "suit"] },
-  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "/marketplace/img7.jpg", stock: "in_stock", rating: 4.8, ratingCount: 203, condition: "new", seller: "ROS Restaurant", tags: ["food", "snack", "restaurant"] },
-  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", originalPrice: "₦11,000", category: "Restaurant", image: "/marketplace/img8.jpg", onSale: true, stock: "in_stock", rating: 4.9, ratingCount: 445, condition: "new", seller: "ROS Restaurant", tags: ["food", "rice", "restaurant"] },
-  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "/marketplace/img9.jpg", stock: "limited", rating: 4.1, ratingCount: 33, condition: "new", seller: "Church Members", tags: ["bag", "women", "leather"] },
-  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "/marketplace/img10.jpg", stock: "in_stock", rating: 4.6, ratingCount: 178, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "myles munroe"] },
-];
-
 interface VerifiedMember { id: string; name: string; type: "member" | "emember" }
 
-function priceToNum(price: string) { return parseFloat(price.replace(/[^0-9.]/g, "")) || 0; }
 
 function StarIcon({ filled, half }: { filled: boolean; half?: boolean }) {
   return (
@@ -154,8 +125,11 @@ export default function MarketplacePage() {
   const [page, setPage] = useState(1);
 
   /* Cart / wishlist / modals */
-  const [cart, setCart] = useState<number[]>([]);
-  const [wishlist, setWishlist] = useState<number[]>([]);
+  const router = useRouter();
+  const mk = mkt.useMarket();
+  const cart = useMemo(() => mk.cart.flatMap((l) => Array<number>(l.qty).fill(l.id)), [mk.cart]);
+  const wishlist = mk.wishlist;
+  const recentItems = mk.recent.map((id) => findProduct(id, mk)).filter((x): x is Product => !!x).slice(0, 8);
   const [cartOpen, setCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalMode, setModalMode] = useState<"sell" | "checkout" | null>(null);
@@ -238,8 +212,15 @@ export default function MarketplacePage() {
   function toggleCondition(c: Condition) { setActiveConditions((p) => p.includes(c) ? p.filter((x) => x !== c) : [...p, c]); }
 
   function goToPage(p: number) { setPage(p); productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }
-  function addToCart(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setCart((p) => [...p, id]); }
-  function toggleWishlist(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setWishlist((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]); }
+  function addToCart(id: number, e?: React.MouseEvent) { e?.stopPropagation(); mkt.addToCart(id); }
+  function toggleWishlist(id: number, e?: React.MouseEvent) { e?.stopPropagation(); mkt.toggleWishlist(id); }
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const q = sp.get("q"); const c = sp.get("category");
+    if (q) setSearch(q);
+    if (c && CATEGORIES.includes(c)) setActiveCategory(c);
+    if (q || c) setTimeout(() => productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 300);
+  }, []);
 
   function openModal(mode: "sell" | "checkout") {
     setModalMode(mode); setSellStep("verify"); setVerifyInput(""); setVerifyStatus("idle"); setVerifyError(""); setVerifiedMember(null);
@@ -469,7 +450,7 @@ export default function MarketplacePage() {
     <main className="bg-[#FFFDFD] min-h-screen pb-[84px] md:pb-0">
 
       {/* ── NAVBAR + CAROUSEL ── */}
-      <AppHeader cartCount={cart.length} onCart={() => setCartOpen(!cartOpen)} onSell={() => openModal("sell")} />
+      <AppHeader cartCount={cart.length} wishCount={wishlist.length} onCart={() => setCartOpen(!cartOpen)} onSell={() => router.push("/marketplace/sell")} />
 
       <section className="relative w-full overflow-hidden">
 
@@ -567,7 +548,7 @@ export default function MarketplacePage() {
             <div className="flex flex-col gap-[8px]">
               {cart.slice(0, 5).map((id, i) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></div>) : null; })}
               {cart.length > 5 && <p className="text-[#A3A1AF] text-[12px]" style={vs}>+{cart.length - 5} more</p>}
-              <button onClick={() => openModal("checkout")} className="mt-2 w-full bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[20px] hover:bg-[#0000a0] transition-colors" style={vs}>Proceed to Checkout</button>
+              <button onClick={() => router.push("/marketplace/checkout")} className="mt-2 w-full bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[20px] hover:bg-[#0000a0] transition-colors" style={vs}>Proceed to Checkout</button>
             </div>
           )}
         </div>
@@ -689,6 +670,51 @@ export default function MarketplacePage() {
         </div>
       )}
 
+      {/* ── DISCOVERY: categories, promos, stores, recently viewed ── */}
+      <section className="px-4 md:px-10 pt-2 pb-2" style={vs}>
+        <div className="mb-3 flex items-end justify-between"><h2 className="text-[18px] md:text-[22px] font-black text-[#100E1A]">Shop by category</h2><button onClick={() => setActiveCategory("All")} className="text-[12px] font-bold text-[#000080] hover:underline">All products</button></div>
+        <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2">
+          {CATEGORIES.filter((c) => c !== "All" && PRODUCTS.some((p) => p.category === c)).map((c) => {
+            const n = PRODUCTS.filter((p) => p.category === c).length;
+            const sample = PRODUCTS.find((p) => p.category === c);
+            return (
+              <button key={c} onClick={() => { setActiveCategory(c); productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }} className={["flex w-[128px] flex-shrink-0 flex-col items-center gap-2 rounded-[16px] border p-3 text-center transition-colors", activeCategory === c ? "border-[#000080] bg-[#000080]/5" : "border-[#EBEBEB] bg-white hover:border-[#000080]"].join(" ")}>
+                <span className="size-[56px] overflow-hidden rounded-full bg-[#F3F4F6]">{sample ? <img src={sample.image} alt="" className="h-full w-full object-cover" /> : <span className="flex h-full items-center justify-center text-[22px]">🛍️</span>}</span>
+                <span className="text-[12px] font-bold text-[#100E1A]">{c}</span>
+                <span className="text-[11px] text-[#9CA3AF]">{n} {n === 1 ? "item" : "items"}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <div className="rounded-[16px] bg-gradient-to-br from-[#000080] to-[#00003D] p-5 text-white"><p className="text-[11px] font-bold tracking-widest opacity-70">PROMO CODE</p><p className="mt-1 text-[22px] font-black">FAMILY10</p><p className="text-[13px] opacity-90">10% off your order — apply it in your cart.</p></div>
+          <div className="rounded-[16px] bg-gradient-to-br from-[#DC2626] to-[#991B1B] p-5 text-white"><p className="text-[11px] font-bold tracking-widest opacity-70">ORDERS ₦20,000+</p><p className="mt-1 text-[22px] font-black">WELCOME2000</p><p className="text-[13px] opacity-90">₦2,000 off larger orders.</p></div>
+          <div className="rounded-[16px] bg-gradient-to-br from-[#065F46] to-[#064E3B] p-5 text-white"><p className="text-[11px] font-bold tracking-widest opacity-70">DELIVERY</p><p className="mt-1 text-[22px] font-black">Free over ₦100,000</p><p className="text-[13px] opacity-90">Or pick up free at church after service.</p></div>
+        </div>
+
+        <div className="mt-6 mb-2 flex items-end justify-between"><h2 className="text-[18px] md:text-[22px] font-black text-[#100E1A]">Shop by store</h2></div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {SELLER_PROFILES.map((sp) => {
+            const n = PRODUCTS.filter((p) => sellerSlug(p.seller) === sp.slug).length;
+            return (
+              <Link key={sp.slug} href={`/marketplace/store/${sp.slug}`} className="flex items-start gap-3 rounded-[16px] border border-[#EBEBEB] bg-white p-4 transition-colors hover:border-[#000080]">
+                <span className="flex size-[46px] flex-shrink-0 items-center justify-center rounded-full bg-[#000080]/10 text-[22px]">{sp.emoji}</span>
+                <span className="min-w-0"><span className="block text-[14px] font-black text-[#100E1A]">{sp.name} <span className="text-[#000080]">✔</span></span><span className="line-clamp-2 text-[12px] text-[#6B7280]">{sp.blurb}</span><span className="mt-1 block text-[11px] font-bold text-[#000080]">{n} {n === 1 ? "product" : "products"} →</span></span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {recentItems.length > 0 && (<>
+          <div className="mt-6 mb-2"><h2 className="text-[18px] md:text-[22px] font-black text-[#100E1A]">Recently viewed</h2></div>
+          <div className="no-scrollbar flex gap-3 overflow-x-auto pb-2">
+            {recentItems.map((r) => (<Link key={r.id} href={`/marketplace/product/${r.id}`} className="w-[140px] flex-shrink-0 overflow-hidden rounded-[14px] border border-[#EBEBEB] bg-white"><img src={r.image} alt={r.name} className="aspect-square w-full object-cover" /><span className="block p-2"><span className="block truncate text-[12px] font-bold text-[#100E1A]">{r.name}</span><span className="text-[12px] text-[#6B7280]">{naira(priceToNum(r.price))}</span></span></Link>))}
+          </div>
+        </>)}
+        <p className="mt-6 text-[12px] text-[#6B7280]">Quick links: <Link href="/marketplace/cart" className="font-bold text-[#000080] hover:underline">Cart</Link> · <Link href="/marketplace/orders" className="font-bold text-[#000080] hover:underline">My orders</Link> · <Link href="/marketplace/wishlist" className="font-bold text-[#000080] hover:underline">Wishlist</Link> · <Link href="/marketplace/compare" className="font-bold text-[#000080] hover:underline">Compare</Link> · <Link href="/marketplace/sell" className="font-bold text-[#000080] hover:underline">Sell an item</Link></p>
+      </section>
+
       {/* ── PRODUCTS: sidebar + grid ── */}
       <div id="products" ref={productsRef} className="flex flex-col md:flex-row gap-0 md:gap-6 px-0 md:px-[28px] lg:px-[40px] py-[16px] md:py-[24px] w-full">
 
@@ -761,7 +787,7 @@ export default function MarketplacePage() {
           ) : viewMode === "grid" ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[14px] md:gap-[20px]">
               {paginated.map((product) => (
-                <div key={product.id} onClick={() => setSelectedProduct(product)}
+                <div key={product.id} onClick={() => router.push(`/marketplace/product/${product.id}`)}
                   className="bg-white rounded-[20px] p-[13px] flex flex-col gap-[18px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
                   <div className="relative h-[200px] md:h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
@@ -802,7 +828,7 @@ export default function MarketplacePage() {
           ) : (
             <div className="flex flex-col gap-[10px]">
               {paginated.map((product) => (
-                <div key={product.id} onClick={() => setSelectedProduct(product)}
+                <div key={product.id} onClick={() => router.push(`/marketplace/product/${product.id}`)}
                   className="bg-white rounded-[16px] p-[12px] flex items-center gap-4 shadow-[-2px_-2px_2px_rgba(0,0,0,0.04),2px_2px_2px_rgba(0,0,0,0.04)] cursor-pointer hover:shadow-[-2px_-2px_6px_rgba(0,0,128,0.07),2px_2px_6px_rgba(0,0,128,0.07)] transition-shadow group">
                   <div className="relative size-[90px] md:size-[100px] rounded-[12px] overflow-hidden flex-shrink-0 bg-[#F3F4F6]">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
@@ -905,7 +931,7 @@ export default function MarketplacePage() {
         cartCount={cart.length}
         filterCount={activeFilterCount}
         onFilters={() => setFilterOpen(true)}
-        onSell={() => openModal("sell")}
+        onSell={() => router.push("/marketplace/sell")}
         onCart={() => setCartOpen(true)}
       />
     </main>
@@ -914,7 +940,7 @@ export default function MarketplacePage() {
 
 
 /* ─────────────── APP-STYLE HEADER ─────────────── */
-function AppHeader({ cartCount, onCart, onSell }: { cartCount: number; onCart: () => void; onSell: () => void }) {
+function AppHeader({ cartCount, wishCount, onCart, onSell }: { cartCount: number; wishCount: number; onCart: () => void; onSell: () => void }) {
   return (
     <header className="sticky top-0 z-40 border-b border-[#E5E7EB] bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-[58px] max-w-[1400px] items-center gap-3 px-4 md:h-[64px] md:px-10">
@@ -935,6 +961,8 @@ function AppHeader({ cartCount, onCart, onSell }: { cartCount: number; onCart: (
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2 md:gap-3">
+          <Link href="/marketplace/wishlist" className="hidden rounded-[30px] px-3 py-[9px] text-[13px] font-bold text-[#374151] hover:bg-[#F3F4F6] md:inline-flex" style={vs}>Wishlist{wishCount > 0 ? ` (${wishCount})` : ""}</Link>
+          <Link href="/marketplace/orders" className="hidden rounded-[30px] px-3 py-[9px] text-[13px] font-bold text-[#374151] hover:bg-[#F3F4F6] md:inline-flex" style={vs}>My orders</Link>
           <button
             onClick={onSell}
             className="hidden rounded-[30px] bg-[#000080] px-[20px] py-[9px] text-[13px] font-bold text-white transition-colors hover:bg-[#0000a0] md:inline-flex"
