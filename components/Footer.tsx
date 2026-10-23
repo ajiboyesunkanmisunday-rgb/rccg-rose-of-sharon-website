@@ -1,41 +1,142 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { FOOTER_SECTIONS, SOCIALS } from "./site-data";
+import { post } from "@/lib/api";
 
 const year = new Date().getFullYear();
 
+const footerSections = [
+  {
+    title: "connect",
+    links: [
+      { title: "Become a member",  href: "/membership" },
+      { title: "Prayer Request",   href: "/prayer-request" },
+      { title: "First Timers",     href: "/ft" },
+      { title: "Online Community", href: "/online-community" },
+    ],
+  },
+  {
+    title: "Ministries",
+    links: [
+      { title: "Rose of Sharon Choir", href: "/ministries#ccw" },
+      { title: "Teens Ministry",                href: "/ministries#celeb-kids" },
+      { title: "Kids Ministry",                 href: "/ministries#celeb-kids" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { title: "Membership Classes",       href: "/membership-class" },
+      { title: "Celebrations",             href: "/celebrations" },
+      { title: "Counselling",              href: "/counselling" },
+      { title: "Pre Marital Counselling",  href: "/pre-marital-counselling" },
+      { title: "Post Marital Counselling", href: "/post-marital-counselling" },
+      { title: "New Campus Volunteers",    href: "/newcampusvolunteers" },
+      { title: "Welfare Request",          href: "/welfare" },
+    ],
+  },
+  {
+    title: "Media",
+    links: [
+      { title: "Watch Online", href: "https://www.youtube.com/@rccgrostv", blank: true },
+      { title: "Sermons",      href: "https://www.youtube.com/@rccgrostv",                   blank: true },
+    ],
+  },
+];
+
+function MailingListForm() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setStatus("loading");
+    setMessage("");
+    try {
+      await post("/requests/suggestion", {
+        subject: "Mailing List Subscription",
+        content: `Please add this email address to the mailing list: ${email.trim()}`,
+      });
+      setStatus("success");
+      setEmail("");
+      setMessage("Thank you for subscribing!");
+    } catch {
+      setStatus("error");
+      setMessage("Something went wrong. Please try again.");
+    }
+  }
+
+  const field = { fontFamily: "Arial, Helvetica, sans-serif", fontSize: 14, height: 38, width: "100%", borderRadius: 8 } as const;
+  return (
+    <div className="mx-auto min-h-0 px-2 py-7">
+      <form onSubmit={onSubmit} noValidate={false}>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          aria-label="Email"
+          style={{ ...field, background: "#fff", color: "#111", border: "1px solid #6b7280", padding: "0 12px", outline: "none" }}
+        />
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          style={{ ...field, marginTop: 24, background: "#fff", color: "#b20000", border: "none", cursor: "pointer", opacity: status === "loading" ? 0.7 : 1 }}
+        >
+          {status === "loading" ? "Submitting..." : "Submit"}
+        </button>
+        {message && (
+          <p
+            role="status"
+            style={{ marginTop: 14, textAlign: "center", fontSize: 14, fontFamily: "Arial, Helvetica, sans-serif", color: status === "error" ? "#ffd2d2" : "#fff" }}
+          >
+            {message}
+          </p>
+        )}
+      </form>
+    </div>
+  );
+}
+
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-gradient-to-b from-ros-red to-ros-maroon font-lato">
+    <footer className="relative w-full bg-gradient-to-b from-[#B20000] to-[#6B0000] font-lato">
+
       {/* ─── Give CTA banner (raised above footer) ─── */}
-      <div className="absolute -top-12 left-0 right-0 mx-auto h-[350px] max-w-6xl overflow-hidden rounded-lg bg-[#F8EAEA] px-8 md:px-16">
+      <div className="-top-12 absolute left-0 right-0 mx-auto h-[350px] max-w-6xl overflow-hidden rounded-lg bg-[#F8EAEA] px-8 md:px-16">
         <div
-          style={{ backgroundImage: "url(/assets/give-illustration.png)" }}
-          className="absolute -bottom-[10%] right-[-5%] z-0 h-[300px] w-full bg-contain bg-right-bottom bg-no-repeat opacity-60"
+          style={{ backgroundImage: "url(/hand.png)" }}
+          className="absolute -bottom-[10%] right-[-5%] z-0 h-[300px] w-full bg-contain bg-right-bottom bg-no-repeat"
         />
-        <h2 className="relative z-10 pt-6 font-anton text-3xl font-normal text-black md:pt-12 md:text-6xl lg:text-[80px]">
+        <h2 className="pt-6 font-anton font-normal text-3xl text-black md:pt-12 md:text-6xl lg:text-[80px]">
           Give to Rose of Sharon
         </h2>
-        <p className="relative z-10 mt-2 text-base text-[#000000B2] md:text-lg lg:text-xl">
+        <p className="z-20 mt-2 text-base text-[#000000B2] md:text-lg lg:text-xl">
           Your generosity keeps blessing lives, thank you for giving.
         </p>
-        <div className="relative z-10 mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center">
-          <Link
+        <div className="mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+          <a
             href="/give"
             className="flex h-10 items-center justify-center rounded-full border border-foreground bg-white px-4 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white sm:h-12"
           >
             Give Now
-          </Link>
-          <Link
-            href="/give"
+          </a>
+          <a
+            href="/buildingproject"
             className="flex h-10 items-center justify-center rounded-full border border-textRed bg-textRed px-4 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:border-foreground hover:bg-white hover:text-black sm:h-12"
           >
             Building Project
-          </Link>
+          </a>
         </div>
       </div>
 
       {/* ─── Main footer body ─── */}
-      <div className="container mx-auto w-full px-5 pb-[3.125rem] pt-96 md:px-[3.75rem]">
+      <div className="scroll-to-mailing-list container mx-auto w-full px-5 pb-[3.125rem] pt-96 md:px-[3.75rem]">
+
         {/* Mailing list */}
         <p className="mb-4 text-center font-lato text-xl font-[900] leading-10 tracking-[0.4rem] text-white md:text-[2rem] md:tracking-[10.24px]">
           JOIN OUR MAILING LIST
@@ -45,70 +146,45 @@ export default function Footer() {
             We promise not to spam you, but send you edifying and amazing content regularly from RCCG Rose of Sharon.
           </p>
         </div>
-        <form className="mx-auto flex max-w-lg flex-col gap-3">
-          <input
-            type="email"
-            placeholder="Email"
-            aria-label="Email"
-            className="w-full border border-white/20 bg-white/10 px-5 py-[13px] text-[14px] text-white outline-none transition-colors placeholder:text-white/40 focus:border-white/50"
-          />
-          <button
-            type="submit"
-            className="w-full bg-white py-[13px] text-[12px] font-bold tracking-[0.18em] text-ros-maroon transition-colors hover:bg-white/90"
-          >
-            Submit
-          </button>
-        </form>
+        <div className="mx-auto max-w-lg">
+          <MailingListForm />
+        </div>
 
+        {/* Divider */}
         <div className="my-12 border-b-[0.5px] border-[#ffffff33] md:my-[7.5rem]" />
 
         {/* Footer logo (mobile) */}
-        <div className="mb-8 flex items-center gap-2.5 2xl:hidden">
-          <img src="/assets/logo.png" alt="RCCG Rose of Sharon" className="h-10 w-auto brightness-0 invert" />
-          <img src="/assets/logo-text.svg" alt="Rose of Sharon" className="h-4 w-auto" />
-        </div>
+        <img src="/logo.svg" alt="RCCG Rose of Sharon" className="2xl:hidden mb-8 h-10 w-auto" />
 
         {/* Footer nav grid */}
-        <div className="my-12 grid grid-cols-2 gap-10 md:my-[7.5rem] md:grid-cols-4 2xl:grid-cols-[auto_1fr_1fr_1fr_1fr]">
-          <div className="hidden items-start 2xl:flex">
-            <img src="/assets/logo.png" alt="RCCG Rose of Sharon" className="h-10 w-auto brightness-0 invert" />
-          </div>
+        <div className="footer-grid my-12 md:my-[7.5rem]">
+          {/* Logo (desktop) */}
+          <img src="/logo.svg" alt="RCCG Rose of Sharon" className="hidden 2xl:inline-block h-10 w-auto" />
 
-          {FOOTER_SECTIONS.map((section) => (
-            <dl key={section.title}>
+          {footerSections.map((section, i) => (
+            <dl key={i}>
               <dt className="mb-4 font-lato text-[0.625rem] font-light uppercase tracking-[0.15rem] text-[#ffffff99]">
                 {section.title}
               </dt>
-              {section.links.map((link) => (
-                <dd key={link.title} className="mb-3">
-                  <Link href={link.href} className="font-lato text-sm tracking-[0.14px] text-white hover:underline">
+              {section.links.map((link, j) => (
+                <dd key={j} className="mb-3">
+                  <a
+                    href={link.href}
+                    className="font-lato text-sm tracking-[0.14px] text-white hover:underline"
+                    target={link.blank ? "_blank" : "_self"}
+                    rel={link.blank ? "noopener noreferrer" : undefined}
+                  >
                     {link.title}
-                  </Link>
+                  </a>
                 </dd>
               ))}
             </dl>
           ))}
         </div>
 
-        {/* Copyright + socials */}
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-[#ffffff33] pt-6 text-xs text-[#FFFFFF66] sm:flex-row">
-          <span>© Copyright {year} RCCG Rose of Sharon. All Rights Reserved.</span>
-          <div className="flex items-center gap-2">
-            {SOCIALS.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FFFFFF1F] hover:bg-[#FFFFFF33]"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                  <path d={social.path} />
-                </svg>
-              </a>
-            ))}
-          </div>
+        {/* Copyright */}
+        <div className="border-t border-[#ffffff33] pt-6 text-center text-xs text-[#FFFFFF66]">
+          © Copyright {year} RCCG Rose of Sharon. All Rights Reserved.
         </div>
       </div>
     </footer>
