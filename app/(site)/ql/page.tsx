@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PROGRAMS, programPages } from "@/app/(site)/(more)/_kit/programs";
+import { YOUTH_PAGES, DEPARTMENTS } from "@/app/(site)/(more)/_kit/youth";
 
 export const metadata: Metadata = {
   title: "Rose of Sharon Quick-Links",
@@ -45,6 +46,13 @@ const groups: { title: string; sections: { heading?: string; links: { href: stri
         heading: p.name,
         links: programPages(p).map((pg) => ({ href: pg.href, label: pg.label })),
       })),
+    ],
+  },
+  {
+    title: "Youth",
+    sections: [
+      { links: YOUTH_PAGES.map((pg) => ({ href: pg.href, label: pg.label === "Overview" ? "Youth Church" : pg.label })) },
+      { heading: "Youth departments", links: DEPARTMENTS.map((d) => ({ href: `/youth/departments/${d.slug}`, label: d.name })) },
     ],
   },
   {
