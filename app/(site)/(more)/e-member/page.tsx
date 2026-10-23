@@ -69,21 +69,6 @@ export default function EMemberPage() {
       {/* Form Section */}
       <FormSheet>
 
-        {/* Benefits */}
-        <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-3 ros:gap-4 ros:w-full ros:max-w-[860px]">
-          {[
-            { icon: "📋", title: "Church Records", desc: "Your details are securely stored in the church database" },
-            { icon: "🔔", title: "Stay Updated", desc: "Receive announcements and church updates directly" },
-            { icon: "🤝", title: "Stay Connected", desc: "Remain part of the Rose of Sharon family wherever you are" },
-          ].map((b) => (
-            <div key={b.title} className="ros:bg-white ros:rounded-xl ros:p-5 ros:flex ros:flex-col ros:gap-[8px] ros:border ros:border-[#E5E7EB] ros:text-center">
-              <span className="ros:text-[28px]">{b.icon}</span>
-              <p className="ros:text-[#DF4E4E] ros:text-[14px] ros:font-bold">{b.title}</p>
-              <p className="ros:text-[#6B7280] ros:text-[13px] ros:leading-[1.5]">{b.desc}</p>
-            </div>
-          ))}
-        </div>
-
         <div className="ros:w-full ros:max-w-[860px] ros:flex ros:flex-col ros:gap-[4px] ros:items-center ros:text-center">
           <h2 className="ros-anton ros:uppercase ros:text-[#DF4E4E] ros:text-[26px] ros:md:text-[32px]">E-Member Registration Form</h2>
           <p className="ros:text-[#6B7280] ros:text-[14px]">All fields marked * are required</p>
