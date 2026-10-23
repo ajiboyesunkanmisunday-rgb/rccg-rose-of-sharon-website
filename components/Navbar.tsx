@@ -107,16 +107,16 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
 
           {/* Secondary grid */}
           <div className="w-full">
-            <div className="grid grid-cols-2 gap-y-12 lg:grid-cols-3">
-              <div className="flex flex-col gap-4 text-white">
+            <div className="grid grid-cols-2 gap-y-6 lg:grid-cols-3">
+              <div className="flex flex-col gap-1.5 text-white">
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MINISTRIES</h2>
                 <a onClick={() => setOpen(false)} href="/ministries#ccw" className="text-sm hover:underline">Rose of Sharon Choir</a>
                 <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Teens Ministry</a>
                 <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Kids Ministry</a>
-                <h2 className="mt-2 text-[10px] font-bold uppercase text-[#FFFFFF66]">Church groups</h2>
+                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Church groups</h2>
                 <a onClick={() => setOpen(false)} href="/groups" className="text-sm hover:underline">All church groups</a>
               </div>
-              <div className="flex flex-col gap-4 text-white">
+              <div className="flex flex-col gap-1.5 text-white">
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">RESOURCES</h2>
                 <a onClick={() => setOpen(false)} href="/membership-class" className="text-sm hover:underline">Membership classes</a>
                 <a onClick={() => setOpen(false)} href="/celebrations" className="text-sm hover:underline">Celebrations</a>
@@ -124,40 +124,40 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <a onClick={() => setOpen(false)} href="/pre-marital-counselling" className="text-sm hover:underline">Pre Marital Counselling</a>
                 <a onClick={() => setOpen(false)} href="/welfare" className="text-sm hover:underline">Welfare Request</a>
                 <a onClick={() => setOpen(false)} href="/newcampusvolunteers" className="text-sm hover:underline">New Campus Volunteers</a>
-                <h2 className="mt-2 text-[10px] font-bold uppercase text-[#FFFFFF66]">Requests</h2>
+                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Requests</h2>
                 <a onClick={() => setOpen(false)} href="/requests/prayer" className="text-sm hover:underline">Prayer Request</a>
                 <a onClick={() => setOpen(false)} href="/requests/counseling" className="text-sm hover:underline">Counselling Request</a>
                 <a onClick={() => setOpen(false)} href="/requests/suggestion" className="text-sm hover:underline">Suggestion</a>
-                <h2 className="mt-2 text-[10px] font-bold uppercase text-[#FFFFFF66]">Celebrations & family</h2>
+                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Celebrations & family</h2>
                 <a onClick={() => setOpen(false)} href="/requests/baby-dedication" className="text-sm hover:underline">Baby Dedication</a>
                 <a onClick={() => setOpen(false)} href="/requests/baby-christening" className="text-sm hover:underline">Baby Christening</a>
                 <a onClick={() => setOpen(false)} href="/special-day" className="text-sm hover:underline">Send Us Your Special Day</a>
               </div>
-              <div className="flex flex-col gap-4 text-white">
+              <div className="flex flex-col gap-1.5 text-white">
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">CONNECT</h2>
                 <a onClick={() => setOpen(false)} href="/cell-church" className="text-sm hover:underline">Cell Church</a>
                 <a onClick={() => setOpen(false)} href="/membership" className="text-sm hover:underline">Become a member</a>
                 <a onClick={() => setOpen(false)} href="/campuses" className="text-sm hover:underline">Visit Rose of Sharon</a>
-                <h2 className="mt-2 text-[10px] font-bold uppercase text-[#FFFFFF66]">New here</h2>
+                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">New here</h2>
                 <a onClick={() => setOpen(false)} href="/first-timer" className="text-sm hover:underline">First-Timer Registration</a>
                 <a onClick={() => setOpen(false)} href="/e-member" className="text-sm hover:underline">E-Member Registration</a>
                 <a onClick={() => setOpen(false)} href="/new-believer" className="text-sm hover:underline">New Believer</a>
               </div>
-              <div className="flex flex-col gap-4 text-white">
+              <div className="flex flex-col gap-1.5 text-white">
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MEDIA</h2>
                 <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline">Watch online</a>
                 <a onClick={() => setOpen(false)} href="/media" className="text-sm hover:underline">Sermons & Media</a>
                 <a onClick={() => setOpen(false)} href="/events" className="text-sm hover:underline">Events & Services</a>
-                <h2 className="mt-2 text-[10px] font-bold uppercase text-[#FFFFFF66]">News & moments</h2>
+                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">News & moments</h2>
                 <a onClick={() => setOpen(false)} href="/announcements" className="text-sm hover:underline">Announcements</a>
                 <a onClick={() => setOpen(false)} href="/testimonies" className="text-sm hover:underline">Testimonies</a>
                 <a onClick={() => setOpen(false)} href="/gallery" className="text-sm hover:underline">Gallery</a>
               </div>
-              <div className="flex flex-col gap-4 text-white">
+              <div className="flex flex-col gap-1.5 text-white">
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">TRAINING PROGRAMS</h2>
                 <a onClick={() => setOpen(false)} href="/trainings" className="text-sm hover:underline">All training programs</a>
                 {PROGRAMS.map((prog) => (
-                  <div key={prog.slug} className="flex flex-col gap-2">
+                  <div key={prog.slug} className="mt-1.5 flex flex-col gap-0.5">
                     <a onClick={() => setOpen(false)} href={prog.base} className="text-sm font-bold hover:underline">{prog.name}</a>
                     {programPages(prog).filter((pg) => pg.key !== "overview").map((pg) => (
                       <a key={pg.label} onClick={() => setOpen(false)} href={pg.href} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{pg.label}</a>
