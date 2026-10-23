@@ -166,7 +166,7 @@ export default function Footer() {
               <dt className="mb-4 font-lato text-[0.625rem] font-light uppercase tracking-[0.15rem] text-[#ffffff99]">
                 {section.title}
               </dt>
-              {section.links.map((link, j) => (
+              {(section.links as { title: string; href: string; blank?: boolean }[]).map((link, j) => (
                 <dd key={j} className="mb-3">
                   <a
                     href={link.href}

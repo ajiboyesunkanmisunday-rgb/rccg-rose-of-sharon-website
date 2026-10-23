@@ -7,7 +7,7 @@ const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, 
 
 const S3 = "https://cci-axios-web-cms-assets.s3.eu-north-1.amazonaws.com/web-assets";
 
-function CopyButton({ text, label = "COPY", className = "" }: { text: string; label?: string; className?: string }) {
+function CopyButton({ text, label = "COPY", className = "" }: { text: string; label?: string; className?: string; style?: React.CSSProperties }) {
   const [copied, setCopied] = useState(false);
   return (
     <button
