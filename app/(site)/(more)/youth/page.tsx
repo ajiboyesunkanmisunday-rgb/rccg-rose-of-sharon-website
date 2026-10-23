@@ -29,7 +29,7 @@ export default function YouthHome() {
               <Btn href="/youth/leadership" variant="outline">Meet the leaders</Btn>
             </div>
           </div>
-          <img src="/youth/hangout-3.jpg" alt="The Rose of Sharon youth at Youth Hangout 2026" className="ros:h-[360px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />
+          <img loading="lazy" decoding="async" src="/youth/hangout-3.jpg" alt="The Rose of Sharon youth at Youth Hangout 2026" className="ros:h-[360px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />
         </div>
       </Section>
 
@@ -49,7 +49,7 @@ export default function YouthHome() {
 
       <section className="ros:bg-black ros:px-4 ros:py-16 ros:md:py-20">
         <div className="ros:mx-auto ros:grid ros:max-w-6xl ros:grid-cols-1 ros:items-center ros:gap-10 ros:md:grid-cols-[360px_1fr]">
-          <img src={PRESIDENT.image} alt="The Youth President" className="ros:h-[460px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
+          <img loading="lazy" decoding="async" src={PRESIDENT.image} alt="The Youth President" className="ros:h-[460px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
           <div className="ros:flex ros:flex-col ros:gap-4">
             <SectionTitle dark pill="👤 YOUTH PRESIDENT" title={<>Led by <span className="text-textRed">our president</span></>} />
             <p className="ros:text-[#FFFFFFB2]">{PRESIDENT.note}</p>
@@ -74,7 +74,7 @@ export default function YouthHome() {
       <Section className="ros:pt-0">
         <SectionTitle pill="📸 MOMENTS" title={<>Youth <span className="text-textRed">Hangout</span> 2026</>} />
         <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:md:grid-cols-4">
-          {PHOTOS.slice(0, 4).map((p) => <img key={p.src} src={p.src} alt={p.alt} className="ros:h-[180px] ros:w-full ros:rounded-lg ros:object-cover ros:md:h-[220px]" />)}
+          {PHOTOS.slice(0, 4).map((p) => <img loading="lazy" decoding="async" key={p.src} src={p.src} alt={p.alt} className="ros:h-[180px] ros:w-full ros:rounded-lg ros:object-cover ros:md:h-[220px]" />)}
         </div>
         <div className="ros:mt-6"><Btn href="/youth/gallery" variant="outline">View the gallery</Btn></div>
       </Section>

@@ -23,18 +23,18 @@ interface MediaItem {
 }
 
 const staticSermons = [
-  { title: "The Power of Faith", speaker: "Pastor E.A Adeboye", date: "Nov 24, 2024", img: "/assets/gallery-1.png" },
-  { title: "Walking in His Light", speaker: "Pastor Emeka Obiagwu", date: "Nov 17, 2024", img: "/assets/gallery-2.png" },
-  { title: "I Will Build My Church", speaker: "Pastor E.A Adeboye", date: "Nov 10, 2024", img: "/assets/gallery-3.png" },
-  { title: "With Wings Like an Eagle", speaker: "Pastor E.A Adeboye", date: "Nov 3, 2024", img: "/assets/gallery-4.png" },
-  { title: "Power of Praise", speaker: "Pastor Emeka Obiagwu", date: "Oct 27, 2024", img: "/assets/gallery-5.png" },
-  { title: "The Holy Spirit", speaker: "Pastor E.A Adeboye", date: "Oct 20, 2024", img: "/assets/gallery-6.png" },
-  { title: "Walking with God", speaker: "Pastor E.A Adeboye", date: "Oct 13, 2024", img: "/assets/gallery-7.png" },
-  { title: "I'm in Your Mind", speaker: "Pastor Emeka Obiagwu", date: "Oct 6, 2024", img: "/assets/gallery-8.png" },
-  { title: "Covenant of Blessing", speaker: "Pastor E.A Adeboye", date: "Sep 29, 2024", img: "/assets/gallery-9.png" },
-  { title: "The Name Above All Names", speaker: "Pastor E.A Adeboye", date: "Sep 22, 2024", img: "/assets/gallery-10.png" },
-  { title: "Standing on the Word", speaker: "Pastor Emeka Obiagwu", date: "Sep 15, 2024", img: "/assets/gallery-11.png" },
-  { title: "New Season, New Beginning", speaker: "Pastor E.A Adeboye", date: "Sep 8, 2024", img: "/assets/gallery-12.png" },
+  { title: "The Power of Faith", speaker: "Pastor E.A Adeboye", date: "Nov 24, 2024", img: "/assets/gallery-1.jpg" },
+  { title: "Walking in His Light", speaker: "Pastor Emeka Obiagwu", date: "Nov 17, 2024", img: "/assets/gallery-2.jpg" },
+  { title: "I Will Build My Church", speaker: "Pastor E.A Adeboye", date: "Nov 10, 2024", img: "/assets/gallery-3.jpg" },
+  { title: "With Wings Like an Eagle", speaker: "Pastor E.A Adeboye", date: "Nov 3, 2024", img: "/assets/gallery-4.jpg" },
+  { title: "Power of Praise", speaker: "Pastor Emeka Obiagwu", date: "Oct 27, 2024", img: "/assets/gallery-5.jpg" },
+  { title: "The Holy Spirit", speaker: "Pastor E.A Adeboye", date: "Oct 20, 2024", img: "/assets/gallery-6.jpg" },
+  { title: "Walking with God", speaker: "Pastor E.A Adeboye", date: "Oct 13, 2024", img: "/assets/gallery-7.jpg" },
+  { title: "I'm in Your Mind", speaker: "Pastor Emeka Obiagwu", date: "Oct 6, 2024", img: "/assets/gallery-8.jpg" },
+  { title: "Covenant of Blessing", speaker: "Pastor E.A Adeboye", date: "Sep 29, 2024", img: "/assets/gallery-9.jpg" },
+  { title: "The Name Above All Names", speaker: "Pastor E.A Adeboye", date: "Sep 22, 2024", img: "/assets/gallery-10.jpg" },
+  { title: "Standing on the Word", speaker: "Pastor Emeka Obiagwu", date: "Sep 15, 2024", img: "/assets/gallery-11.jpg" },
+  { title: "New Season, New Beginning", speaker: "Pastor E.A Adeboye", date: "Sep 8, 2024", img: "/assets/gallery-12.jpg" },
 ];
 
 const staticImgs = staticSermons.map((s) => s.img);
@@ -124,7 +124,7 @@ export default function MediaPage() {
                   <div className="ros:relative ros:h-[140px] ros:sm:h-[160px] ros:lg:h-[180px] ros:w-full ros:overflow-hidden ros:bg-[#0d0c18]">
                     {item.thumbnailUrl ? (
                       /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={item.thumbnailUrl}
                         alt={item.title || ""}
                         className="ros:w-full ros:h-full ros:object-cover ros:group-hover:scale-105 ros:transition-transform ros:duration-300"

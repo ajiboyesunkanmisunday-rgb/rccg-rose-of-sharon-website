@@ -21,7 +21,7 @@ export default function MinistriesPage() {
       {/* Hero */}
       <div
         className="flex h-[500px] items-center justify-center bg-black bg-cover bg-center bg-no-repeat lg:h-[700px]"
-        style={{ backgroundImage: "url('/fire.png')" }}
+        style={{ backgroundImage: "url('/fire.jpg')" }}
       >
         <div className="mx-4 flex w-full max-w-3xl flex-col items-center gap-6">
           <h3 className="rounded-full bg-[#00000078] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]">

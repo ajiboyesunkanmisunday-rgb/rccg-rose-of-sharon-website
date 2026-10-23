@@ -119,7 +119,7 @@ export function Card({
 }) {
   const body = (
     <div className="ros:flex ros:w-full ros:flex-col ros:gap-3 ros:rounded-lg">
-      {image && <img src={image} alt={title} className="ros:h-[250px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />}
+      {image && <img loading="lazy" decoding="async" src={image} alt={title} className="ros:h-[250px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />}
       {meta && <span className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{meta}</span>}
       <h3 className="ros:text-lg ros:font-bold ros:underline-offset-8 ros:group-hover:underline">{title}</h3>
       {text && <p className="ros:text-[#00000099]">{text}</p>}

@@ -12,14 +12,14 @@ export const metadata: Metadata = {
     description:
     "Where God has a permanent seat. Join us for worship, fellowship, and life-changing ministry at RCCG Rose of Sharon.",
     url: "https://rccg-rose-of-sharon.netlify.app",
-    images: [{ url: "/seo.png", alt: "RCCG Rose of Sharon" }],
+    images: [{ url: "/seo.jpg", alt: "RCCG Rose of Sharon" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "RCCG Rose of Sharon",
     description:
     "Where God has a permanent seat. Join us for worship, fellowship, and life-changing ministry at RCCG Rose of Sharon.",
-    images: [{ url: "/seo.png", alt: "RCCG Rose of Sharon" }],
+    images: [{ url: "/seo.jpg", alt: "RCCG Rose of Sharon" }],
   },
   icons: {
     icon: [
@@ -43,7 +43,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/css/07b6fb94d282a177.css" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5JSPJ93H');`,
+            __html: `window.addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5JSPJ93H');},1500)});`,
           }}
         />
       </head>

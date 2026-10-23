@@ -31,7 +31,7 @@ export default function BuildingProjectPage() {
         animate="visible"
         className="rbc-give-header flex h-[600px] items-center justify-center bg-cover bg-no-repeat lg:h-[700px]"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4) 73%), url('/media/rbc-give-banner.75b7724a.png')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4) 73%), url('/media/rbc-give-banner.75b7724a.jpg')`,
         }}
       >
         <motion.div
@@ -106,10 +106,10 @@ export default function BuildingProjectPage() {
                   <div className="mb-4 flex w-full flex-col rounded border border-[#F5811F29] bg-[#FEF0E4] p-4 md:mb-7">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/access_bank_logp_1_6a47fbff2d.png`} alt="Access Bank" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/access_bank_logp_1_6a47fbff2d.png`} alt="Access Bank" width={32} height={32} />
                         Bank Transfer
                       </div>
-                      <img src={`${S3}/nigeria_flag_a3b27f40ee.svg`} alt="Nigeria" width={34} height={24} />
+                      <img loading="lazy" decoding="async" src={`${S3}/nigeria_flag_a3b27f40ee.svg`} alt="Nigeria" width={34} height={24} />
                     </div>
                     <div className="mx-auto mt-8 w-full md:mt-16">
                       <div className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
@@ -120,7 +120,7 @@ export default function BuildingProjectPage() {
                             onClick={() => { navigator.clipboard.writeText("Contact the church"); }}
                             className="cursor-pointer"
                           >
-                            <img src={`${S3}/copy_icon_86e91ae04f.svg`} alt="Copy" width={24} height={24} onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                            <img loading="lazy" decoding="async" src={`${S3}/copy_icon_86e91ae04f.svg`} alt="Copy" width={24} height={24} onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                           </button>
                         </div>
                       </div>
@@ -131,10 +131,10 @@ export default function BuildingProjectPage() {
                   <div className="flex w-full flex-col rounded border border-[#6FC59829] bg-[#F6FCF9] p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/lemfi_icon_jpeg_1480cd6564.png`} alt="LemFi" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/lemfi_icon_jpeg_1480cd6564.png`} alt="LemFi" width={32} height={32} />
                         International Transfer
                       </div>
-                      <img src={`${S3}/globus_19692219e3.svg`} alt="Global" width={34} height={24} />
+                      <img loading="lazy" decoding="async" src={`${S3}/globus_19692219e3.svg`} alt="Global" width={34} height={24} />
                     </div>
                     <div className="mx-auto mt-8 w-full md:mt-20">
                       <div className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
@@ -160,7 +160,7 @@ export default function BuildingProjectPage() {
                         <img src={`${S3}/stanbic_logo_ibtc_dd0aff7db7.png`} alt="Stanbic IBTC" width={32} height={32} />
                         Domiciliary Accounts
                       </div>
-                      <img src={`${S3}/nigeria_flag_a3b27f40ee.svg`} alt="Nigeria" width={34} height={24} />
+                      <img loading="lazy" decoding="async" src={`${S3}/nigeria_flag_a3b27f40ee.svg`} alt="Nigeria" width={34} height={24} />
                     </div>
                     <div className="mt-4 flex flex-col gap-2">
                       {[
@@ -171,7 +171,7 @@ export default function BuildingProjectPage() {
                       ].map((acct) => (
                         <div key={acct.number} className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
                           <div className="mb-2 flex items-center gap-1 text-base font-normal uppercase text-[#7F7C7C]">
-                            {acct.icon && <img src={acct.icon} alt="" width={32} height={32} />}
+                            {acct.icon && <img loading="lazy" decoding="async" src={acct.icon} alt="" width={32} height={32} />}
                             <p>{acct.label}</p>
                           </div>
                           <div className="flex items-center justify-between">
@@ -187,7 +187,7 @@ export default function BuildingProjectPage() {
                   <div className="flex w-full flex-col justify-between gap-3 rounded border" style={{ backgroundColor: "rgb(235,248,253)", borderColor: "rgba(0,164,220,0.16)" }}>
                     <div className="p-4">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/paystack_icon_31baaafadf.png`} alt="Paystack" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/paystack_icon_31baaafadf.png`} alt="Paystack" width={32} height={32} />
                         <p>Give via Paystack</p>
                       </div>
                       <p className="my-4 text-lg text-black opacity-60">Give using Paystack&apos;s secure payment gateway. Choose to give in Naira or USD with instant processing.</p>
@@ -203,10 +203,10 @@ export default function BuildingProjectPage() {
                     <div className="p-4">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-xl font-medium">
-                          <img src={`${S3}/interac_icon_70d73f697b.svg`} alt="Interac" width={32} height={32} />
+                          <img loading="lazy" decoding="async" src={`${S3}/interac_icon_70d73f697b.svg`} alt="Interac" width={32} height={32} />
                           <p>Give via Interac e-Transfer</p>
                         </div>
-                        <img src={`${S3}/canada_flag_a1f251e231.svg`} alt="Canada" width={34} height={24} />
+                        <img loading="lazy" decoding="async" src={`${S3}/canada_flag_a1f251e231.svg`} alt="Canada" width={34} height={24} />
                       </div>
                       <p className="my-4 text-lg text-black opacity-60">Send your gift securely through Canadian banks with instant email transfer.</p>
                     </div>
@@ -222,7 +222,7 @@ export default function BuildingProjectPage() {
                   <div className="flex w-full flex-col justify-between gap-3 rounded border" style={{ backgroundColor: "rgb(235,250,244)", borderColor: "rgba(91,217,164,0.16)" }}>
                     <div className="p-4">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/tithely_icon_87fa274820.png`} alt="Tithely" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/tithely_icon_87fa274820.png`} alt="Tithely" width={32} height={32} />
                         <p>Give via Tithely</p>
                       </div>
                       <p className="my-4 text-lg text-black opacity-60">Give using your preferred payment method - including credit cards, debit cards, and bank transfers.</p>
@@ -262,7 +262,7 @@ export default function BuildingProjectPage() {
                   <div className="flex w-full flex-col justify-between gap-3 rounded border" style={{ backgroundColor: "rgb(246,247,248)", borderColor: "rgba(0,0,0,0.16)" }}>
                     <div className="p-4">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/bitcoin_b746719388.svg`} alt="Bitcoin" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/bitcoin_b746719388.svg`} alt="Bitcoin" width={32} height={32} />
                         <p>Give Bitcoin</p>
                       </div>
                       <p className="my-4 text-lg text-black opacity-60">Give using cryptocurrency. Send Bitcoin securely to our digital wallet.</p>
@@ -276,7 +276,7 @@ export default function BuildingProjectPage() {
                   <div className="flex w-full flex-col justify-between gap-3 rounded border" style={{ backgroundColor: "rgb(241,249,247)", borderColor: "rgba(80,175,149,0.16)" }}>
                     <div className="p-4">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img src={`${S3}/usdt_7e47449be9.svg`} alt="USDT" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/usdt_7e47449be9.svg`} alt="USDT" width={32} height={32} />
                         <p>Give USDT</p>
                       </div>
                       <p className="my-4 text-lg text-black opacity-60">Give using USDT stablecoin. A secure way to contribute using cryptocurrency pegged to USD value.</p>
