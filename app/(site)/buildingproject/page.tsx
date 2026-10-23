@@ -99,7 +99,8 @@ export default function BuildingProjectPage() {
             </div>
 
             <section className="mx-auto max-w-7xl">
-              <div className="mx-auto grid grid-cols-1 gap-4 md:grid-cols-2 md:pb-8">
+              <style>{`.bp-masonry{column-count:2;column-gap:16px}@media(max-width:767px){.bp-masonry{column-count:1}}.bp-masonry>div{display:contents}.bp-masonry>div>div{break-inside:avoid;margin-bottom:16px}`}</style>
+              <div className="bp-masonry mx-auto md:pb-8">
                 {/* Left column: bank accounts */}
                 <div>
                   {/* Bank Transfer */}
