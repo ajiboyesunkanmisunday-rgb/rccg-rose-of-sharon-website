@@ -107,13 +107,11 @@ const ministriesData = [
 ];
 
 const countriesData = [
-  { country: "Nigeria",        country_code: "NG", image: "/media/Nigeria.7cc7863c.jpeg",  href: "/campuses",               campuses: 1  },
-  { country: "Canada",         country_code: "CA", image: "/media/Canada.d8d0103b.jpeg",   href: "/campuses",         campuses: 0  },
-  { country: "United Kingdom", country_code: "UK", image: "/media/UK.dea2ef03.jpeg",       href: "/campuses",         campuses: 0  },
-  { country: "United States",  country_code: "US", image: "/media/US.29bb3a25.jpeg",       href: "/campuses",            campuses: 0  },
+  { country: "Nigeria", country_code: "NG", image: "/media/Nigeria.7cc7863c.jpeg" },
+  { country: "Canada", country_code: "CA", image: "/media/Canada.d8d0103b.jpeg" },
+  { country: "United Kingdom", country_code: "UK", image: "/media/UK.dea2ef03.jpeg" },
+  { country: "United States", country_code: "US", image: "/media/US.29bb3a25.jpeg" },
 ];
-
-const totalCampuses = 1;
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -237,12 +235,6 @@ export default function Home() {
               <p className="text-center text-base text-white md:text-lg">
                 Join us at a Rose of Sharon near you
               </p>
-              <Link
-                href="/campuses"
-                className="rounded-[20px] border border-white bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:bg-white hover:text-black"
-              >
-                see all campuses
-              </Link>
             </div>
           </div>
 
@@ -253,25 +245,19 @@ export default function Home() {
               </div>
               <div className="no-scrollbar my-6 flex w-full justify-between gap-4 overflow-x-auto">
                 {countriesData.map((country, index) => (
-                  <a
-                    href={country.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <div
                     key={index}
-                    className="group relative h-[360px] min-w-[240px] cursor-pointer overflow-hidden flex-shrink-0"
+                    className="group relative h-[360px] min-w-[240px] overflow-hidden flex-shrink-0"
                   >
                     <img src={country.image} alt={country.country} className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-black/30" />
                     <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{country.country}</h5>
-                    <h5 className="absolute bottom-4 left-4 text-base text-[#FFFFFF99]">
-                      {country.campuses} campuses
-                    </h5>
                     <img
                       src="/media/whitearrow.e8b5b92f.svg"
                       alt=""
                       className="absolute right-4 top-4 h-6 w-6 -rotate-45 transform opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     />
-                  </a>
+                  </div>
                 ))}
                 <Link
                   href="https://www.youtube.com/@rccgrostv"
