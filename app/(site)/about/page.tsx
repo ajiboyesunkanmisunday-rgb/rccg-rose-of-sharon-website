@@ -131,7 +131,7 @@ export default function AboutPage() {
           variants={fadeIn}
           initial="hidden"
           animate="visible"
-          style={{ backgroundImage: "url(/about-banner.jpg)", backgroundRepeat: "no-repeat" }}
+          style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(/about-banner.jpg)", backgroundRepeat: "no-repeat" }}
           className="h-[500px] bg-cover bg-center bg-no-repeat lg:h-[700px]"
         >
           <div className="relative flex h-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#000000]/5 via-black/35 to-[#000000]/5">

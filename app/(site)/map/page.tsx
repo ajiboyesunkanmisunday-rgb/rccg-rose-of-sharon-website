@@ -97,7 +97,7 @@ export default function MAPPage() {
         initial="hidden"
         animate="visible"
         className="map-hero-banner flex h-[550px] items-center justify-center bg-cover bg-center bg-no-repeat lg:h-[700px]"
-        style={{ backgroundImage: "url('/media/map-hero-banner.02e73247.jpg')" }}
+        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/media/map-hero-banner.02e73247.jpg')" }}
       >
         <motion.div
           variants={fadeUp}

@@ -31,7 +31,7 @@ export default function BuildingProjectPage() {
         animate="visible"
         className="rbc-give-header flex h-[600px] items-center justify-center bg-cover bg-no-repeat lg:h-[700px]"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.4) 73%), url('/media/rbc-give-banner.75b7724a.jpg')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/media/rbc-give-banner.75b7724a.jpg')`,
         }}
       >
         <motion.div
