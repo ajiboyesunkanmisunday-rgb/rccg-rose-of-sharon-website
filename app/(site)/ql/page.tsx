@@ -110,6 +110,10 @@ const groups: { title: string; sections: { heading?: string; links: { href: stri
   },
 ];
 
+// Wrapping, centred rows: a box left alone on the last row sits in the middle instead of hanging on the left.
+const listStyle: React.CSSProperties = { display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 };
+const itemStyle: React.CSSProperties = { flex: "0 0 calc((100% - 32px) / 3)", minWidth: 230 };
+
 export default function QLPage() {
   return (
     <>
@@ -128,9 +132,9 @@ export default function QLPage() {
       </section>
       <section className="p-2 mb-8">
         <div className="container mx-auto max-w-[850px]">
-          <ol className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ol className="my-5" style={listStyle}>
             {quickLinks.map((link) => (
-              <li key={link.href} className="mb-4 rounded-md border border-cciRed-500 text-center">
+              <li key={link.href} className="mb-4 rounded-md border border-cciRed-500 text-center" style={itemStyle}>
                 <Link
                   href={link.href}
                   prefetch={true}
@@ -152,9 +156,9 @@ export default function QLPage() {
                       {sec.heading}
                     </h3>
                   )}
-                  <ol className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <ol className="my-5" style={listStyle}>
                     {sec.links.map((link) => (
-                      <li key={link.href + link.label} className="mb-4 rounded-md border border-cciRed-500 text-center">
+                      <li key={link.href + link.label} className="mb-4 rounded-md border border-cciRed-500 text-center" style={itemStyle}>
                         <Link href={link.href} prefetch={true} className="bg-red block w-full p-3 hover:text-cci-red hover:underline">
                           {link.label}
                         </Link>
