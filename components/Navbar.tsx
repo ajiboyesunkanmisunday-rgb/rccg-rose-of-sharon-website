@@ -54,7 +54,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
       {/* Header row */}
       <div className="flex w-full items-center justify-between p-4">
         <a href="/" onClick={() => setOpen(false)}>
-          <img src="/logo.svg" alt="RCCG Rose of Sharon" width={60} height={24} />
+          <img src="/logo.svg" alt="RCCG Rose of Sharon" width={110} height={44} style={{ width: 110, height: "auto" }} />
         </a>
         <button onClick={() => setOpen(false)}>
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,8 +107,8 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
 
           {/* Secondary grid */}
           <div className="w-full">
-            <div className="grid grid-cols-2 gap-y-6 lg:grid-cols-3">
-              <div className="flex flex-col gap-1.5 text-white">
+            <div style={{ columnWidth: "220px", columnGap: "2rem" }}>
+              <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MINISTRIES</h2>
                 <a onClick={() => setOpen(false)} href="/ministries#ccw" className="text-sm hover:underline">Rose of Sharon Choir</a>
                 <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Teens Ministry</a>
@@ -116,7 +116,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Church groups</h2>
                 <a onClick={() => setOpen(false)} href="/groups" className="text-sm hover:underline">All church groups</a>
               </div>
-              <div className="flex flex-col gap-1.5 text-white">
+              <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">RESOURCES</h2>
                 <a onClick={() => setOpen(false)} href="/membership-class" className="text-sm hover:underline">Membership classes</a>
                 <a onClick={() => setOpen(false)} href="/celebrations" className="text-sm hover:underline">Celebrations</a>
@@ -133,7 +133,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <a onClick={() => setOpen(false)} href="/requests/baby-christening" className="text-sm hover:underline">Baby Christening</a>
                 <a onClick={() => setOpen(false)} href="/special-day" className="text-sm hover:underline">Send Us Your Special Day</a>
               </div>
-              <div className="flex flex-col gap-1.5 text-white">
+              <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">CONNECT</h2>
                 <a onClick={() => setOpen(false)} href="/cell-church" className="text-sm hover:underline">Cell Church</a>
                 <a onClick={() => setOpen(false)} href="/membership" className="text-sm hover:underline">Become a member</a>
@@ -143,7 +143,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <a onClick={() => setOpen(false)} href="/e-member" className="text-sm hover:underline">E-Member Registration</a>
                 <a onClick={() => setOpen(false)} href="/new-believer" className="text-sm hover:underline">New Believer</a>
               </div>
-              <div className="flex flex-col gap-1.5 text-white">
+              <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MEDIA</h2>
                 <a href="https://www.youtube.com/@rccgrostv" target="_blank" rel="noopener noreferrer" className="text-sm hover:underline">Watch online</a>
                 <a onClick={() => setOpen(false)} href="/media" className="text-sm hover:underline">Sermons & Media</a>
@@ -153,7 +153,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <a onClick={() => setOpen(false)} href="/testimonies" className="text-sm hover:underline">Testimonies</a>
                 <a onClick={() => setOpen(false)} href="/gallery" className="text-sm hover:underline">Gallery</a>
               </div>
-              <div className="flex flex-col gap-1.5 text-white">
+              <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">TRAINING PROGRAMS</h2>
                 <a onClick={() => setOpen(false)} href="/trainings" className="text-sm hover:underline">All training programs</a>
                 {PROGRAMS.map((prog) => (
