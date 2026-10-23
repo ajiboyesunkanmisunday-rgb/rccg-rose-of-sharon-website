@@ -163,12 +163,13 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">YOUTH</h2>
                 <a onClick={() => setOpen(false)} href="/youth" className="text-sm font-bold hover:underline">Youth church</a>
-                {YOUTH_PAGES.filter((pg) => pg.key !== "overview" && pg.key !== "departments").map((pg) => (
-                  <a key={pg.key} onClick={() => setOpen(false)} href={pg.href} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{pg.label}</a>
-                ))}
-                <a onClick={() => setOpen(false)} href="/youth/departments" className="mt-1.5 text-sm font-bold hover:underline">Youth departments</a>
-                {DEPARTMENTS.map((d) => (
-                  <a key={d.slug} onClick={() => setOpen(false)} href={`/youth/departments/${d.slug}`} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{d.name}</a>
+                {YOUTH_PAGES.filter((pg) => pg.key !== "overview").map((pg) => (
+                  <div key={pg.key} className="flex flex-col gap-1.5">
+                    <a onClick={() => setOpen(false)} href={pg.href} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{pg.label}</a>
+                    {pg.key === "departments" && DEPARTMENTS.map((d) => (
+                      <a key={d.slug} onClick={() => setOpen(false)} href={`/youth/departments/${d.slug}`} className="text-xs hover:underline" style={{ color: "#FFFFFF8C", paddingLeft: 26 }}>{d.name}</a>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>
