@@ -46,6 +46,15 @@ Replace it with a real testimony from the congregation.`,
   },
 ];
 
+// Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
+// the name and text can be edited whenever the publication unit sends updates.
+const pastors: { name: string; role: string; text: string; image?: string }[] = [
+  { name: "Pastor Emeka", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Fowler", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Chichi", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Rosemary", role: "Pastor", text: "A short introduction will be added here." },
+];
+
 function PastorModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
@@ -143,8 +152,8 @@ export default function AboutPage() {
                 🌍 <span className="ml-0.5">the family at ros</span>
               </h3>
               <h1 className="my-3 max-w-[900px] px-4 font-anton text-[3rem] font-medium uppercase md:px-0 md:text-7xl md:leading-[1.2]">
-                In Christ, For Christ,
-                <span className="block text-textRed">With Joy!</span>
+                Where God Has
+                <span className="block text-textRed">A Permanent Seat</span>
               </h1>
             </motion.div>
           </div>
@@ -266,6 +275,38 @@ export default function AboutPage() {
           </div>
         </div>
 
+        {/* ─── Our Pastors ─── */}
+        <section className="bg-white px-4 py-12 md:py-16">
+          <div className="mx-auto max-w-7xl">
+            <h5 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-center text-[10px] font-bold tracking-[0.3em] text-[#00000099]">
+              👥 OUR PASTORS
+            </h5>
+            <h2 className="my-4 text-center font-anton text-3xl uppercase leading-tight md:text-[44px]">
+              Meet our <span className="text-textRed">pastors</span>
+            </h2>
+            <p className="mx-auto mb-10 text-center text-xl text-[#00000080]" style={{ maxWidth: 640 }}>The shepherds God has placed over the Rose of Sharon family</p>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 24 }}>
+              {pastors.map((pa) => (
+                <div key={pa.name} className="flex flex-col gap-3" style={{ flex: "0 0 auto", width: "min(100%, 280px)" }}>
+                  <div className="overflow-hidden rounded-lg" style={{ height: 340, background: "#F4F4F4" }}>
+                    {pa.image ? (
+                      <img src={pa.image} alt={pa.name} className="h-full w-full object-cover object-top" />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#00000066]">
+                        <span className="font-anton uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{pa.name.replace("Pastor ", "").charAt(0)}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Photo coming soon</span>
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-lg font-bold">{pa.name}</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-textRed">{pa.role}</p>
+                  <p className="text-[#00000099]">{pa.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ─── Member Stories ─── */}
         <section className="bg-white px-1 py-12 md:py-16">
           <h5 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-center text-[10px] font-bold tracking-[0.3em] text-[#00000099]">
@@ -323,7 +364,7 @@ export default function AboutPage() {
             </div>
             <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
               {[
-                { image: "/media/membership-class.e6e53cc0.jpg", title: "Membership Classes", href: "/membership-class", description: "Our Membership Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth" },
+                { image: "/media/membership-class.e6e53cc0.jpg", title: "Believers Class", href: "/membership-class", description: "Our Believers Class gets you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth" },
                 { image: "/media/celebrations.f123ede1.jpg", title: "Celebrations", href: "/celebrations", description: "You are the answer to our prayers, so we celebrate you every day, especially on your special days. You mean that much to us." },
                 { image: "/media/thumbnail2.17e9ea4a.jpg", title: "Counselling", href: "/counselling", description: "Need counsel? There is always someone available to pray with you and provide sound biblical counsel with zero judgment." },
               ].map((card, i) => (
