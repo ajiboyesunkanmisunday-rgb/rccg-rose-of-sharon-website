@@ -104,7 +104,7 @@ function MailingListForm() {
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-gradient-to-b from-[#B20000] to-[#6B0000] font-lato">
+    <footer className="relative w-full bg-gradient-to-b from-[#B20000] to-[#6B0000] font-lato" style={{ backgroundColor: "#B20000", backgroundImage: "linear-gradient(to bottom, #B20000, #6B0000)" }}>
 
       {/* ─── Give CTA banner (raised above footer) ─── */}
       <div className="-top-12 absolute left-0 right-0 mx-auto h-[350px] max-w-6xl overflow-hidden rounded-lg bg-[#F8EAEA] px-8 md:px-16">
