@@ -5,28 +5,28 @@ import Link from "next/link";
 
 const cellFaqs = [
   {
-    q: "What is a Cell Church?",
-    a: "A cell church is made up of small, home-based gatherings where members worship, study, and grow together in a close-knit community.",
+    q: "What is a House Fellowship?",
+    a: "A house fellowship is made up of small, home-based gatherings where members worship, study, and grow together in a close-knit community.",
   },
   {
-    q: "Where are Cell Churches located?",
-    a: "Our cell churches are being established wherever disciples gather, across different countries and regions. If there isn't one in your area yet, you could help start one!",
+    q: "Where are House Fellowships located?",
+    a: "Our house fellowships are being established wherever disciples gather, across different countries and regions. If there isn't one in your area yet, you could help start one!",
   },
   {
-    q: "How does a Cell Church help me grow spiritually?",
-    a: "We provide spiritual guidance, leadership training, and continuous support for all cell churches.",
+    q: "How does a House Fellowship help me grow spiritually?",
+    a: "We provide spiritual guidance, leadership training, and continuous support for all house fellowships.",
   },
   {
-    q: "How do I join a Cell Church?",
-    a: "You can join a cell church by signing up and we'll connect you with a cell group nearby.",
+    q: "How do I join a House Fellowship?",
+    a: "You can join a house fellowship by signing up and we'll connect you with a house fellowship group nearby.",
   },
   {
-    q: "How is a Cell Church different from a traditional church?",
-    a: "Unlike traditional churches with large congregations meeting in a single building, cell churches focus on personal connection, accountability, and spiritual growth within smaller groups.",
+    q: "How is a House Fellowship different from a traditional church?",
+    a: "Unlike traditional churches with large congregations meeting in a single building, house fellowships focus on personal connection, accountability, and spiritual growth within smaller groups.",
   },
   {
-    q: "Can I start a cell church in my home?",
-    a: "Yes! If you have a space where a small group can meet, you can host a cell church. We'll provide guidance, resources, and support to help you get started.",
+    q: "Can I start a house fellowship in my home?",
+    a: "Yes! If you have a space where a small group can meet, you can host a house fellowship. We'll provide guidance, resources, and support to help you get started.",
   },
 ];
 
@@ -87,7 +87,7 @@ export default function CellChurchPage() {
     },
     {
       title: "Leadership Development",
-      description: "Step into your calling by leading and serving in your local cell.",
+      description: "Step into your calling by leading and serving in your local house fellowship.",
     },
     {
       title: "Kingdom Expansion",
@@ -115,7 +115,7 @@ export default function CellChurchPage() {
   ];
 
   const findLocations = [
-    { location: "Rose of Sharon", time: "Contact the church for meeting days and times", venue: "Contact the church for a cell near you" },
+    { location: "Rose of Sharon", time: "Contact the church for meeting days and times", venue: "Contact the church for a house fellowship near you" },
   ];
 
   const locationBadges = ["Rose of Sharon", "And many more"];
@@ -130,11 +130,11 @@ export default function CellChurchPage() {
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)" }} />
         <div className="relative z-10 mx-4 flex w-full max-w-2xl flex-col items-center gap-6">
           <h3 className="rounded-full bg-[#00000078] p-2 text-center text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
-            ⛪ <span className="ml-0.5">the cell Church</span>
+            ⛪ <span className="ml-0.5">the house fellowship</span>
           </h3>
           <div className="w-full px-4 text-center font-anton text-[3rem] font-bold uppercase leading-[120%] tracking-wide text-white md:text-7xl md:leading-[108%]">
             <span className="block">Experience</span>
-            <span className="block whitespace-nowrap md:whitespace-normal">Our Cell Church</span>
+            <span className="block whitespace-nowrap md:whitespace-normal">Our House Fellowship</span>
           </div>
           <div className="mx-8">
             <p className="w-full max-w-lg text-center text-[1.7rem] font-normal leading-8 text-white md:text-3xl lg:text-2xl">
@@ -145,13 +145,13 @@ export default function CellChurchPage() {
                 href="/cell-church/register"
                 className="flex w-full items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"
               >
-                REGISTER A CELL CHURCH
+                REGISTER A HOUSE FELLOWSHIP
               </Link>
               <Link
                 href="/cell-church/find"
                 className="flex w-full items-center justify-center gap-2 rounded-full border border-white bg-transparent px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"
               >
-                JOIN A CELL CHURCH
+                JOIN A HOUSE FELLOWSHIP
               </Link>
             </div>
           </div>
@@ -176,18 +176,18 @@ export default function CellChurchPage() {
               <p className="text-[#DF4E4E]">to home</p>
             </span>
             <span className="max-w-[30.6rem] flex-1 text-[16px] font-normal leading-[160%] tracking-[1%] text-[#00000099]">
-              Think about the Rose of Sharon Cell Church as a small gathering of 7-10 disciples or siblings. These small, dedicated groups who meet in homes or condos around the world, are extensions of our main church, bringing our community closer to where you are.
+              Think about the Rose of Sharon House Fellowship as a small gathering of 7-10 disciples or siblings. These small, dedicated groups who meet in homes or condos around the world, are extensions of our main church, bringing our community closer to where you are.
             </span>
           </div>
 
-          {/* What is a Cell Church */}
+          {/* What is a House Fellowship */}
           <div className="mt-10 flex flex-col items-start justify-between gap-5 py-[4%] md:mt-0 md:flex-row">
             <span className="flex flex-1 flex-col gap-4 whitespace-nowrap font-anton text-[48px] font-normal uppercase leading-[40px] text-black md:leading-[120%]">
               <p className="text-black">What is a</p>
-              <p className="text-[#DF4E4E]">Cell Church?</p>
+              <p className="text-[#DF4E4E]">House Fellowship?</p>
             </span>
             <span className="max-w-[30.6rem] flex-1 text-[16px] font-normal leading-[160%] tracking-[1%] text-[#00000099]">
-              A cell church is a gathering of a small group of believers who meet regularly to grow in faith together. These groups are small and welcoming, usually 7-15 people, so everyone can participate, grow in their knowledge of Christ and build meaningful relationships.
+              A house fellowship is a gathering of a small group of believers who meet regularly to grow in faith together. These groups are small and welcoming, usually 7-15 people, so everyone can participate, grow in their knowledge of Christ and build meaningful relationships.
             </span>
           </div>
 
@@ -219,7 +219,7 @@ export default function CellChurchPage() {
           <div className="mt-16 flex flex-col items-start justify-between gap-8 py-[4%] md:mt-0 md:flex-row">
             <span className="flex flex-1 flex-col gap-4 whitespace-nowrap font-anton text-[48px] font-normal uppercase leading-[40px] text-black md:leading-[120%]">
               <p className="text-black">Why Join a Rose of Sharon </p>
-              <p className="text-[#DF4E4E]">Cell Church?</p>
+              <p className="text-[#DF4E4E]">House Fellowship?</p>
             </span>
             <div className="flex-1">
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -239,7 +239,7 @@ export default function CellChurchPage() {
           <div className="mt-10 flex flex-col items-start justify-between gap-8 py-[4%] md:mt-0 md:flex-row">
             <span className="flex flex-1 flex-col gap-4 whitespace-nowrap font-anton text-[32px] font-normal uppercase leading-[25px] text-black md:text-[48px] md:leading-[100%]">
               <p className="text-black">The Essence of a </p>
-              <p className="text-[#DF4E4E]">Healthy Cell Church</p>
+              <p className="text-[#DF4E4E]">Healthy House Fellowship</p>
             </span>
             <div className="max-w-[539px] flex-1">
               {essence.map((item, i) => (
@@ -258,72 +258,56 @@ export default function CellChurchPage() {
         </div>
       </div>
 
-      {/* ── FIND A CELL CHURCH (black bg) ── */}
-      <div className="h-fit space-y-16 bg-black px-[2%] py-10">
-        <div className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12">
-          <div className="flex flex-col items-start justify-between py-[4%] md:flex-row">
-            <span className="flex flex-1 flex-col items-start gap-4 whitespace-nowrap font-anton text-[32px] font-normal uppercase leading-[25px] md:text-[48px] md:leading-[100%]">
-              <p className="text-white">Find a Cell </p>
-              <span className="flex items-start gap-2">
-                <p className="text-white"> Church</p>
-                <p className="text-[#DF4E4E]">close to you</p>
-              </span>
-              <p className="hidden whitespace-normal break-keep text-[16px] font-normal normal-case leading-[160%] tracking-[1%] text-[#FFFFFF99] md:block">
-                This is the smallest unit of our church body where despite the absence of <br /> a main Rose of Sharon branch, members meet every Sunday to fellowship together.
+      {/* ── FIND A HOUSE FELLOWSHIP (black bg) ── */}
+      <div className="h-fit bg-black px-[2%] py-10 md:py-16">
+        <div className="scroll-to-plus-nav mx-auto max-w-7xl px-4">
+          {/* Heading row */}
+          <div className="flex flex-col items-start justify-between gap-8 md:flex-row" style={{ alignItems: "flex-end", flexWrap: "wrap" }}>
+            <div className="flex flex-col gap-5" style={{ maxWidth: 680 }}>
+              <h2 className="font-anton text-[32px] font-normal uppercase text-white md:text-[48px]" style={{ lineHeight: 1.1 }}>
+                Find a House Fellowship <span className="text-[#DF4E4E]">close to you</span>
+              </h2>
+              <p className="font-lato text-[16px] font-normal leading-[160%] tracking-[1%] text-[#FFFFFF99]">
+                This is the smallest unit of our church body where, despite the absence of a main Rose of Sharon branch, members meet every Sunday to fellowship together.
               </p>
-            </span>
+            </div>
             <Link
               href="/cell-church/find"
-              className="hidden w-fit self-end rounded-full bg-textRed px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:flex md:items-center md:gap-2"
+              className="flex w-fit items-center justify-center rounded-full bg-textRed px-5 py-3 font-lato text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:bg-white hover:text-black"
             >
-              Join a cell Church
+              Join a House Fellowship
             </Link>
           </div>
 
           {/* Location cards */}
-          <div className="mb-8 mt-12 md:mt-0">
-            <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-2 lg:grid-cols-4">
-              {findLocations.map((loc, i) => (
-                <div key={i} className="flex h-full flex-col justify-between rounded-lg bg-white">
-                  <div className="mb-3 flex w-full flex-col items-start gap-3 p-3">
-                    <div className="h-[150px] w-full rounded-md bg-gray-200" />
-                    <div className="ml-2 space-y-3">
-                      <span className="mb-2 flex items-center gap-2">
-                        <h3 className="mt-1.5 text-lg font-bold text-black">LOCATION: {loc.location}</h3>
-                      </span>
-                      <span className="mb-2 flex items-center gap-2">
-                        <span className="text-sm text-gray-600">
-                          <span className="text-lg font-bold text-black">TIME: </span>{loc.time}
-                        </span>
-                      </span>
-                      <span className="mb-2 flex items-center gap-2">
-                        <span className="text-sm text-gray-600">
-                          <span className="text-lg font-bold text-black"> VENUE: </span>{loc.venue}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16, marginTop: 40, maxWidth: 760 }}>
+            {findLocations.map((loc, i) => (
+              <div key={i} className="rounded-lg bg-white p-4" style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+                <div style={{ flex: "0 0 220px", minHeight: 160, maxWidth: "100%", borderRadius: 6, background: "#E5E7EB" }} />
+                <div className="flex flex-col justify-center gap-3 font-lato" style={{ flex: "1 1 220px" }}>
+                  <h3 className="text-lg font-bold uppercase text-black">Location: {loc.location}</h3>
+                  <p className="text-sm text-gray-600"><span className="text-base font-bold uppercase text-black">Time: </span>{loc.time}</p>
+                  <p className="text-sm text-gray-600"><span className="text-base font-bold uppercase text-black">Venue: </span>{loc.venue}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
           {/* CTA at bottom */}
-          <div className="mt-16 flex flex-col items-start justify-between pb-[4%] pt-[6%] md:mt-0 lg:flex-row">
-            <div className="flex flex-1 flex-col gap-4 self-center whitespace-nowrap font-anton text-[32px] font-normal uppercase leading-[25px] text-white sm:text-[48px] md:leading-[100%]">
-              <p className="text-sm normal-case text-[#FFFFFF99] sm:text-[16px]">🌍 Find or Register a Cell Church in Your Region</p>
-              <p>Join a Rose of Sharon Cell </p>
-              <p> Church Near You!</p>
-              <p className="flex whitespace-normal text-sm normal-case leading-[160%] tracking-[1%] text-[#FFFFFF99] sm:text-[16px]">
-                We are building a global network of Cell Churches across continents. <br /> Register today and be part of a movement transforming lives.
-              </p>
-              <Link
-                href="/cell-church/find"
-                className="flex w-fit items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white"
-              >
-                Join a cell Church
-              </Link>
-            </div>
+          <div className="flex flex-col gap-5" style={{ maxWidth: 780, marginTop: 72, paddingTop: 48, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+            <p className="font-lato text-sm text-[#FFFFFF99] sm:text-[16px]">🌍 Find or Register a House Fellowship in Your Region</p>
+            <h2 className="font-anton text-[32px] font-normal uppercase text-white sm:text-[48px]" style={{ lineHeight: 1.1 }}>
+              Join a Rose of Sharon House Fellowship Near You!
+            </h2>
+            <p className="font-lato text-sm leading-[160%] tracking-[1%] text-[#FFFFFF99] sm:text-[16px]">
+              We are building a global network of House Fellowships across continents. Register today and be part of a movement transforming lives.
+            </p>
+            <Link
+              href="/cell-church/find"
+              className="flex w-fit items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 font-lato text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white"
+            >
+              Join a House Fellowship
+            </Link>
           </div>
         </div>
       </div>
