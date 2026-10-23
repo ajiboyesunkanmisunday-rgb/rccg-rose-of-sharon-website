@@ -25,7 +25,7 @@ export default function YouthGallery() {
       </Section>
       {open !== null && (
         <div className="ros:fixed ros:inset-0 ros:z-[100] ros:flex ros:items-center ros:justify-center ros:bg-black/90 ros:p-4" role="dialog" aria-modal="true" onClick={() => setOpen(null)}>
-          <img src={PHOTOS[open].src} alt={PHOTOS[open].alt} className="ros:max-h-full ros:max-w-full ros:rounded-lg ros:object-contain" onClick={(e) => e.stopPropagation()} />
+          <img loading="lazy" decoding="async" src={PHOTOS[open].src} alt={PHOTOS[open].alt} className="ros:max-h-full ros:max-w-full ros:rounded-lg ros:object-contain" onClick={(e) => e.stopPropagation()} />
           <button onClick={() => setOpen(null)} aria-label="Close" className="ros:absolute ros:right-5 ros:top-5 ros:text-4xl ros:leading-none ros:text-white">×</button>
           <button onClick={(e) => { e.stopPropagation(); go(-1); }} aria-label="Previous photo" className="ros:absolute ros:left-4 ros:top-1/2 ros:flex ros:size-11 ros:-translate-y-1/2 ros:items-center ros:justify-center ros:rounded-full ros:bg-white ros:text-xl">‹</button>
           <button onClick={(e) => { e.stopPropagation(); go(1); }} aria-label="Next photo" className="ros:absolute ros:right-4 ros:top-1/2 ros:flex ros:size-11 ros:-translate-y-1/2 ros:items-center ros:justify-center ros:rounded-full ros:bg-white ros:text-xl">›</button>

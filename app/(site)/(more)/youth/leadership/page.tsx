@@ -11,7 +11,7 @@ export default function YouthLeadership() {
       <Section>
         <YouthTabs />
         <div className="ros:grid ros:grid-cols-1 ros:items-center ros:gap-10 ros:md:grid-cols-[360px_1fr]">
-          <img src={PRESIDENT.image} alt="The Youth President" className="ros:h-[480px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
+          <img loading="lazy" decoding="async" src={PRESIDENT.image} alt="The Youth President" className="ros:h-[480px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
           <div className="ros:flex ros:flex-col ros:gap-4">
             <SectionTitle pill="👤 THE PRESIDENT" title={<>Youth <span className="text-textRed">President</span></>} />
             <p className="ros:text-sm ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#00000099]">{PRESIDENT.name}</p>

@@ -159,7 +159,7 @@ export default function CellChurchPage() {
         <div className="relative z-10 mt-7 flex w-full flex-nowrap items-center justify-center gap-3 overflow-x-auto font-extrabold leading-[20px] tracking-[24%] text-white">
           {locationBadges.map((badge, i) => (
             <div key={i} className={`flex w-fit whitespace-nowrap rounded-[4px] bg-[#00000078] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC] sm:px-2.5 sm:py-2 ${i > 2 ? "hidden md:flex" : "flex"}`}>
-              <img src="/cell-badge-flag.svg" alt="" width={32} height={24} className="mr-1" />
+              <img loading="lazy" decoding="async" src="/cell-badge-flag.svg" alt="" width={32} height={24} className="mr-1" />
               <div className="ml-0.5">{badge}</div>
             </div>
           ))}
@@ -195,7 +195,7 @@ export default function CellChurchPage() {
           <div className="md-mt-0 mt-10 grid grid-cols-1 gap-4 pb-[4%] md:grid-cols-2 lg:grid-cols-4">
             {activities.map((activity, i) => (
               <div key={i} className="relative h-[440px] overflow-hidden rounded-lg">
-                <img src={activity.image} alt={activity.title} className="absolute inset-0 h-full w-full object-cover" />
+                <img loading="lazy" decoding="async" src={activity.image} alt={activity.title} className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-black/30" />
                 <div className="absolute left-4 right-4 top-4 z-10">
                   <h3 className="text-lg font-bold text-white">{activity.title}</h3>

@@ -196,7 +196,7 @@ export default function MAPPage() {
             {mapLocations.map((loc, i) => (
               <a key={i} href={loc.href} target="_blank" rel="noopener noreferrer" className="relative block">
                 <div className="group relative cursor-pointer overflow-hidden shadow-lg">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={loc.image}
                     alt={loc.area}
                     className="h-80 w-full object-cover"

@@ -482,7 +482,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
         >
           {passportPreview ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={passportPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img loading="lazy" decoding="async" src={passportPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           ) : (
             <div style={{ textAlign: "center", fontSize: 9, color: "#555", padding: 6, lineHeight: 1.5 }}>
               Affix a recent passport photograph here and enclose three others<br /><br />Have it signed

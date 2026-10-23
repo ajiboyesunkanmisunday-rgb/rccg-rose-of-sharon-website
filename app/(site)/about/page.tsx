@@ -131,7 +131,7 @@ export default function AboutPage() {
           variants={fadeIn}
           initial="hidden"
           animate="visible"
-          style={{ backgroundImage: "url(/about-banner.png)", backgroundRepeat: "no-repeat" }}
+          style={{ backgroundImage: "url(/about-banner.jpg)", backgroundRepeat: "no-repeat" }}
           className="h-[500px] bg-cover bg-center bg-no-repeat lg:h-[700px]"
         >
           <div className="relative flex h-full items-center justify-center overflow-hidden bg-gradient-to-b from-[#000000]/5 via-black/35 to-[#000000]/5">
@@ -235,7 +235,7 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Open view photo */}
-          <img src="/openview.4a75c3d5.png" alt="Open View" className="mx-auto w-full max-w-screen-2xl md:h-full" />
+          <img loading="lazy" decoding="async" src="/openview.4a75c3d5.jpg" alt="Open View" className="mx-auto w-full max-w-screen-2xl md:h-full" />
 
           {/* ─── Lead Pastor ─── */}
           <div className="mt-24" id="pastey">
@@ -249,7 +249,7 @@ export default function AboutPage() {
               <div className="about-pastey mb-4 flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:h-auto md:p-0" />
               <div className="mx-auto w-full max-w-full md:max-w-[380px] lg:max-w-[450px]">
                 <div className="mb-4 flex flex-col items-center md:items-start">
-                  <img src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="mb-10 h-8 w-auto" />
+                  <img loading="lazy" decoding="async" src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="mb-10 h-8 w-auto" />
                   <h2 className="text-2xl font-black uppercase tracking-[0.2em] text-white">Our lead pastor</h2>
                 </div>
                 <p className="text-center font-medium leading-7 text-[#FFFFFFA3] md:text-left">
@@ -283,7 +283,7 @@ export default function AboutPage() {
                 <div key={pa.name} className="flex flex-col gap-3" style={{ flex: "0 0 auto", width: "min(100%, 280px)" }}>
                   <div className="overflow-hidden rounded-lg" style={{ height: 340, background: "#F4F4F4" }}>
                     {pa.image ? (
-                      <img src={pa.image} alt={pa.name} className="h-full w-full object-cover object-top" />
+                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover object-top" />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#00000066]">
                         <span className="font-anton uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{pa.name.replace("Pastor ", "").charAt(0)}</span>
@@ -369,10 +369,10 @@ export default function AboutPage() {
               ].map((card, i) => (
                 <Link href={card.href} key={i}>
                   <div className="flex w-full flex-col gap-3 rounded-lg">
-                    <img src={card.image} alt="thumbnail" className="h-[250px] w-full rounded-lg object-cover object-center" />
+                    <img loading="lazy" decoding="async" src={card.image} alt="thumbnail" className="h-[250px] w-full rounded-lg object-cover object-center" />
                     <div className="flex cursor-pointer items-center gap-1">
                       <h1 className="text-lg font-bold underline-offset-8 hover:underline">{card.title}</h1>
-                      <img src="/media/arrow-right.59ce7c7f.svg" alt="arrow" className="h-4 w-4" />
+                      <img loading="lazy" decoding="async" src="/media/arrow-right.59ce7c7f.svg" alt="arrow" className="h-4 w-4" />
                     </div>
                     <p className="line-clamp-3 text-[#00000099]">{card.description}</p>
                   </div>

@@ -47,7 +47,7 @@ function HeroCard({
 }) {
   return (
     <Link href={link} className="relative h-[440px] w-full min-w-[320px] block overflow-hidden flex-shrink-0">
-      <img src={image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+      <img loading="lazy" decoding="async" src={image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
       <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
       <h2 className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">
         {topText}
@@ -59,7 +59,7 @@ function HeroCard({
         <h3 className="text-[10px] font-extrabold uppercase tracking-wide text-white underline-offset-8 hover:underline">
           {bottomText}
         </h3>
-        <img src="/media/whitearrow.e8b5b92f.svg" alt="" className="h-2 w-2.5" />
+        <img loading="lazy" decoding="async" src="/media/whitearrow.e8b5b92f.svg" alt="" className="h-2 w-2.5" />
       </span>
     </Link>
   );
@@ -189,7 +189,7 @@ export default function Home() {
           </p>
           <div className="no-scrollbar my-12 flex w-full max-w-7xl justify-between gap-4 overflow-x-auto md:my-16">
             <HeroCard
-              image="/media/hero1.336205c9.png"
+              image="/media/hero1.336205c9.jpg"
               topText="who we are"
               secondText="About us"
               bottomText="Learn more"
@@ -249,10 +249,10 @@ export default function Home() {
                     key={index}
                     className="group relative h-[360px] min-w-[240px] overflow-hidden flex-shrink-0"
                   >
-                    <img src={country.image} alt={country.country} className="h-full w-full object-cover" />
+                    <img loading="lazy" decoding="async" src={country.image} alt={country.country} className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-black/30" />
                     <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{country.country}</h5>
-                    <img
+                    <img loading="lazy" decoding="async"
                       src="/media/whitearrow.e8b5b92f.svg"
                       alt=""
                       className="absolute right-4 top-4 h-6 w-6 -rotate-45 transform opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -265,7 +265,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="h-[360px] w-full cursor-pointer flex-shrink-0"
                 >
-                  <img
+                  <img loading="lazy" decoding="async"
                     src="/media/watchany.b677bb3f.png"
                     alt="Watch anywhere"
                     className="h-[360px] min-w-[240px] w-full object-cover"
@@ -327,14 +327,14 @@ export default function Home() {
             {communityCards.map((card, index) => (
               <Link href={card.href} key={index}>
                 <div className="flex w-full flex-col gap-3 rounded-lg">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={card.image}
                     alt="thumbnail"
                     className="h-[250px] w-full rounded-lg object-cover object-center"
                   />
                   <div className="flex cursor-pointer items-center gap-1">
                     <h1 className="text-lg font-bold underline-offset-8 hover:underline">{card.title}</h1>
-                    <img src="/media/arrow-right.59ce7c7f.svg" alt="arrow" className="h-4 w-4" />
+                    <img loading="lazy" decoding="async" src="/media/arrow-right.59ce7c7f.svg" alt="arrow" className="h-4 w-4" />
                   </div>
                   <p className="line-clamp-3 text-[#00000099]">{card.description}</p>
                 </div>
@@ -347,7 +347,7 @@ export default function Home() {
         <div className="bg-black py-6">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-4 md:grid-cols-2">
             <div className="flex items-center justify-center">
-              <img
+              <img loading="lazy" decoding="async"
                 src="/media/pastey.c7520b0d.jpg"
                 alt="pastor"
                 className="h-auto w-[300px] lg:w-[540px]"
@@ -355,7 +355,7 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center text-white">
               <div className="flex w-full max-w-[444px] flex-col items-center gap-5 px-4 py-10 text-center lg:py-2">
-                <img src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="h-8 w-auto" />
+                <img loading="lazy" decoding="async" src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="h-8 w-auto" />
                 <h2 className="text-2xl font-black uppercase tracking-[0.2em]">Our lead pastor</h2>
                 <p className="font-medium leading-7 text-[#FFFFFFA3]">
                   Our lead pastor is a visionary minister dedicated to building a church community rooted in the Word
@@ -403,7 +403,7 @@ export default function Home() {
             {ministriesData.map((item, index) => (
               <Link href={item.link} key={index} className="flex h-[355px] w-full flex-col gap-2.5 flex-shrink-0">
                 <div className="group relative flex h-[355px] w-[240px] cursor-pointer items-center justify-center overflow-hidden rounded-lg">
-                  <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+                  <img loading="lazy" decoding="async" src={item.image} alt={item.title} className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span className="rounded-[20px] border border-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white">
