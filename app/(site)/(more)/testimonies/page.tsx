@@ -48,7 +48,7 @@ export default function TestimoniesPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE}/testimonies/featured?pageSize=8`)
+    fetch(`${API_BASE}/testimonies/featured?pageNo=0&pageSize=8`)
       .then((r) => r.ok ? r.json() : Promise.reject())
       .then((data) => {
         const list = Array.isArray(data) ? data : data.content ?? [];

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { API_BASE } from "@/lib/api";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -14,37 +15,18 @@ const fadeIn = {
   visible: { transition: { duration: 1.5 }, opacity: 1 },
 };
 
-// Placeholder member stories — replace with real Rose of Sharon testimonies.
-const testimonials = [
-  {
-    author: "Member",
-    title: "Placeholder story one",
-    text: `This is placeholder text for a member story at Rose of Sharon.
+// Member stories come from the church's own featured testimonies (submitted through the Testimonies page).
+interface Story { author: string; title: string; text: string }
 
-Replace it with a real testimony from the congregation.`,
-  },
-  {
-    author: "Member",
-    title: "Placeholder story two",
-    text: `This is placeholder text for a member story at Rose of Sharon.
-
-Replace it with a real testimony from the congregation.`,
-  },
-  {
-    author: "Member",
-    title: "Placeholder story three",
-    text: `This is placeholder text for a member story at Rose of Sharon.
-
-Replace it with a real testimony from the congregation.`,
-  },
-  {
-    author: "Member",
-    title: "Placeholder story four",
-    text: `This is placeholder text for a member story at Rose of Sharon.
-
-Replace it with a real testimony from the congregation.`,
-  },
-];
+function toStory(t: { subject?: string; content?: string; state?: string }): Story | null {
+  let text = (t.content ?? "").trim();
+  let author = "";
+  const m = text.match(/^From:\s*(.+?)\s*(?:\r?\n)+([\s\S]*)$/);
+  if (m) { author = m[1].trim(); text = m[2].trim(); }
+  if (text.length < 40) return null; // skip empty or test entries
+  const place = t.state ? t.state.charAt(0).toUpperCase() + t.state.slice(1) : "";
+  return { author: author || (place ? `A member, ${place}` : "A member of the family"), title: (t.subject ?? "").trim() || "A testimony", text };
+}
 
 // Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
 // the name and text can be edited whenever the publication unit sends updates.
@@ -124,6 +106,17 @@ function BulletItem({ label }: { label: string }) {
 export default function AboutPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [slide, setSlide] = useState(0);
+  const [testimonials, setTestimonials] = useState<Story[]>([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE}/testimonies/featured?pageNo=0&pageSize=8`)
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : data.content ?? [];
+        setTestimonials(list.map(toStory).filter((x: Story | null): x is Story => !!x));
+      })
+      .catch(() => {});
+  }, []);
 
   const visibleCount = 2;
   const totalSlides = Math.ceil(testimonials.length / visibleCount);
@@ -317,7 +310,13 @@ export default function AboutPage() {
           </h6>
           <p className="mb-2 text-center text-xl text-[#00000080]">Real People, Endless Life</p>
 
-          <div className="mx-auto my-4 max-w-7xl md:my-8">
+          {testimonials.length === 0 && (
+            <div className="mx-auto my-8 flex flex-col items-center gap-4 px-6 text-center" style={{ maxWidth: 560 }}>
+              <p className="text-[#000000A3]">Every story here is a real one from our family. Has God done something in your life? We would love to hear it.</p>
+              <Link href="/testimonies" className="rounded-full bg-textRed px-6 py-3 text-xs font-extrabold uppercase tracking-[.25em] text-white transition hover:bg-black">Share your story</Link>
+            </div>
+          )}
+          <div className="mx-auto my-4 max-w-7xl md:my-8" style={testimonials.length === 0 ? { display: "none" } : undefined}>
             <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2">
               {testimonials.slice(slide * visibleCount, slide * visibleCount + visibleCount).map((t, i) => (
                 <figure key={i} className="flex flex-col items-center justify-center px-6 text-left">
