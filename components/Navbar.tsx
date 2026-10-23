@@ -9,9 +9,8 @@ import { YOUTH_PAGES, DEPARTMENTS } from "@/app/(site)/(more)/_kit/youth";
 const navRoutes = [
   { path: "/about",                              name: "About" },
   { path: "/ql",                                 name: "Quick Links" },
-  { path: "/cell-church",                        name: "Cell Church" },
+  { path: "/cell-church",                        name: "House Fellowship" },
   { path: "https://www.youtube.com/@rccgrostv",         name: "Sermons",  isExternal: true },
-  { path: "/map",                                name: "Map" },
   { path: "/give",                               name: "Give" },
 ];
 
@@ -82,9 +81,8 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               { href: "/about",       label: "About" },
               { href: "/ql",          label: "Quick-Links" },
               { href: "/ministries",  label: "Ministries" },
-              { href: "/cell-church", label: "Cell Church" },
+              { href: "/cell-church", label: "House Fellowship" },
               { href: "https://www.youtube.com/@rccgrostv", label: "Sermons", external: true },
-              { href: "/map",         label: "Map" },
               { href: "/give",        label: "Give" },
               { href: "/youth",       label: "Youth" },
               { href: "/marketplace", label: "Marketplace" },
@@ -110,20 +108,18 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
             <div style={{ columnWidth: "220px", columnGap: "2rem" }}>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MINISTRIES</h2>
-                <a onClick={() => setOpen(false)} href="/ministries#ccw" className="text-sm hover:underline">Rose of Sharon Choir</a>
-                <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Teens Ministry</a>
-                <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Kids Ministry</a>
-                <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Church groups</h2>
-                <a onClick={() => setOpen(false)} href="/groups" className="text-sm hover:underline">All church groups</a>
+                <a onClick={() => setOpen(false)} href="/ministries#ccw" className="text-sm hover:underline">Hearts of David</a>
+                <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Oaks of Righteousness</a>
+                <a onClick={() => setOpen(false)} href="/youth" className="text-sm hover:underline">Youth Fellowship</a>
+                <a onClick={() => setOpen(false)} href="/ministries#celeb-kids" className="text-sm hover:underline">Children Church</a>
               </div>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">RESOURCES</h2>
-                <a onClick={() => setOpen(false)} href="/membership-class" className="text-sm hover:underline">Membership classes</a>
+                <a onClick={() => setOpen(false)} href="/membership-class" className="text-sm hover:underline">Believers class</a>
+                <a onClick={() => setOpen(false)} href="/trainings/water-baptism" className="text-sm hover:underline">Water Baptism class</a>
                 <a onClick={() => setOpen(false)} href="/celebrations" className="text-sm hover:underline">Celebrations</a>
-                <a onClick={() => setOpen(false)} href="/counselling" className="text-sm hover:underline">Counselling</a>
-                <a onClick={() => setOpen(false)} href="/pre-marital-counselling" className="text-sm hover:underline">Pre Marital Counselling</a>
+                <a onClick={() => setOpen(false)} href="/counselling" className="text-sm hover:underline">Relationship Talks</a>
                 <a onClick={() => setOpen(false)} href="/welfare" className="text-sm hover:underline">Welfare Request</a>
-                <a onClick={() => setOpen(false)} href="/newcampusvolunteers" className="text-sm hover:underline">New Campus Volunteers</a>
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Requests</h2>
                 <a onClick={() => setOpen(false)} href="/requests/prayer" className="text-sm hover:underline">Prayer Request</a>
                 <a onClick={() => setOpen(false)} href="/requests/counseling" className="text-sm hover:underline">Counselling Request</a>
@@ -135,7 +131,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               </div>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">CONNECT</h2>
-                <a onClick={() => setOpen(false)} href="/cell-church" className="text-sm hover:underline">Cell Church</a>
+                <a onClick={() => setOpen(false)} href="/cell-church" className="text-sm hover:underline">House Fellowship</a>
                 <a onClick={() => setOpen(false)} href="/membership" className="text-sm hover:underline">Become a member</a>
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">New here</h2>
                 <a onClick={() => setOpen(false)} href="/first-timer" className="text-sm hover:underline">First-Timer Registration</a>
