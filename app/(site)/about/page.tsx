@@ -31,7 +31,7 @@ function toStory(t: { subject?: string; content?: string; state?: string }): Sto
 // Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
 // the name and text can be edited whenever the publication unit sends updates.
 const pastors: { name: string; role: string; text: string; image?: string }[] = [
-  { name: "Pastor Emeka", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", text: "A short introduction will be added here.", image: "/pastors/emeka.jpg" },
   { name: "Pastor Fowler", role: "Pastor", text: "A short introduction will be added here." },
   { name: "Pastor Chichi", role: "Pastor", text: "A short introduction will be added here." },
   { name: "Pastor Rosemary", role: "Pastor", text: "A short introduction will be added here." },
@@ -43,6 +43,7 @@ function PastorModal({ onClose }: { onClose: () => void }) {
       <div
         className="about-pastey relative mx-auto flex w-full max-w-4xl flex-col rounded-md bg-black bg-contain bg-center bg-no-repeat px-3 py-2 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-black before:opacity-60 md:p-10"
         onClick={(e) => e.stopPropagation()}
+        style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundSize: "cover", backgroundPosition: "32% 30%" }}
       >
         <div className="mb-2 flex justify-between">
           <div />
@@ -67,6 +68,7 @@ function PastorModal({ onClose }: { onClose: () => void }) {
           <h2 className="relative text-2xl font-black uppercase tracking-[0.2em] text-white md:ml-6">
             OUR LEAD PASTOR
           </h2>
+          <p className="relative mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF99] md:ml-6">Pastor Emeka Obiagwu · Senior Pastor</p>
           <div className="relative flex flex-col gap-5 md:flex-row md:p-6">
             <p className="flex-1 font-medium leading-7 text-white md:text-left">
               Placeholder: the biography of the Lead Pastor of RCCG Rose of Sharon will appear here.
@@ -246,11 +248,12 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-black px-6 py-16 sm:px-12 md:flex-row lg:gap-10 lg:px-24"
             >
-              <div className="about-pastey mb-4 flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:h-auto md:p-0" />
+              <div role="img" aria-label="Pastor Emeka Obiagwu, Senior Pastor" className="about-pastey mb-4 flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:h-auto md:p-0" style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundPosition: "32% 30%" }} />
               <div className="mx-auto w-full max-w-full md:max-w-[380px] lg:max-w-[450px]">
                 <div className="mb-4 flex flex-col items-center md:items-start">
                   <img loading="lazy" decoding="async" src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="mb-10 h-8 w-auto" />
                   <h2 className="text-2xl font-black uppercase tracking-[0.2em] text-white">Our lead pastor</h2>
+                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF99]">Pastor Emeka Obiagwu · Senior Pastor</p>
                 </div>
                 <p className="text-center font-medium leading-7 text-[#FFFFFFA3] md:text-left">
                   Placeholder: a short introduction to the Lead Pastor of RCCG Rose of Sharon will appear here.
@@ -283,7 +286,7 @@ export default function AboutPage() {
                 <div key={pa.name} className="flex flex-col gap-3" style={{ flex: "0 0 auto", width: "min(100%, 280px)" }}>
                   <div className="overflow-hidden rounded-lg" style={{ height: 340, background: "#F4F4F4" }}>
                     {pa.image ? (
-                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover object-top" />
+                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover" style={{ objectPosition: "32% 25%" }} />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#00000066]">
                         <span className="font-anton uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{pa.name.replace("Pastor ", "").charAt(0)}</span>

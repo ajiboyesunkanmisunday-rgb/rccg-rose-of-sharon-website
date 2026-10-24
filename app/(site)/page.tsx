@@ -348,8 +348,8 @@ export default function Home() {
           <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-4 md:grid-cols-2">
             <div className="flex items-center justify-center">
               <img loading="lazy" decoding="async"
-                src="/media/pastey.c7520b0d.jpg"
-                alt="pastor"
+                src="/pastors/emeka.jpg"
+                alt="Pastor Emeka Obiagwu, Senior Pastor"
                 className="h-auto w-[300px] lg:w-[540px]"
               />
             </div>
@@ -357,6 +357,7 @@ export default function Home() {
               <div className="flex w-full max-w-[444px] flex-col items-center gap-5 px-4 py-10 text-center lg:py-2">
                 <img loading="lazy" decoding="async" src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="h-8 w-auto" />
                 <h2 className="text-2xl font-black uppercase tracking-[0.2em]">Our lead pastor</h2>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#FFFFFF99]">Pastor Emeka Obiagwu · Senior Pastor</p>
                 <p className="font-medium leading-7 text-[#FFFFFFA3]">
                   Our lead pastor is a visionary minister dedicated to building a church community rooted in the Word
                   of God, passionate about worship, and committed to transforming lives through the power of the Holy
