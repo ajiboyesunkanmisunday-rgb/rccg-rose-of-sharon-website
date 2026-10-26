@@ -14,7 +14,13 @@ export default function Link({ href, prefetch, replace, scroll, shallow, ...rest
   return <NextLink href={resolved} prefetch={prefetch} replace={replace} scroll={scroll} {...rest} />;
 }
 
-/** Drop-in replacement for a plain <a href="..."> that should understand canonical paths. */
+/**
+ * Drop-in replacement for a plain <a href="...">. Pages inside this site open instantly with client-side
+ * navigation (no full reload); other sites, external addresses, anchors and new-tab links stay ordinary anchors.
+ */
 export function A({ href, ...rest }: ComponentProps<"a">) {
-  return <a href={href ? resolveHref(href) : href} {...rest} />;
+  const resolved = href ? resolveHref(href) : href;
+  const sameSitePage = !!resolved && resolved.startsWith("/") && !resolved.startsWith("//") && rest.target !== "_blank" && !("download" in rest);
+  if (sameSitePage) return <NextLink href={resolved} {...(rest as Omit<ComponentProps<typeof NextLink>, "href">)} />;
+  return <a href={resolved} {...rest} />;
 }
