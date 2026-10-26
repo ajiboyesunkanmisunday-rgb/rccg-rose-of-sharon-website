@@ -19,10 +19,10 @@ const footerSections = [
   {
     title: "Ministries",
     links: [
-      { title: "Hearts of David",       href: "/ministries#ccw" },
-      { title: "Oaks of Righteousness",   href: "/ministries#celeb-kids" },
+      { title: "Hearts of David",       href: "/ministries/choir" },
+      { title: "Oaks of Righteousness",   href: "/ministries/kids-and-teens" },
       { title: "Youth Fellowship",         href: "/youth" },
-      { title: "Children Church",          href: "/ministries#celeb-kids" },
+      { title: "Children Church",          href: "/ministries/kids-and-teens" },
     ],
   },
   {

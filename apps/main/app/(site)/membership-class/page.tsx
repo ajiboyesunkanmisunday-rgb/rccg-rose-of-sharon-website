@@ -13,10 +13,10 @@ export default function MembershipClassPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-3xl font-bold md:text-4xl"
-            style={{ fontFamily: "var(--cci-font-anton)" }}
+            style={{ fontFamily: "var(--font-anton)" }}
           >
             Welcome to Rose of Sharon{" "}
-            <span className="text-textRed">Membership classes</span>
+            <span className="text-textRed">Believers Class</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -24,7 +24,7 @@ export default function MembershipClassPage() {
             transition={{ delay: 0.2 }}
             className="mx-auto mt-3 max-w-xl text-gray-300"
           >
-            Our Membership Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth
+            Our Believers Class gets you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -57,7 +57,7 @@ export default function MembershipClassPage() {
           OUR CLASSES
         </h2>
         <p className="text-center font-medium text-[#000000B2] md:text-lg">
-          Enrol in one of our membership classes
+          Enrol in one of our Believers Classes
         </p>
 
         <div className="space-y-12 md:space-y-24">
@@ -66,7 +66,7 @@ export default function MembershipClassPage() {
             <div className="flex items-center justify-center">
               <div className="flex max-w-sm flex-col items-center gap-3 px-4">
                 <h6 className="text-center text-sm font-bold tracking-widest text-[#00000099]">
-                  MEMBERSHIP CLASS
+                  BELIEVERS CLASS
                 </h6>
                 <h2 className="text-center font-anton text-3xl md:text-6xl">
                   NEW{" "}
@@ -75,7 +75,7 @@ export default function MembershipClassPage() {
                   </span>
                 </h2>
                 <p className="my-2 max-w-[345px] text-center text-sm text-[#000000B2] md:text-base">
-                  Sign up for the next batch of our Membership Class
+                  Sign up for the next batch of our Believers Class
                 </p>
                 <Link
                   href="/membership-class/new"
@@ -103,7 +103,7 @@ export default function MembershipClassPage() {
             <div className="flex items-center justify-center">
               <div className="flex max-w-sm flex-col items-center gap-3 px-4">
                 <h6 className="text-center text-sm font-bold tracking-widest text-[#00000099]">
-                  MEMBERSHIP CLASS
+                  BELIEVERS CLASS
                 </h6>
                 <h2 className="text-center font-anton text-3xl md:text-6xl">
                   MAKE UP{" "}
@@ -129,7 +129,7 @@ export default function MembershipClassPage() {
             <div className="flex items-center justify-center">
               <div className="flex max-w-sm flex-col items-center gap-3 px-4">
                 <h6 className="text-center text-sm font-bold tracking-widest text-[#00000099]">
-                  MEMBERSHIP CLASS
+                  BELIEVERS CLASS
                 </h6>
                 <h2 className="text-center font-anton text-3xl md:text-6xl">
                   COMPLETED{" "}

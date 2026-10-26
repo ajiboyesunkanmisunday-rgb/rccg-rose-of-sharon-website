@@ -7,6 +7,7 @@
 @import "tailwindcss/theme.css" layer(theme) prefix(ros);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(ros) important source(none);
 @source "./";
+@source "../../../components";
 @source "../../../../../packages/shared/src";
 
 /* cci-web signature display font (same variable the original pages use) */

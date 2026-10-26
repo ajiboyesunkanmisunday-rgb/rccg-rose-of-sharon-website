@@ -95,7 +95,7 @@ const ministriesData = [
   {
     image: "/media/celebkids.601f776b.jpg",
     title: "Children Ministry",
-    link: "/ministries",
+    link: "/ministries/kids-and-teens",
     description: "Children Church",
   },
   {

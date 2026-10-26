@@ -6,7 +6,7 @@ import { A } from "@ros/shared/link";
 
 const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, transition: { duration: 1 } } };
 
-const S3 = "https://cci-axios-web-cms-assets.s3.eu-north-1.amazonaws.com/web-assets";
+const S3 = "/assets/payments"; // payment logos, stored with the site
 
 function CopyButton({ text, label = "COPY", className = "" }: { text: string; label?: string; className?: string; style?: React.CSSProperties }) {
   const [copied, setCopied] = useState(false);
