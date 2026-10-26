@@ -11,8 +11,8 @@ const footerSections = [
     title: "connect",
     links: [
       { title: "Become a member",  href: "/membership" },
-      { title: "Prayer Request",   href: "/prayer-request" },
-      { title: "First Timers",     href: "/ft" },
+      { title: "Prayer Request",   href: "/requests/prayer" },
+      { title: "First Timers",     href: "/first-timer" },
       { title: "Testimonies",       href: "/testimonies" },
     ],
   },

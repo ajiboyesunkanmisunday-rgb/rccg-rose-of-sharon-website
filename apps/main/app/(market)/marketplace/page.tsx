@@ -625,7 +625,7 @@ export default function MarketplacePage() {
                 <div className="bg-[#F3F4F6] rounded-[12px] p-4 flex items-start gap-3"><span className="text-[18px]">🔒</span><p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>Enter your registered phone number or email to verify church membership.</p></div>
                 <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold text-[#111827]">Phone or Email</label>
                   <input type="text" required value={verifyInput} onChange={(e) => setVerifyInput(e.target.value)} placeholder="e.g. 08012345678 or your@email.com" className={inputBase} style={vs} /></div>
-                {verifyStatus === "error" && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700" style={vs}>{verifyError}<br /><Link href="/ft" className="text-[#000080] font-medium underline">Register</Link> or <Link href="/membership" className="text-[#000080] font-medium underline">become an e-member</Link></div>}
+                {verifyStatus === "error" && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700" style={vs}>{verifyError}<br /><Link href="/first-timer" className="text-[#000080] font-medium underline">Register</Link> or <Link href="/e-member" className="text-[#000080] font-medium underline">become an e-member</Link></div>}
                 <button type="submit" disabled={verifyStatus === "loading"} className="w-full bg-[#000080] text-white py-[13px] rounded-[24px] text-[14px] font-bold hover:bg-[#0000a0] disabled:opacity-60" style={vs}>{verifyStatus === "loading" ? "Verifying..." : "Verify Membership"}</button>
               </form>
             )}
