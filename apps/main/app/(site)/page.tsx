@@ -70,10 +70,10 @@ function HeroCard({
 const communityCards = [
   {
     image: "/media/membership-class.e6e53cc0.jpg",
-    title: "Membership Classes",
+    title: "Believers Classes",
     href: "/membership-class",
     description:
-      "Our Membership Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth",
+      "Our Believers Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth",
   },
   {
     image: "/media/celebrations.f123ede1.jpg",
@@ -94,15 +94,34 @@ const communityCards = [
 const ministriesData = [
   {
     image: "/media/celebkids.601f776b.jpg",
-    title: "Kids & Teens Ministry",
+    title: "Children Ministry",
     link: "/ministries",
-    description: "Youth Ministry",
+    description: "Children Church",
   },
   {
+    image: "/youth/hangout-3.jpg",
+    title: "Youth Fellowship",
+    link: "/youth",
+    description: "Young Leaders and Professionals",
+  },
+];
+
+const adBanners = [
+  {
     image: "/media/ccw.3a529aa2.jpg",
-    title: "Rose of Sharon Choir",
-    link: "/ministries",
-    description: "ROS Choir",
+    tag: "30th Anniversary",
+    title: "Light Up Ikeja",
+    text: "Join us as we light up Ikeja in our 30th anniversary celebration.",
+    cta: "See the details",
+    href: "/events",
+  },
+  {
+    image: "/openview.4a75c3d5.jpg",
+    tag: "Project",
+    title: "ROS Project 2",
+    text: "Details of our next project will be shared here.",
+    cta: "Learn more",
+    href: "/buildingproject",
   },
 ];
 
@@ -121,10 +140,8 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════ HERO */}
       <section className="overflow-hidden">
         <div className="relative h-screen bg-black">
-          <video autoPlay loop muted playsInline poster="/hero.jpg" className="absolute left-0 top-0 h-full w-full object-cover">
-            <source src="/Church.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute left-0 top-0 h-full w-full bg-black/70" />
+          <img src="/media/celebrations.f123ede1.jpg" alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+          <div className="absolute left-0 top-0 h-full w-full" style={{ background: "rgba(0,0,0,0.74)" }} />
           <div className="relative z-10 flex h-full items-center justify-center overflow-hidden">
             <motion.div
               variants={fadeUpVariants}
@@ -137,8 +154,8 @@ export default function Home() {
                 🌍 <span className="ml-0.5">our vision</span>
               </h3>
               <h1 className="my-3 max-w-[900px] px-4 font-anton text-[3rem] font-medium uppercase md:px-0 md:text-7xl md:leading-[1.2]">
-                We envision all men celebrating endless{" "}
-                <span className="block text-textRed">life in Christ</span>
+                Where God Has A
+                <span className="block text-textRed">Permanent Seat</span>
               </h1>
               <div className="mt-8 md:flex md:items-center md:justify-center">
                 <Button
@@ -169,14 +186,19 @@ export default function Home() {
           viewport={{ once: true }}
           className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12"
         >
-          <div className="flex justify-center pb-12 pt-2 md:pt-8">
-            <Button
-              href="/buildingproject"
-              target="_self"
-              className="bg-textRed text-[0.75rem] font-bold uppercase tracking-[.25em] text-white duration-300 hover:bg-white hover:text-black md:text-base"
-            >
-              Building Project
-            </Button>
+          <div className="pb-12 pt-2 md:pt-8" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 }}>
+            {adBanners.map((ad) => (
+              <Link key={ad.title} href={ad.href} className="group relative block overflow-hidden rounded-lg" style={{ height: 220 }}>
+                <img loading="lazy" decoding="async" src={ad.image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ transition: "transform .6s" }} />
+                <div className="absolute left-0 top-0 h-full w-full" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.2) 100%)" }} />
+                <div className="relative z-10 flex h-full flex-col justify-center gap-2 px-6 text-white">
+                  <span className="w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider" style={{ background: "#DF4E4E" }}>{ad.tag}</span>
+                  <h3 className="font-anton text-3xl uppercase md:text-4xl" style={{ lineHeight: 1.1 }}>{ad.title}</h3>
+                  <p className="text-sm text-[#FFFFFFCC]" style={{ maxWidth: 360 }}>{ad.text}</p>
+                  <span className="mt-1 text-[10px] font-extrabold uppercase tracking-[0.2em] underline-offset-8 group-hover:underline">{ad.cta} →</span>
+                </div>
+              </Link>
+            ))}
           </div>
           <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
             🙌🏽 <span className="ml-1">WELCOME TO ROS</span>
@@ -233,7 +255,7 @@ export default function Home() {
                 in Christ, for Christ, with joy.
               </h1>
               <p className="text-center text-base text-white md:text-lg">
-                Join us at a Rose of Sharon near you
+                Join us at 65, Fajuyi way, Ikeja GRA
               </p>
             </div>
           </div>
@@ -241,7 +263,7 @@ export default function Home() {
           <div className="w-full bg-black px-4 pb-6 md:pb-10">
             <div className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0">
               <div className="flex w-full flex-wrap items-center justify-between gap-4">
-                <h6 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">VISIT ROSE OF SHARON</h6>
+                <h6 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">WATCH ROSE OF SHARON</h6>
               </div>
               <div className="no-scrollbar my-6 flex w-full justify-between gap-4 overflow-x-auto">
                 {countriesData.map((country, index) => (
@@ -284,15 +306,15 @@ export default function Home() {
           <div className="flex h-[780px] items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
             <div className="mx-auto mb-16 flex w-full max-w-6xl flex-col flex-wrap items-start gap-4 px-4">
               <h2 className="font-anton text-2xl font-medium text-white md:text-5xl md:leading-[3.5rem]">
-                WE BOAST IN <br /> CHRIST JESUS
+                REGISTER <br /> FOR CSR
               </h2>
               <p className="w-full max-w-[560px] text-left text-white">
-                Our greatest success story at Rose of Sharon has been the &apos;grace&apos; to effectively
-                evangelize, make disciples of, and deploy people who once upon a time were mere seekers,
-                as mature disciples and vibrant ministers of the gospel.
+                The Rose of Sharon CSR program equips young people and members of the community with practical
+                skills such as digital marketing and graphic design. Register today and take your first step
+                towards a better future.
               </p>
               <Link
-                href="/about"
+                href="/csr#register"
                 className="flex items-center gap-2.5 rounded-[20px] border border-textRed bg-textRed px-5 py-2.5 text-xs font-extrabold uppercase tracking-wide text-white hover:border-white hover:bg-transparent"
               >
                 Learn More
@@ -393,12 +415,6 @@ export default function Home() {
                   THERE&apos;S A PLACE FOR{" "}
                   <span className="font-anton text-textRed">EVERYONE</span>
                 </h2>
-                <Link
-                  href="/ministries"
-                  className="whitespace-nowrap rounded-[20px] border border-black bg-transparent px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] text-black hover:bg-black hover:text-white"
-                >
-                  see all ministries
-                </Link>
               </div>
             </div>
             {ministriesData.map((item, index) => (

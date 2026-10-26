@@ -1,113 +1,40 @@
 import type { Metadata } from "next";
 import Link from "@ros/shared/link";
-import { PROGRAMS, programPages } from "@ros/shared/kit/programs";
-import { YOUTH_PAGES, DEPARTMENTS } from "@ros/shared/kit/youth";
+import { CHURCH_LINKS } from "@ros/shared/links";
 
 export const metadata: Metadata = {
   title: "Rose of Sharon Quick-Links",
   description: "Everything you need to serve, grow, and stay informed.",
 };
 
+// The quick links, in the order the church asked for. Links to the youth, training and media sites are
+// written as ordinary paths; the shared Link component sends them to the right site.
 const quickLinks = [
-  { href: "/discipleship", label: "ROS Discipleship Experience" },
-  { href: "/ccilegacyfellowsprogram", label: "ROS Legacy Fellows Program" },
-  { href: "/ccilegacyprojectspotlight", label: "ROS Legacy Project Spotlight" },
+  { href: "/testimonies", label: "Testimonies" },
   { href: "/celebrations", label: "Celebrations" },
-  { href: "/feedback-survey", label: "Feedback Survey" },
-  { href: "/ft", label: "first timer" },
-  { href: "/ftabj", label: "first timer (branch)" },
-  { href: "/gpa", label: "Global Protocol Attendance" },
-  { href: "/helpline-volunteers", label: "Helpline Volunteers" },
-  { href: "/membership", label: "Membership" },
-  { href: "/membership-class/completed", label: "Membership Class (Completed)" },
-  { href: "/membership-class/makeup", label: "Membership Class (Makeup)" },
-  { href: "/membership-class/new", label: "Membership Class (New Enrolment)" },
-  { href: "/newcampusvolunteers", label: "New Campus Volunteers" },
-  { href: "/online-community", label: "Online Community" },
-  { href: "/pfl", label: "PFL" },
-  { href: "/post-marital-counselling", label: "Post Marital Counselling" },
-  { href: "/prayer-request", label: "Prayer Request" },
-  { href: "/pre-marital-counselling", label: "Pre Marital Counselling" },
-  { href: "/rbcuk", label: "Streaming experience" },
-  { href: "/st", label: "Second Timers" },
-  { href: "/seniors-connect", label: "Seniors Connect" },
-  { href: "/testimony", label: "Testimony" },
-  { href: "/welfare", label: "Welfare" },
-  { href: "/yaf-feedback", label: "Young And Free Feedback" },
-];
-
-// Additional Rose of Sharon pages, grouped by topic.
-const groups: { title: string; sections: { heading?: string; links: { href: string; label: string }[] }[] }[] = [
-  {
-    title: "Training Programs",
-    sections: [
-      { links: [{ href: "/trainings", label: "All Training Programs" }] },
-      ...PROGRAMS.map((p) => ({
-        heading: p.name,
-        links: programPages(p).map((pg) => ({ href: pg.href, label: pg.label })),
-      })),
-    ],
-  },
-  {
-    title: "Youth",
-    sections: [
-      { links: YOUTH_PAGES.map((pg) => ({ href: pg.href, label: pg.label === "Overview" ? "Youth Church" : pg.label })) },
-      { heading: "Youth departments", links: DEPARTMENTS.map((d) => ({ href: `/youth/departments/${d.slug}`, label: d.name })) },
-    ],
-  },
-  {
-    title: "Join & Grow",
-    sections: [
-      {
-        links: [
-          { href: "/first-timer", label: "First-Timer Registration" },
-          { href: "/e-member", label: "E-Member Registration" },
-          { href: "/new-believer", label: "New Believer" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Requests & Care",
-    sections: [
-      {
-        links: [
-          { href: "/requests/prayer", label: "Prayer Request (Online)" },
-          { href: "/requests/counseling", label: "Counselling Request" },
-          { href: "/requests/suggestion", label: "Suggestion" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Celebrations & Family",
-    sections: [
-      {
-        links: [
-          { href: "/requests/baby-dedication", label: "Baby Dedication" },
-          { href: "/requests/baby-christening", label: "Baby Christening" },
-          { href: "/special-day", label: "Send Us Your Special Day" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Church Life",
-    sections: [
-      {
-        links: [
-          { href: "/groups", label: "Church Groups" },
-          { href: "/events", label: "Events & Services" },
-          { href: "/media", label: "Sermons & Media" },
-          { href: "/announcements", label: "Announcements" },
-          { href: "/testimonies", label: "Testimonies (Online)" },
-          { href: "/gallery", label: "Gallery" },
-          { href: "/csr", label: "CSR Program" },
-          { href: "/marketplace", label: "Marketplace" },
-        ],
-      },
-    ],
-  },
+  { href: "/requests/prayer", label: "Prayer Request" },
+  { href: "/csr#register", label: "Register for CSR" },
+  { href: "/ministries#celeb-kids", label: "Children Church" },
+  { href: "/buildingproject", label: "ROS Project 2" },
+  { href: "/events", label: "Calendar" },
+  { href: "/events", label: "Upcoming Events" },
+  { href: "/ministries#ccw", label: "Hearts of David" },
+  { href: "/ministries#celeb-kids", label: "Oaks of Righteousness" },
+  { href: "/youth", label: "Young Leaders and Professionals" },
+  { href: CHURCH_LINKS.whatsapp || "#", label: "Join The Church WhatsApp Group" },
+  { href: CHURCH_LINKS.instagram || "#", label: "Follow us on Instagram" },
+  { href: CHURCH_LINKS.youtube, label: "Follow us on YouTube" },
+  { href: "/media", label: "Sermons" },
+  { href: "/requests/suggestion", label: "Suggestion Box" },
+  { href: "/counselling", label: "Marriage Counseling" },
+  { href: "/membership-class", label: "Join Believers Class" },
+  { href: "/trainings/water-baptism/register", label: "Join the next Baptismal Class" },
+  { href: "/trainings/workers-in-training/register", label: "Register for Workers-in-training" },
+  { href: "/trainings/rila/apply", label: "Register for RILA" },
+  { href: "/trainings/school-of-ministry/register", label: "Register for School of Ministries" },
+  { href: "/trainings/school-of-disciples/register", label: "Register for School of Disciples" },
+  { href: "/give", label: "Give Online" },
+  { href: "/marketplace", label: "Marketplace" },
 ];
 
 // Wrapping, centred rows: a box left alone on the last row sits in the middle instead of hanging on the left.
@@ -134,7 +61,7 @@ export default function QLPage() {
         <div className="container mx-auto max-w-[850px]">
           <ol className="my-5" style={listStyle}>
             {quickLinks.map((link) => (
-              <li key={link.href} className="mb-4 rounded-md border border-cciRed-500 text-center" style={itemStyle}>
+              <li key={link.label} className="mb-4 rounded-md border border-cciRed-500 text-center" style={itemStyle}>
                 <Link
                   href={link.href}
                   prefetch={true}
@@ -146,29 +73,6 @@ export default function QLPage() {
             ))}
           </ol>
 
-          {groups.map((g) => (
-            <div key={g.title} className="mb-6">
-              <h2 className="mb-2 mt-10 text-center font-anton text-2xl uppercase text-black">{g.title}</h2>
-              {g.sections.map((sec, i) => (
-                <div key={sec.heading ?? i}>
-                  {sec.heading && (
-                    <h3 className="mt-6 text-center text-xs font-bold uppercase" style={{ color: "#00000099", letterSpacing: "0.2em" }}>
-                      {sec.heading}
-                    </h3>
-                  )}
-                  <ol className="my-5" style={listStyle}>
-                    {sec.links.map((link) => (
-                      <li key={link.href + link.label} className="mb-4 rounded-md border border-cciRed-500 text-center" style={itemStyle}>
-                        <Link href={link.href} prefetch={true} className="bg-red block w-full p-3 hover:text-cci-red hover:underline">
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ))}
-            </div>
-          ))}
         </div>
       </section>
     </>
