@@ -62,18 +62,19 @@ One Netlify project per site, all from this repository, branch `cci-redesign`:
 
 Each app's `netlify.toml` skips the build when neither that app nor `packages/shared` changed.
 
-## Deploying on your own server (Digital Ocean)
+## Deploying on your own server (Digital Ocean) — the real target
 
-Every app is an independent Next.js server, so each runs on its own port and the web server routes each
-sub-domain to its port:
+Every site is an independent Next.js server, so each runs on its own port and nginx sends each sub-domain to its
+port. Everything needed is in `deploy/`:
 
-```bash
-npm ci                                   # at the repository root
-npm run build:youth                      # (or build:main, build:training, build:media)
-NEXT_PUBLIC_URL_MAIN=... npm run start -w @ros/youth    # next start -p 3003
-```
+| File | Purpose |
+|---|---|
+| `deploy/env.production.example` | the addresses of the four sites + the API address (copy to `deploy/.env.production`) |
+| `deploy/ecosystem.config.cjs` | pm2 process list, one process per site (ports 3002 / 3003 / 3004 / 3005) |
+| `deploy/deploy.sh` | pull, install, build and restart: all sites, or just one (`./deploy/deploy.sh youth`) |
+| `deploy/nginx/*.conf` | one nginx site per sub-domain, with the certbot (HTTPS) command in the header |
 
-Put a process manager (pm2 or systemd) in front of each app and a reverse proxy mapping
-`www.rccgros.org -> :3002`, `youth.rccgros.org -> :3003`, `training.rccgros.org -> :3004`,
-`media.rccgros.org -> :3005`. Because the repository is shared but the builds are separate, you can deploy,
-restart or roll back one site without touching the others.
+One-time setup on the server: install Node 22, nginx, pm2 and certbot; clone the repository; copy
+`deploy/env.production.example` to `deploy/.env.production`; point the DNS records for `www`, `youth`, `training` and
+`media` at the server; install the four nginx files; run `./deploy/deploy.sh`. After that, deploying an update is
+one command, and a single site can be updated, restarted or rolled back without touching the others.
