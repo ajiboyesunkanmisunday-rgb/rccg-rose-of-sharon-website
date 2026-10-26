@@ -101,32 +101,6 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
-/* ─────────────── COLLAPSIBLE SECTION ─────────────── */
-function FilterSection({ title, count, onClear, children, defaultOpen = true }: { title: string; count?: number; onClear?: () => void; children: React.ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className="border-b border-[#EBEBEB] pb-4 mb-4 last:border-0 last:pb-0 last:mb-0">
-      <button onClick={() => setOpen(!open)} className="flex items-center justify-between w-full mb-0 group">
-        <div className="flex items-center gap-2">
-          <span className="text-[#100E1A] font-bold text-[14px]" style={vs}>{title}</span>
-          {count !== undefined && count > 0 && (
-            <span className="bg-[#000080] text-white text-[10px] font-bold rounded-full px-[6px] py-[1px]" style={vs}>{count}</span>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          {count !== undefined && count > 0 && onClear && (
-            <span onClick={(e) => { e.stopPropagation(); onClear(); }} className="text-[11px] text-[#000080] underline hover:no-underline cursor-pointer" style={vs}>Clear</span>
-          )}
-          <svg viewBox="0 0 12 8" fill="none" className={["size-[10px] text-[#6B7280] transition-transform flex-shrink-0", open ? "rotate-180" : ""].join(" ")}>
-            <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </div>
-      </button>
-      {open && <div className="mt-3">{children}</div>}
-    </div>
-  );
-}
-
 /* ─────────────── MAIN PAGE ─────────────── */
 export default function MarketplacePage() {
   /* Carousel */
@@ -149,7 +123,6 @@ export default function MarketplacePage() {
   const [onSaleOnly, setOnSaleOnly] = useState(false);
   const [newOnly, setNewOnly] = useState(false);
   const [showMoreCats, setShowMoreCats] = useState(false);
-  const [filterOpen, setFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [page, setPage] = useState(1);
 
@@ -284,185 +257,6 @@ export default function MarketplacePage() {
   }
 
   const inputBase = "w-full rounded-lg border border-[#E5E7EB] px-4 py-3 text-sm text-[#374151] outline-none placeholder:text-[#9CA3AF] focus:border-[#000080] focus:ring-1 focus:ring-[#000080]";
-
-  /* ──────── FILTER SIDEBAR CONTENT ──────── */
-  const displayedCats = showMoreCats ? CATEGORIES : CATEGORIES.slice(0, 6);
-
-  const FilterContent = (
-    <div className="flex flex-col gap-0">
-
-      {/* Sort */}
-      <FilterSection title="Sort By">
-        <div className="flex flex-col gap-[10px]">
-          {SORT_OPTIONS.map((opt) => (
-            <button key={opt.value} onClick={() => setSort(opt.value)} className="flex items-center gap-[10px] text-left group">
-              <div className={["size-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", sort === opt.value ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF] group-hover:border-[#000080]"].join(" ")}>
-                {sort === opt.value && <div className="size-[7px] rounded-full bg-white" />}
-              </div>
-              <span className={["text-[13px]", sort === opt.value ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{opt.label}</span>
-            </button>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Customer Rating */}
-      <FilterSection title="Customer Rating" count={minRating > 0 ? 1 : 0} onClear={() => setMinRating(0)}>
-        <div className="flex flex-col gap-[8px]">
-          {[4, 3, 2, 1].map((r) => {
-            const cnt = countFor((p) => p.rating >= r);
-            return (
-              <button key={r} onClick={() => setMinRating(minRating === r ? 0 : r)}
-                className={["flex items-center gap-[8px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", minRating === r ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <StarRow rating={r} />
-                <span className="text-[13px] text-[#374151]" style={vs}>& Up</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-        </div>
-      </FilterSection>
-
-      {/* Price */}
-      <FilterSection title="Price" count={priceBucket !== null || customPriceApplied ? 1 : 0} onClear={clearPriceFilter}>
-        <div className="flex flex-col gap-0">
-          {PRICE_BUCKETS.map((b, i) => {
-            const cnt = countFor((p) => { const n = priceToNum(p.price); return n >= b.min && n <= b.max; });
-            return (
-              <button key={i} onClick={() => { setPriceBucket(priceBucket === i ? null : i); setCustomPriceApplied(false); setPriceMin(""); setPriceMax(""); }}
-                className={["flex items-center gap-[8px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", priceBucket === i ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <div className={["size-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", priceBucket === i ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                  {priceBucket === i && <div className="size-[7px] rounded-full bg-white" />}
-                </div>
-                <span className={["text-[13px]", priceBucket === i ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{b.label}</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-          {/* Custom range */}
-          <div className="mt-3 pt-3 border-t border-[#F0F0F0]">
-            <p className="text-[12px] text-[#6B7280] mb-2 font-medium" style={vs}>Custom Range (₦)</p>
-            <div className="flex items-center gap-2 mb-2">
-              <input type="number" placeholder="Min" value={priceMin} onChange={(e) => { setPriceMin(e.target.value); setCustomPriceApplied(false); setPriceBucket(null); }} min="0"
-                className="w-full border border-[#D1D5DB] rounded-[6px] px-2 py-[6px] text-[12px] outline-none focus:border-[#000080] text-[#100E1A] placeholder:text-[#9CA3AF]" style={vs} />
-              <span className="text-[#9CA3AF] text-[12px] flex-shrink-0">–</span>
-              <input type="number" placeholder="Max" value={priceMax} onChange={(e) => { setPriceMax(e.target.value); setCustomPriceApplied(false); setPriceBucket(null); }} min="0"
-                className="w-full border border-[#D1D5DB] rounded-[6px] px-2 py-[6px] text-[12px] outline-none focus:border-[#000080] text-[#100E1A] placeholder:text-[#9CA3AF]" style={vs} />
-            </div>
-            <button onClick={() => { if (priceMin || priceMax) { setCustomPriceApplied(true); setPriceBucket(null); } }}
-              className="w-full bg-[#100E1A] text-white text-[12px] font-semibold py-[7px] rounded-[6px] hover:bg-[#000080] transition-colors" style={vs}>Apply Range</button>
-          </div>
-        </div>
-      </FilterSection>
-
-      {/* Category */}
-      <FilterSection title="Department / Category" count={activeCategory !== "All" ? 1 : 0} onClear={() => setActiveCategory("All")}>
-        <div className="flex flex-col gap-[8px]">
-          {displayedCats.map((cat) => {
-            const cnt = countFor((p) => cat === "All" ? true : p.category === cat);
-            return (
-              <button key={cat} onClick={() => setActiveCategory(cat)}
-                className={["flex items-center gap-[10px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", activeCategory === cat ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <div className={["size-[16px] rounded-[4px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeCategory === cat ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                  {activeCategory === cat && <svg viewBox="0 0 10 10" fill="none" className="size-[10px]"><path d="M2 5l2.5 2.5 4-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                </div>
-                <span className={["text-[13px]", activeCategory === cat ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{cat}</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-          {CATEGORIES.length > 6 && (
-            <button onClick={() => setShowMoreCats(!showMoreCats)} className="text-[12px] text-[#000080] font-medium pl-2 text-left hover:underline" style={vs}>
-              {showMoreCats ? "Show less ↑" : `See all ${CATEGORIES.length} departments ↓`}
-            </button>
-          )}
-        </div>
-      </FilterSection>
-
-      {/* Availability */}
-      <FilterSection title="Availability" count={availability !== "All" ? 1 : 0} onClear={() => setAvailability("All")}>
-        <div className="flex flex-col gap-[8px]">
-          {["All", "In Stock", "Limited Stock"].map((opt) => {
-            const cnt = opt === "All" ? PRODUCTS.length : countFor((p) => (opt === "In Stock" ? p.stock === "in_stock" : p.stock === "limited"));
-            return (
-              <button key={opt} onClick={() => setAvailability(opt)}
-                className={["flex items-center gap-[10px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", availability === opt ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <div className={["size-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", availability === opt ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                  {availability === opt && <div className="size-[7px] rounded-full bg-white" />}
-                </div>
-                <span className={["text-[13px]", availability === opt ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{opt}</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-        </div>
-      </FilterSection>
-
-      {/* Condition */}
-      <FilterSection title="Condition" count={activeConditions.length} onClear={() => setActiveConditions([])}>
-        <div className="flex flex-col gap-[8px]">
-          {CONDITIONS.map((c) => {
-            const cnt = countFor((p) => p.condition === c);
-            const label = c === "new" ? "New" : c === "used" ? "Used / Pre-owned" : "Refurbished";
-            return (
-              <button key={c} onClick={() => toggleCondition(c)}
-                className={["flex items-center gap-[10px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", activeConditions.includes(c) ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <div className={["size-[16px] rounded-[4px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeConditions.includes(c) ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                  {activeConditions.includes(c) && <svg viewBox="0 0 10 10" fill="none" className="size-[10px]"><path d="M2 5l2.5 2.5 4-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-                </div>
-                <span className={["text-[13px]", activeConditions.includes(c) ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{label}</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-        </div>
-      </FilterSection>
-
-      {/* Seller */}
-      <FilterSection title="Seller / Store" count={activeSeller !== "All Sellers" ? 1 : 0} onClear={() => setActiveSeller("All Sellers")}>
-        <div className="flex flex-col gap-[8px]">
-          {SELLERS.map((s) => {
-            const cnt = s === "All Sellers" ? PRODUCTS.length : countFor((p) => p.seller === s);
-            return (
-              <button key={s} onClick={() => setActiveSeller(s)}
-                className={["flex items-center gap-[10px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", activeSeller === s ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-                <div className={["size-[16px] rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors", activeSeller === s ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                  {activeSeller === s && <div className="size-[7px] rounded-full bg-white" />}
-                </div>
-                <span className={["text-[13px]", activeSeller === s ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{s}</span>
-                <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({cnt})</span>
-              </button>
-            );
-          })}
-        </div>
-      </FilterSection>
-
-      {/* Deals & Promotions */}
-      <FilterSection title="Deals &amp; Promotions" count={(onSaleOnly ? 1 : 0) + (newOnly ? 1 : 0)} onClear={() => { setOnSaleOnly(false); setNewOnly(false); }}>
-        <div className="flex flex-col gap-[8px]">
-          {[
-            { label: "On Sale / Discounted", key: "sale", cnt: countFor((p) => !!p.onSale), active: onSaleOnly, toggle: () => setOnSaleOnly(!onSaleOnly) },
-            { label: "New Arrivals", key: "new", cnt: countFor((p) => !!p.isNew), active: newOnly, toggle: () => setNewOnly(!newOnly) },
-          ].map((item) => (
-            <button key={item.key} onClick={item.toggle}
-              className={["flex items-center gap-[10px] px-2 py-[6px] rounded-[8px] transition-colors w-full text-left", item.active ? "bg-[#000080]/8" : "hover:bg-[#F3F4F6]"].join(" ")}>
-              <div className={["size-[16px] rounded-[4px] border-2 flex items-center justify-center flex-shrink-0 transition-colors", item.active ? "bg-[#000080] border-[#000080]" : "border-[#9CA3AF]"].join(" ")}>
-                {item.active && <svg viewBox="0 0 10 10" fill="none" className="size-[10px]"><path d="M2 5l2.5 2.5 4-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-              </div>
-              <span className={["text-[13px]", item.active ? "text-[#000080] font-semibold" : "text-[#374151]"].join(" ")} style={vs}>{item.label}</span>
-              <span className="ml-auto text-[11px] text-[#9CA3AF]" style={vs}>({item.cnt})</span>
-            </button>
-          ))}
-        </div>
-      </FilterSection>
-
-      {/* Clear all */}
-      {activeFilterCount > 0 && (
-        <button onClick={clearAllFilters} className="mt-1 w-full border border-red-400 text-red-500 text-[12px] font-semibold py-[9px] rounded-[8px] hover:bg-red-50 transition-colors" style={vs}>
-          Clear All Filters ({activeFilterCount})
-        </button>
-      )}
-    </div>
-  );
 
   /* ──────────── RENDER ──────────── */
   return (
@@ -671,49 +465,14 @@ export default function MarketplacePage() {
         </div>
       )}
 
-      {/* Mobile filter drawer */}
-      {filterOpen && (
-        <div className="fixed inset-0 z-50 flex md:hidden" onClick={() => setFilterOpen(false)}>
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative ml-auto w-[min(310px,90vw)] h-full bg-white overflow-y-auto flex flex-col" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-5 border-b border-[#EBEBEB] sticky top-0 bg-white z-10">
-              <h2 className="text-[#100E1A] text-[16px] font-bold" style={vs}>Filter & Sort {activeFilterCount > 0 && <span className="text-[#000080]">({activeFilterCount})</span>}</h2>
-              <button onClick={() => setFilterOpen(false)} className="text-[#A3A1AF] text-[22px] leading-none">×</button>
-            </div>
-            <div className="p-5 flex-1 overflow-y-auto">{FilterContent}</div>
-            <div className="sticky bottom-0 p-4 bg-white border-t border-[#EBEBEB] flex gap-3">
-              {activeFilterCount > 0 && <button onClick={() => { clearAllFilters(); setFilterOpen(false); }} className="flex-1 border border-[#D1D5DB] text-[#374151] text-[13px] font-semibold py-[11px] rounded-[10px]" style={vs}>Clear All</button>}
-              <button onClick={() => setFilterOpen(false)} className="flex-1 bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[10px]" style={vs}>Show {filtered.length} Results</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── PRODUCTS: sidebar + grid ── */}
+      {/* ── PRODUCTS ── */}
       <div id="products" ref={productsRef} className="flex flex-col md:flex-row gap-0 md:gap-6 px-0 md:px-[28px] lg:px-[40px] py-[16px] md:py-[24px] w-full">
-
-        {/* Desktop sidebar */}
-        <aside className="hidden md:block w-[220px] lg:w-[240px] flex-shrink-0">
-          <div className="sticky top-[16px]">
-            <div className="flex items-center justify-between mb-4 px-1">
-              <h2 className="text-[#100E1A] text-[16px] font-bold" style={vs}>Filters</h2>
-              {activeFilterCount > 0 && <button onClick={clearAllFilters} className="text-[12px] text-[#000080] underline" style={vs}>Clear all ({activeFilterCount})</button>}
-            </div>
-            <div className="bg-white rounded-[16px] border border-[#EBEBEB] p-4 shadow-sm max-h-[calc(100vh-100px)] overflow-y-auto">
-              {FilterContent}
-            </div>
-          </div>
-        </aside>
 
         {/* Product area */}
         <div className="flex-1 min-w-0 px-4 md:px-0">
           {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
             <div className="flex items-center gap-3 flex-wrap">
-              <button onClick={() => setFilterOpen(true)} className="flex md:hidden items-center gap-2 border border-[#D1D5DB] rounded-[8px] px-3 py-[7px] text-[#374151] text-[13px] font-medium bg-white" style={vs}>
-                <svg viewBox="0 0 16 12" className="size-[13px]" fill="none"><path d="M1 1h14M3 6h10M6 11h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                Filters {activeFilterCount > 0 && <span className="bg-[#000080] text-white text-[10px] rounded-full px-[5px] py-[1px]">{activeFilterCount}</span>}
-              </button>
               <p className="text-[#6B7280] text-[13px]" style={vs}>
                 <span className="font-bold text-[#100E1A]">{filtered.length}</span> result{filtered.length !== 1 ? "s" : ""}
                 {activeCategory !== "All" && <span className="ml-1">in <span className="text-[#000080] font-semibold">{activeCategory}</span></span>}
@@ -722,6 +481,9 @@ export default function MarketplacePage() {
               {activeFilterCount > 0 && <button onClick={clearAllFilters} className="text-[11px] text-red-500 underline hidden md:block" style={vs}>Clear all</button>}
             </div>
             <div className="flex items-center gap-2 self-end sm:self-auto">
+              <select value={activeCategory} onChange={(e) => setActiveCategory(e.target.value)} aria-label="Category" className="text-[12px] border border-[#D1D5DB] rounded-[8px] px-2 py-[6px] text-[#374151] bg-white outline-none focus:border-[#000080] cursor-pointer" style={vs}>
+                {CATEGORIES.map((c) => <option key={c} value={c}>{c === "All" ? "All categories" : c}</option>)}
+              </select>
               <select value={sort} onChange={(e) => setSort(e.target.value)} className="text-[12px] border border-[#D1D5DB] rounded-[8px] px-2 py-[6px] text-[#374151] bg-white outline-none focus:border-[#000080] cursor-pointer" style={vs}>
                 {SORT_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
@@ -889,7 +651,6 @@ export default function MarketplacePage() {
             <p className="text-[#000080] text-[12px] uppercase tracking-[0.2em] font-medium" style={vs}>For Sellers</p>
             <h2 className="text-[#100E1A] text-[22px] md:text-[34px] font-bold" style={vs}>Want to Sell on ROS Marketplace?</h2>
             <p className="text-[#A3A1AF] text-[15px] leading-[1.7]" style={vs}>Church members with products or services can reach hundreds of fellow members and community customers.</p>
-            <ul className="flex flex-col gap-3">{["Free to list for church members", "No commission on first 3 months", "Get visibility in weekly announcements", "Access to church logistics network"].map((item) => (<li key={item} className="flex items-center gap-3"><div className="size-[18px] rounded-full bg-[#000080] flex items-center justify-center flex-shrink-0"><span className="text-white text-[10px] font-bold">✓</span></div><p className="text-[#100E1A] text-[14px]" style={vs}>{item}</p></li>))}</ul>
           </div>
           <div className="flex-1 bg-white rounded-[24px] p-8 shadow-[0_8px_40px_rgba(0,0,128,0.10)] flex flex-col gap-5 items-center justify-center text-center">
             <span className="text-[44px]">🛍️</span>
@@ -903,8 +664,6 @@ export default function MarketplacePage() {
 
       <AppFooter
         cartCount={cart.length}
-        filterCount={activeFilterCount}
-        onFilters={() => setFilterOpen(true)}
         onSell={() => openModal("sell")}
         onCart={() => setCartOpen(true)}
       />
@@ -963,7 +722,7 @@ function AppHeader({ cartCount, onCart, onSell }: { cartCount: number; onCart: (
 }
 
 /* ─────────────── APP-STYLE FOOTER (tab bar on mobile, slim bar on desktop) ─────────────── */
-function AppFooter({ cartCount, filterCount, onFilters, onSell, onCart }: { cartCount: number; filterCount: number; onFilters: () => void; onSell: () => void; onCart: () => void }) {
+function AppFooter({ cartCount, onSell, onCart }: { cartCount: number; onSell: () => void; onCart: () => void }) {
   const tab = "relative flex flex-1 flex-col items-center justify-center gap-[2px] py-[9px] text-[10px] font-semibold text-[#6B7280] active:scale-95 transition-transform";
   const icon = "size-[22px]";
   const badge = "absolute right-[26%] top-[4px] flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-[#000080] px-[3px] text-[9px] font-bold text-white";
@@ -975,11 +734,6 @@ function AppFooter({ cartCount, filterCount, onFilters, onSell, onCart }: { cart
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className={tab + " !text-[#000080]"}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={icon}><path strokeLinecap="round" strokeLinejoin="round" d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" /></svg>
             Shop
-          </button>
-          <button onClick={onFilters} className={tab}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className={icon}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M7 12h10M10 18h4" /></svg>
-            Filters
-            {filterCount > 0 && <span className={badge}>{filterCount}</span>}
           </button>
           <button onClick={onSell} className="flex flex-1 flex-col items-center gap-[2px] pb-[7px] text-[10px] font-semibold text-[#000080] active:scale-95 transition-transform">
             <span className="-mt-[22px] flex size-[52px] items-center justify-center rounded-full bg-[#000080] text-[30px] font-light leading-none text-white shadow-[0_6px_16px_rgba(0,0,128,0.35)]">+</span>
