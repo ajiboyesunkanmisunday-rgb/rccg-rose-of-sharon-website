@@ -58,7 +58,7 @@ export default function MediaPage() {
   const [activeCategory, setActiveCategory] = useState("ALL");
 
   useEffect(() => {
-    fetch(`${API_BASE}/media?pageSize=24`)
+    fetch(`${API_BASE}/media?pageNo=0&pageSize=24`)
       .then((r) => r.ok ? r.json() : Promise.reject())
       .then((data) => setMedia(Array.isArray(data) ? data : data.content ?? []))
       .catch(() => {})

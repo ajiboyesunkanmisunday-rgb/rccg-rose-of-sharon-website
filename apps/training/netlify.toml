@@ -6,6 +6,12 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Where the four sites live while they are hosted on Netlify. When everything moves to the server,
+  # change these (or override them in the host's environment) to the rccgros.org addresses.
+  NEXT_PUBLIC_URL_MAIN = "https://rccg-ros.netlify.app"
+  NEXT_PUBLIC_URL_YOUTH = "https://rccg-ros-youth.netlify.app"
+  NEXT_PUBLIC_URL_TRAINING = "https://rccg-ros-training.netlify.app"
+  NEXT_PUBLIC_URL_MEDIA = "https://rccg-ros-media.netlify.app"
 
 # Static files change rarely: let browsers keep them instead of re-checking on every visit.
 [[headers]]
