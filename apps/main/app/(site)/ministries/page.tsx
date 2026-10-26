@@ -1,7 +1,10 @@
+import Link from "@ros/shared/link";
+
 export default function MinistriesPage() {
   const ministries = [
     {
       id: "ccw",
+      href: "/ministries/choir",
       image: "/ccw.jpg",
       title: "Rose of Sharon Choir",
       description:
@@ -9,6 +12,7 @@ export default function MinistriesPage() {
     },
     {
       id: "celeb-kids",
+      href: "/ministries/kids-and-teens",
       image: "/celebkids.jpg",
       title: "Kids & Teens Ministry",
       description:
@@ -46,6 +50,7 @@ export default function MinistriesPage() {
             />
             <h1 className="text-lg font-bold underline-offset-8">{ministry.title}</h1>
             <p className="text-[#00000099]">{ministry.description}</p>
+            <Link href={ministry.href} className="w-fit text-[10px] font-extrabold uppercase tracking-[0.2em] text-textRed underline-offset-8 hover:underline">Learn more →</Link>
           </div>
         ))}
       </div>
