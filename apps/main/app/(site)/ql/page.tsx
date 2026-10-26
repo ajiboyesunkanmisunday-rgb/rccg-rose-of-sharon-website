@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 // The quick links, in the order the church asked for. Links to the youth, training and media sites are
 // written as ordinary paths; the shared Link component sends them to the right site.
 const quickLinks = [
+  { href: "/membership", label: "Become a Member" },
   { href: "/testimonies", label: "Testimonies" },
   { href: "/celebrations", label: "Celebrations" },
   { href: "/requests/prayer", label: "Prayer Request" },
@@ -35,6 +36,7 @@ const quickLinks = [
   { href: "/trainings/school-of-disciples/register", label: "Register for School of Disciples" },
   { href: "/give", label: "Give Online" },
   { href: "/marketplace", label: "Marketplace" },
+  { href: CHURCH_LINKS.attendance || "#", label: "Attendance" },
 ];
 
 // Wrapping, centred rows: a box left alone on the last row sits in the middle instead of hanging on the left.
