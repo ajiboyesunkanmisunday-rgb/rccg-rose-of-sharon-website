@@ -93,7 +93,7 @@ const communityCards = [
 
 const ministriesData = [
   {
-    image: "/media/celebkids.601f776b.jpg",
+    image: "/gallery/back-to-school/04.jpg",
     title: "Children Ministry",
     link: "/ministries/kids-and-teens",
     description: "Children Church",
@@ -108,7 +108,7 @@ const ministriesData = [
 
 const adBanners = [
   {
-    image: "/media/ccw.3a529aa2.jpg",
+    image: "/gallery/light-up-ikeja/09.jpg",
     tag: "30th Anniversary",
     title: "Light Up Ikeja",
     text: "Join us as we light up Ikeja in our 30th anniversary celebration.",
