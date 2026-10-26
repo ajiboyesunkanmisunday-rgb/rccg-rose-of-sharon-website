@@ -4,6 +4,10 @@
   # Skip the build when neither this app nor the shared package / scripts changed.
   ignore = "[ -n \"$CACHED_COMMIT_REF\" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../../packages/shared ../../scripts ../../package.json"
 
+# Serve the Next.js app (pages, rewrites, API proxy) on Netlify
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 [build.environment]
   NODE_VERSION = "22"
   # Where the four sites live while they are hosted on Netlify. When everything moves to the server,
