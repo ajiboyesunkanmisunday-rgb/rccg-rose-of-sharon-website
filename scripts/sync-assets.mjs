@@ -66,7 +66,17 @@ for (const app of apps) {
   }
 
   const extraFile = path.join(appDir, "assets.extra.json");
-  if (fs.existsSync(extraFile)) for (const rel of JSON.parse(fs.readFileSync(extraFile, "utf8"))) if (!copyRel(rel, dest, copied)) missing.add(rel);
+  if (fs.existsSync(extraFile)) {
+    for (const rel of JSON.parse(fs.readFileSync(extraFile, "utf8"))) {
+      if (rel === "@css-urls") {
+        // the original stylesheets point at background images (url(../media/x.jpg)); include them for sites that use those classes
+        for (const css of fs.readdirSync(path.join(pool, "css"))) {
+          const text = fs.readFileSync(path.join(pool, "css", css), "utf8");
+          for (const m of text.matchAll(/url\((?:"|')?\.\.\/([A-Za-z0-9_\-./%]+\.(?:png|jpe?g|gif|svg|webp|woff2?|otf|ttf))/g)) copyRel(decodeURIComponent(m[1]), dest, copied);
+        }
+      } else if (!copyRel(rel, dest, copied)) missing.add(rel);
+    }
+  }
 
   console.log(`[assets] ${app}: ${copied.size} files/folders copied${missing.size ? `, ${missing.size} referenced but not in the pool: ${[...missing].slice(0, 6).join(", ")}${missing.size > 6 ? " …" : ""}` : ""}`);
 }
