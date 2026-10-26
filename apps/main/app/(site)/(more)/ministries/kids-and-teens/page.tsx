@@ -11,7 +11,7 @@ export default function KidsAndTeensPage() {
       pill="🧒 CHILDREN MINISTRY · OAKS OF RIGHTEOUSNESS"
       title={<>Kids &amp; Teens <span className="text-textRed">Ministry</span></>}
       intro="The children's and teens' ministry of RCCG Rose of Sharon, helping every child celebrate endless life in Christ."
-      image="/celebkids.jpg"
+      image="/gallery/back-to-school/04.jpg"
       imageAlt="Children and teens of RCCG Rose of Sharon"
       about="The Kids & Teens Ministry is the children's and teens' ministry of RCCG Rose of Sharon. Our vision is to see all children celebrating endless life in Christ and training them to disciple others for Christ. We are committed to partnering with you and your child for their progress and joy in the faith."
       points={[

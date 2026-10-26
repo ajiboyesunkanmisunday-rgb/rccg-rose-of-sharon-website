@@ -1,16 +1,10 @@
 "use client";
 
 import { Hero } from "@ros/shared/kit/ui";
+import AlbumGallery from "@/components/AlbumGallery";
 
 import { useState } from "react";
 import Image from "next/image";
-
-// Full photo albums from the media team (Google Drive).
-const albums = [
-  { title: "Back to School", date: "Sept 6th, 2026", href: "https://drive.google.com/drive/folders/1qBRrjdUpm24NArRpT0ntSRobVNZrNAls" },
-  { title: "Light Up Ikeja Crusade", date: "Nov 22nd, 2025", href: "https://drive.google.com/drive/folders/1yI6UmXLFtTI5UamcwihjLbQWytF22bfD" },
-  { title: "Father's Day", date: "June 15th, 2025", href: "https://drive.google.com/drive/folders/1aJEBY5KlcSTwQL_b6uJ_m_mz7e1EeBXC" },
-];
 
 const allImages = [
   "/assets/gallery-1.jpg",
@@ -37,24 +31,8 @@ export default function GalleryPage() {
     <div>
       <Hero pill="🌍 RCCG ROSE OF SHARON" title={<>Our <span className="text-textRed">Moments</span></>} subtitle="A glimpse into the life and fellowship of RCCG Rose of Sharon." bg="/assets/hero-bg.png" />
 
-      {/* Photo albums (media team's Google Drive folders) */}
-      <section className="ros:mx-auto ros:flex ros:w-full ros:max-w-7xl ros:flex-col ros:gap-8 ros:px-4 ros:py-14 ros:md:py-20">
-        <div className="ros:flex ros:flex-col ros:items-center ros:gap-3 ros:text-center">
-          <h6 className="ros:w-fit ros:rounded-full ros:bg-[#F4F4F4] ros:px-3 ros:py-1 ros:text-xs ros:font-bold">📸 FULL ALBUMS</h6>
-          <h2 className="ros-anton ros:text-3xl ros:uppercase ros:md:text-5xl">Photo <span className="text-textRed">albums</span></h2>
-          <p className="ros:max-w-2xl ros:text-[#00000099] ros:md:text-lg">Every picture from our events, shared by the media team. Open an album to view and download.</p>
-        </div>
-        <div className="ros:grid ros:grid-cols-1 ros:gap-6 ros:md:grid-cols-3">
-          {albums.map((a) => (
-            <a key={a.href} href={a.href} target="_blank" rel="noopener noreferrer" className="ros:group ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
-              <span className="ros:flex ros:size-12 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-[22px]">📁</span>
-              <span className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{a.date}</span>
-              <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{a.title}</h3>
-              <span className="ros:mt-auto ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">Open album →</span>
-            </a>
-          ))}
-        </div>
-      </section>
+      {/* Event albums (stored with the site) */}
+      <AlbumGallery />
 
       {/* Pictures Section */}
       <section className="ros:bg-[#000000] ros:px-4 ros:sm:px-[40px] ros:lg:px-[80px] ros:xl:px-[120px] ros:py-[60px] ros:md:py-[84px] ros:flex ros:flex-col ros:gap-[32px] ros:items-center ros:w-full">
