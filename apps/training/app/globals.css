@@ -1,0 +1,17 @@
+/* CSS variables for fonts — the originals are set via Next.js font classes; we set them here for compatibility */
+:root {
+  --font-lato: "Lato", sans-serif;
+  --font-anton: "Anton", sans-serif;
+  --font-signature: "CCISignature", cursive;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+  color: #000000;
+}

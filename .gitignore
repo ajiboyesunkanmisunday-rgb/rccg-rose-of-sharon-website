@@ -42,3 +42,10 @@ next-env.d.ts
 
 # Local Netlify folder
 .netlify
+
+# monorepo: each app's public/ folder is generated from packages/shared/public by scripts/sync-assets.mjs
+/apps/*/public
+/apps/*/.next
+/apps/*/.netlify
+/apps/*/next-env.d.ts
+/apps/*/tsconfig.tsbuildinfo

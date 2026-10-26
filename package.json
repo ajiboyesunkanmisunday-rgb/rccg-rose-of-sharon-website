@@ -1,29 +1,22 @@
 {
-  "name": "cci-web",
-  "version": "0.1.0",
+  "name": "rccg-ros-sites",
   "private": true,
+  "description": "RCCG Rose of Sharon websites: main, youth, training and media. Four separately deployable apps sharing one package.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
-  },
-  "dependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
-    "framer-motion": "^14.3.1",
-    "lucide-react": "^1.61.0",
-    "next": "16.4.2",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/turbopack": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.4.2",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "dev": "node scripts/dev-all.mjs",
+    "dev:main": "npm run dev -w @ros/main",
+    "dev:youth": "npm run dev -w @ros/youth",
+    "dev:training": "npm run dev -w @ros/training",
+    "dev:media": "npm run dev -w @ros/media",
+    "build": "npm run build -w @ros/main -w @ros/youth -w @ros/training -w @ros/media",
+    "build:main": "npm run build -w @ros/main",
+    "build:youth": "npm run build -w @ros/youth",
+    "build:training": "npm run build -w @ros/training",
+    "build:media": "npm run build -w @ros/media",
+    "assets": "node scripts/sync-assets.mjs"
   }
 }

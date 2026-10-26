@@ -1,0 +1,9 @@
+{
+  "name": "@ros/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Code shared by the Rose of Sharon sites: header and footer, UI kit, API client, cross-site links and the common public assets.",
+  "scripts": {
+    "assets": "node ../../scripts/sync-assets.mjs"
+  }
+}
