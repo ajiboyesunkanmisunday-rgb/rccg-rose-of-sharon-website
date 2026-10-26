@@ -7,5 +7,7 @@ export const CHURCH_LINKS = {
   whatsapp: "",
   /** the church's Instagram page, e.g. https://www.instagram.com/... */
   instagram: "",
+  /** the attendance form / page, once the church has one */
+  attendance: "",
   youtube: "https://www.youtube.com/@rccgrostv",
 } as const;
