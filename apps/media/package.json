@@ -1,0 +1,33 @@
+{
+  "name": "@ros/media",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "assets": "node ../../scripts/sync-assets.mjs media",
+    "predev": "node ../../scripts/sync-assets.mjs media",
+    "dev": "next dev -p 3005",
+    "prebuild": "node ../../scripts/sync-assets.mjs media",
+    "build": "next build",
+    "start": "next start -p 3005",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "framer-motion": "^14.3.1",
+    "lucide-react": "^1.61.0",
+    "next": "16.4.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@ros/shared": "*"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
