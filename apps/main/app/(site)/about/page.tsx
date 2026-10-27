@@ -32,9 +32,9 @@ function toStory(t: { subject?: string; content?: string; state?: string }): Sto
 // the name and text can be edited whenever the publication unit sends updates.
 const pastors: { name: string; role: string; text: string; image?: string }[] = [
   { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", text: "A short introduction will be added here.", image: "/pastors/emeka.jpg" },
-  { name: "Pastor Fowler", role: "Pastor", text: "A short introduction will be added here." },
-  { name: "Pastor Chichi", role: "Pastor", text: "A short introduction will be added here." },
-  { name: "Pastor Rosemary", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Tunde Fowler", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Chinyere Obiagwu", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Rosemary Fowler", role: "Pastor", text: "A short introduction will be added here." },
 ];
 
 function PastorModal({ onClose }: { onClose: () => void }) {
