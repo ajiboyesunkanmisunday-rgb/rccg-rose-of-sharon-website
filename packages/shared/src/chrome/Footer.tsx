@@ -109,7 +109,7 @@ export default function Footer() {
       {/* ─── Give CTA banner (raised above footer) ─── */}
       <div className="-top-12 absolute left-0 right-0 mx-auto h-[350px] max-w-6xl overflow-hidden rounded-lg bg-[#F8EAEA] px-8 md:px-16">
         <div
-          style={{ backgroundImage: "url(/hand.png)" }}
+          style={{ backgroundImage: "url(/hand.png)", pointerEvents: "none" }}
           className="absolute -bottom-[10%] right-[-5%] z-0 h-[300px] w-full bg-contain bg-right-bottom bg-no-repeat"
         />
         <h2 className="pt-6 font-anton font-normal text-3xl text-black md:pt-12 md:text-6xl lg:text-[80px]">
@@ -118,7 +118,7 @@ export default function Footer() {
         <p className="z-20 mt-2 text-base text-[#000000B2] md:text-lg lg:text-xl">
           Your generosity keeps blessing lives, thank you for giving.
         </p>
-        <div className="mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center">
+        <div className="mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center" style={{ position: "relative", zIndex: 10 }}>
           <A
             href="/give"
             className="flex h-10 items-center justify-center rounded-full border border-foreground bg-white px-4 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white sm:h-12"
