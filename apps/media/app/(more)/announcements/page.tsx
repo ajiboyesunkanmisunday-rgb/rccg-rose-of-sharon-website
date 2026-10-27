@@ -20,7 +20,7 @@ const READ_KEY = "ros-announcements-read";
 // Shown only when the visitor asks to preview the layout, never as if they were real notices.
 const SAMPLE: Announcement[] = [
   { id: "s1", subject: "Sunday service times", content: "Join us this Sunday for worship and the word. Come early and bring someone with you.\n\nThe ushering and protocol teams will be at the gate to welcome you.", createdOn: new Date(Date.now() - 3 * 3600e3).toISOString() },
-  { id: "s2", subject: "Youth fellowship hangout", content: "The youth church invites everyone aged 16 and above to a day of games, food and fellowship.", createdOn: new Date(Date.now() - 26 * 3600e3).toISOString() },
+  { id: "s2", subject: "Youth fellowship hangout", content: "The youth fellowship invites everyone aged 16 and above to a day of games, food and fellowship.", createdOn: new Date(Date.now() - 26 * 3600e3).toISOString() },
   { id: "s3", subject: "Believers class — new batch", content: "A new batch of the Believers Class begins soon. Register online or at the church office.", createdOn: new Date(Date.now() - 3 * 86400e3).toISOString() },
   { id: "s4", subject: "Prayer meeting this Friday", content: "A night of prayer for our families, our nation and our city. Come expectant.", createdOn: new Date(Date.now() - 12 * 86400e3).toISOString() },
   { id: "s5", subject: "Thank you for a wonderful Father's Day", content: "We celebrated our fathers in worship and fellowship. Photos are now in the gallery.", createdOn: new Date(Date.now() - 45 * 86400e3).toISOString() },

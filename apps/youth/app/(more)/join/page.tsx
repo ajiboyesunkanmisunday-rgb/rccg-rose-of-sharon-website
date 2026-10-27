@@ -31,7 +31,7 @@ export default function YouthJoin() {
 
   return (
     <>
-      <FormHero pill="🤝 JOIN THE YOUTH" title={<>Join the <span className="text-textRed">Youth</span> Church</>} subtitle="Tell us a little about yourself and the youth team will reach out." />
+      <FormHero pill="🤝 JOIN THE YOUTH" title={<>Join the <span className="text-textRed">Youth</span> Fellowship</>} subtitle="Tell us a little about yourself and the youth team will reach out." />
       <FormSheet wide>
         <YouthTabs />
         {status === "success" ? (
@@ -61,7 +61,7 @@ export default function YouthJoin() {
             <FormCard title="How would you like to be involved?">
               <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2">
                 <FormField label="I would like to">
-                  <select className={selectCls} value={f.interest} onChange={set("interest")}><option value="just-visiting">Visit the youth church</option><option value="member">Become a youth member</option><option value="serve">Serve in a department</option></select>
+                  <select className={selectCls} value={f.interest} onChange={set("interest")}><option value="just-visiting">Visit the youth fellowship</option><option value="member">Become a youth member</option><option value="serve">Serve in a department</option></select>
                 </FormField>
                 {f.interest === "serve" && (
                   <FormField label="Department">

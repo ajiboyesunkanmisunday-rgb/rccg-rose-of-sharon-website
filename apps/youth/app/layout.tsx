@@ -5,10 +5,10 @@ import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Youth | RCCG Rose of Sharon",
-  description: "The Rose of Sharon youth church — leadership, departments, Youth Sunday, events and how to join.",
+  description: "The Rose of Sharon youth fellowship — leadership, departments, Youth Sunday, events and how to join.",
   openGraph: {
     title: "Youth | RCCG Rose of Sharon",
-    description: "The Rose of Sharon youth church — leadership, departments, Youth Sunday, events and how to join.",
+    description: "The Rose of Sharon youth fellowship — leadership, departments, Youth Sunday, events and how to join.",
     images: [{ url: "/seo.jpg", alt: "RCCG Rose of Sharon" }],
   },
   icons: {
