@@ -73,6 +73,9 @@ export default function CellChurchPage() {
         </div>
       </div>
 
+      {/* ── CENTRES (first, so visitors can find a fellowship straight away) ── */}
+      <CentresDirectory />
+
       {/* ── CONTENT ── */}
       <div className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12">
         <div className="h-fit bg-white">
@@ -135,7 +138,6 @@ export default function CellChurchPage() {
       </div>
 
 
-      <CentresDirectory />
     </>
   );
 }

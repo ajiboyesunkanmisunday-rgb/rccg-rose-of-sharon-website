@@ -36,9 +36,9 @@ export default function CentresDirectory() {
         <p className="text-sm text-[#00000099]" aria-live="polite">{list.length} {list.length === 1 ? "centre" : "centres"}{q ? ` matching “${q}”` : ""}</p>
       </div>
 
-      <div style={{ marginTop: 32, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 330px), 1fr))", gap: 16 }}>
+      <div style={{ marginTop: 32, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 16 }}>
         {list.map(({ c, n }) => (
-          <article key={c.name} style={{ border: "1px solid #00000014", borderRadius: 14, background: "#FAFAFA", padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
+          <article key={c.name} style={{ flex: "0 1 calc((100% - 32px) / 3)", minWidth: "min(100%, 300px)", border: "1px solid #00000014", borderRadius: 14, background: "#FAFAFA", padding: 20, display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ width: 34, height: 34, borderRadius: 999, background: "#DF4E4E", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 800, flexShrink: 0 }}>{n}</span>
               <h3 style={{ fontSize: 16, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1.25 }}>{c.name}</h3>
