@@ -91,12 +91,12 @@ export default function CellChurchPage() {
             {activities.map((activity, i) => (
               <div key={i} className="relative h-[440px] overflow-hidden rounded-lg">
                 <img loading="lazy" decoding="async" src={activity.image} alt={activity.title} className="absolute inset-0 h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-black/30" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.3) 38%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.82) 100%)" }} />
                 <div className="absolute left-4 right-4 top-4 z-10">
-                  <h3 className="text-lg font-bold text-white">{activity.title}</h3>
+                  <h3 className="text-lg font-bold text-white" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}>{activity.title}</h3>
                 </div>
                 <div className="absolute bottom-6 left-4 right-4 z-10">
-                  <p className="mb-4 text-sm text-white">{activity.description}</p>
+                  <p className="mb-4 text-sm text-white" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.6)" }}>{activity.description}</p>
                 </div>
                 <div className="absolute bottom-3 left-4 right-4 z-10 flex items-center gap-0.5 text-sm">
                   <Link href="/" className="capitalize text-white underline transition-colors hover:text-white">
