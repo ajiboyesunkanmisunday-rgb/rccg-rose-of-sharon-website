@@ -12,18 +12,21 @@ export function Hero({
   title,
   subtitle,
   bg,
+  bgPosition,
   children,
 }: {
   pill: string;
   title: React.ReactNode;
   subtitle?: string;
   bg?: string;
+  /** CSS background-position for the hero photo (default: centred) */
+  bgPosition?: string;
   children?: React.ReactNode;
 }) {
   return (
     <div
       className="ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:bg-black ros:bg-cover ros:bg-center ros:bg-no-repeat ros:lg:h-[700px]"
-      style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')` } : undefined}
+      style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')`, ...(bgPosition ? { backgroundPosition: bgPosition } : {}) } : undefined}
     >
       <Reveal className="ros:mx-4 ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:items-center ros:gap-6">
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
