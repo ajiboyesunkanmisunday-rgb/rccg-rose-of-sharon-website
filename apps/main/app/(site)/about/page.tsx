@@ -30,11 +30,11 @@ function toStory(t: { subject?: string; content?: string; state?: string }): Sto
 
 // Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
 // the name and text can be edited whenever the publication unit sends updates.
-const pastors: { name: string; role: string; text: string; image?: string }[] = [
-  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", text: "A short introduction will be added here.", image: "/pastors/emeka.jpg" },
+const pastors: { name: string; role: string; text: string; image?: string; focus?: string }[] = [
+  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", text: "A short introduction will be added here.", image: "/pastors/emeka.jpg", focus: "32% 25%" },
   { name: "Pastor Tunde Fowler", role: "Pastor", text: "A short introduction will be added here." },
   { name: "Pastor Chinyere Obiagwu", role: "Pastor", text: "A short introduction will be added here." },
-  { name: "Pastor Rosemary Fowler", role: "Pastor", text: "A short introduction will be added here." },
+  { name: "Pastor Rosemary Fowler", role: "Pastor", text: "A short introduction will be added here.", image: "/pastors/rosemary.jpg", focus: "50% 22%" },
 ];
 
 function PastorModal({ onClose }: { onClose: () => void }) {
@@ -300,7 +300,7 @@ export default function AboutPage() {
                 <div key={pa.name} className="flex flex-col gap-3" style={{ flex: "0 0 auto", width: "min(100%, 280px)" }}>
                   <div className="overflow-hidden rounded-lg" style={{ height: 340, background: "#F4F4F4" }}>
                     {pa.image ? (
-                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover" style={{ objectPosition: "32% 25%" }} />
+                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover" style={{ objectPosition: pa.focus ?? "50% 25%" }} />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#00000066]">
                         <span className="font-anton uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{pa.name.replace("Pastor ", "").charAt(0)}</span>
