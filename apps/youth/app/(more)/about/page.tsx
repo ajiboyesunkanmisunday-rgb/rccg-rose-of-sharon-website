@@ -32,7 +32,7 @@ export default function YouthAbout() {
       </Section>
 
       <Section className="ros:pt-0">
-        <SectionTitle pill="🛠️ WHAT WE DO" title={<>Life in the <span className="text-textRed">youth church</span></>} />
+        <SectionTitle pill="🛠️ WHAT WE DO" title={<>Life in the <span className="text-textRed">youth fellowship</span></>} />
         <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
           {DOES.map((d) => (
             <div key={d.title} className="ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">

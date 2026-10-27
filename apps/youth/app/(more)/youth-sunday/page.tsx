@@ -32,7 +32,7 @@ export default function YouthSunday() {
         <div className="ros:grid ros:grid-cols-1 ros:gap-10 ros:md:grid-cols-2">
           <div className="ros:flex ros:flex-col ros:gap-4">
             <SectionTitle pill="📘 WHAT IT IS" title={<>The youth take the <span className="text-textRed">lead</span></>} />
-            <p className="ros:text-[#00000099]">Youth Sunday is when the youth church leads the entire Sunday service. The president and vice presidents anchor the program, every department has a role, and young people hear and share the word together with the whole church.</p>
+            <p className="ros:text-[#00000099]">Youth Sunday is when the youth fellowship leads the entire Sunday service. The president and vice presidents anchor the program, every department has a role, and young people hear and share the word together with the whole church.</p>
             <p className="ros:text-sm"><span className="ros:font-bold">Next Youth Sunday: </span><span className="ros:text-[#00000099]">{TBA}</span></p>
           </div>
           <ol className="ros:flex ros:flex-col ros:gap-3">

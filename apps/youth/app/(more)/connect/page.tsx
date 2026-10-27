@@ -7,7 +7,7 @@ export const metadata = { title: "Connect with the Youth | RCCG Rose of Sharon" 
 export default function YouthConnect() {
   return (
     <>
-      <Hero pill="📱 CONNECT" title={<>Follow the <span className="text-textRed">Youth</span></>} subtitle="Stay in the loop — events, flyers, reels and updates from the youth church." bg="/youth/hangout-2.jpg" />
+      <Hero pill="📱 CONNECT" title={<>Follow the <span className="text-textRed">Youth</span></>} subtitle="Stay in the loop — events, flyers, reels and updates from the youth fellowship." bg="/youth/hangout-2.jpg" />
       <Section>
         <YouthTabs />
         <SectionTitle pill="🔗 OUR PAGES" title={<>Find us <span className="text-textRed">online</span></>} />

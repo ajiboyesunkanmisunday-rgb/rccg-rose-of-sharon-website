@@ -8,7 +8,7 @@ const ICONS: Record<string, React.ReactNode> = {
   facebook: <svg viewBox="0 0 24 24" fill="currentColor" className="ros:size-6"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z" /></svg>,
 };
 
-/** Row of the youth church's social handles. dark = for use on a black band. */
+/** Row of the youth fellowship's social handles. dark = for use on a black band. */
 export default function YouthSocials({ dark = false }: { dark?: boolean }) {
   return (
     <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2 ros:lg:grid-cols-4">

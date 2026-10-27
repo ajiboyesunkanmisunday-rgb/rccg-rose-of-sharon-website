@@ -9,7 +9,7 @@ export default function YouthEvents() {
   const past = EVENTS.filter((e) => e.status === "past");
   return (
     <>
-      <Hero pill="📅 EVENTS" title={<>Youth <span className="text-textRed">Events</span></>} subtitle="Hangouts, conferences and programs for the youth church." bg="/youth/hangout-1.jpg" />
+      <Hero pill="📅 EVENTS" title={<>Youth <span className="text-textRed">Events</span></>} subtitle="Hangouts, conferences and programs for the youth fellowship." bg="/youth/hangout-1.jpg" />
       <Section>
         <YouthTabs />
         <SectionTitle pill="🔜 COMING UP" title={<>Upcoming <span className="text-textRed">programs</span></>} sub="Dates will be posted here and on our social pages as they are confirmed." />

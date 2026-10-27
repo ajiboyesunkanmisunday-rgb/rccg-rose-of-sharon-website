@@ -4,13 +4,13 @@ import YouthTabs from "@/components/YouthTabs";
 import YouthSocials from "@/components/YouthSocials";
 import { DEPARTMENTS, PHOTOS, PRESIDENT, YOUTH_PAGES, VALUES } from "@ros/shared/kit/youth";
 
-export const metadata = { title: "Youth | RCCG Rose of Sharon", description: "The Rose of Sharon youth church — leadership, departments, Youth Sunday, events and how to join." };
+export const metadata = { title: "Youth | RCCG Rose of Sharon", description: "The Rose of Sharon youth fellowship — leadership, departments, Youth Sunday, events and how to join." };
 
 export default function YouthHome() {
   const cards = YOUTH_PAGES.filter((p) => p.key !== "overview" && p.key !== "connect");
   return (
     <>
-      <Hero pill="🔥 RCCG ROSE OF SHARON · YOUTH" title={<>The <span className="text-textRed">Youth</span> Church</>} subtitle="A church of its own within the church — young people led by young people, rooted in the Word and on mission." bg="/youth/hangout-1.jpg">
+      <Hero pill="🔥 RCCG ROSE OF SHARON · YOUTH" title={<>The <span className="text-textRed">Youth</span> Fellowship</>} subtitle="A church of its own within the church — young people led by young people, rooted in the Word and on mission." bg="/youth/hangout-1.jpg">
         <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
           <Btn href="/youth/join" variant="white">Join the youth</Btn>
           <Btn href="/youth/departments" variant="outline-white">Serve in a department</Btn>
@@ -22,7 +22,7 @@ export default function YouthHome() {
         <div className="ros:grid ros:grid-cols-1 ros:items-center ros:gap-10 ros:md:grid-cols-2">
           <div className="ros:flex ros:flex-col ros:gap-4">
             <SectionTitle pill="🌍 WHO WE ARE" title={<>A church <span className="text-textRed">within</span> the church</>} />
-            <p className="ros:text-[#00000099]">The Rose of Sharon youth church has its own president, two vice presidents and a full executive council. It runs its own departments — media, protocol, choir, ushering and more — and anchors its own Youth Sunday every year.</p>
+            <p className="ros:text-[#00000099]">The Rose of Sharon youth fellowship has its own president, two vice presidents and a full executive council. It runs its own departments — media, protocol, choir, ushering and more — and anchors its own Youth Sunday every year.</p>
             <p className="ros:text-[#00000099]">It is where young people find friends, grow in the Word, discover their gifts and learn to lead.</p>
             <div className="ros:mt-2 ros:flex ros:flex-wrap ros:gap-3">
               <Btn href="/youth/about" variant="outline">About us</Btn>
@@ -34,7 +34,7 @@ export default function YouthHome() {
       </Section>
 
       <Section className="ros:pt-0">
-        <SectionTitle pill="🗂️ EXPLORE" title={<>Everything about the <span className="text-textRed">youth</span></>} sub="Each part of the youth church has its own page." />
+        <SectionTitle pill="🗂️ EXPLORE" title={<>Everything about the <span className="text-textRed">youth</span></>} sub="Each part of the youth fellowship has its own page." />
         <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
           {cards.map((pg) => (
             <Link key={pg.key} href={pg.href} className="ros:group ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">

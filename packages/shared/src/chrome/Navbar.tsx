@@ -163,7 +163,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               </div>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">YOUTH</h2>
-                <A onClick={() => setOpen(false)} href="/youth" className="text-sm font-bold hover:underline">Youth church</A>
+                <A onClick={() => setOpen(false)} href="/youth" className="text-sm font-bold hover:underline">Youth Fellowship</A>
                 {YOUTH_PAGES.filter((pg) => pg.key !== "overview").map((pg) => (
                   <div key={pg.key} className="flex flex-col gap-1.5">
                     <A onClick={() => setOpen(false)} href={pg.href} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{pg.label}</A>
