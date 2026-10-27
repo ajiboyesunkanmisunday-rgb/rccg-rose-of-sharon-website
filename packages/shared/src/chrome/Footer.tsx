@@ -163,7 +163,7 @@ export default function Footer() {
 
           {footerSections.map((section, i) => (
             <dl key={i}>
-              <dt className="mb-4 font-lato text-[0.625rem] font-light uppercase tracking-[0.15rem] text-[#ffffff99]">
+              <dt className="mb-4 font-lato text-[0.625rem] font-light uppercase tracking-[0.15rem]" style={{ color: "rgba(255,255,255,0.85)", fontWeight: 700, letterSpacing: "0.2em" }}>
                 {section.title}
               </dt>
               {(section.links as { title: string; href: string; blank?: boolean }[]).map((link, j) => (
