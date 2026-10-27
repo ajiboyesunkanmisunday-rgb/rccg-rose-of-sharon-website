@@ -2,6 +2,7 @@
 
 import { Hero } from "@ros/shared/kit/ui";
 import ProgramTabs from "@/components/ProgramTabs";
+import CsrMedia from "@/components/CsrMedia";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -140,6 +141,8 @@ export default function CSRPage() {
           ))}
         </div>
       </section>
+
+      <CsrMedia />
 
       {/* ── Skills Offered ── */}
       <section id="skills" className="ros:bg-[#F4F4F4] ros:px-6 ros:md:px-[60px] ros:lg:px-[120px] ros:py-[60px] ros:md:py-[84px] ros:flex ros:flex-col ros:gap-[40px] ros:md:gap-[48px] ros:items-center ros:w-full">
