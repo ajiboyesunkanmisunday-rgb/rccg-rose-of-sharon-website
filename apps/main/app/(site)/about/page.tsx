@@ -251,7 +251,7 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Open view photo */}
-          <img loading="lazy" decoding="async" src="/openview.4a75c3d5.jpg" alt="Open View" className="mx-auto w-full max-w-screen-2xl md:h-full" />
+          <img loading="lazy" decoding="async" src="/about-open-view.jpg" alt="The Rose of Sharon congregation worshipping together" className="mx-auto w-full max-w-screen-2xl md:h-full" />
 
           {/* ─── Lead Pastor ─── */}
           <div className="mt-24" id="pastey">
