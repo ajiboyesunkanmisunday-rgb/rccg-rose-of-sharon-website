@@ -38,12 +38,26 @@ const pastors: { name: string; role: string; text: string; image?: string }[] = 
 ];
 
 function PastorModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { window.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [onClose]);
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" onClick={onClose}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Our lead pastor"
+      className="flex items-center justify-center p-4"
+      style={{ position: "fixed", top: 0, right: 0, bottom: 0, left: 0, zIndex: 2000, background: "rgba(0,0,0,0.82)", overflowY: "auto" }}
+      onClick={onClose}
+    >
       <div
         className="about-pastey relative mx-auto flex w-full max-w-4xl flex-col rounded-md bg-black bg-contain bg-center bg-no-repeat px-3 py-2 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-black before:opacity-60 md:p-10"
         onClick={(e) => e.stopPropagation()}
-        style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundSize: "cover", backgroundPosition: "32% 30%" }}
+        style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundSize: "cover", backgroundPosition: "32% 30%", maxHeight: "92vh", overflowY: "auto", position: "relative" }}
       >
         <div className="mb-2 flex justify-between">
           <div />
