@@ -81,7 +81,6 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
               { href: "/",            label: "Home" },
               { href: "/about",       label: "About" },
               { href: "/ql",          label: "Quick-Links" },
-              { href: "/ministries",  label: "Ministries" },
               { href: "/cell-church", label: "House Fellowship" },
               { href: "https://www.youtube.com/@rccgrostv", label: "Sermons", external: true },
               { href: "/give",        label: "Give" },
