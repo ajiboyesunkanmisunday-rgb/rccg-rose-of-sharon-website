@@ -38,16 +38,18 @@ function HeroCard({
   secondText,
   bottomText,
   link,
+  position = "center",
 }: {
   image: string;
   topText: string;
   secondText: string;
   bottomText: string;
   link: string;
+  position?: string;
 }) {
   return (
     <Link href={link} className="relative h-[440px] w-full min-w-[320px] block overflow-hidden flex-shrink-0">
-      <img loading="lazy" decoding="async" src={image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+      <img loading="lazy" decoding="async" src={image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ objectPosition: position }} />
       <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
       <h2 className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">
         {topText}
@@ -211,21 +213,24 @@ export default function Home() {
           </p>
           <div className="no-scrollbar my-12 flex w-full max-w-7xl justify-between gap-4 overflow-x-auto md:my-16">
             <HeroCard
-              image="/media/hero1.336205c9.jpg"
+              image="/home/welcome-about.jpg"
+              position="38% 50%"
               topText="who we are"
               secondText="About us"
               bottomText="Learn more"
               link="/about"
             />
             <HeroCard
-              image="/media/hero2.e3bb538b.jpg"
+              image="/home/welcome-connect.jpg"
+              position="62% 50%"
               topText="JOIN OUR COMMUNITY"
               secondText="Connect with us"
               bottomText="sign up"
               link="/map"
             />
             <HeroCard
-              image="/media/celebrations.f123ede1.jpg"
+              image="/home/welcome-celebrate.jpg"
+              position="45% 50%"
               topText="ENDLESS CELEBRATION"
               secondText="Celebrations"
               bottomText="learn more"
