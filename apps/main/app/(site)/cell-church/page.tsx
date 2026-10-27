@@ -1,4 +1,5 @@
 import Link from "@ros/shared/link";
+import CentresDirectory from "@/components/CentresDirectory";
 
 export default function CellChurchPage() {
   const activities = [
@@ -62,7 +63,7 @@ export default function CellChurchPage() {
           <div className="mx-8">
             <div className="mt-8 flex flex-col items-center gap-4 md:flex-row md:justify-center">
               <Link
-                href="/cell-church/find"
+                href="#centres"
                 className="flex w-full items-center justify-center gap-2 rounded-full border border-white bg-transparent px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"
               >
                 JOIN A FELLOWSHIP
@@ -133,6 +134,8 @@ export default function CellChurchPage() {
         </div>
       </div>
 
+
+      <CentresDirectory />
     </>
   );
 }
