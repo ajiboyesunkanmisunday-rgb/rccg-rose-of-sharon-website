@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/ft", destination: "/first-timer", permanent: true },
+      // pages the original design linked to that do not exist yet
+      { source: "/cell-church/register", destination: "/membership", permanent: false },
+      { source: "/cell-church/find", destination: "/membership", permanent: false },
+      { source: "/map/register", destination: "/membership", permanent: false },
+      { source: "/map/join", destination: "/membership", permanent: false },
       { source: "/ftabj", destination: "/first-timer", permanent: true },
       { source: "/prayer-request", destination: "/requests/prayer", permanent: true },
       { source: "/online-community", destination: "/e-member", permanent: true },
