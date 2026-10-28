@@ -16,6 +16,11 @@ export type Program = {
   step: string; // position in the growth journey
   registerLabel: string;
   registerText: string;
+  /** the person who heads the program (photo goes in packages/shared/public/trainings/<slug>.jpg and is set here) */
+  head: { name: string; title: string; photo?: string };
+  prerequisites: string[];
+  /** when the next class starts (shown on the program's general page) */
+  nextClass: string;
   exam: { minutes: number; passMark: number; questions: ExamQuestion[] };
   extraPages?: { label: string; href: string; text: string; icon: string }[];
 };
@@ -35,6 +40,9 @@ export const PROGRAMS: Program[] = [
     step: "Step 2",
     registerLabel: "Register",
     registerText: "Sign up for the next water baptism class and service.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["A personal decision to follow Jesus Christ", "Attendance at a Believers Class (recommended)"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 10,
       passMark: 60,
@@ -59,6 +67,9 @@ export const PROGRAMS: Program[] = [
     step: "Step 3",
     registerLabel: "Register",
     registerText: "Apply to join the next Workers in Training class.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["Born again and baptised in water", "Completed the Believers Class", "A regular, committed member of the church"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 10,
       passMark: 60,
@@ -83,6 +94,9 @@ export const PROGRAMS: Program[] = [
     step: "Step 4",
     registerLabel: "Register",
     registerText: "Complete the School of Disciples application form.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["Born again", "Completed the Believers Class", "A desire to be grounded in the Word"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 10,
       passMark: 60,
@@ -107,6 +121,9 @@ export const PROGRAMS: Program[] = [
     step: "Step 5",
     registerLabel: "Register",
     registerText: "Apply for the School of Ministry.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["Born again and baptised in water", "A regular, committed member of the church", "A recommendation from your pastor or department head"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 15,
       passMark: 60,
@@ -135,6 +152,9 @@ export const PROGRAMS: Program[] = [
       { label: "Pastor attestation", href: "/trainings/rila/pastor", text: "Your pastor completes this from the link sent with your application.", icon: "✍️" },
       { label: "Sponsor form", href: "/trainings/rila/sponsor", text: "Your sponsor completes this from the link sent with your application.", icon: "🤝" },
     ],
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["A minister or church leader", "A recommendation from your pastor", "Completed the earlier training steps"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 15,
       passMark: 60,
@@ -159,6 +179,9 @@ export const PROGRAMS: Program[] = [
     step: "Skills",
     registerLabel: "Register your interest",
     registerText: "Tell us the skill you want to learn.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["No prior experience needed", "A willingness to learn and attend every class", "Registration is free; tuition is ₦10,000 per course"],
+    nextClass: "To be announced — check back soon",
     exam: {
       minutes: 10,
       passMark: 60,
@@ -194,4 +217,14 @@ export function programPages(p: Program): ProgramPage[] {
     { key: "coordinator", label: "Coordinator", href: `${p.base}/coordinator`, text: "For program coordinators: students, attendance, scores and remarks.", icon: "🧑‍🏫" },
   );
   return pages;
+}
+
+
+/** The two entries each training shows in menus and tab strips: its general page, and online registration. */
+export function programMenu(p: Program): { label: string; href: string }[] {
+  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : `${p.base}/register`;
+  return [
+    { label: "Home", href: p.base },
+    { label: "Register online", href: registerHref },
+  ];
 }

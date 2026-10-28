@@ -20,7 +20,7 @@ export default function ChoirPage() {
         { title: "Hope and joy", text: "Through music we spread a message of hope and joy to our church, our community and beyond." },
       ]}
       joinText="If God has given you a voice or an instrument, we would love to have you serve with the choir. Become a member and speak to the church office to find out how to join."
-      others={[{ label: "Kids & Teens Ministry", href: "/ministries/kids-and-teens" }, { label: "Youth", href: "/youth" }, { label: "All ministries", href: "/ministries" }]}
+      others={[{ label: "Children Church", href: "/ministries/kids-and-teens" }, { label: "Youth", href: "/youth" }, { label: "All ministries", href: "/ministries" }]}
     />
   );
 }

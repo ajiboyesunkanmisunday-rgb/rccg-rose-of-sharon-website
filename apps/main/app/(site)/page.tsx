@@ -115,7 +115,7 @@ const adBanners = [
     title: "Light Up Ikeja",
     text: "Join us as we light up Ikeja in our 30th anniversary celebration.",
     cta: "See the details",
-    href: "/events",
+    href: "/light-up-ikeja",
   },
   {
     image: "/openview.4a75c3d5.jpg",

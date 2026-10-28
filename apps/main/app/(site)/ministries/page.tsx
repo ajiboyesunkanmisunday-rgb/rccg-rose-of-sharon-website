@@ -14,9 +14,9 @@ export default function MinistriesPage() {
       id: "celeb-kids",
       href: "/ministries/kids-and-teens",
       image: "/gallery/back-to-school/04.jpg",
-      title: "Kids & Teens Ministry",
+      title: "Children Church",
       description:
-        "The Kids & Teens Ministry is the children's and teens' ministry of RCCG Rose of Sharon. Our vision is to see all children celebrating endless life in Christ and training them to disciple others for Christ. We are committed to partnering with you and your child for their progress and joy in the faith",
+        "Children Church is the children's and teens' ministry of RCCG Rose of Sharon. Our vision is to see all children celebrating endless life in Christ and training them to disciple others for Christ. We are committed to partnering with you and your child for their progress and joy in the faith",
     },
   ];
 

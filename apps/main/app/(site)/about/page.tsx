@@ -198,7 +198,7 @@ export default function AboutPage() {
         {/* ─── WE BELIEVE ─── */}
         <section
           className="bg-fill mx-auto mb-10 flex max-w-7xl justify-end bg-left bg-no-repeat px-5 py-8 md:mb-20 md:px-11 md:py-14"
-          style={{ backgroundImage: "url(/purplepastor.jpg)" }}
+          style={{ backgroundImage: "url(/gallery/light-up-ikeja/10.jpg)", backgroundSize: "cover", backgroundPosition: "left center" }}
         >
           <div className="w-full max-w-[594px] bg-white px-6 py-6 md:px-10 md:py-[60px]">
             <h4 className="mb-6 font-anton text-3xl uppercase md:text-5xl">
