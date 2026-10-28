@@ -43,11 +43,12 @@ export function FormCard({ children, title }: { children: ReactNode; title?: str
 }
 
 /** The white form card that overlaps the black hero — same arrangement as the original cci-web form pages. */
-export function FormSheet({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
+/** `flat` sits the sheet on the page below other content, instead of pulling it up over a banner. */
+export function FormSheet({ children, wide = false, flat = false }: { children: ReactNode; wide?: boolean; flat?: boolean }) {
   return (
     <div className="ros:mb-16 ros:md:mb-32">
       <div
-        className={`ros:relative ros:mx-auto ros:-mt-24 ros:w-[calc(100%-1.5rem)] ros:rounded-2xl ros:bg-white ros:px-3 ros:py-7 ros:shadow-[0_8px_40px_rgba(0,0,0,0.12)] ros:md:px-8 ${
+        className={`ros:relative ros:mx-auto ${flat ? "ros:mt-4" : "ros:-mt-24"} ros:w-[calc(100%-1.5rem)] ros:rounded-2xl ros:bg-white ros:px-3 ros:py-7 ros:shadow-[0_8px_40px_rgba(0,0,0,0.12)] ros:md:px-8 ${
           wide ? "ros:max-w-4xl" : "ros:max-w-2xl"
         }`}
       >

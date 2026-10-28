@@ -46,8 +46,8 @@ export default function CelebrationForm() {
   }
 
   return (
-    <div id="request" style={{ scrollMarginTop: 90 }}>
-      <FormSheet>
+    <div id="request" className="ros:pt-8 ros:md:pt-12" style={{ scrollMarginTop: 90 }}>
+      <FormSheet flat>
         <div className="ros:mb-6 ros:flex ros:flex-col ros:items-center ros:gap-2 ros:text-center">
           <h2 className="ros-anton ros:text-3xl ros:uppercase ros:text-black ros:md:text-4xl">Celebration Request</h2>
           <p className="ros:max-w-[600px] ros:text-[#00000099]">
