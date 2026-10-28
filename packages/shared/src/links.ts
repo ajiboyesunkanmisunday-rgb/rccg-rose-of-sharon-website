@@ -9,5 +9,7 @@ export const CHURCH_LINKS = {
   instagram: "",
   /** the attendance form / page, once the church has one */
   attendance: "",
+  /** the church's Mixlr channel (live audio), e.g. https://mixlr.com/<channel> */
+  mixlr: "",
   youtube: "https://www.youtube.com/@rccgrostv",
 } as const;

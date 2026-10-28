@@ -18,7 +18,7 @@ export default function SermonCard({ s, index = 0 }: { s: Sermon; index?: number
       </button>
       <button type="button" onClick={() => play(s)} className="ros:mb-1 ros:mt-2 ros:line-clamp-2 ros:text-left ros:text-[14px] ros:font-semibold ros:leading-tight ros:hover:underline ros:md:text-[15px]">{s.title}</button>
       <div className="ros:flex ros:items-center ros:gap-1">
-        <span className="ros:line-clamp-1 ros:text-[12px] ros:leading-tight ros:text-white/40">{s.series}</span>
+        <span className="ros:line-clamp-1 ros:text-[12px] ros:leading-tight ros:text-white/40">{s.series || "Message"}</span>
         <span className="ros:ml-auto ros:whitespace-nowrap ros:text-[12px] ros:text-white/40">{d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>
       </div>
     </div>
