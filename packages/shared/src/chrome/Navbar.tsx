@@ -7,11 +7,11 @@ import { PROGRAMS, programMenu } from "../kit/programs";
 import { YOUTH_PAGES, DEPARTMENTS } from "../kit/youth";
 import { isHere } from "../sites";
 
-const navRoutes = [
+const navRoutes: { path: string; name: string; isExternal?: boolean }[] = [
   { path: "/about",                              name: "About" },
   { path: "/ql",                                 name: "Quick Links" },
   { path: "/cell-church",                        name: "House Fellowship" },
-  { path: "https://www.youtube.com/@rccgrostv",         name: "Sermons",  isExternal: true },
+  { path: "/media",                                    name: "Sermons" },
   { path: "/give",                               name: "Give" },
 ];
 
@@ -77,17 +77,17 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
 
           {/* Primary nav links — giant Anton font */}
           <div className="w-full max-w-full font-anton text-5xl font-medium uppercase leading-tight text-white md:max-w-xs lg:max-w-[450px] lg:text-7xl">
-            {[
+            {([
               { href: "/",            label: "Home" },
               { href: "/about",       label: "About" },
               { href: "/ql",          label: "Quick-Links" },
               { href: "/cell-church", label: "House Fellowship" },
-              { href: "https://www.youtube.com/@rccgrostv", label: "Sermons", external: true },
+              { href: "/media", label: "Sermons" },
               { href: "/give",        label: "Give" },
               { href: "/youth",       label: "Youth" },
               { href: "/trainings",   label: "Training" },
               { href: "/marketplace", label: "Marketplace" },
-            ].map((item) => (
+            ] as { href: string; label: string; external?: boolean }[]).map((item) => (
               <A
                 key={item.label}
                 href={item.href}

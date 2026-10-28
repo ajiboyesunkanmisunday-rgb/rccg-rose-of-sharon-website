@@ -40,7 +40,7 @@ const footerSections = [
     title: "Media",
     links: [
       { title: "Watch Online", href: "https://www.youtube.com/@rccgrostv", blank: true },
-      { title: "Sermons",      href: "https://www.youtube.com/@rccgrostv",                   blank: true },
+      { title: "Sermons",      href: "/media" },
     ],
   },
 ];
