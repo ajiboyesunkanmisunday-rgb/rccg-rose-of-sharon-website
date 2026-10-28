@@ -70,6 +70,14 @@ export default function LightUpIkejaPage() {
             <img key={p.src} src={p.src} alt={p.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:rounded-lg ros:object-cover" />
           ))}
         </div>
+        <div className="ros:mt-12">
+          <SectionTitle pill="🗓️ LOOKING BACK" title={<>The <span className="text-textRed">2024</span> crusade</>} sub="Light Up Ikeja has grown year by year. Here are moments from 2024." />
+          <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:md:grid-cols-4">
+            {[{ n: "01", a: "The crowd at Light Up Ikeja 2024" }, { n: "03", a: "Worship on the Light Up Ikeja 2024 stage" }, { n: "04", a: "Volunteers at Light Up Ikeja 2024" }, { n: "06", a: "Light Up Ikeja 2024 attendees" }].map((x) => (
+              <img key={x.n} src={`/gallery/light-up-ikeja-2024/${x.n}-thumb.jpg`} alt={x.a} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:rounded-lg ros:object-cover" />
+            ))}
+          </div>
+        </div>
         <div className="ros:mt-8 ros:flex ros:flex-wrap ros:gap-3">
           <Link href="/gallery" className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:hover:bg-black ros:hover:text-white">View the full gallery</Link>
           <Link href="/give" className="ros:rounded-full ros:border ros:border-[#DF4E4E] ros:bg-[#DF4E4E] ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:text-white ros:transition ros:hover:border-black ros:hover:bg-white ros:hover:text-black">Support the work</Link>
