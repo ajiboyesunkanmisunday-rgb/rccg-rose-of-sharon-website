@@ -13,3 +13,14 @@ export const CHURCH_LINKS = {
   mixlr: "",
   youtube: "https://www.youtube.com/@rccgrostv",
 } as const;
+
+/**
+ * WhatsApp groups shown on the Join Us page, each with a QR code. Paste the group's invite link
+ * (https://chat.whatsapp.com/...) and the code is made from it; an empty link shows "coming soon".
+ * To use a ready-made QR picture instead, put it in public/join and set `qr` (e.g. "/join/men.png").
+ */
+export const WHATSAPP_GROUPS: { key: string; name: string; text: string; link: string; qr?: string }[] = [
+  { key: "men", name: "Men", text: "Hearts of David: the men of Rose of Sharon.", link: "" },
+  { key: "women", name: "Women", text: "The women of Rose of Sharon.", link: "" },
+  { key: "youth", name: "Youth", text: "Youth Fellowship: young people growing together.", link: "" },
+];

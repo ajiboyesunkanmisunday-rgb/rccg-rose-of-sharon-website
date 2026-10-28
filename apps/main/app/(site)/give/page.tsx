@@ -98,19 +98,19 @@ export default function GivePage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mx-4 flex w-full max-w-2xl flex-col items-center gap-6"
+          className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6"
         >
-          <h3 className="rounded-full bg-[#00000078] p-2 text-center text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
+          <h3 className="rounded-full bg-[#00000078] p-2 text-left text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
             💸 <span className="ml-0.5">give</span>
           </h3>
-          <h1 className="my-3 max-w-[900px] px-4 text-center font-anton text-[3rem] font-medium uppercase text-white md:px-0 md:text-7xl md:leading-[1.2]">
+          <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             <span className="text-textRed">GIVING</span> TO GOD <br />
             SUPPORT <span className="text-textRed">THE WORK</span>
           </h1>
-          <p className="w-full max-w-lg text-center text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
+          <p className="w-full max-w-lg text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             Support the kingdom's business and we bring the whole world to Christ
           </p>
-          <div className="mt-8 md:flex md:items-center md:justify-center">
+          <div className="mt-8 md:flex md:items-center md:justify-start">
             <A
               href="#global"
               className="mb-6 flex w-full items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:mr-6 md:w-auto"

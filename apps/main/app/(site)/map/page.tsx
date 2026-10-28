@@ -104,15 +104,15 @@ export default function MAPPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mx-4 flex w-full max-w-2xl flex-col items-center gap-6 text-center"
+          className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6 text-left"
         >
-          <h1 className="my-3 max-w-[900px] text-center font-anton text-[3rem] font-normal uppercase leading-none text-white md:text-7xl md:leading-none">
+          <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-normal uppercase leading-none text-white md:text-7xl md:leading-none">
             WELCOME T0 <br /><span className="text-textRed">MEET &amp; PRAY (MAP)</span>
           </h1>
           <p className="w-full max-w-lg text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             It&apos;s more than a gathering—it&apos;s a family where you truly belong.
           </p>
-          <div className="flex flex-col items-center gap-4 md:flex-row">
+          <div className="flex flex-col items-start gap-4 md:flex-row md:items-center">
             <Link
               href="/map/register"
               className="flex w-full items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"

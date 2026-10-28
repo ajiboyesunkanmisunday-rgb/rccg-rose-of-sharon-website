@@ -629,21 +629,6 @@ export default function MarketplacePage() {
         </div>
       </section>
 
-      {/* Let's Tailor */}
-      <section className="relative w-full py-[60px] md:py-[80px] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[#242222]" />
-        <div className="absolute inset-0 opacity-35" style={{ backgroundImage: "url('https://www.figma.com/api/mcp/asset/00ab7363-f75f-485e-aab4-25d9a90cf966.png')", backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="relative z-10 flex flex-col items-center gap-[14px] w-full max-w-[495px] px-6 text-center">
-          <h2 className="text-[#FFFDFD] text-[24px] md:text-[36px] font-semibold leading-[1.2]" style={vs}>{"Let's Tailor "}<span className="text-[#9B96FE] italic font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Your Experience.</span></h2>
-          <p className="text-[#FFFDFD] text-[14px] md:text-[15px] leading-[24px]" style={vs}>Join the church groups and see what God can do through you</p>
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
-            <Link href="/ministries" className="border-2 border-[#FFFDFD] text-[#FFFDFD] text-[14px] font-medium px-[24px] py-[11px] rounded-[24px] hover:bg-white/10 transition-colors" style={vs}>MEN</Link>
-            <Link href="/ministries" className="border-2 border-[#9B96FE] text-[#9B96FE] text-[14px] font-medium px-[24px] py-[11px] rounded-[24px] hover:bg-[#9B96FE]/10 transition-colors" style={vs}>WOMEN</Link>
-            <Link href="/ministries" className="border-2 border-[#FFFDFD] text-[#FFFDFD] text-[14px] font-medium px-[24px] py-[11px] rounded-[24px] hover:bg-white/10 transition-colors" style={vs}>YOUTH</Link>
-          </div>
-        </div>
-      </section>
-
       {/* Become a Vendor */}
       <section className="bg-[#EEF0F7] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[80px]">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-[80px] items-center">

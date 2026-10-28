@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "@ros/shared/link";
 import { post } from "@ros/shared/api";
-import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, FormSheet, inputCls, selectCls, textareaCls, submitCls } from "@ros/shared/kit/form";
 
 const celebrationTypes = [
@@ -14,7 +13,7 @@ const celebrationTypes = [
   { value: "OTHERS", label: "Others" },
 ];
 
-export default function SpecialDayPage() {
+export default function CelebrationForm() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", type: "", date: "", notes: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -47,17 +46,7 @@ export default function SpecialDayPage() {
   }
 
   return (
-    <>
-      <FormHero
-        pill="SPECIAL DAY"
-        title={
-          <>
-            Send Us Your Special <span className="text-textRed">Day</span>
-          </>
-        }
-        subtitle="Let the church rejoice with you — birthdays, weddings, anniversaries and more."
-      />
-
+    <div id="request" style={{ scrollMarginTop: 90 }}>
       <FormSheet>
         <div className="ros:mb-6 ros:flex ros:flex-col ros:items-center ros:gap-2 ros:text-center">
           <h2 className="ros-anton ros:text-3xl ros:uppercase ros:text-black ros:md:text-4xl">Celebration Request</h2>
@@ -133,6 +122,6 @@ export default function SpecialDayPage() {
           </form>
         )}
       </FormSheet>
-    </>
+    </div>
   );
 }

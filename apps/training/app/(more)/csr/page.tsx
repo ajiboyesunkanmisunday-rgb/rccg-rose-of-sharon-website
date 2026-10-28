@@ -16,14 +16,14 @@ const skills = [
     desc: "Professional makeup artistry and the art of gele tying — from bridal to everyday looks and editorial styling.",
   },
   {
-    icon: "📱",
+    icon: "📣",
     title: "Digital Marketing & AI",
     desc: "Learn SEO, social media strategy, paid advertising, AI-powered tools, and how to grow a business online.",
     highlight: true,
     badge: "14–16 weeks · ₦10,000",
   },
   {
-    icon: "✂️",
+    icon: "💇🏾‍♀️",
     title: "Hair Dressing",
     desc: "Hair styling, braiding, colouring, treatments, and building a professional salon practice.",
   },

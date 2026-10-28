@@ -1,14 +1,14 @@
 import MinistryPage from "@/components/MinistryPage";
 
 export const metadata = {
-  title: "Rose of Sharon Choir (Hearts of David) | RCCG Rose of Sharon",
+  title: "Rose of Sharon Choir | RCCG Rose of Sharon",
   description: "The Rose of Sharon Choir is the music ministry of RCCG Rose of Sharon, dedicated to creating inspiring music with a strong foundation in faith.",
 };
 
 export default function ChoirPage() {
   return (
     <MinistryPage
-      pill="🎵 HEARTS OF DAVID · MUSIC MINISTRY"
+      pill="🎵 MUSIC MINISTRY"
       title={<>Rose of Sharon <span className="text-textRed">Choir</span></>}
       intro="The music ministry of RCCG Rose of Sharon, dedicated to creating inspiring music with a strong foundation in faith."
       image="/ccw.jpg"
