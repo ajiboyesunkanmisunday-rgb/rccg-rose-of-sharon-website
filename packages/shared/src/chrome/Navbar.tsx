@@ -147,7 +147,6 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">News & moments</h2>
                 <A onClick={() => setOpen(false)} href="/announcements" className="text-sm hover:underline">Announcements</A>
                 <A onClick={() => setOpen(false)} href="/testimonies" className="text-sm hover:underline">Testimonies</A>
-                <A onClick={() => setOpen(false)} href="/gallery" className="text-sm hover:underline">Gallery</A>
               </div>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">TRAINING PROGRAMS</h2>

@@ -122,7 +122,7 @@ export default function ChildrenChurch() {
           ))}
         </div>
         <div className="ros:mt-8 ros:flex ros:flex-wrap ros:gap-3">
-          <Link href="/gallery" className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:hover:bg-black ros:hover:text-white">See the full album</Link>
+          <Link href="/gallery/back-to-school" className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:hover:bg-black ros:hover:text-white">See the full album</Link>
         </div>
       </section>
 

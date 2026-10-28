@@ -40,7 +40,7 @@ export default function SeriesList({ sermons }: { sermons: Sermon[] }) {
             {g.items.map((s, i) => (
               <div key={s.id} className="ros:relative">
                 {g.parts && s.part && s.series === g.name && <span className="ros:absolute ros:left-4 ros:top-4 ros:z-10 ros:rounded-full ros:bg-white ros:px-2.5 ros:py-0.5 ros:text-[11px] ros:font-extrabold ros:text-black">Part {s.part}</span>}
-                <SermonCard s={s} index={i} />
+                <SermonCard s={s} index={i} queue={g.items} />
               </div>
             ))}
           </div>
@@ -54,7 +54,7 @@ export default function SeriesList({ sermons }: { sermons: Sermon[] }) {
             <span className="ros:text-[13px] ros:text-white/40">{alone.length}</span>
           </div>
           <div className="ros:-mx-1 ros:mt-3 ros:grid ros:grid-cols-1 ros:gap-3 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
-            {alone.map((s, i) => <SermonCard key={s.id} s={s} index={i} />)}
+            {alone.map((s, i) => <SermonCard key={s.id} s={s} index={i} queue={alone} />)}
           </div>
         </section>
       )}
