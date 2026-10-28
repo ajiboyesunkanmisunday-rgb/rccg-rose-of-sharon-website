@@ -51,10 +51,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     <PlayerProvider>
       <div className="sermons-app" style={{ background: "#000", color: "#fafafa", fontFamily: "Lato, sans-serif", height: "100dvh", display: "flex", flexDirection: "column" }}>
         <header className="ros:relative ros:flex ros:flex-shrink-0 ros:items-center ros:justify-between ros:px-4 ros:py-3" style={{ background: "#000", boxShadow: "0 1px 0 rgba(255,255,255,0.06)" }}>
-          <NextLink href="/" className="ros:flex ros:items-center ros:gap-3">
-            <img src="/ros-logo.png" alt="RCCG Rose of Sharon" className="ros:size-9 ros:object-contain" />
-            <span className="ros:text-[20px] ros:font-black ros:tracking-wide">SERMONS</span>
-          </NextLink>
+          <div className="ros:flex ros:items-center ros:gap-3">
+            <A href="/" aria-label="Back to the Rose of Sharon website" title="Back to the Rose of Sharon website"><img src="/ros-logo.png" alt="RCCG Rose of Sharon" className="ros:size-9 ros:object-contain" /></A>
+            <NextLink href="/" className="ros:text-[20px] ros:font-black ros:tracking-wide">SERMONS</NextLink>
+          </div>
           <Suspense><SearchBox /></Suspense>
           <A href="/" className="ros:flex ros:items-center ros:gap-2 ros:rounded-full ros:border ros:border-white/15 ros:px-4 ros:py-2 ros:text-[12px] ros:font-bold ros:text-white/70 ros:transition ros:hover:border-white/40 ros:hover:text-white ros:md:hidden">ROS</A>
         </header>
