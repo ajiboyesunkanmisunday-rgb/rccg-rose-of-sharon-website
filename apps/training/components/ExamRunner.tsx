@@ -52,6 +52,16 @@ export default function ExamRunner({ slug }: { slug: string }) {
     setStage("running");
   }
 
+  // keep the latest result on this device so it can be opened from "View results"
+  useEffect(() => {
+    if (stage !== "done") return;
+    try {
+      const all = JSON.parse(localStorage.getItem("ros-exam-results") || "{}");
+      all[slug] = { name: candidate.name, id: candidate.id, score, total: questions.length, percent, passMark, passed: percent >= passMark, at: Date.now() };
+      localStorage.setItem("ros-exam-results", JSON.stringify(all));
+    } catch {}
+  }, [stage]); // eslint-disable-line react-hooks/exhaustive-deps
+
   function finish() {
     if (answered < questions.length && !window.confirm(`You have answered ${answered} of ${questions.length} questions. Submit now?`)) return;
     setStage("done");

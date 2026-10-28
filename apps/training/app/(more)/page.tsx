@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
-import { PROGRAMS, programPages } from "@ros/shared/kit/programs";
+import { PROGRAMS, programMenu } from "@ros/shared/kit/programs";
 
 export const metadata: Metadata = {
   title: "Training Programs",
@@ -38,7 +38,7 @@ export default function TrainingsPage() {
                   ))}
                 </ul>
                 <div className="ros:flex ros:flex-wrap ros:gap-2">
-                  {programPages(p).map((pg) => (
+                  {programMenu(p).map((pg) => (
                     <Link key={pg.label} href={pg.href} className="ros:rounded-full ros:border ros:border-[#00000029] ros:bg-white ros:px-3 ros:py-1.5 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.15em] ros:transition ros:hover:border-[#DF4E4E] ros:hover:text-[#DF4E4E]">
                       {pg.label}
                     </Link>

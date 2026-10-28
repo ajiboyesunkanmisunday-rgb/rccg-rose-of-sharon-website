@@ -2,14 +2,14 @@
 
 import Link from "@ros/shared/link";
 import { usePathname } from "next/navigation";
-import { getProgram, programPages } from "@ros/shared/kit/programs";
+import { getProgram, programMenu } from "@ros/shared/kit/programs";
 import { isUnder } from "@ros/shared/sites";
 
 /** Tab strip that ties the pages of one program together (Overview · Register · Exam · Coordinator …). */
 export default function ProgramTabs({ slug }: { slug: string }) {
   const pathname = usePathname() ?? "";
   const program = getProgram(slug);
-  const pages = programPages(program);
+  const pages = programMenu(program);
   const current = pages.filter((p) => !p.href.includes("#")).sort((a, b) => b.href.length - a.href.length).find((p) => isUnder(pathname, p.href));
   return (
     <nav aria-label={`${program.name} pages`} className="ros:mb-8 ros:flex ros:flex-col ros:gap-3">

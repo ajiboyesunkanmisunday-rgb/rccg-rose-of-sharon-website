@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link, { A } from "../link";
 import { usePathname } from "next/navigation";
-import { PROGRAMS, programPages } from "../kit/programs";
+import { PROGRAMS, programMenu } from "../kit/programs";
 import { YOUTH_PAGES, DEPARTMENTS } from "../kit/youth";
 import { isHere } from "../sites";
 
@@ -154,8 +154,8 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <A onClick={() => setOpen(false)} href="/trainings" className="text-sm hover:underline">All training programs</A>
                 {PROGRAMS.map((prog) => (
                   <div key={prog.slug} className="mt-1.5 flex flex-col gap-0.5">
-                    <A onClick={() => setOpen(false)} href={prog.base} className="text-sm font-bold hover:underline">{prog.name}</A>
-                    {programPages(prog).filter((pg) => pg.key !== "overview").map((pg) => (
+                    <span className="text-sm font-bold">{prog.name}</span>
+                    {programMenu(prog).map((pg) => (
                       <A key={pg.label} onClick={() => setOpen(false)} href={pg.href} className="text-xs hover:underline" style={{ color: "#FFFFFFB3", paddingLeft: 12 }}>{pg.label}</A>
                     ))}
                   </div>

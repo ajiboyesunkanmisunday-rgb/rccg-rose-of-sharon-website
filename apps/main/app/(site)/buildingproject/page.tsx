@@ -6,6 +6,13 @@ import { A } from "@ros/shared/link";
 
 const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, transition: { duration: 1 } } };
 
+/*
+ * Hero video of the proposed building plan. Put the video file in packages/shared/public/buildingproject/
+ * (for example proposed-plan.mp4) and set this to "/buildingproject/proposed-plan.mp4". While it is empty the
+ * hero shows the banner picture.
+ */
+const PLAN_VIDEO = "";
+
 const S3 = "/assets/payments"; // payment logos, stored with the site
 
 function CopyButton({ text, label = "COPY", className = "" }: { text: string; label?: string; className?: string; style?: React.CSSProperties }) {
@@ -30,17 +37,25 @@ export default function BuildingProjectPage() {
         variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 1.5 } } }}
         initial="hidden"
         animate="visible"
-        className="rbc-give-header flex h-[600px] items-center justify-center bg-cover bg-no-repeat lg:h-[700px]"
+        className="rbc-give-header relative flex h-[600px] items-center justify-center overflow-hidden bg-cover bg-no-repeat lg:h-[700px]"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/media/rbc-give-banner.75b7724a.jpg')`,
         }}
       >
+        {PLAN_VIDEO && (
+          <>
+            <video autoPlay loop muted playsInline preload="auto" poster="/media/rbc-give-banner.75b7724a.jpg" className="absolute left-0 top-0 h-full w-full object-cover" aria-hidden="true">
+              <source src={PLAN_VIDEO} type="video/mp4" />
+            </video>
+            <div className="absolute left-0 top-0 h-full w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6))" }} />
+          </>
+        )}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mx-4 flex w-full max-w-2xl flex-col items-center gap-6"
+          className="relative z-10 mx-4 flex w-full max-w-2xl flex-col items-center gap-6"
         >
           <h1 className="my-3 max-w-[900px] px-4 text-center font-anton text-[3rem] font-medium uppercase text-white md:px-0 md:text-7xl md:leading-[1.2]">
             BUILD <span className="text-textRed">WITH US</span>
@@ -48,16 +63,13 @@ export default function BuildingProjectPage() {
           <p className="w-full max-w-lg text-center text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             Your support helps us build a home for worship, discipleship and community
           </p>
-          <div className="mt-8 gap-6 md:flex md:items-center md:justify-center">
+          <div className="mt-8 md:flex md:items-center md:justify-center">
             <A
               href="#global"
               className="mb-6 flex w-full items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"
             >
-              Give Now
+              Support God&apos;s Work
             </A>
-            <button className="mb-6 flex w-full items-center justify-center gap-2 rounded-full border border-white bg-transparent px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-white transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto">
-              Recurring giving
-            </button>
           </div>
         </motion.div>
       </motion.div>
