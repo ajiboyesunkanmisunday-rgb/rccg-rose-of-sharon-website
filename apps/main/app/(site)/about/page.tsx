@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { API_BASE } from "@ros/shared/api";
 import { motion } from "framer-motion";
 import Link from "@ros/shared/link";
 
@@ -15,26 +14,13 @@ const fadeIn = {
   visible: { transition: { duration: 1.5 }, opacity: 1 },
 };
 
-// Member stories come from the church's own featured testimonies (submitted through the Testimonies page).
-interface Story { author: string; title: string; text: string }
-
-function toStory(t: { subject?: string; content?: string; state?: string }): Story | null {
-  let text = (t.content ?? "").trim();
-  let author = "";
-  const m = text.match(/^From:\s*(.+?)\s*(?:\r?\n)+([\s\S]*)$/);
-  if (m) { author = m[1].trim(); text = m[2].trim(); }
-  if (text.length < 40) return null; // skip empty or test entries
-  const place = t.state ? t.state.charAt(0).toUpperCase() + t.state.slice(1) : "";
-  return { author: author || (place ? `A member, ${place}` : "A member of the family"), title: (t.subject ?? "").trim() || "A testimony", text };
-}
-
 // Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
 // the name and text can be edited whenever the publication unit sends updates.
-const pastors: { name: string; role: string; text: string; image?: string; focus?: string }[] = [
-  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", text: "A short introduction will be added here.", image: "/pastors/emeka.jpg", focus: "32% 25%" },
-  { name: "Pastor Tunde Fowler", role: "Pastor", text: "A short introduction will be added here.", image: "/pastors/tunde.jpg", focus: "62% 22%" },
-  { name: "Pastor Chinyere Obiagwu", role: "Pastor", text: "A short introduction will be added here." },
-  { name: "Pastor Rosemary Fowler", role: "Pastor", text: "A short introduction will be added here.", image: "/pastors/rosemary.jpg", focus: "50% 22%" },
+const pastors: { name: string; role: string; image?: string; focus?: string }[] = [
+  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", image: "/pastors/emeka.jpg", focus: "32% 25%" },
+  { name: "Pastor Tunde Fowler", role: "Pastor", image: "/pastors/tunde.jpg", focus: "62% 22%" },
+  { name: "Pastor Chinyere Obiagwu", role: "Pastor" },
+  { name: "Pastor Rosemary Fowler", role: "Pastor", image: "/pastors/rosemary.jpg", focus: "50% 22%" },
 ];
 
 function PastorModal({ onClose }: { onClose: () => void }) {
@@ -121,22 +107,6 @@ function BulletItem({ label }: { label: string }) {
 
 export default function AboutPage() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [slide, setSlide] = useState(0);
-  const [testimonials, setTestimonials] = useState<Story[]>([]);
-
-  useEffect(() => {
-    fetch(`${API_BASE}/testimonies/featured?pageNo=0&pageSize=8`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data) => {
-        const list = Array.isArray(data) ? data : data.content ?? [];
-        setTestimonials(list.map(toStory).filter((x: Story | null): x is Story => !!x));
-      })
-      .catch(() => {});
-  }, []);
-
-  const visibleCount = 2;
-  const totalSlides = Math.ceil(testimonials.length / visibleCount);
-
   return (
     <>
       {modalOpen && <PastorModal onClose={() => setModalOpen(false)} />}
@@ -310,49 +280,7 @@ export default function AboutPage() {
                   </div>
                   <h3 className="text-lg font-bold">{pa.name}</h3>
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-textRed">{pa.role}</p>
-                  <p className="text-[#00000099]">{pa.text}</p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Member Stories ─── */}
-        <section className="bg-white px-1 py-12 md:py-16">
-          <h5 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-center text-[10px] font-bold tracking-[0.3em] text-[#00000099]">
-            📖 MEMBER STORIES
-          </h5>
-          <h6 className="my-2 text-center text-2xl font-black tracking-wide md:mt-5 md:text-4xl">
-            MY ROS EXPERIENCE
-          </h6>
-          <p className="mb-2 text-center text-xl text-[#00000080]">Real People, Endless Life</p>
-
-          {testimonials.length === 0 && (
-            <div className="mx-auto my-8 flex flex-col items-center gap-4 px-6 text-center" style={{ maxWidth: 560 }}>
-              <p className="text-[#000000A3]">Every story here is a real one from our family. Has God done something in your life? We would love to hear it.</p>
-              <Link href="/testimonies" className="rounded-full bg-textRed px-6 py-3 text-xs font-extrabold uppercase tracking-[.25em] text-white transition hover:bg-black">Share your story</Link>
-            </div>
-          )}
-          <div className="mx-auto my-4 max-w-7xl md:my-8" style={testimonials.length === 0 ? { display: "none" } : undefined}>
-            <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2">
-              {testimonials.slice(slide * visibleCount, slide * visibleCount + visibleCount).map((t, i) => (
-                <figure key={i} className="flex flex-col items-center justify-center px-6 text-left">
-                  <blockquote className="mx-auto mb-2 max-w-2xl text-gray-500">
-                    <h3 className="mb-2 text-lg font-semibold text-gray-900">{t.title}</h3>
-                    <p className="my-1 whitespace-pre-line text-[#000000A3]">{t.text}</p>
-                    <p className="font-semibold">{t.author}</p>
-                  </blockquote>
-                </figure>
-              ))}
-            </div>
-            {/* Dots */}
-            <div className="mt-6 flex justify-center gap-2">
-              {Array.from({ length: totalSlides }).map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSlide(i)}
-                  className={`h-2 w-2 rounded-full transition-colors ${i === slide ? "bg-black" : "bg-[#0000002A]"}`}
-                />
               ))}
             </div>
           </div>
