@@ -29,15 +29,15 @@ export function Hero({
       style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')`, ...(bgPosition ? { backgroundPosition: bgPosition } : {}) } : undefined}
     >
       <div className="ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
-      <Reveal className="ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:items-start ros:gap-6 ros:text-left">
+      <Reveal className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-start ros:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
           {pill}
         </h3>
-        <h1 className="ros-anton ros:my-3 ros:max-w-[900px] ros:text-left ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]">
+        <h1 className={`ros-anton ros:my-3 ros:max-w-[900px] ${bg ? "ros:text-left" : "ros:text-center"} ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]`}>
           {title}
         </h1>
         {subtitle && (
-          <p className="ros:w-full ros:max-w-2xl ros:text-left ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">{subtitle}</p>
+          <p className={`ros:w-full ros:max-w-2xl ${bg ? "ros:text-left" : "ros:text-center"} ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl`}>{subtitle}</p>
         )}
         {children}
       </Reveal>
@@ -152,11 +152,11 @@ export function Section({ children, className = "", id }: { children: React.Reac
 export function FormHero({ pill = "FORMS", title, subtitle }: { pill?: string; title: React.ReactNode; subtitle?: string }) {
   return (
     <div className="ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:bg-black ros:lg:h-[700px]">
-      <div className="ros:mx-auto ros:flex ros:w-full ros:max-w-7xl ros:flex-col ros:items-start ros:gap-6 ros:px-4 ros:text-left ros:md:px-8">
+      <div className="ros:flex ros:w-full ros:max-w-2xl ros:flex-col ros:items-center ros:gap-6 ros:px-4">
         <h5 className="ros:text-xs ros:font-extrabold ros:tracking-widest ros:text-[#FFFFFFCC]">{pill}</h5>
-        <h1 className="ros-anton ros:max-w-2xl ros:text-left ros:text-2xl ros:uppercase ros:text-white ros:md:text-[46px] ros:md:leading-[55px]">{title}</h1>
+        <h1 className="ros-anton ros:text-center ros:text-2xl ros:uppercase ros:text-white ros:md:text-[46px] ros:md:leading-[55px]">{title}</h1>
         {subtitle && (
-          <p className="ros:w-full ros:max-w-lg ros:text-left ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">{subtitle}</p>
+          <p className="ros:w-full ros:max-w-lg ros:text-center ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">{subtitle}</p>
         )}
       </div>
     </div>

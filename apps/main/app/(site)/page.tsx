@@ -249,17 +249,17 @@ export default function Home() {
           viewport={{ once: true }}
         >
           <div className="flex h-[500px] w-full items-center justify-center bg-black">
-            <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 md:px-8">
+            <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4">
               <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white">
                 🌍 RCCG ROSE OF SHARON
               </h2>
-              <h1 className="text-left font-anton text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
+              <h1 className="text-center font-anton text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
                 We enlist, disciple and redeploy a people
               </h1>
-              <h1 className="text-left font-anton text-2xl uppercase text-textRed md:text-[46px] md:leading-[55px]">
+              <h1 className="text-center font-anton text-2xl uppercase text-textRed md:text-[46px] md:leading-[55px]">
                 in Christ, for Christ, with joy.
               </h1>
-              <p className="text-left text-base text-white md:text-lg">
+              <p className="text-center text-base text-white md:text-lg">
                 Join us at 65, Fajuyi way, Ikeja GRA
               </p>
             </div>
