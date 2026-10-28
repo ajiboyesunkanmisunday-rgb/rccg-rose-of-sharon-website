@@ -15,10 +15,13 @@ function greeting() {
 }
 
 /** Home of the sermons app: greeting, topic chips, and the latest messages with "Show more". */
-export default function SermonHome({ sermons }: { sermons: Sermon[] }) {
-  const router = useRouter();
+export function SermonHomeWithSearch({ sermons }: { sermons: Sermon[] }) {
   const params = useSearchParams();
-  const search = (params.get("search") ?? "").trim();
+  return <SermonHome sermons={sermons} search={(params.get("search") ?? "").trim()} />;
+}
+
+export default function SermonHome({ sermons, search }: { sermons: Sermon[]; search: string }) {
+  const router = useRouter();
   const [shown, setShown] = useState(PAGE);
   const [hello, setHello] = useState("");
   const rail = useRef<HTMLDivElement>(null);
@@ -27,7 +30,7 @@ export default function SermonHome({ sermons }: { sermons: Sermon[] }) {
 
   const list = useMemo(() => {
     const t = search.toLowerCase();
-    return t ? sermons.filter((s) => `${s.title} ${s.series}`.toLowerCase().includes(t)) : sermons;
+    return t ? sermons.filter((s) => `${s.title} ${s.all.join(" ")}`.toLowerCase().includes(t)) : sermons;
   }, [sermons, search]);
 
   const scroll = (d: number) => rail.current?.scrollBy({ left: d * Math.max(200, rail.current.clientWidth / 2), behavior: "smooth" });

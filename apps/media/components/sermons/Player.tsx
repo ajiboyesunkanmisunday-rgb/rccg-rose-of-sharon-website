@@ -32,7 +32,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, padding: "16px 20px", color: "#fafafa" }}>
               <div>
                 <p style={{ fontWeight: 800, fontSize: 18, lineHeight: 1.3 }}>{now.title}</p>
-                <p style={{ marginTop: 4, fontSize: 13, color: "rgba(250,250,250,0.55)" }}>{now.series} · {new Date(now.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
+                <p style={{ marginTop: 4, fontSize: 13, color: "rgba(250,250,250,0.55)" }}>{now.series ? `${now.series} · ` : ""}{new Date(now.date).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>
               </div>
               <button onClick={() => setNow(null)} aria-label="Close player" style={{ fontSize: 30, lineHeight: 1, color: "#fff", flexShrink: 0 }}>×</button>
             </div>
