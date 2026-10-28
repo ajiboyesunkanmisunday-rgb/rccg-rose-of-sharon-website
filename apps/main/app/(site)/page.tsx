@@ -150,16 +150,16 @@ export default function Home() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="flex w-full max-w-[600px] flex-col items-center gap-4 text-center text-white"
+              className="mx-auto flex w-full max-w-7xl flex-col items-start gap-4 px-4 text-left text-white md:px-8"
             >
               <h3 className="rounded-full bg-[#FFFFFF1F] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]">
                 🌍 <span className="ml-0.5">our vision</span>
               </h3>
-              <h1 className="my-3 max-w-[900px] px-4 font-anton text-[3rem] font-medium uppercase md:px-0 md:text-7xl md:leading-[1.2]">
+              <h1 className="my-3 max-w-[900px] font-anton text-[3rem] font-medium uppercase md:text-7xl md:leading-[1.2]">
                 Where God Has A
                 <span className="block text-textRed">Permanent Seat</span>
               </h1>
-              <div className="mt-8 md:flex md:items-center md:justify-center">
+              <div className="mt-8 md:flex md:items-center md:justify-start md:gap-4">
                 <Button
                   href="https://www.youtube.com/@rccgrostv"
                   target="_blank"
@@ -225,8 +225,8 @@ export default function Home() {
               position="62% 50%"
               topText="JOIN OUR COMMUNITY"
               secondText="Connect with us"
-              bottomText="sign up"
-              link="/map"
+              bottomText="Join Us"
+              link="/join"
             />
             <HeroCard
               image="/home/welcome-celebrate.jpg"
@@ -249,17 +249,17 @@ export default function Home() {
           viewport={{ once: true }}
         >
           <div className="flex h-[500px] w-full items-center justify-center bg-black">
-            <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4">
+            <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-6 px-4 md:px-8">
               <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white">
                 🌍 RCCG ROSE OF SHARON
               </h2>
-              <h1 className="text-center font-anton text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
+              <h1 className="text-left font-anton text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
                 We enlist, disciple and redeploy a people
               </h1>
-              <h1 className="text-center font-anton text-2xl uppercase text-textRed md:text-[46px] md:leading-[55px]">
+              <h1 className="text-left font-anton text-2xl uppercase text-textRed md:text-[46px] md:leading-[55px]">
                 in Christ, for Christ, with joy.
               </h1>
-              <p className="text-center text-base text-white md:text-lg">
+              <p className="text-left text-base text-white md:text-lg">
                 Join us at 65, Fajuyi way, Ikeja GRA
               </p>
             </div>

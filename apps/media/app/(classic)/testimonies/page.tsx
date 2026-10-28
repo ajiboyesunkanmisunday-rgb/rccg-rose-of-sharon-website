@@ -18,23 +18,15 @@ interface TestimonyItem {
   createdOn?: string;
 }
 
-const fallbackTestimonies = [
-  { name: "Brother David", img: "/assets/podcast-1.png", quote: "God turned my situation around completely. I was at my lowest point but His grace found me." },
-  { name: "Sister Grace", img: "/assets/podcast-2.png", quote: "The healing power of God is real. I witnessed it firsthand in my family." },
-  { name: "Brother James", img: "/assets/podcast-3.png", quote: "From nothing to abundance — only God could have done this in my life." },
-  { name: "Sister Mercy", img: "/assets/podcast-4.png", quote: "I received my long-awaited miracle after years of waiting on the Lord." },
-  { name: "Brother Paul", img: "/assets/podcast-5.png", quote: "His faithfulness endures forever. My testimony is a testament to His love." },
-  { name: "Sister Ruth", img: "/assets/podcast-6.png", quote: "God opened doors that no man could open. I am forever grateful." },
-  { name: "Brother Samuel", img: "/assets/podcast-7.png", quote: "What seemed impossible became possible through the power of prayer." },
-  { name: "Sister Esther", img: "/assets/podcast-8.png", quote: "God restored my marriage and brought peace to my home. To Him be glory!" },
-];
-
-const avatarImgs = [
-  "/assets/podcast-1.png", "/assets/podcast-2.png", "/assets/podcast-3.png",
-  "/assets/podcast-4.png", "/assets/podcast-5.png", "/assets/podcast-6.png",
-  "/assets/podcast-7.png", "/assets/podcast-8.png",
-];
-
+/** The testimony text and who shared it ("From: Name" is added at the top of testimonies shared on this site). */
+function parseTestimony(t: TestimonyItem) {
+  const owner = t.owner ? `${t.owner.firstName ?? ""} ${t.owner.lastName ?? ""}`.trim() : "";
+  const lines = (t.content ?? "").split("\n").map((l) => l.trim()).filter(Boolean);
+  const from = lines[0]?.match(/^From:\s*(.+)$/i)?.[1];
+  const body = (from ? lines.slice(1) : lines).join(" ");
+  return { name: owner || from || "A member of Rose of Sharon", body };
+}
+const place = (t: TestimonyItem) => [t.state, t.country].filter(Boolean).map((x) => String(x).replace(/\b\w/g, (c) => c.toUpperCase())).join(", ");
 
 export default function TestimoniesPage() {
   const [liveTestimonies, setLiveTestimonies] = useState<TestimonyItem[]>([]);
@@ -48,11 +40,12 @@ export default function TestimoniesPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE}/testimonies/featured?pageNo=0&pageSize=8`)
+    fetch(`${API_BASE}/testimonies/featured?pageNo=0&pageSize=12`)
       .then((r) => r.ok ? r.json() : Promise.reject())
       .then((data) => {
-        const list = Array.isArray(data) ? data : data.content ?? [];
-        setLiveTestimonies(list);
+        const list: TestimonyItem[] = Array.isArray(data) ? data : data.content ?? [];
+        // only testimonies that actually tell a story (short or numeric test entries are left out)
+        setLiveTestimonies(list.filter((t) => parseTestimony(t).body.length >= 25));
       })
       .catch(() => {})
       .finally(() => setLoadingTestimonies(false));
@@ -81,103 +74,40 @@ export default function TestimoniesPage() {
     <div>
       <Hero pill="🌍 RCCG ROSE OF SHARON" title={<>Amazing <span className="text-textRed">Evidences</span></>} subtitle="Real stories of God's faithfulness — lives transformed by the power of the Holy Spirit." bg="/assets/hero-bg.png" />
 
-      {/* Featured Testimony */}
-      <section className="ros:relative ros:h-[510px] ros:w-full ros:overflow-hidden ros:flex ros:items-center">
-        <div className="ros:absolute ros:inset-0">
-          <Image src="/assets/thanksgiving-bg.png" alt="" fill className="ros:object-cover ros:pointer-events-none" />
-          <div className="ros:absolute ros:inset-0 ros:bg-gradient-to-r ros:from-[#DF4E4E] ros:from-[39.9%] ros:to-[rgba(255,255,255,0)] ros:to-[75.5%]" />
+      {/* Featured testimonies, centred */}
+      <section className="ros:flex ros:w-full ros:flex-col ros:items-center ros:gap-8 ros:bg-[#F4F4F4] ros:px-4 ros:py-16 ros:text-center ros:md:px-8 ros:md:py-[84px]">
+        <div className="ros:flex ros:flex-col ros:items-center ros:gap-3">
+          <h6 className="ros:w-fit ros:rounded-full ros:bg-white ros:px-3 ros:py-1 ros:text-xs ros:font-bold">⭐ FEATURED</h6>
+          <h2 className="ros:text-[32px] ros:font-bold ros:leading-tight ros:md:text-[48px]">Featured Testimonies</h2>
+          <p className="ros:max-w-xl ros:text-[#00000099]">Stories of what God has done in the lives of our members.</p>
         </div>
-        <div className="ros:relative ros:z-10 ros:flex ros:flex-col ros:gap-[24px] ros:items-start ros:px-[120px] ros:w-[760px]">
-          <p className="ros:text-[#FFFFFFB3] ros:text-[16px] ros:font-normal ros:uppercase ros:tracking-[0.15em]" style={{ fontVariationSettings: '"wdth" 100' }}>
-            Featured Testimony
-          </p>
-          <h2
-            className="ros:text-[#FFFDFD] ros:text-[48px] ros:font-bold ros:leading-[1.2]"
-            style={{ fontVariationSettings: '"wdth" 100' }}
-          >
-            God&apos;s Grace is Sufficient
-          </h2>
-          <p
-            className="ros:text-[#FFFDFD] ros:text-[20px] ros:font-normal ros:leading-[1.6] ros:italic"
-            style={{ fontVariationSettings: '"wdth" 100' }}
-          >
-            &ldquo;I came to this church broken and without hope. Today I stand as a living witness
-            that God restores, heals and renews. His faithfulness has no end.&rdquo;
-          </p>
-          <p className="ros:text-[#FFFFFFB3] ros:text-[16px] ros:font-medium" style={{ fontVariationSettings: '"wdth" 100' }}>
-            — Bro. Emmanuel Okafor, Member since 2019
-          </p>
-        </div>
-      </section>
 
-      {/* Testimonies Grid */}
-      <section className="ros:bg-[#F4F4F4] ros:px-[120px] ros:py-[84px] ros:flex ros:flex-col ros:gap-[32px] ros:items-center ros:w-full">
-        <h2
-          className="ros:text-[#000000] ros:text-[48px] ros:font-bold ros:leading-normal ros:text-center ros:w-full"
-         
-        >
-          {liveTestimonies.length > 0 ? "Featured Testimonies" : "More Testimonies"}
-        </h2>
-
-        {loadingTestimonies && (
-          <div className="ros:grid ros:gap-[20px] ros:w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
-            {[1,2,3,4].map((i) => (
-              <div key={i} className="ros:bg-white ros:rounded-[16px] ros:h-[160px] ros:animate-pulse" />
-            ))}
+        {loadingTestimonies ? (
+          <div className="ros:flex ros:w-full ros:max-w-7xl ros:flex-wrap ros:justify-center ros:gap-5">
+            {[1, 2, 3].map((i) => <div key={i} className="ros:h-[220px] ros:w-full ros:max-w-[360px] ros:animate-pulse ros:rounded-2xl ros:bg-white" />)}
           </div>
-        )}
-
-        {!loadingTestimonies && (
-          <div className="ros:grid ros:gap-[20px] ros:w-full" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
-            {liveTestimonies.length > 0
-              ? liveTestimonies.map((t, i) => {
-                  const ownerName = t.owner
-                    ? `${t.owner.firstName ?? ""} ${t.owner.lastName ?? ""}`.trim()
-                    : "Church Member";
-                  const lines = t.content.split("\n").filter(Boolean);
-                  const quote = lines.length > 1 ? lines.slice(1).join(" ") : t.content;
-                  return (
-                    <div key={t.id} className="ros:bg-white ros:rounded-[16px] ros:flex ros:flex-col ros:gap-[16px] ros:p-[20px] ros:shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
-                      <div className="ros:flex ros:items-center ros:gap-[12px]">
-                        <div className="ros:size-[60px] ros:rounded-full ros:overflow-hidden ros:relative ros:flex-shrink-0 ros:bg-[#DF4E4E] ros:flex ros:items-center ros:justify-center">
-                          <span className="ros:text-white ros:text-[22px] ros:font-bold">
-                            {ownerName.charAt(0) || "M"}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="ros:text-[#000000] ros:text-[16px] ros:font-bold ros:leading-normal">
-                            {ownerName || "Anonymous"}
-                          </p>
-                          {(t.state || t.country) && (
-                            <p className="ros:text-[#A3A1AF] ros:text-[13px] ros:font-normal">
-                              {[t.state, t.country].filter(Boolean).join(", ")}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-                      <p className="ros:text-[#000000] ros:text-[14px] ros:font-normal ros:leading-[1.6] ros:italic ros:line-clamp-4">
-                        &ldquo;{t.subject ? `${t.subject} — ` : ""}{quote}&rdquo;
-                      </p>
-                    </div>
-                  );
-                })
-              : fallbackTestimonies.map((person, i) => (
-                  <div key={i} className="ros:bg-white ros:rounded-[16px] ros:flex ros:flex-col ros:gap-[16px] ros:p-[20px] ros:shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
-                    <div className="ros:flex ros:items-center ros:gap-[12px]">
-                      <div className="ros:size-[60px] ros:rounded-full ros:overflow-hidden ros:relative ros:flex-shrink-0">
-                        <Image src={avatarImgs[i % avatarImgs.length]} alt={person.name} fill className="ros:object-cover" />
-                      </div>
-                      <div>
-                        <p className="ros:text-[#000000] ros:text-[16px] ros:font-bold ros:leading-normal">{person.name}</p>
-                        <p className="ros:text-[#A3A1AF] ros:text-[13px] ros:font-normal">Member</p>
-                      </div>
-                    </div>
-                    <p className="ros:text-[#000000] ros:text-[15px] ros:font-normal ros:leading-[1.6] ros:italic">
-                      &ldquo;{person.quote}&rdquo;
-                    </p>
+        ) : liveTestimonies.length > 0 ? (
+          <div className="ros:flex ros:w-full ros:max-w-7xl ros:flex-wrap ros:justify-center ros:gap-5">
+            {liveTestimonies.map((t) => {
+              const { name, body } = parseTestimony(t);
+              return (
+                <article key={t.id} className="ros:flex ros:w-full ros:max-w-[360px] ros:flex-col ros:items-center ros:gap-4 ros:rounded-2xl ros:bg-white ros:p-6 ros:shadow-[0px_4px_20px_rgba(0,0,0,0.08)] ros:md:w-[calc(33.333%-14px)]">
+                  <div className="ros:flex ros:size-[60px] ros:items-center ros:justify-center ros:rounded-full ros:bg-[#DF4E4E] ros:text-[22px] ros:font-bold ros:text-white">{name.charAt(0).toUpperCase()}</div>
+                  {t.subject && <h3 className="ros:text-[18px] ros:font-bold">{t.subject}</h3>}
+                  <p className="ros:line-clamp-6 ros:text-[15px] ros:italic ros:leading-[1.6]">&ldquo;{body}&rdquo;</p>
+                  <div>
+                    <p className="ros:text-[15px] ros:font-bold">{name}</p>
+                    {place(t) && <p className="ros:text-[13px] ros:text-[#A3A1AF]">{place(t)}</p>}
                   </div>
-                ))
-            }
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="ros:max-w-md ros:rounded-2xl ros:bg-white ros:p-8">
+            <p className="ros:text-lg ros:font-bold">Featured testimonies will appear here</p>
+            <p className="ros:mt-2 ros:text-[#00000099]">The church team picks testimonies to feature each season. Share yours below.</p>
+            <a href="#share" className="ros:mt-4 ros:inline-block ros:text-sm ros:font-bold ros:text-[#DF4E4E] ros:hover:underline">Share your testimony →</a>
           </div>
         )}
       </section>

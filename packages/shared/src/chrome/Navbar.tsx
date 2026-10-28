@@ -109,7 +109,8 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
             <div style={{ columnWidth: "220px", columnGap: "2rem" }}>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MINISTRIES</h2>
-                <A onClick={() => setOpen(false)} href="/ministries/choir" className="text-sm hover:underline">Hearts of David</A>
+                <A onClick={() => setOpen(false)} href="/ministries/hearts-of-david" className="text-sm hover:underline">Hearts of David (Men)</A>
+                <A onClick={() => setOpen(false)} href="/ministries/choir" className="text-sm hover:underline">Rose of Sharon Choir</A>
                 <A onClick={() => setOpen(false)} href="/ministries/kids-and-teens" className="text-sm hover:underline">Oaks of Righteousness</A>
                 <A onClick={() => setOpen(false)} href="/youth" className="text-sm hover:underline">Youth Fellowship</A>
                 <A onClick={() => setOpen(false)} href="/ministries/kids-and-teens" className="text-sm hover:underline">Children Church</A>
@@ -128,7 +129,7 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <h2 className="mt-3 text-[10px] font-bold uppercase text-[#FFFFFF66]">Celebrations & family</h2>
                 <A onClick={() => setOpen(false)} href="/requests/baby-dedication" className="text-sm hover:underline">Baby Dedication</A>
                 <A onClick={() => setOpen(false)} href="/requests/baby-christening" className="text-sm hover:underline">Baby Christening</A>
-                <A onClick={() => setOpen(false)} href="/special-day" className="text-sm hover:underline">Send Us Your Special Day</A>
+                <A onClick={() => setOpen(false)} href="/celebrations#request" className="text-sm hover:underline">Celebration Request</A>
               </div>
               <div className="flex flex-col gap-1.5 text-white" style={{ breakInside: "avoid", marginBottom: 20 }}>
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">CONNECT</h2>

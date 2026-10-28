@@ -55,15 +55,15 @@ export default function BuildingProjectPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="relative z-10 mx-4 flex w-full max-w-2xl flex-col items-center gap-6"
+          className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6"
         >
-          <h1 className="my-3 max-w-[900px] px-4 text-center font-anton text-[3rem] font-medium uppercase text-white md:px-0 md:text-7xl md:leading-[1.2]">
+          <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             BUILD <span className="text-textRed">WITH US</span>
           </h1>
-          <p className="w-full max-w-lg text-center text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
+          <p className="w-full max-w-lg text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             Your support helps us build a home for worship, discipleship and community
           </p>
-          <div className="mt-8 md:flex md:items-center md:justify-center">
+          <div className="mt-8 md:flex md:items-center md:justify-start">
             <A
               href="#global"
               className="mb-6 flex w-full items-center justify-center gap-2 rounded-full border border-white bg-white px-5 py-3 text-[0.75rem] font-extrabold uppercase tracking-[.25em] text-black transition duration-300 hover:border-textRed hover:bg-textRed hover:text-white md:w-auto"

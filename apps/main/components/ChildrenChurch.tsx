@@ -61,11 +61,11 @@ export default function ChildrenChurch() {
           <img key={s.src} src={s.src} alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={idx !== i} className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full ros:object-cover" style={{ opacity: idx === i ? 1 : 0, transition: "opacity 0.9s ease" }} />
         ))}
         <div className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.6))" }} />
-        <div className="ros:relative ros:z-10 ros:mx-4 ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:items-center ros:gap-6">
+        <div className="ros:relative ros:z-10 ros:mx-auto ros:flex ros:w-full ros:max-w-7xl ros:flex-col ros:items-start ros:gap-6 ros:px-4 ros:text-left ros:md:px-8">
           <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">🧒 CHILDREN CHURCH · OAKS OF RIGHTEOUSNESS</h3>
-          <h1 className="ros-anton ros:my-3 ros:max-w-[900px] ros:px-4 ros:text-center ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:px-0 ros:md:text-7xl ros:md:leading-[1.2]">Children <span className="text-textRed">Church</span></h1>
-          <p className="ros:w-full ros:max-w-2xl ros:text-center ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">Helping every child and teenager celebrate endless life in Christ.</p>
-          <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+          <h1 className="ros-anton ros:my-3 ros:max-w-[900px] ros:text-left ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]">Children <span className="text-textRed">Church</span></h1>
+          <p className="ros:w-full ros:max-w-2xl ros:text-left ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">Helping every child and teenager celebrate endless life in Christ.</p>
+          <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
             <Btn href="/membership" variant="white">Become a member</Btn>
             <Btn href="#age-groups" variant="outline-white">Age groups</Btn>
           </div>

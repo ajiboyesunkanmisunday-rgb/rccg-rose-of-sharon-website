@@ -27,7 +27,7 @@ export const YOUTH_PAGES: YouthPage[] = [
 export interface Leader { role: string; name: string; note: string; image?: string }
 export const PRESIDENT: Leader = {
   role: "Youth President",
-  name: TBA,
+  name: "Pastor Toyosi Fadipe",
   note: "Leads the youth fellowship, chairs the executive council and works hand in hand with the pastor and the youth pastor.",
   image: "/youth/president.jpg",
 };

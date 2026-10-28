@@ -1,12 +1,13 @@
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle } from "@ros/shared/kit/ui";
+import CelebrationForm from "@/components/CelebrationForm";
 
 export const metadata = { title: "Celebrations | RCCG Rose of Sharon" };
 
 const options = [
   { icon: "👶", title: "Baby Dedication", text: "Present your child to the Lord before the church family. Choose a Sunday at least two weeks from today.", href: "/requests/baby-dedication", cta: "Request a dedication" },
   { icon: "🍼", title: "Baby Christening / Naming Ceremony", text: "Celebrate the name of your child. Choose a day at least three days from today.", href: "/requests/baby-christening", cta: "Request a naming ceremony" },
-  { icon: "🎉", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "/special-day", cta: "Tell us your special day" },
+  { icon: "🎉", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "#request", cta: "Fill the request below" },
 ];
 
 export default function CelebrationsPage() {
@@ -32,6 +33,7 @@ export default function CelebrationsPage() {
           ))}
         </div>
       </Section>
+      <CelebrationForm />
     </>
   );
 }

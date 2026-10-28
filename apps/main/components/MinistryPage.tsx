@@ -26,7 +26,7 @@ export default function MinistryPage({
   return (
     <>
       <Hero pill={pill} title={title} subtitle={intro} bg={image}>
-        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
           <Btn href="/membership" variant="white">Become a member</Btn>
           <Btn href="/ministries" variant="outline-white">All ministries</Btn>
         </div>
