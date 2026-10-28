@@ -1,0 +1,17 @@
+/*
+ * Styles for the sermons app (home, series, live). Tailwind utilities are prefixed "ros:" and scoped to the
+ * files below, so nothing here can affect the church website's own pages.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme) prefix(ros);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(ros) important source(none);
+@source "./";
+@source "../../components/sermons";
+@source "../../../../packages/shared/src";
+
+.sermons-app { --s-bg: #000; --s-panel: #0a0a0a; --s-fg: #fafafa; --s-muted: rgba(250,250,250,0.55); --s-line: rgba(255,255,255,0.08); }
+.sermons-app .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.sermons-app .no-scrollbar::-webkit-scrollbar { display: none; }
+@keyframes sermon-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.sermon-card { animation: sermon-in 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 40ms); }
+@media (prefers-reduced-motion: reduce) { .sermon-card { animation: none; } }

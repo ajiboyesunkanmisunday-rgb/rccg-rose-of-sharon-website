@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import LayoutWrapper from "@ros/shared/chrome/LayoutWrapper";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Sermons & Media | RCCG Rose of Sharon",
@@ -37,7 +35,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="fade-in relative">
+      <body className="relative">
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-5JSPJ93H"
@@ -46,9 +44,7 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
-        <Suspense>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </Suspense>
+        {children}
       </body>
     </html>
   );
