@@ -16,6 +16,8 @@ export interface Sermon {
   /** every series it belongs to (a message can be in a multi-part series and a subject series) */
   all: string[];
   part?: number;
+  /** the message as audio (podcast style); empty until the audio file is uploaded */
+  audio?: string;
 }
 
 const decode = (s: string) =>
@@ -79,7 +81,36 @@ export function seriesFor(title: string): { names: string[]; part?: number } {
 
 export const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
+/**
+ * Messages as audio from the church's media library (Rose of Sharon API, kept on the church server). The API needs a
+ * token, so it is read here on the server with ROS_MEDIA_TOKEN and never reaches the browser.
+ */
+async function getLibrarySermons(): Promise<Sermon[]> {
+  const token = process.env.ROS_MEDIA_TOKEN;
+  if (!token) return [];
+  const origin = (process.env.ROS_API_ORIGIN || "http://137.184.72.16:6001").replace(/\/$/, "");
+  const out: Sermon[] = [];
+  try {
+    for (const category of ["SERMON", "PODCAST"]) {
+      const res = await fetch(`${origin}/api/v1/media/category?category=${category}&pageNo=0&pageSize=100`, { headers: { Authorization: `Bearer ${token}` }, next: { revalidate: 300 } });
+      if (!res.ok) continue;
+      const json = await res.json();
+      for (const m of json.content ?? []) {
+        if (!m.displayUrl || !m.title) continue;
+        const f = seriesFor(String(m.title));
+        const series = f.names[0] ?? "";
+        out.push({ id: String(m.id), title: String(m.title), date: m.date || m.createdOn || new Date(0).toISOString(), thumb: m.thumbnailUrl || "/ros-logo.png", series, seriesSlug: slugify(series), all: f.names, part: f.part, audio: m.displayUrl });
+      }
+    }
+  } catch {
+    return [];
+  }
+  return out.sort((a, b) => +new Date(b.date) - +new Date(a.date));
+}
+
 export async function getSermons(): Promise<Sermon[]> {
+  const library = await getLibrarySermons();
+  if (library.length) return library;
   try {
     const res = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`, { next: { revalidate: 1800 } });
     if (!res.ok) return [];

@@ -79,7 +79,7 @@ export default function LightUpIkejaPage() {
           </div>
         </div>
         <div className="ros:mt-8 ros:flex ros:flex-wrap ros:gap-3">
-          <Link href="/gallery" className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:hover:bg-black ros:hover:text-white">View the full gallery</Link>
+          <Link href="/gallery/light-up-ikeja" className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:hover:bg-black ros:hover:text-white">See all the pictures</Link>
           <Link href="/give" className="ros:rounded-full ros:border ros:border-[#DF4E4E] ros:bg-[#DF4E4E] ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:text-white ros:transition ros:hover:border-black ros:hover:bg-white ros:hover:text-black">Support the work</Link>
         </div>
       </Section>

@@ -4,18 +4,18 @@ import { Suspense, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import NextLink from "next/link";
 import { A } from "@ros/shared/link";
-import { PlayerProvider } from "./Player";
+import { PlayerBar, PlayerProvider } from "./Player";
 
 const NAV = [
   { href: "/", label: "Home", icon: <path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10" /> },
   { href: "/series", label: "Series", icon: <path d="M4 7h16M6 3.5h12M4 11h16v9.5H4z" /> },
   { href: "/live", label: "Live", icon: <><circle cx="12" cy="12" r="2.3" /><path d="M7.4 7.4a6.5 6.5 0 0 0 0 9.2M16.6 7.4a6.5 6.5 0 0 1 0 9.2M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8" /></> },
+  { href: "/gallery", label: "Gallery", icon: <path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4" /> },
 ];
 const MORE = [
   { href: "/events", label: "Events & Services" },
   { href: "/announcements", label: "Announcements" },
   { href: "/testimonies", label: "Testimonies" },
-  { href: "/gallery", label: "Gallery" },
 ];
 
 function Icon({ children }: { children: React.ReactNode }) {
@@ -79,6 +79,8 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           <main className="ros:min-w-0 ros:flex-1 ros:overflow-y-auto ros:rounded-xl ros:px-4 ros:pb-24 ros:pt-8 ros:md:pb-8" style={{ background: "#0a0a0a" }}>{children}</main>
         </div>
 
+        <PlayerBar />
+
         <nav className="ros:fixed ros:bottom-0 ros:left-0 ros:right-0 ros:z-30 ros:flex ros:justify-around ros:border-t ros:border-white/10 ros:py-2 ros:md:hidden" style={{ background: "#000" }} aria-label="Sermons navigation">
           {NAV.map((n) => (
             <NextLink key={n.href} href={n.href} className={`ros:flex ros:flex-col ros:items-center ros:gap-1 ros:px-5 ros:py-1 ros:text-[11px] ros:font-semibold ${active(n.href) ? "ros:text-white" : "ros:text-white/50"}`}>
@@ -86,10 +88,6 @@ export default function Shell({ children }: { children: React.ReactNode }) {
               {n.label}
             </NextLink>
           ))}
-          <NextLink href="/gallery" className="ros:flex ros:flex-col ros:items-center ros:gap-1 ros:px-5 ros:py-1 ros:text-[11px] ros:font-semibold ros:text-white/50">
-            <Icon><path d="M4 5h16v14H4zM4 15l5-5 4 4 3-3 4 4" /></Icon>
-            Gallery
-          </NextLink>
         </nav>
       </div>
     </PlayerProvider>

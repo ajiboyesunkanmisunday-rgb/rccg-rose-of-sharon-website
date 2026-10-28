@@ -2,13 +2,17 @@
  * Event photo albums from the media team. The pictures live with the site (public/gallery/<slug>/NN.jpg, with a
  * smaller NN-thumb.jpg for grids), so visitors never leave the website to see them.
  */
-export interface Album { slug: string; title: string; date: string; text: string; count: number }
+export const ALBUM_CATEGORIES = ["Sunday Services", "Special Services", "Crusades & Outreach", "Children & Youth"] as const;
+export type AlbumCategory = (typeof ALBUM_CATEGORIES)[number];
+
+/** One album = one service or event day. Add a new entry (and its pictures) after each service; the gallery sorts it by date. */
+export interface Album { slug: string; title: string; date: string; iso: string; category: AlbumCategory; text: string; count: number }
 
 export const ALBUMS: Album[] = [
-  { slug: "light-up-ikeja", title: "Light Up Ikeja Crusade 2025", date: "Nov 22nd, 2025", text: "A night of worship, the word and testimonies as we lit up Ikeja.", count: 16 },
-  { slug: "light-up-ikeja-2024", title: "Light Up Ikeja Crusade 2024", date: "2024", text: "Pictures from the 2024 Light Up Ikeja crusade: the crowd, the worship and the volunteers.", count: 12 },
-  { slug: "back-to-school", title: "Back to School", date: "Sept 6th, 2026", text: "Sending our children back to school with prayers, backpacks and joy.", count: 12 },
-  { slug: "fathers-day", title: "Father's Day", date: "June 15th, 2025", text: "Honouring the fathers of Rose of Sharon in worship and celebration.", count: 12 },
+  { slug: "light-up-ikeja", iso: "2025-11-22", category: "Crusades & Outreach", title: "Light Up Ikeja Crusade 2025", date: "Nov 22nd, 2025", text: "A night of worship, the word and testimonies as we lit up Ikeja.", count: 16 },
+  { slug: "light-up-ikeja-2024", iso: "2024-11-01", category: "Crusades & Outreach", title: "Light Up Ikeja Crusade 2024", date: "2024", text: "Pictures from the 2024 Light Up Ikeja crusade: the crowd, the worship and the volunteers.", count: 12 },
+  { slug: "back-to-school", iso: "2026-09-06", category: "Children & Youth", title: "Back to School", date: "Sept 6th, 2026", text: "Sending our children back to school with prayers, backpacks and joy.", count: 12 },
+  { slug: "fathers-day", iso: "2025-06-15", category: "Special Services", title: "Father's Day", date: "June 15th, 2025", text: "Honouring the fathers of Rose of Sharon in worship and celebration.", count: 12 },
 ];
 
 export function albumPhoto(slug: string, n: number, thumb = false) {
