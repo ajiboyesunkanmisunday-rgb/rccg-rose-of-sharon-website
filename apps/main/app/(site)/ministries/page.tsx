@@ -13,10 +13,10 @@ export default function MinistriesPage() {
     },
     {
       id: "women",
-      href: "/ministries/women",
+      href: "/ministries/oaks-of-righteousness",
       image: "/ministries-women.jpg",
       pos: "50% 25%",
-      title: "Women",
+      title: "Oaks of Righteousness (Women)",
       description:
         "The women's ministry of RCCG Rose of Sharon: a fellowship of women growing in faith, friendship and service",
     },

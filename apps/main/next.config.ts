@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/ft", destination: "/first-timer", permanent: true },
+      { source: "/ministries/women", destination: "/ministries/oaks-of-righteousness", permanent: true },
       { source: "/special-day", destination: "/celebrations#request", permanent: true },
       // pages the original design linked to that do not exist yet
       { source: "/cell-church/register", destination: "/membership", permanent: false },
