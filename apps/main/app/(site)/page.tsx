@@ -128,10 +128,10 @@ const adBanners = [
 ];
 
 const countriesData = [
-  { country: "Nigeria", country_code: "NG", image: "/media/Nigeria.7cc7863c.jpeg" },
-  { country: "Canada", country_code: "CA", image: "/media/Canada.d8d0103b.jpeg" },
-  { country: "United Kingdom", country_code: "UK", image: "/media/UK.dea2ef03.jpeg" },
-  { country: "United States", country_code: "US", image: "/media/US.29bb3a25.jpeg" },
+  { country: "Pray", image: "/home/walk-pray.jpg", pos: "55% 30%" },
+  { country: "Worship", image: "/home/walk-worship.jpg", pos: "58% 50%" },
+  { country: "Grow", image: "/home/walk-grow.jpg", pos: "50% 50%" },
+  { country: "Serve", image: "/media/US.29bb3a25.jpeg", pos: "50% 50%" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -248,19 +248,22 @@ export default function Home() {
           whileInView="visible"
           viewport={{ once: true }}
         >
-          <div className="flex h-[500px] w-full items-center justify-center bg-black">
+          <div className="flex min-h-[500px] w-full items-center justify-center bg-black py-16">
             <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4">
               <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white">
                 🌍 RCCG ROSE OF SHARON
               </h2>
               <h1 className="text-center font-anton text-2xl uppercase text-white md:text-[46px] md:leading-[55px]">
-                We enlist, disciple and redeploy a people
+                Grow in faith. Walk in purpose.
               </h1>
               <h1 className="text-center font-anton text-2xl uppercase text-textRed md:text-[46px] md:leading-[55px]">
-                in Christ, for Christ, with joy.
+                Live for Christ.
               </h1>
               <p className="text-center text-base text-white md:text-lg">
-                Join us at 65, Fajuyi way, Ikeja GRA
+                Deepen your relationship with God through prayer, worship, and the transforming power of His Word. Find a loving community where you can grow spiritually, discover your purpose, and serve God with joy.
+              </p>
+              <p className="text-center text-base text-white md:text-lg">
+                Join us at 65, Fajuyi Way, Ikeja, Lagos, and take the next step in your walk with Christ.
               </p>
             </div>
           </div>
@@ -268,7 +271,7 @@ export default function Home() {
           <div className="w-full bg-black px-4 pb-6 md:pb-10">
             <div className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0">
               <div className="flex w-full flex-wrap items-center justify-between gap-4">
-                <h6 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">WATCH ROSE OF SHARON</h6>
+                <h6 className="text-xl font-extrabold tracking-widest text-white md:text-[32px]">YOUR WALK WITH GOD</h6>
               </div>
               <div className="no-scrollbar my-6 flex w-full justify-between gap-4 overflow-x-auto">
                 {countriesData.map((country, index) => (
@@ -276,7 +279,7 @@ export default function Home() {
                     key={index}
                     className="group relative h-[360px] min-w-[240px] overflow-hidden flex-shrink-0"
                   >
-                    <img loading="lazy" decoding="async" src={country.image} alt={country.country} className="h-full w-full object-cover" />
+                    <img loading="lazy" decoding="async" src={country.image} alt={country.country} className="h-full w-full object-cover" style={{ objectPosition: country.pos }} />
                     <div className="absolute inset-0 bg-black/30" />
                     <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{country.country}</h5>
                     <img loading="lazy" decoding="async"
