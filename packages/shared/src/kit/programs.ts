@@ -29,6 +29,33 @@ const EXAM_NOTE = "Sample questions — replace with the official question bank.
 
 export const PROGRAMS: Program[] = [
   {
+    slug: "believers-class",
+    name: "Believers Class",
+    short: "BC",
+    base: "/trainings/believers-class",
+    description:
+      "The first stage for every new believer. The Believers Class gets you up to speed with accurate, scripture-based teaching that creates a strong foundation for your spiritual growth, before you go on to the other stages.",
+    highlights: ["The first step for a new believer", "Scripture-based foundation teaching", "Opens the way to the other stages"],
+    audience: "Every new believer, and anyone who wants a solid foundation in the faith.",
+    step: "Step 1",
+    registerLabel: "Register",
+    registerText: "Sign up for the next Believers Class.",
+    head: { name: "To be announced", title: "Head of program" },
+    prerequisites: ["A decision to follow Jesus Christ", "A willingness to learn and attend every class"],
+    nextClass: "To be announced — check back soon",
+    exam: {
+      minutes: 10,
+      passMark: 60,
+      questions: [
+        { q: "What does it mean to be born again?", options: ["Joining a church", "Receiving new life in Christ by faith", "Being baptised as a child", "Keeping the law"], answer: 1 },
+        { q: "Which Scripture says 'For God so loved the world…'?", options: ["John 3:16", "Psalm 23", "Romans 3:23", "Acts 2:38"], answer: 0 },
+        { q: "How are we saved?", options: ["By good works", "By grace through faith", "By age", "By church attendance only"], answer: 1 },
+        { q: "What is the Bible?", options: ["A history book only", "The inspired Word of God", "A book of stories", "A church rulebook"], answer: 1 },
+        { q: "What should a new believer do to keep growing?", options: ["Pray, read the Word and fellowship", "Stay away from church", "Wait for a sign", "Do nothing"], answer: 0 },
+      ],
+    },
+  },
+  {
     slug: "water-baptism",
     name: "Water Baptism",
     short: "WB",
@@ -206,7 +233,7 @@ export function getProgram(slug: string): Program {
 
 /** The pages that make up a program (used by the tab strip, the hub cards, the menu and Quick Links). */
 export function programPages(p: Program): ProgramPage[] {
-  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : `${p.base}/register`;
+  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? "/membership-class" : `${p.base}/register`;
   const pages: ProgramPage[] = [
     { key: "overview", label: "Overview", href: p.base, text: "About the program and how it works.", icon: "📘" },
     { key: "register", label: p.registerLabel, href: registerHref, text: p.registerText, icon: "📝" },
@@ -222,7 +249,7 @@ export function programPages(p: Program): ProgramPage[] {
 
 /** The two entries each training shows in menus and tab strips: its general page, and online registration. */
 export function programMenu(p: Program): { label: string; href: string }[] {
-  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : `${p.base}/register`;
+  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? "/membership-class" : `${p.base}/register`;
   return [
     { label: "Home", href: p.base },
     { label: "Register online", href: registerHref },
