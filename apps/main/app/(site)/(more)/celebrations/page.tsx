@@ -17,8 +17,8 @@ export default function CelebrationsPage() {
         pill="🎉 CELEBRATIONS"
         title={<>Celebrate life&apos;s special <span className="text-textRed">moments</span></>}
         subtitle="We are just as excited as you are about your happy day."
-        bg="/home/celebrations-hero.jpg"
-        bgPosition="50% 28%"
+        bg="/home/celebrations-banner.jpg"
+        bgPosition="50% 35%"
       />
       <Section>
         <SectionTitle pill="📅 CHOOSE A CELEBRATION" title={<>What are you <span className="text-textRed">celebrating</span>?</>} sub="Pick the one that fits and fill in the short form. Our team will confirm your date." />
