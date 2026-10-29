@@ -354,7 +354,7 @@ export default function BuildingProjectPage() {
       </section>
 
       {/* ── PASTOR VISION ── */}
-      <section className="bg-black" id="pastey">
+      <section className="bg-black pb-24 md:pb-32" id="pastey">
         <motion.div
           variants={fadeUp}
           initial="hidden"
