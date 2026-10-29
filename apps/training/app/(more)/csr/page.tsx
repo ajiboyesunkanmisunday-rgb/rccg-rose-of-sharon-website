@@ -76,7 +76,7 @@ export default function CSRPage() {
 
   return (
     <div>
-      <Hero pill="🌍 CHRISTIAN SOCIAL RESPONSIBILITY" title={<>Equipping You to Excel & <span className="text-textRed">Create</span></>} subtitle="CSR is our church's vocational training centre — empowering members of our community with practical skills to build sustainable livelihoods." bg="/assets/hero-bg.png" />
+      <Hero pill="🌍 CHRISTIAN SOCIAL RESPONSIBILITY" title={<>Equipping You to Excel & <span className="text-textRed">Create</span></>} subtitle="CSR is our church's vocational training centre — empowering members of our community with practical skills to build sustainable livelihoods." bg="/csr/csr-banner.jpg" bgPosition="50% 30%" />
       <div className="ros:mx-auto ros:max-w-7xl ros:px-4 ros:pt-10"><ProgramTabs slug="csr" /></div>
 
       {/* ── What is CSR ── */}
