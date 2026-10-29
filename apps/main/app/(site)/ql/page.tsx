@@ -21,7 +21,7 @@ const quickLinks = [
   { href: "/events", label: "Upcoming Events" },
   { href: "/ministries/hearts-of-david", label: "Hearts of David" },
   { href: "/ministries/choir", label: "Rose of Sharon Choir" },
-  { href: "/ministries/kids-and-teens", label: "Oaks of Righteousness" },
+  { href: "/ministries/oaks-of-righteousness", label: "Oaks of Righteousness" },
   { href: "/youth", label: "Young Leaders and Professionals" },
   { href: CHURCH_LINKS.whatsapp || "#", label: "Join The Church WhatsApp Group" },
   { href: CHURCH_LINKS.instagram || "#", label: "Follow us on Instagram" },

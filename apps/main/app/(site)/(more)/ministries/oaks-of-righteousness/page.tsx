@@ -1,20 +1,20 @@
 import MinistryPage from "@/components/MinistryPage";
 
 export const metadata = {
-  title: "Women | RCCG Rose of Sharon",
+  title: "Oaks of Righteousness (Women) | RCCG Rose of Sharon",
   description: "The women's ministry of RCCG Rose of Sharon: women growing in faith, fellowship and service.",
 };
 
-export default function WomenPage() {
+export default function OaksOfRighteousnessPage() {
   return (
     <MinistryPage
-      pill="🌸 WOMEN'S MINISTRY"
-      title={<>The <span className="text-textRed">Women</span> of Rose of Sharon</>}
-      intro="A fellowship of women growing in faith, friendship and service."
+      pill="🌳 OAKS OF RIGHTEOUSNESS · WOMEN'S MINISTRY"
+      title={<>Oaks of <span className="text-textRed">Righteousness</span></>}
+      intro="The women's ministry of RCCG Rose of Sharon: women growing in faith, friendship and service."
       image="/ministries-women.jpg"
       imagePosition="50% 28%"
       imageAlt="Pastor Chinyere Obiagwu at worship"
-      about="The women's ministry of RCCG Rose of Sharon is a fellowship where women pray together, study the Word, encourage one another and serve the church and the community with joy."
+      about="Oaks of Righteousness is the women's ministry of RCCG Rose of Sharon. It is a fellowship where women pray together, study the Word, encourage one another and serve the church and the community with joy."
       points={[
         { title: "Prayer and the Word", text: "Women coming together to pray, study the Word and grow in their walk with God." },
         { title: "Sisterhood", text: "Real friendships where women support, encourage and stand with one another." },
