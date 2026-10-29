@@ -22,5 +22,5 @@ export const CHURCH_LINKS = {
 export const WHATSAPP_GROUPS: { key: string; name: string; text: string; link: string; qr?: string }[] = [
   { key: "men", name: "Men", text: "Hearts of David: the men of Rose of Sharon.", link: "" },
   { key: "women", name: "Women", text: "The women of Rose of Sharon.", link: "" },
-  { key: "youth", name: "Youth", text: "Youth Fellowship: young people growing together.", link: "" },
+  { key: "youth", name: "Youth", text: "Young Leaders & Professionals: the youth of Rose of Sharon.", link: "https://chat.whatsapp.com/LaaACQjqsljGO0acRHcQAW" },
 ];
