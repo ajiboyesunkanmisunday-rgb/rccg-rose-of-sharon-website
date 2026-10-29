@@ -6,7 +6,7 @@ export const CHURCH_LINKS = {
   /** invite link of the church WhatsApp group, e.g. https://chat.whatsapp.com/... */
   whatsapp: "",
   /** the church's Instagram page, e.g. https://www.instagram.com/... */
-  instagram: "",
+  instagram: "https://www.instagram.com/rccgros",
   /** the attendance form / page, once the church has one */
   attendance: "",
   /** the church's Mixlr channel (live audio), e.g. https://mixlr.com/<channel> */
