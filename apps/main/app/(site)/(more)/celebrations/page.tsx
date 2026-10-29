@@ -7,7 +7,7 @@ export const metadata = { title: "Celebrations | RCCG Rose of Sharon" };
 const options = [
   { image: "/home/baby-dedication.jpg", pos: "50% 30%", title: "Baby Dedication", text: "Present your child to the Lord before the church family. Choose a Sunday at least two weeks from today.", href: "/requests/baby-dedication", cta: "Request a dedication" },
   { image: "/home/baby-christening.jpg", pos: "50% 20%", title: "Baby Christening / Naming Ceremony", text: "Celebrate the name of your child. Choose a day at least three days from today.", href: "/requests/baby-christening", cta: "Request a naming ceremony" },
-  { image: "/media/celebrations.f123ede1.jpg", pos: "50% 35%", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "#request", cta: "Fill the request below" },
+  { image: "/home/special-day.jpg", pos: "50% 25%", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "#request", cta: "Fill the request below" },
 ];
 
 export default function CelebrationsPage() {
