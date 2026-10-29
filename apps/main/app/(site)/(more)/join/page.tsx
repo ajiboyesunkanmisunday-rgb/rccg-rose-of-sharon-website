@@ -23,7 +23,7 @@ export default function JoinPage() {
           {WHATSAPP_GROUPS.map((g) => (
             <div key={g.key} id={g.key} className="ros:flex ros:flex-col ros:items-center ros:gap-4 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:text-center" style={{ scrollMarginTop: 90 }}>
               <h3 className="ros-anton ros:text-2xl ros:uppercase">{g.name}</h3>
-              <p className="ros:text-[#00000099]">{g.text}</p>
+              <p className="ros:text-[#00000099] ros:md:min-h-[3.3rem]">{g.text}</p>
               <WhatsappQr link={g.link} qr={g.qr} label={g.name} />
               {g.link ? (
                 <a href={g.link} target="_blank" rel="noopener noreferrer" className="ros:rounded-full ros:bg-black ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:text-white ros:transition ros:hover:bg-[#DF4E4E]">Join the {g.name} group</a>
