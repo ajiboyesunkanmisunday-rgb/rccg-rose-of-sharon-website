@@ -9,6 +9,8 @@ export default function MinistryPage({
   image,
   imageAlt,
   imagePosition = "50% 50%",
+  banner,
+  bannerPosition,
   about,
   points,
   joinText,
@@ -21,6 +23,9 @@ export default function MinistryPage({
   imageAlt: string;
   /** CSS object-position, to keep faces in view */
   imagePosition?: string;
+  /** a separate picture for the top banner (defaults to `image`) */
+  banner?: string;
+  bannerPosition?: string;
   about: string;
   points: { title: string; text: string }[];
   joinText: string;
@@ -28,7 +33,7 @@ export default function MinistryPage({
 }) {
   return (
     <>
-      <Hero pill={pill} title={title} subtitle={intro} bg={image} bgPosition={imagePosition}>
+      <Hero pill={pill} title={title} subtitle={intro} bg={banner ?? image} bgPosition={bannerPosition ?? imagePosition}>
         <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
           <Btn href="/membership" variant="white">Become a member</Btn>
           <Btn href="/ministries" variant="outline-white">All ministries</Btn>
