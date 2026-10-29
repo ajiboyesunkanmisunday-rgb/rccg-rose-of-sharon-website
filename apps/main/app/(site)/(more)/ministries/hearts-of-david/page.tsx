@@ -11,8 +11,9 @@ export default function HeartsOfDavidPage() {
       pill="🛡️ HEARTS OF DAVID · MEN'S MINISTRY"
       title={<>Hearts of <span className="text-textRed">David</span></>}
       intro="The men's ministry of RCCG Rose of Sharon: men after God's own heart, growing in faith, fellowship and service."
-      image="/fire.jpg"
-      imageAlt="The men of Rose of Sharon"
+      image="/ministries-men.jpg"
+      imagePosition="50% 20%"
+      imageAlt="Pastor Emeka Obiagwu at worship"
       about="Hearts of David is the men's ministry of RCCG Rose of Sharon. It is a brotherhood where men pray together, study the Word, encourage one another and serve the church and the community with joy."
       points={[
         { title: "A heart after God", text: "We build men who seek the Lord first, as David did, and who lead their homes with faith." },

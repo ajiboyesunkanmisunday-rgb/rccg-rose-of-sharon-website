@@ -19,7 +19,7 @@ const fadeIn = {
 const pastors: { name: string; role: string; image?: string; focus?: string }[] = [
   { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", image: "/pastors/emeka-new.jpg", focus: "50% 18%" },
   { name: "Pastor Tunde Fowler", role: "Pastor", image: "/pastors/tunde.jpg", focus: "62% 22%" },
-  { name: "Pastor Chinyere Obiagwu", role: "Pastor" },
+  { name: "Pastor Chinyere Obiagwu", role: "Pastor", image: "/pastors/chinyere.jpg", focus: "50% 25%" },
   { name: "Pastor Rosemary Fowler", role: "Pastor", image: "/pastors/rosemary.jpg", focus: "50% 22%" },
 ];
 
