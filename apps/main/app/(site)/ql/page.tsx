@@ -20,7 +20,6 @@ const quickLinks = [
   { href: "/events", label: "Calendar" },
   { href: "/events", label: "Upcoming Events" },
   { href: "/ministries/hearts-of-david", label: "Hearts of David" },
-  { href: "/ministries/choir", label: "Rose of Sharon Choir" },
   { href: "/ministries/oaks-of-righteousness", label: "Oaks of Righteousness" },
   { href: "/youth", label: "Young Leaders and Professionals" },
   { href: CHURCH_LINKS.whatsapp || "/join", label: "Join The Church WhatsApp Group" },
@@ -37,7 +36,8 @@ const quickLinks = [
   { href: "/trainings/school-of-disciples/register", label: "Register for School of Disciples" },
   { href: "/give", label: "Give Online" },
   { href: "/marketplace", label: "Marketplace" },
-  { href: CHURCH_LINKS.attendance || "#", label: "Attendance" },
+  // shown only once the church has an attendance link to open (set CHURCH_LINKS.attendance in packages/shared/src/links.ts)
+  ...(CHURCH_LINKS.attendance ? [{ href: CHURCH_LINKS.attendance, label: "Attendance" }] : []),
 ];
 
 // Wrapping, centred rows: a box left alone on the last row sits in the middle instead of hanging on the left.
