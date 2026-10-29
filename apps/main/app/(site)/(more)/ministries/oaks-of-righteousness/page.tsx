@@ -8,6 +8,7 @@ export const metadata = {
 export default function OaksOfRighteousnessPage() {
   return (
     <MinistryPage
+      group="women"
       pill="🌳 OAKS OF RIGHTEOUSNESS · WOMEN'S MINISTRY"
       title={<>Oaks of <span className="text-textRed">Righteousness</span></>}
       intro="The women's ministry of RCCG Rose of Sharon: women growing in faith, friendship and service."
