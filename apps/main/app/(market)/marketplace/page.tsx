@@ -8,10 +8,10 @@ const vs = { fontVariationSettings: '"wdth" 100' };
 
 /* ─────────────── AD SLIDES ─────────────── */
 const AD_SLIDES = [
-  { id: 1, bgFrom: "#E8F0FF", bgTo: "#D4E0F5", borderColor: "#000080", badgeBg: "#000080", title: "SHOP WITHIN\nTHE FAMILY", tagline: "QUALITY GOODS FROM YOUR CHURCH COMMUNITY AT VERY AFFORDABLE PRICES", taglineBg: "#000080", cta: "SHOP NOW", ctaHref: "#products", note: "Open to all church members", visual: "store" as const },
-  { id: 2, bgFrom: "#FFF8E8", bgTo: "#FFF0CC", borderColor: "#D97706", badgeBg: "#B45309", title: "PURPOSE\nDRIVEN LIFE", tagline: "BY RICK WARREN — AVAILABLE NOW IN THE MARKETPLACE", taglineBg: "#D97706", cta: "BUY NOW — ₦4,000", ctaHref: "#products", note: "Limited stock available", image: "/marketplace/img4.jpg" },
-  { id: 3, bgFrom: "#F0EEFF", bgTo: "#E2DDFF", borderColor: "#7C3AED", badgeBg: "#7C3AED", title: "CSR SKILLS\nPROGRAM", tagline: "DIGITAL MARKETING, GRAPHIC DESIGN & MORE — ENROL TODAY", taglineBg: "#7C3AED", cta: "EXPLORE CSR", ctaHref: "/ql", note: "Open to all community members", visual: "csr" as const },
-  { id: 4, bgFrom: "#FFF0F0", bgTo: "#FFE0E0", borderColor: "#DC2626", badgeBg: "#DC2626", title: "ITALIAN\nLEATHER SHOES", tagline: "PREMIUM QUALITY FROM A CHURCH MEMBER — FORMAL & SPECIAL OCCASIONS", taglineBg: "#DC2626", cta: "VIEW PRODUCT", ctaHref: "#products", note: "₦75,000 · Limited quantity", image: "/marketplace/img5.jpg" },
+  { id: 1, bgFrom: "#E8F0FF", bgTo: "#D4E0F5", borderColor: "#000080", badgeBg: "#000080", title: "Shop within\nthe family", tagline: "Quality goods from your church community at very affordable prices", taglineBg: "#000080", cta: "Shop now", action: "shop" as const, note: "Open to all church members", visual: "store" as const },
+  { id: 2, bgFrom: "#FFF8E8", bgTo: "#FFF0CC", borderColor: "#D97706", badgeBg: "#B45309", title: "Purpose\nDriven Life", tagline: "By Rick Warren, available now in the marketplace", taglineBg: "#D97706", cta: "Buy now — ₦4,000", action: "product" as const, productId: 3, note: "Limited stock available", image: "/marketplace/img4.jpg" },
+  { id: 3, bgFrom: "#F0EEFF", bgTo: "#E2DDFF", borderColor: "#7C3AED", badgeBg: "#7C3AED", title: "CSR Skills\nProgram", tagline: "Digital marketing, graphic design and more. Enrol today", taglineBg: "#7C3AED", cta: "Explore CSR", action: "link" as const, href: "/csr", note: "Open to all community members", visual: "csr" as const },
+  { id: 4, bgFrom: "#FFF0F0", bgTo: "#FFE0E0", borderColor: "#DC2626", badgeBg: "#DC2626", title: "Italian\nLeather Shoes", tagline: "Premium quality from a church member, for formal and special occasions", taglineBg: "#DC2626", cta: "View product", action: "product" as const, productId: 4, note: "₦75,000 · Limited quantity", image: "/marketplace/img5.jpg" },
 ];
 
 /* ─────────────── STATIC DATA ─────────────── */
@@ -68,12 +68,12 @@ interface Product {
 
 const PRODUCTS: Product[] = [
   { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "/marketplace/img2.jpg", stock: "in_stock", rating: 4.5, ratingCount: 128, condition: "new", seller: "Church Members", tags: ["clothing", "men", "nike"] },
-  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", originalPrice: "₦55,000.00", category: "Sneakers", image: "/marketplace/img3.jpg", isNew: true, onSale: true, stock: "limited", rating: 4.2, ratingCount: 64, condition: "new", seller: "Church Members", tags: ["shoes", "sport", "new"] },
+  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "/marketplace/img3.jpg", isNew: true, stock: "limited", rating: 4.2, ratingCount: 64, condition: "new", seller: "Church Members", tags: ["shoes", "sport", "new"] },
   { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "/marketplace/img4.jpg", stock: "limited", rating: 5.0, ratingCount: 312, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "rick warren"] },
   { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "/marketplace/img5.jpg", stock: "limited", rating: 4.7, ratingCount: 44, condition: "new", seller: "Church Members", tags: ["shoes", "formal", "leather"] },
   { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "/marketplace/img6.jpg", stock: "in_stock", rating: 4.3, ratingCount: 87, condition: "new", seller: "Church Members", tags: ["formal", "men", "suit"] },
   { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "/marketplace/img7.jpg", stock: "in_stock", rating: 4.8, ratingCount: 203, condition: "new", seller: "ROS Restaurant", tags: ["food", "snack", "restaurant"] },
-  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", originalPrice: "₦11,000", category: "Restaurant", image: "/marketplace/img8.jpg", onSale: true, stock: "in_stock", rating: 4.9, ratingCount: 445, condition: "new", seller: "ROS Restaurant", tags: ["food", "rice", "restaurant"] },
+  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "/marketplace/img8.jpg", stock: "in_stock", rating: 4.9, ratingCount: 445, condition: "new", seller: "ROS Restaurant", tags: ["food", "rice", "restaurant"] },
   { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "/marketplace/img9.jpg", stock: "limited", rating: 4.1, ratingCount: 33, condition: "new", seller: "Church Members", tags: ["bag", "women", "leather"] },
   { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "/marketplace/img10.jpg", stock: "in_stock", rating: 4.6, ratingCount: 178, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "myles munroe"] },
 ];
@@ -211,7 +211,15 @@ export default function MarketplacePage() {
   function toggleCondition(c: Condition) { setActiveConditions((p) => p.includes(c) ? p.filter((x) => x !== c) : [...p, c]); }
 
   function goToPage(p: number) { setPage(p); productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  const [favOpen, setFavOpen] = useState(false);
+  useEffect(() => { try { const w = JSON.parse(localStorage.getItem("ros-market-favourites") || "[]"); if (Array.isArray(w)) setWishlist(w); } catch {} }, []);
+  useEffect(() => { try { localStorage.setItem("ros-market-favourites", JSON.stringify(wishlist)); } catch {} }, [wishlist]);
   function addToCart(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setCart((p) => [...p, id]); }
+  function removeFromCart(index: number) { setCart((p) => p.filter((_, i) => i !== index)); }
+  function runSlideAction(sl: { action: string; productId?: number }) {
+    if (sl.action === "shop") productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    else if (sl.action === "product") { const pr = PRODUCTS.find((x) => x.id === sl.productId); if (pr) setSelectedProduct(pr); }
+  }
   function toggleWishlist(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setWishlist((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]); }
 
   function openModal(mode: "sell" | "checkout") {
@@ -263,7 +271,7 @@ export default function MarketplacePage() {
     <main className="bg-[#FFFDFD] min-h-screen pb-[84px] md:pb-0">
 
       {/* ── NAVBAR + CAROUSEL ── */}
-      <AppHeader cartCount={cart.length} onCart={() => setCartOpen(!cartOpen)} onSell={() => openModal("sell")} />
+      <AppHeader cartCount={cart.length} favCount={wishlist.length} onCart={() => { setFavOpen(false); setCartOpen(!cartOpen); }} onFav={() => { setCartOpen(false); setFavOpen(!favOpen); }} onSell={() => openModal("sell")} />
 
       <section className="relative w-full overflow-hidden">
 
@@ -289,8 +297,8 @@ export default function MarketplacePage() {
                       </div>
                     ))}
                     <div className="absolute top-3 left-3 md:top-5 md:left-6 size-[56px] md:size-[72px] rounded-full flex flex-col items-center justify-center shadow-xl" style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
-                      <span className="text-white text-[9px] md:text-[10px] font-bold leading-tight">MEMBER</span>
-                      <span className="text-white text-[13px] md:text-[16px] font-black leading-tight">ONLY</span>
+                      <span className="text-white text-[9px] md:text-[10px] font-bold leading-tight">Members</span>
+                      <span className="text-white text-[13px] md:text-[16px] font-black leading-tight">only</span>
                     </div>
                   </div>
                 ) : (
@@ -304,7 +312,7 @@ export default function MarketplacePage() {
                     ))}
                     <div className="absolute top-3 left-3 md:top-5 md:left-6 size-[56px] md:size-[72px] rounded-full flex flex-col items-center justify-center shadow-xl" style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
                       <span className="text-white text-[9px] md:text-[10px] font-bold leading-tight">100%</span>
-                      <span className="text-white text-[12px] md:text-[14px] font-black leading-tight">FREE</span>
+                      <span className="text-white text-[12px] md:text-[14px] font-black leading-tight">free</span>
                     </div>
                   </div>
                 )}
@@ -315,14 +323,17 @@ export default function MarketplacePage() {
                   <div className="size-[32px] md:size-[40px] rounded-full flex items-center justify-center flex-shrink-0" style={{ background: AD_SLIDES[slideIndex].badgeBg }}>
                     <svg width="18" height="14" viewBox="0 0 25 23" fill="none"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
                   </div>
-                  <span className="font-black text-[13px] md:text-[16px] tracking-wider" style={{ color: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>ROS MARKETPLACE</span>
+                  <span className="font-black text-[13px] md:text-[16px] tracking-wider" style={{ color: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>ROS Marketplace</span>
                 </div>
                 <h2 className="font-black text-[18px] md:text-[26px] lg:text-[32px] leading-tight text-[#100E1A] whitespace-pre-line" style={{ fontVariationSettings: '"wdth" 100' }}>{AD_SLIDES[slideIndex].title}</h2>
                 <div className="rounded-[6px] px-3 py-[8px] md:px-4 md:py-[10px]" style={{ background: AD_SLIDES[slideIndex].taglineBg }}>
                   <p className="text-white font-bold text-[11px] md:text-[13px] leading-tight" style={{ fontVariationSettings: '"wdth" 100' }}>{AD_SLIDES[slideIndex].tagline}</p>
                 </div>
                 <div className="flex flex-col gap-[4px]">
-                  <Link href={AD_SLIDES[slideIndex].ctaHref} className="self-start px-[18px] md:px-[24px] py-[9px] md:py-[11px] rounded-[6px] text-white font-black text-[12px] md:text-[15px] tracking-wide hover:opacity-90 transition-opacity" style={{ background: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>{AD_SLIDES[slideIndex].cta}</Link>
+                  {(() => { const sl = AD_SLIDES[slideIndex] as { cta: string; action: string; href?: string; productId?: number };
+                    return sl.action === "link"
+                      ? <Link href={sl.href!} className="self-start px-[18px] md:px-[24px] py-[9px] md:py-[11px] rounded-[6px] text-white font-black text-[12px] md:text-[15px] tracking-wide hover:opacity-90 transition-opacity cursor-pointer" style={{ background: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>{sl.cta}</Link>
+                      : <button type="button" onClick={() => runSlideAction(sl)} className="self-start px-[18px] md:px-[24px] py-[9px] md:py-[11px] rounded-[6px] text-white font-black text-[12px] md:text-[15px] tracking-wide hover:opacity-90 transition-opacity cursor-pointer" style={{ background: AD_SLIDES[slideIndex].badgeBg, fontVariationSettings: '"wdth" 100' }}>{sl.cta}</button>; })()}
                   <p className="text-[#6B7280] text-[10px] md:text-[12px]" style={{ fontVariationSettings: '"wdth" 100' }}>{AD_SLIDES[slideIndex].note}</p>
                 </div>
               </div>
@@ -350,6 +361,26 @@ export default function MarketplacePage() {
         </div>
       </section>
 
+      {/* Favourites dropdown */}
+      {favOpen && (
+        <div className="fixed right-4 md:right-[60px] z-50 bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-5 w-[min(340px,calc(100vw-32px))]" style={{ top: "68px" }}>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-[#100E1A] text-[16px] font-bold" style={vs}>My favourites ({wishlist.length})</h3>
+            <button onClick={() => setFavOpen(false)} className="text-[#A3A1AF] hover:text-[#100E1A] text-[20px] leading-none">×</button>
+          </div>
+          {wishlist.length === 0 ? <p className="text-[#A3A1AF] text-[14px] leading-[1.6]" style={vs}>You have no favourites yet. Tap the heart on any product to save it here.</p> : (
+            <div className="flex max-h-[320px] flex-col gap-[10px] overflow-y-auto pr-1">
+              {wishlist.map((id) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (
+                <div key={id} className="flex items-center gap-3">
+                  <button onClick={() => { setSelectedProduct(p); setFavOpen(false); }} className="flex min-w-0 flex-1 items-center gap-3 text-left"><img src={p.image} alt={p.name} className="size-[44px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></button>
+                  <button onClick={() => addToCart(id)} className="rounded-full bg-[#000080] px-3 py-[6px] text-[11px] font-bold text-white hover:bg-[#0000a0]" style={vs}>Add to cart</button>
+                  <button onClick={() => toggleWishlist(id)} aria-label={`Remove ${p.name} from favourites`} className="flex size-[28px] items-center justify-center rounded-full text-[#9CA3AF] hover:bg-red-50 hover:text-red-600">×</button>
+                </div>) : null; })}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Cart dropdown */}
       {cartOpen && (
         <div className="fixed right-4 md:right-[60px] z-50 bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.15)] p-5 w-[min(340px,calc(100vw-32px))]" style={{ top: "68px" }}>
@@ -359,8 +390,9 @@ export default function MarketplacePage() {
           </div>
           {cart.length === 0 ? <p className="text-[#A3A1AF] text-[14px]" style={vs}>Your cart is empty.</p> : (
             <div className="flex flex-col gap-[8px]">
-              {cart.slice(0, 5).map((id, i) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></div>) : null; })}
-              {cart.length > 5 && <p className="text-[#A3A1AF] text-[12px]" style={vs}>+{cart.length - 5} more</p>}
+              <div className="flex max-h-[280px] flex-col gap-[8px] overflow-y-auto pr-1">
+                {cart.map((id, i) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div><button onClick={() => removeFromCart(i)} aria-label={`Remove ${p.name} from the cart`} title="Remove" className="flex size-[30px] flex-shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-red-50 hover:text-red-600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="size-[17px]"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 001 1h8a1 1 0 001-1l1-12M9 7V4h6v3" /></svg></button></div>) : null; })}
+              </div>
               <button onClick={() => openModal("checkout")} className="mt-2 w-full bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[20px] hover:bg-[#0000a0] transition-colors" style={vs}>Proceed to Checkout</button>
             </div>
           )}
@@ -392,7 +424,6 @@ export default function MarketplacePage() {
                 <div className="bg-[#100E1A] px-5 py-[10px] rounded-[33px] self-start">
                   <span className="text-[#FFFDFD] text-[17px] font-black" style={vs}>{selectedProduct.price}</span>
                 </div>
-                {selectedProduct.originalPrice && <span className="text-[12px] text-[#9CA3AF] line-through mt-1 pl-2" style={vs}>{selectedProduct.originalPrice}</span>}
               </div>
               <div className="flex items-center gap-4">
                 <button onClick={(e) => toggleWishlist(selectedProduct.id, e)}>
@@ -410,11 +441,11 @@ export default function MarketplacePage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
           <div className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-[520px] flex flex-col gap-5 shadow-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between">
-              <div><h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>{modalMode === "sell" ? "List a Product" : "Checkout"}</h2>
-                <p className="text-[#A3A1AF] text-[12px] mt-1" style={vs}>{modalMode === "sell" ? "Church members can list items for sale" : "Verify membership to proceed"}</p></div>
+              <div><h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>{modalMode === "sell" ? "List a Product" : "Order request"}</h2>
+                <p className="text-[#A3A1AF] text-[12px] mt-1" style={vs}>{modalMode === "sell" ? "Church members can list items for sale" : "ROS Marketplace"}</p></div>
               <button onClick={closeModal} className="text-[#A3A1AF] text-[24px] leading-none">×</button>
             </div>
-            {sellStep === "verify" && (
+            {modalMode === "sell" && sellStep === "verify" && (
               <form onSubmit={handleVerify} className="flex flex-col gap-4">
                 <div className="bg-[#F3F4F6] rounded-[12px] p-4 flex items-start gap-3"><span className="text-[18px]">🔒</span><p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>Enter your registered phone number or email to verify church membership.</p></div>
                 <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold text-[#111827]">Phone or Email</label>
@@ -443,17 +474,16 @@ export default function MarketplacePage() {
                 </div>
               </form>
             )}
-            {sellStep === "form" && verifiedMember && modalMode === "checkout" && (
-              <div className="flex flex-col gap-4">
-                <div className="bg-green-50 border border-green-200 rounded-[10px] px-4 py-2 flex items-center gap-2"><span className="text-green-600 font-bold">✓</span><p className="text-green-700 text-[13px]" style={vs}>Verified: <strong>{verifiedMember.name}</strong></p></div>
-                {cart.length === 0 ? <p className="text-[#A3A1AF] text-[14px] text-center py-4" style={vs}>Your cart is empty.</p> : (<>
-                  <div className="flex flex-col gap-3">{cart.map((id, i) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3 p-3 bg-[#F3F4F6] rounded-[10px]"><img src={p.image} alt={p.name} className="size-[44px] rounded-[8px] object-cover bg-[#E5E7EB]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></div>) : null; })}</div>
-                  <div className="bg-[#000080]/5 rounded-[10px] p-3 text-center"><p className="text-[#100E1A] text-[12px] leading-[1.6]" style={vs}>Order noted. Arrange pickup at church on Sunday or contact the seller directly.</p></div>
-                  <button onClick={closeModal} className="w-full bg-[#000080] text-white py-[13px] rounded-[24px] text-[14px] font-bold" style={vs}>Done</button>
-                </>)}
+            {modalMode === "checkout" && (
+              <div className="flex flex-col items-center gap-4 py-2 text-center">
+                <div className="size-[64px] rounded-full bg-green-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg></div>
+                <p className="text-[#000080] text-[20px] font-bold" style={vs}>Request Submitted Successfully!</p>
+                <p className="text-[#374151] text-[14px] leading-[1.6]" style={vs}>Thank you for shopping on ROS Marketplace. Your order request has been received successfully.</p>
+                <div className="w-full rounded-[10px] bg-[#000080]/5 p-4"><p className="text-[#100E1A] text-[13px] leading-[1.6]" style={vs}><strong>Next step:</strong> Please proceed to Just As New to make your payment and claim your order.</p></div>
+                <button onClick={() => { setCart([]); closeModal(); }} className="w-full rounded-[24px] border border-[#000080] py-[13px] text-[14px] font-bold text-[#000080] transition-colors hover:bg-[#000080] hover:text-white" style={vs}>Continue Shopping</button>
               </div>
             )}
-            {sellStep === "success" && (
+            {modalMode === "sell" && sellStep === "success" && (
               <div className="flex flex-col gap-4 items-center text-center py-4">
                 <div className="size-[64px] rounded-full bg-green-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg></div>
                 <p className="text-[#000080] text-[18px] font-bold" style={vs}>Product Submitted!</p>
@@ -508,7 +538,6 @@ export default function MarketplacePage() {
               {activeSeller !== "All Sellers" && <Chip label={activeSeller} onRemove={() => setActiveSeller("All Sellers")} />}
               {activeConditions.map((c) => <Chip key={c} label={c === "new" ? "New" : c === "used" ? "Used" : "Refurbished"} onRemove={() => toggleCondition(c)} />)}
               {availability !== "All" && <Chip label={availability} onRemove={() => setAvailability("All")} />}
-              {onSaleOnly && <Chip label="On Sale" onRemove={() => setOnSaleOnly(false)} />}
               {newOnly && <Chip label="New Arrivals" onRemove={() => setNewOnly(false)} />}
             </div>
           )}
@@ -528,8 +557,7 @@ export default function MarketplacePage() {
                   <div className="relative h-[200px] md:h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]">
                     <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     <div className="absolute top-2 left-2 flex flex-col gap-1">
-                      {product.isNew && <span className="bg-[#000080] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full uppercase tracking-wide">New</span>}
-                      {product.onSale && <span className="bg-[#DC2626] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full">Sale</span>}
+                      {product.isNew && <span className="bg-[#000080] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full tracking-wide">New</span>}
                       {product.stock === "limited" && <span className="bg-[#D97706] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full">Low Stock</span>}
                     </div>
                     <button onClick={(e) => { toggleWishlist(product.id, e); }} className="absolute top-2 right-2 size-[30px] bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm hover:bg-white transition-colors">
@@ -551,7 +579,6 @@ export default function MarketplacePage() {
                         <div className="bg-[#100E1A] px-[16px] md:px-[22px] py-[9px] md:py-[11px] rounded-[33px]">
                           <span className="text-[#FFFDFD] text-[13px] md:text-[15px] font-black" style={vs}>{product.price}</span>
                         </div>
-                        {product.originalPrice && <span className="text-[10px] text-[#9CA3AF] line-through mt-[2px] pl-1" style={vs}>{product.originalPrice}</span>}
                       </div>
                       <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[38px] md:size-[42px] rounded-[24px] flex items-center justify-center hover:bg-[#000080] transition-colors">
                         <svg viewBox="0 0 25 23" fill="none" className="size-[17px]"><path d="M2 2h3l3.5 14h12l3-10H7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /><circle cx="10" cy="20" r="1.5" fill="white" /><circle cx="19" cy="20" r="1.5" fill="white" /></svg>
@@ -579,7 +606,6 @@ export default function MarketplacePage() {
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <div className="flex flex-col items-end">
                       <div className="bg-[#100E1A] px-3 py-[8px] rounded-[33px]"><span className="text-white text-[13px] md:text-[15px] font-black" style={vs}>{product.price}</span></div>
-                      {product.originalPrice && <span className="text-[10px] text-[#9CA3AF] line-through mt-[2px]" style={vs}>{product.originalPrice}</span>}
                     </div>
                     <button onClick={(e) => toggleWishlist(product.id, e)}><svg viewBox="0 0 20 18" fill="none" className="size-[18px]"><path d="M10 16S1.5 10.5 1.5 5.5C1.5 3.5 3 2 5 2c1.4 0 2.7.9 3.4 2.2A3.82 3.82 0 0 1 15 6.2C15.3 9.8 10 16 10 16z" fill={wishlist.includes(product.id) ? "#FF4D6D" : "none"} stroke={wishlist.includes(product.id) ? "#FF4D6D" : "#6B7280"} strokeWidth="1.5" /></svg></button>
                     <button onClick={(e) => addToCart(product.id, e)} className="bg-[#00003D] size-[36px] rounded-[24px] flex items-center justify-center hover:bg-[#000080]">
@@ -617,9 +643,9 @@ export default function MarketplacePage() {
 
       {/* Why Shop With Us */}
       <section className="bg-[#100E1A] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[80px]">
-        <div className="text-center mb-10"><p className="text-[#B5B5F3] text-[12px] uppercase tracking-[0.2em] font-medium" style={vs}>The ROS Difference</p><h2 className="text-[#FFFDFD] text-[22px] md:text-[34px] font-bold mt-2" style={vs}>Why Shop With Us</h2></div>
+        <div className="text-center mb-10"><p className="text-[#B5B5F3] text-[12px] tracking-[0.2em] font-medium" style={vs}>The ROS Difference</p><h2 className="text-[#FFFDFD] text-[22px] md:text-[34px] font-bold mt-2" style={vs}>Why Shop With Us</h2><p className="mx-auto mt-3 max-w-[560px] text-[#A3A1AF] text-[14px] md:text-[15px] leading-[1.7]" style={vs}>Our church marketplace offers more than just products. It&apos;s a place of purpose, value and community.</p></div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {[{ icon: "🙏", title: "Faith-Based Sellers", desc: "All vendors are church members committed to honest trade." }, { icon: "💰", title: "Affordable Prices", desc: "Quality products at prices that respect every family's budget." }, { icon: "🚚", title: "Easy Pickup", desc: "Arrange pickup at church during service times." }, { icon: "🤝", title: "Community Support", desc: "Every purchase supports a church member's livelihood." }].map((f) => (
+          {[{ icon: "🛡️", title: "Trusted Sellers", desc: "Shop confidently from verified vendors within the ROS community." }, { icon: "💰", title: "Affordable Prices", desc: "Great products at prices that fit your budget." }, { icon: "🛍️", title: "Easy Shopping", desc: "A comfortable, simple and stress-free shopping experience." }, { icon: "🤝", title: "A Supportive Community", desc: "Every purchase helps support the church and its ministry." }].map((f) => (
             <div key={f.title} className="bg-[#1A1826] rounded-[18px] p-5 flex flex-col gap-3 border border-[#B5B5F3]/10">
               <span className="text-[28px]">{f.icon}</span>
               <p className="text-[#FFFDFD] text-[14px] font-bold" style={vs}>{f.title}</p>
@@ -629,23 +655,29 @@ export default function MarketplacePage() {
         </div>
       </section>
 
-      {/* Become a Vendor */}
+      {/* For sellers */}
       <section className="bg-[#EEF0F7] px-6 md:px-[60px] lg:px-[120px] py-[60px] md:py-[80px]">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-[80px] items-center">
           <div className="flex flex-col gap-5 flex-1">
-            <p className="text-[#000080] text-[12px] uppercase tracking-[0.2em] font-medium" style={vs}>For Sellers</p>
-            <h2 className="text-[#100E1A] text-[22px] md:text-[34px] font-bold" style={vs}>Want to Sell on ROS Marketplace?</h2>
-            <p className="text-[#A3A1AF] text-[15px] leading-[1.7]" style={vs}>Church members with products or services can reach hundreds of fellow members and community customers.</p>
+            <p className="text-[#000080] text-[12px] tracking-[0.2em] font-medium" style={vs}>For Sellers</p>
+            <h2 className="text-[#100E1A] text-[22px] md:text-[34px] font-bold" style={vs}>Share your products or services on the ROS Marketplace.</h2>
+            <p className="text-[#6B7280] text-[15px] leading-[1.7]" style={vs}>Reach the community, grow your business, and bless others with your God-given gifts.</p>
+            <blockquote className="border-l-4 border-[#000080] pl-4 text-[#374151] text-[14px] italic leading-[1.7]" style={vs}>
+              &ldquo;Each of you should use whatever gift you have received to serve others, as faithful stewards of God&apos;s grace in its various forms.&rdquo;
+              <footer className="mt-1 text-[13px] not-italic font-semibold text-[#000080]">1 Peter 4:10 NIV</footer>
+            </blockquote>
           </div>
           <div className="flex-1 bg-white rounded-[24px] p-8 shadow-[0_8px_40px_rgba(0,0,128,0.10)] flex flex-col gap-5 items-center justify-center text-center">
             <span className="text-[44px]">🛍️</span>
-            <h3 className="text-[#100E1A] text-[20px] font-bold" style={vs}>Ready to Start Selling?</h3>
-            <p className="text-[#6B7280] text-[14px] leading-[1.7]" style={vs}>Verify your membership and list in under 2 minutes.</p>
+            <h3 className="text-[#100E1A] text-[20px] font-bold" style={vs}>Ready to put your gifts to work?</h3>
+            <p className="text-[#6B7280] text-[14px] leading-[1.7]" style={vs}>Verify your church membership and list your product or service in just a few minutes.</p>
             <button onClick={() => openModal("sell")} className="w-full py-[14px] bg-[#000080] text-white text-[15px] font-bold rounded-[30px] hover:bg-[#0000a0]" style={vs}>List an Item Now →</button>
-            <p className="text-[#9CA3AF] text-[11px]" style={vs}>Members only · Requires church registration</p>
+            <p className="text-[#9CA3AF] text-[11px]" style={vs}>Exclusively for registered church members.</p>
           </div>
         </div>
       </section>
+
+      <div className="bg-[#100E1A] px-6 py-5 text-center text-[13px] font-semibold tracking-wide text-[#B5B5F3] md:text-[14px]" style={vs}>Shop • Support • Build God&apos;s Kingdom.</div>
 
       <AppFooter
         cartCount={cart.length}
@@ -658,7 +690,7 @@ export default function MarketplacePage() {
 
 
 /* ─────────────── APP-STYLE HEADER ─────────────── */
-function AppHeader({ cartCount, onCart, onSell }: { cartCount: number; onCart: () => void; onSell: () => void }) {
+function AppHeader({ cartCount, favCount, onCart, onFav, onSell }: { cartCount: number; favCount: number; onCart: () => void; onFav: () => void; onSell: () => void }) {
   return (
     <header className="sticky top-0 z-40 border-b border-[#E5E7EB] bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-[58px] max-w-[1400px] items-center gap-3 px-4 md:h-[64px] md:px-10">
@@ -685,6 +717,15 @@ function AppHeader({ cartCount, onCart, onSell }: { cartCount: number; onCart: (
             style={vs}
           >
             + Sell an item
+          </button>
+          <button
+            onClick={onFav}
+            aria-label="Open favourites"
+            title="My favourites"
+            className="relative flex size-[42px] items-center justify-center rounded-full text-[#100E1A] transition-colors hover:bg-[#F3F4F6]"
+          >
+            <svg viewBox="0 0 24 24" fill={favCount > 0 ? "#DC2626" : "none"} stroke={favCount > 0 ? "#DC2626" : "currentColor"} strokeWidth="1.9" className="size-[23px]"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20S3.5 14.5 3.5 8.8C3.5 6.2 5.5 4.5 7.8 4.5c1.7 0 3.4.9 4.2 2.6.8-1.7 2.5-2.6 4.2-2.6 2.3 0 4.3 1.7 4.3 4.3C20.5 14.5 12 20 12 20z" /></svg>
+            {favCount > 0 && <span className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#DC2626] px-[3px] text-[10px] font-bold text-white" style={vs}>{favCount}</span>}
           </button>
           <button
             onClick={onCart}
