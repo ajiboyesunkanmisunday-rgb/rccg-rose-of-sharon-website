@@ -17,7 +17,7 @@ const fadeIn = {
 // Pastors shown on the About page. Add each photo to /public/pastors and set `image` (e.g. "/pastors/emeka.jpg");
 // the name and text can be edited whenever the publication unit sends updates.
 const pastors: { name: string; role: string; image?: string; focus?: string }[] = [
-  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", image: "/pastors/emeka.jpg", focus: "50% 18%" },
+  { name: "Pastor Emeka Obiagwu", role: "Senior Pastor", image: "/pastors/emeka-new.jpg", focus: "50% 18%" },
   { name: "Pastor Tunde Fowler", role: "Pastor", image: "/pastors/tunde.jpg", focus: "62% 22%" },
   { name: "Pastor Chinyere Obiagwu", role: "Pastor" },
   { name: "Pastor Rosemary Fowler", role: "Pastor", image: "/pastors/rosemary.jpg", focus: "50% 22%" },
@@ -43,7 +43,7 @@ function PastorModal({ onClose }: { onClose: () => void }) {
       <div
         className="about-pastey relative mx-auto flex w-full max-w-4xl flex-col rounded-md bg-black bg-contain bg-center bg-no-repeat px-3 py-2 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:bg-black before:opacity-60 md:p-10"
         onClick={(e) => e.stopPropagation()}
-        style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundSize: "cover", backgroundPosition: "50% 20%", maxHeight: "92vh", overflowY: "auto", position: "relative" }}
+        style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundSize: "cover", backgroundPosition: "32% 30%", maxHeight: "92vh", overflowY: "auto", position: "relative" }}
       >
         <div className="mb-2 flex justify-between">
           <div />
@@ -232,7 +232,7 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-black px-6 py-16 sm:px-12 md:flex-row lg:gap-10 lg:px-24"
             >
-              <div role="img" aria-label="Pastor Emeka Obiagwu, Senior Pastor" className="about-pastey mb-4 flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:h-auto md:p-0" style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundPosition: "50% 20%" }} />
+              <div role="img" aria-label="Pastor Emeka Obiagwu, Senior Pastor" className="about-pastey mb-4 flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:h-auto md:p-0" style={{ backgroundImage: "url(/pastors/emeka.jpg)", backgroundPosition: "32% 30%" }} />
               <div className="mx-auto w-full max-w-full md:max-w-[380px] lg:max-w-[450px]">
                 <div className="mb-4 flex flex-col items-center md:items-start">
                   <img loading="lazy" decoding="async" src="/media/Global_mini_white.797c0092.svg" alt="RCCG Rose of Sharon" className="mb-10 h-8 w-auto" />
