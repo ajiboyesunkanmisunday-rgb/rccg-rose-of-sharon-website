@@ -308,7 +308,7 @@ export default function Home() {
 
         {/* Family background */}
         <div
-          style={{ backgroundImage: "url(/home/csr-register.jpg)", backgroundPosition: "50% 25%" }}
+          style={{ backgroundImage: "url(/home/csr-register.jpg)", backgroundPosition: "50% 15%" }}
           className="relative h-[780px] bg-cover bg-no-repeat"
         >
           <div className="flex h-[780px] items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
