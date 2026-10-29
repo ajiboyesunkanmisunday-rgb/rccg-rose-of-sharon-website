@@ -8,7 +8,7 @@ export const metadata = {
 export default function OaksOfRighteousnessPage() {
   return (
     <MinistryPage
-      president={{}}
+      president={{ photo: "/ministries/oaks-president.jpg" }}
       group="women"
       pill="🌳 OAKS OF RIGHTEOUSNESS · WOMEN'S MINISTRY"
       title={<>Oaks of <span className="text-textRed">Righteousness</span></>}
