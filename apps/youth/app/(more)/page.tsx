@@ -10,8 +10,8 @@ export default function YouthHome() {
   const cards = YOUTH_PAGES.filter((p) => p.key !== "overview" && p.key !== "connect");
   return (
     <>
-      <Hero pill="🔥 RCCG ROSE OF SHARON · YOUTH" title={<>The <span className="text-textRed">Youth</span> Fellowship</>} subtitle="A church of its own within the church — young people led by young people, rooted in the Word and on mission." bg="/youth/hangout-1.jpg">
-        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+      <Hero logo="/youth/ylp-logo.png" pill="🔥 RCCG ROSE OF SHARON · YOUTH" title={<>The <span className="text-textRed">Youth</span> Fellowship</>} subtitle="A church of its own within the church — young people led by young people, rooted in the Word and on mission." bg="/youth/hangout-1.jpg">
+        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
           <Btn href="/youth/join" variant="white">Join the youth</Btn>
           <Btn href="/youth/departments" variant="outline-white">Serve in a department</Btn>
         </div>

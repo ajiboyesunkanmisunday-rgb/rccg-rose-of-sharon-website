@@ -7,7 +7,7 @@ export const metadata = { title: "Youth Leadership | RCCG Rose of Sharon" };
 export default function YouthLeadership() {
   return (
     <>
-      <Hero pill="👥 LEADERSHIP" title={<>Youth <span className="text-textRed">Leadership</span></>} subtitle="The executives leading the Young Leaders and Professionals Fellowship." bg="/youth/leaders.jpg" bgPosition="50% 45%" />
+      <Hero logo="/youth/ylp-logo.png" pill="👥 LEADERSHIP" title={<>Youth <span className="text-textRed">Leadership</span></>} subtitle="The executives leading the Young Leaders and Professionals Fellowship." bg="/youth/leaders.jpg" bgPosition="50% 45%" />
       <Section>
         <YouthTabs />
         <div className="ros:grid ros:grid-cols-1 ros:items-center ros:gap-10 ros:md:grid-cols-[360px_1fr]">

@@ -13,6 +13,7 @@ export function Hero({
   subtitle,
   bg,
   bgPosition,
+  logo,
   children,
 }: {
   pill: string;
@@ -21,6 +22,8 @@ export function Hero({
   bg?: string;
   /** CSS background-position for the hero photo (default: centred) */
   bgPosition?: string;
+  /** a round logo shown above the pill (for a ministry or fellowship with its own logo) */
+  logo?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -30,6 +33,7 @@ export function Hero({
     >
       <div className="ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
       <Reveal className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-start ros:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
+        {logo && <img src={logo} alt="" width={96} height={96} className="ros:size-20 ros:rounded-full ros:bg-white ros:object-cover ros:md:size-24" />}
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
           {pill}
         </h3>
