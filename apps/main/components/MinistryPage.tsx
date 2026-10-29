@@ -17,6 +17,7 @@ export default function MinistryPage({
   joinText,
   others,
   group,
+  president,
 }: {
   pill: string;
   title: React.ReactNode;
@@ -34,6 +35,8 @@ export default function MinistryPage({
   others: { label: string; href: string }[];
   /** "men" or "women": shows join-the-WhatsApp-group buttons instead of the first-timer / other-ministries links */
   group?: "men" | "women";
+  /** the ministry president: shows a photo space (a placeholder until `photo` is set) */
+  president?: { name?: string; photo?: string };
 }) {
   const wa = group ? WHATSAPP_GROUPS.find((g) => g.key === group) : undefined;
   // the group's invite link when it exists, otherwise its QR code on the Join Us page
@@ -68,6 +71,26 @@ export default function MinistryPage({
           ))}
         </div>
       </Section>
+
+      {president && (
+        <Section className="ros:pt-0">
+          <SectionTitle center pill="👤 LEADERSHIP" title={<>Our <span className="text-textRed">president</span></>} />
+          <div className="ros:mx-auto ros:mt-8 ros:flex ros:w-full ros:max-w-[280px] ros:flex-col ros:gap-3">
+            {president.photo ? (
+              <img src={president.photo} alt={president.name ? `${president.name}, President` : "The ministry president"} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
+            ) : (
+              <div className="ros:flex ros:h-[340px] ros:w-full ros:flex-col ros:items-center ros:justify-center ros:gap-3 ros:rounded-lg ros:bg-[#F4F4F4]">
+                <span className="ros-anton ros:text-[88px] ros:leading-none ros:text-black">{president.name ? president.name.trim().charAt(0).toUpperCase() : "P"}</span>
+                <span className="ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-black">Photo coming soon</span>
+              </div>
+            )}
+            <div className="ros:text-center">
+              <h3 className="ros:text-lg ros:font-bold">{president.name || "To be announced"}</h3>
+              <p className="ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">President</p>
+            </div>
+          </div>
+        </Section>
+      )}
 
       <section className="ros:bg-black ros:px-4 ros:py-16">
         <div className="ros:mx-auto ros:flex ros:max-w-3xl ros:flex-col ros:items-center ros:gap-5 ros:text-center">
