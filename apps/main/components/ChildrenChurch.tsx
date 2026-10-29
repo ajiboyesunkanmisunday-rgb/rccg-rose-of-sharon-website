@@ -7,13 +7,14 @@ import { SectionTitle, Btn } from "@ros/shared/kit/ui";
 const p = (n: number, thumb = false) => `/gallery/back-to-school/${String(n).padStart(2, "0")}${thumb ? "-thumb" : ""}.jpg`;
 
 // Photos of our children and teenagers for the banner carousel.
+// `pos` keeps the children's faces in view: the banner is wide, so each picture is cropped to a band, and this picks the band.
 const SLIDES = [
-  { src: p(1), alt: "Children of Rose of Sharon performing on stage in matching outfits", label: "Praise & presentations" },
-  { src: p(4), alt: "Children gathered in their Sunday class", label: "Sunday class" },
-  { src: p(2), alt: "Children walking to school with their new bags", label: "Back to school" },
-  { src: p(9), alt: "Children receiving their school bags", label: "Joy in giving" },
-  { src: p(12), alt: "Two girls with their new school bags", label: "Ready for school" },
-  { src: p(7), alt: "A child proudly showing her new backpack", label: "A new school year" },
+  { src: "/children/carousel-1.jpg", pos: "50% 33%", alt: "A smiling girl with her new school bag", label: "Smiles that light up the class" },
+  { src: p(4), pos: "50% 45%", alt: "Children gathered in their Sunday class", label: "Sunday class" },
+  { src: p(2), pos: "50% 55%", alt: "Children walking to school with their new bags", label: "Back to school" },
+  { src: p(9), pos: "50% 63%", alt: "Children receiving their school bags", label: "Joy in giving" },
+  { src: p(12), pos: "50% 20%", alt: "Two girls with their new school bags", label: "Ready for school" },
+  { src: p(7), pos: "50% 12%", alt: "A child proudly showing her new backpack", label: "A new school year" },
 ];
 
 // Age groups. The age ranges are the usual Sunday-school brackets; confirm them with the children's ministry.
@@ -58,7 +59,7 @@ export default function ChildrenChurch() {
       {/* ── Carousel banner ── */}
       <div className="ros:relative ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:overflow-hidden ros:bg-black ros:lg:h-[700px]" aria-roledescription="carousel" aria-label="Children and teenagers of Rose of Sharon">
         {SLIDES.map((s, idx) => (
-          <img key={s.src} src={s.src} alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={idx !== i} className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full ros:object-cover" style={{ opacity: idx === i ? 1 : 0, transition: "opacity 0.9s ease" }} />
+          <img key={s.src} src={s.src} alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={idx !== i} className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full ros:object-cover" style={{ opacity: idx === i ? 1 : 0, transition: "opacity 0.9s ease", objectPosition: s.pos }} />
         ))}
         <div className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.6))" }} />
         <div className="ros:relative ros:z-10 ros:mx-auto ros:flex ros:w-full ros:max-w-7xl ros:flex-col ros:items-start ros:gap-6 ros:px-4 ros:text-left ros:md:px-8">
