@@ -71,7 +71,7 @@ function HeroCard({
 
 const communityCards = [
   {
-    image: "/media/membership-class.e6e53cc0.jpg",
+    image: "/home/believers-class.jpg",
     title: "Believers Classes",
     href: "/membership-class",
     description:
