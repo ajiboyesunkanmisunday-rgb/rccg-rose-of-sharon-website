@@ -114,10 +114,10 @@ export default function Footer() {
           className="absolute -bottom-[10%] right-[-5%] z-0 h-[300px] w-full bg-contain bg-right-bottom bg-no-repeat"
         />
         <h2 className="pt-6 font-anton font-normal text-3xl text-black md:pt-12 md:text-6xl lg:text-[80px]">
-          Give to Rose of Sharon
+          Give to God
         </h2>
         <p className="z-20 mt-2 text-base text-[#000000B2] md:text-lg lg:text-xl">
-          Giving To God
+          Your generosity keeps blessing lives, thank you for giving.
         </p>
         <div className="mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center" style={{ position: "relative", zIndex: 10 }}>
           <A
