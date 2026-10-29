@@ -23,7 +23,7 @@ const quickLinks = [
   { href: "/ministries/choir", label: "Rose of Sharon Choir" },
   { href: "/ministries/oaks-of-righteousness", label: "Oaks of Righteousness" },
   { href: "/youth", label: "Young Leaders and Professionals" },
-  { href: CHURCH_LINKS.whatsapp || "#", label: "Join The Church WhatsApp Group" },
+  { href: CHURCH_LINKS.whatsapp || "/join", label: "Join The Church WhatsApp Group" },
   { href: CHURCH_LINKS.instagram || "#", label: "Follow us on Instagram" },
   { href: CHURCH_LINKS.youtube, label: "Follow us on YouTube" },
   { href: "/media", label: "Sermons" },
