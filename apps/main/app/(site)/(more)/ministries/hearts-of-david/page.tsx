@@ -8,6 +8,7 @@ export const metadata = {
 export default function HeartsOfDavidPage() {
   return (
     <MinistryPage
+      president={{}}
       group="men"
       pill="🛡️ HEARTS OF DAVID · MEN'S MINISTRY"
       title={<>Hearts of <span className="text-textRed">David</span></>}
