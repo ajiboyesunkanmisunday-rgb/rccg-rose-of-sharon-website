@@ -113,7 +113,7 @@ export default function EventsPage() {
 
   return (
     <div>
-      <Hero pill="🌍 CHURCH CALENDAR" title={<>Events & <span className="text-textRed">Services</span></>} subtitle="Stay connected with everything happening at RCCG Rose of Sharon." bg="/assets/hero-bg.png" />
+      <Hero pill="🌍 CHURCH CALENDAR" title={<>Events & <span className="text-textRed">Services</span></>} subtitle="Stay connected with everything happening at RCCG Rose of Sharon." bg="/assets/events-banner.jpg" bgPosition="50% 40%" />
 
       {/* ── Calendar + Sidebar ── */}
       <section className="ros:bg-[#EEF0F7] ros:px-4 ros:md:px-[32px] ros:lg:px-[64px] ros:py-[32px] ros:md:py-[64px] ros:flex ros:flex-col ros:lg:flex-row ros:gap-[24px] ros:lg:gap-[40px] ros:items-start ros:w-full ros:min-h-screen">
