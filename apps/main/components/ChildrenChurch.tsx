@@ -17,13 +17,13 @@ const SLIDES = [
   { src: p(7), pos: "50% 12%", alt: "A child proudly showing her new backpack", label: "A new school year" },
 ];
 
-// Age groups. The age ranges are the usual Sunday-school brackets; confirm them with the children's ministry.
+// Age groups, as given by the children's ministry.
 const GROUPS = [
-  { icon: "🍼", name: "Nursery", ages: "0 – 2 years", text: "A safe, gentle space for our youngest, with caregivers who sing, pray and play." },
-  { icon: "🌱", name: "Beginners", ages: "3 – 5 years", text: "Bible stories, songs and simple lessons that plant the Word early." },
-  { icon: "📖", name: "Primary", ages: "6 – 9 years", text: "Fun, interactive teaching that helps children know and love Jesus for themselves." },
-  { icon: "⭐", name: "Pre-teens", ages: "10 – 12 years", text: "Building character and confidence as they step towards their teens." },
-  { icon: "🌳", name: "Teens · Oaks of Righteousness", ages: "13 – 19 years", text: "Mentoring, relevant teaching and fellowship for teenagers growing into leaders." },
+  { icon: "🍼", name: "Toddlers", ages: "0 – 5 years", text: "A safe, gentle space for our youngest, with caregivers who sing, pray and play." },
+  { icon: "📖", name: "Ages 6 – 8", ages: "6 – 8 years", text: "Fun, interactive teaching that helps children know and love Jesus for themselves." },
+  { icon: "⭐", name: "Preteens", ages: "9 – 12 years", text: "Building character and confidence as they step towards their teens." },
+  { icon: "🌳", name: "Faith Rangers (Teenagers)", ages: "13 – 18 years", text: "Mentoring, relevant teaching and fellowship for teenagers growing into leaders." },
+  { icon: "🤝", name: "Intermediary Hub", ages: "19 – 25 years", text: "A place for young adults to connect, grow in faith and prepare for the next season of life." },
 ];
 
 const SCHOOL_PHOTOS = [3, 6, 5, 11, 10, 8].map((n) => ({ n, alt: `Back to School distribution, photo ${n}` }));
