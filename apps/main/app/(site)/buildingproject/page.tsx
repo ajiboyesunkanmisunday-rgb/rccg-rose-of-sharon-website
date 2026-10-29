@@ -60,8 +60,8 @@ export default function BuildingProjectPage() {
           <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             BUILD <span className="text-textRed">WITH US</span>
           </h1>
-          <p className="w-full max-w-lg text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
-            Your support helps us build a home for worship, discipleship and community
+          <p className="w-full max-w-2xl text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
+            Our church is growing, and we&apos;re excited to take the next step: creating a building where our community can gather, worship, learn, and serve together.
           </p>
           <div className="mt-8 md:flex md:items-center md:justify-start">
             <A
@@ -79,10 +79,11 @@ export default function BuildingProjectPage() {
         <section className="bg-white px-4 py-12 md:py-20">
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr]">
             <div className="flex flex-col gap-4">
-              <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">🏗️ THE BUILDING PROJECT</h6>
+              <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">🏗️ BUILDING TOGETHER</h6>
               <h2 className="font-anton text-3xl uppercase leading-tight md:text-5xl">A place to worship, <span className="text-textRed">grow, and serve</span></h2>
-              <p className="text-lg text-[#00000099]">Our church is growing, and we&apos;re excited to take the next step: creating a building where our community can gather, worship, learn, and serve together.</p>
               <p className="text-lg text-[#00000099]">This project is about more than bricks and mortar. It&apos;s about making room for meaningful connection, supporting people through every season of life, and welcoming future generations into a place of faith and hope.</p>
+              <p className="text-lg text-[#00000099]">A project like this is made possible through the generosity, prayers, and participation of many people. Whether you choose to give, volunteer, share the vision, or keep the project in your prayers, you can help bring this dream to life.</p>
+              <p className="text-lg font-bold text-black">Every contribution matters. Together, we can build a place that welcomes all and serves many.</p>
             </div>
             <div id="accounts" className="flex flex-col gap-4 rounded-lg border border-[#00000014] bg-[#FAFAFA] p-6" style={{ scrollMarginTop: 90 }}>
               <h3 className="font-anton text-2xl uppercase">RCCG ROS Building Fund</h3>
@@ -372,10 +373,6 @@ export default function BuildingProjectPage() {
             </div>
             <p className="text-center font-medium leading-7 text-[#FFFFFFA3] md:text-left">
               We envision a welcoming, accessible space with room for worship services, children and youth programs, community gatherings, and practical support for people in need. A dedicated church building will help us serve our congregation and our wider community more effectively—now and for years to come.
-              <br /><br />
-              <span className="font-bold text-white">Building together.</span> A project like this is made possible through the generosity, prayers, and participation of many people. Whether you choose to give, volunteer, share the vision, or keep the project in your prayers, you can help bring this dream to life.
-              <br /><br />
-              Every contribution matters. Together, we can build a place that welcomes all and serves many.
             </p>
           </div>
         </motion.div>
