@@ -131,7 +131,7 @@ const countriesData = [
   { country: "Pray", image: "/home/walk-pray.jpg", pos: "55% 30%" },
   { country: "Worship", image: "/home/walk-worship.jpg", pos: "58% 50%" },
   { country: "Grow", image: "/home/walk-grow.jpg", pos: "50% 50%" },
-  { country: "Serve", image: "/media/US.29bb3a25.jpeg", pos: "50% 50%" },
+  { country: "Serve", image: "/home/walk-serve.jpg", pos: "60% 50%" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
