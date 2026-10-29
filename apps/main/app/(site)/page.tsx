@@ -308,8 +308,8 @@ export default function Home() {
 
         {/* Family background */}
         <div
-          style={{ backgroundImage: "url(/family.jpg)" }}
-          className="relative h-[780px] bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: "url(/home/csr-register.jpg)", backgroundPosition: "50% 25%" }}
+          className="relative h-[780px] bg-cover bg-no-repeat"
         >
           <div className="flex h-[780px] items-end bg-gradient-to-b from-black/20 via-black/50 to-black/90">
             <div className="mx-auto mb-16 flex w-full max-w-6xl flex-col flex-wrap items-start gap-4 px-4">
