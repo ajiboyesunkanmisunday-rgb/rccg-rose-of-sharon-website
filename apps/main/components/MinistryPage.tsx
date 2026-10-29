@@ -8,6 +8,7 @@ export default function MinistryPage({
   intro,
   image,
   imageAlt,
+  imagePosition = "50% 50%",
   about,
   points,
   joinText,
@@ -18,6 +19,8 @@ export default function MinistryPage({
   intro: string;
   image: string;
   imageAlt: string;
+  /** CSS object-position, to keep faces in view */
+  imagePosition?: string;
   about: string;
   points: { title: string; text: string }[];
   joinText: string;
@@ -25,7 +28,7 @@ export default function MinistryPage({
 }) {
   return (
     <>
-      <Hero pill={pill} title={title} subtitle={intro} bg={image}>
+      <Hero pill={pill} title={title} subtitle={intro} bg={image} bgPosition={imagePosition}>
         <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
           <Btn href="/membership" variant="white">Become a member</Btn>
           <Btn href="/ministries" variant="outline-white">All ministries</Btn>
@@ -38,7 +41,7 @@ export default function MinistryPage({
             <SectionTitle pill="🙌 ABOUT THE MINISTRY" title={<>Who <span className="text-textRed">we are</span></>} />
             <p className="ros:text-[#00000099]">{about}</p>
           </div>
-          <img src={image} alt={imageAlt} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />
+          <img src={image} alt={imageAlt} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover" style={{ objectPosition: imagePosition }} />
         </div>
       </Section>
 

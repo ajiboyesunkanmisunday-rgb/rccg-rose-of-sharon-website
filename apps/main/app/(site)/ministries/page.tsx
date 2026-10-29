@@ -5,10 +5,20 @@ export default function MinistriesPage() {
     {
       id: "hearts-of-david",
       href: "/ministries/hearts-of-david",
-      image: "/fire.jpg",
+      image: "/ministries-men.jpg",
+      pos: "50% 18%",
       title: "Hearts of David (Men)",
       description:
         "Hearts of David is the men's ministry of RCCG Rose of Sharon: a brotherhood of men growing in faith, fellowship and service",
+    },
+    {
+      id: "women",
+      href: "/ministries/women",
+      image: "/ministries-women.jpg",
+      pos: "50% 25%",
+      title: "Women",
+      description:
+        "The women's ministry of RCCG Rose of Sharon: a fellowship of women growing in faith, friendship and service",
     },
     {
       id: "ccw",
@@ -54,7 +64,7 @@ export default function MinistriesPage() {
           <div key={i} id={ministry.id} className="flex w-full flex-col gap-3 rounded-lg">
             <div
               className="h-[300px] w-full bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url('${ministry.image}')` }}
+              style={{ backgroundImage: `url('${ministry.image}')`, backgroundPosition: (ministry as { pos?: string }).pos ?? "center" }}
             />
             <h1 className="text-lg font-bold underline-offset-8">{ministry.title}</h1>
             <p className="text-[#00000099]">{ministry.description}</p>
