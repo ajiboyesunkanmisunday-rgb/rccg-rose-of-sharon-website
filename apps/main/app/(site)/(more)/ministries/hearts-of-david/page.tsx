@@ -13,6 +13,8 @@ export default function HeartsOfDavidPage() {
       intro="The men's ministry of RCCG Rose of Sharon: men after God's own heart, growing in faith, fellowship and service."
       image="/ministries-men.jpg"
       imagePosition="50% 20%"
+      banner="/ministries-men-banner.jpg"
+      bannerPosition="50% 40%"
       imageAlt="Pastor Emeka Obiagwu at worship"
       about="Hearts of David is the men's ministry of RCCG Rose of Sharon. It is a brotherhood where men pray together, study the Word, encourage one another and serve the church and the community with joy."
       points={[
