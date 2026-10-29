@@ -59,8 +59,8 @@ export default function TestimoniesPage() {
       await post("/testimonies", {
         subject: form.subject,
         content: `From: ${form.name}\n\n${form.testimony}`,
-        state: form.state || undefined,
-        country: form.country || undefined,
+        state: form.state.trim(),
+        country: form.country.trim(),
         rosTVStory: form.rosTVStory,
       });
       setStatus("success");
@@ -154,13 +154,13 @@ export default function TestimoniesPage() {
                     className={inputCls} />
                 </FormField>
                 <div className="ros:grid ros:grid-cols-2 ros:gap-[12px]">
-                  <FormField label="State">
-                    <input type="text" value={form.state}
+                  <FormField label="State" required>
+                    <input type="text" required value={form.state}
                       onChange={(e) => setForm({ ...form, state: e.target.value })}
                       className={inputCls} />
                   </FormField>
-                  <FormField label="Country">
-                    <input type="text" value={form.country}
+                  <FormField label="Country" required>
+                    <input type="text" required value={form.country}
                       onChange={(e) => setForm({ ...form, country: e.target.value })}
                       className={inputCls} />
                   </FormField>

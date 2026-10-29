@@ -117,7 +117,7 @@ export default function Footer() {
           Give to Rose of Sharon
         </h2>
         <p className="z-20 mt-2 text-base text-[#000000B2] md:text-lg lg:text-xl">
-          Your generosity keeps blessing lives, thank you for giving.
+          Giving To God
         </p>
         <div className="mt-10 flex flex-col items-start gap-2 sm:flex-row sm:items-center" style={{ position: "relative", zIndex: 10 }}>
           <A
