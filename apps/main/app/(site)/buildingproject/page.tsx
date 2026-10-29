@@ -364,6 +364,7 @@ export default function BuildingProjectPage() {
         >
           <div
             className="building-vision-pastey mb-4 hidden flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:flex md:h-auto md:p-0"
+            style={{ backgroundSize: "contain", backgroundColor: "#0e0e0e", minHeight: 380 }}
           />
           <div className="mx-auto mt-5 w-full max-w-full bg-center md:max-w-[380px] lg:max-w-[500px]">
             <div className="mb-4 flex flex-col items-center md:items-start">
