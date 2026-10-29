@@ -24,24 +24,33 @@ export const YOUTH_PAGES: YouthPage[] = [
   { key: "connect", label: "Connect", href: `${YOUTH_BASE}/connect`, icon: "📱", text: "Follow the youth fellowship online." },
 ];
 
-export interface Leader { role: string; name: string; note: string; image?: string }
+export interface Leader { role: string; name: string; note?: string; image?: string }
 export const PRESIDENT: Leader = {
-  role: "Youth President",
-  name: "Pastor Toyosi Fadipe",
-  note: "Leads the youth fellowship, chairs the executive council and works hand in hand with the pastor and the youth pastor.",
+  role: "President",
+  name: "DCN Toyosi Fadipe",
+  note: "Leads the Young Leaders and Professionals Fellowship and chairs the executive council.",
   image: "/youth/president.jpg",
 };
 export const VICE_PRESIDENTS: Leader[] = [
-  { role: "Vice President (Male)", name: TBA, note: "Supports the president, oversees the male wing of the youth fellowship and stands in when the president is away." },
-  { role: "Vice President (Female)", name: TBA, note: "Supports the president, oversees the female wing of the youth fellowship and champions girls' and young women's growth." },
+  { role: "VP Operations & HOD Protocol", name: "Bro Chizzy Benson" },
+  { role: "VP Admin & HOD Music", name: "DCNS Victoria Simon" },
 ];
 export const EXECUTIVES: Leader[] = [
-  { role: "General Secretary", name: TBA, note: "Keeps minutes, records and official correspondence." },
-  { role: "Assistant Secretary", name: TBA, note: "Works with the secretary on records and communication." },
-  { role: "Financial Secretary", name: TBA, note: "Keeps the books for every youth contribution and project." },
-  { role: "Treasurer", name: TBA, note: "Safeguards youth funds and approves spending." },
-  { role: "Welfare Director", name: TBA, note: "Cares for members in times of need and celebration." },
-  { role: "Public Relations Officer", name: TBA, note: "Speaks for the youth fellowship and manages invitations." },
+  { role: "Secretary", name: "DCN Idowu Beatrice" },
+];
+export const DEPARTMENT_HEADS: Leader[] = [
+  { role: "HOD Prayer", name: "Bro Prayer Ufot" },
+  { role: "HOD Media & Publicity", name: "Frank Ojo" },
+  { role: "HOD Evangelism & Mobilization", name: "Bro Sunday Okon" },
+  { role: "HOD Ushering", name: "Sis Tayo Isiaka" },
+  { role: "HOD Hospitality & Greeters", name: "Sis Deborah Shobayo" },
+  { role: "HOD Drama & Creatives", name: "Bro Emmanuel Egbukichi" },
+];
+export const SPECIAL_ADVISERS: Leader[] = [
+  { role: "Special Adviser & Coordinator (Word)", name: "DCN Olatundun Olukoya" },
+  { role: "Special Adviser & Coordinator (Finance)", name: "Bro James Banjo" },
+  { role: "Special Adviser", name: "Sis Temitayo Yinusa" },
+  { role: "Special Adviser", name: "Sis Chisom Uche" },
 ];
 
 export interface Department { slug: string; name: string; icon: string; short: string; about: string; does: string[]; skills: string; meets: string }
