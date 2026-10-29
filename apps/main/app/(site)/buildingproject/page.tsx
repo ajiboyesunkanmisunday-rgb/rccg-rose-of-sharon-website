@@ -76,6 +76,33 @@ export default function BuildingProjectPage() {
 
       {/* ── WAYS TO GIVE ── */}
       <div className="relative">
+        <section className="bg-white px-4 py-12 md:py-20">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr]">
+            <div className="flex flex-col gap-4">
+              <h6 className="w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">🏗️ THE BUILDING PROJECT</h6>
+              <h2 className="font-anton text-3xl uppercase leading-tight md:text-5xl">A place to worship, <span className="text-textRed">grow, and serve</span></h2>
+              <p className="text-lg text-[#00000099]">Our church is growing, and we&apos;re excited to take the next step: creating a building where our community can gather, worship, learn, and serve together.</p>
+              <p className="text-lg text-[#00000099]">This project is about more than bricks and mortar. It&apos;s about making room for meaningful connection, supporting people through every season of life, and welcoming future generations into a place of faith and hope.</p>
+            </div>
+            <div id="accounts" className="flex flex-col gap-4 rounded-lg border border-[#00000014] bg-[#FAFAFA] p-6" style={{ scrollMarginTop: 90 }}>
+              <h3 className="font-anton text-2xl uppercase">RCCG ROS Building Fund</h3>
+              <p className="text-sm text-[#00000099]">Give by bank transfer to either account below.</p>
+              {[
+                { bank: "Fidelity Bank", number: "6060094460" },
+                { bank: "Globus Bank", number: "1000363698" },
+              ].map((a) => (
+                <div key={a.number} className="flex items-center justify-between gap-3 rounded bg-white p-4">
+                  <div>
+                    <p className="text-sm font-normal uppercase text-[#7F7C7C]">{a.bank}</p>
+                    <p className="text-2xl font-medium text-black md:text-3xl">{a.number}</p>
+                  </div>
+                  <CopyButton text={a.number} label="COPY" className="cursor-pointer rounded-full border border-black px-4 py-2 text-xs font-bold tracking-[0.2em] transition hover:bg-black hover:text-white" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="overflow-hidden bg-[#F8F8F8CC]">
           <motion.div
             id="global"
@@ -120,24 +147,24 @@ export default function BuildingProjectPage() {
                   <div className="mb-4 flex w-full flex-col rounded border border-[#F5811F29] bg-[#FEF0E4] p-4 md:mb-7">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 text-xl font-medium">
-                        <img loading="lazy" decoding="async" src={`${S3}/access_bank_logp_1_6a47fbff2d.png`} alt="Access Bank" width={32} height={32} />
+                        <img loading="lazy" decoding="async" src={`${S3}/access_bank_logp_1_6a47fbff2d.png`} alt="Bank" width={32} height={32} />
                         Bank Transfer
                       </div>
                       <img loading="lazy" decoding="async" src={`${S3}/nigeria_flag_a3b27f40ee.svg`} alt="Nigeria" width={34} height={24} />
                     </div>
-                    <div className="mx-auto mt-8 w-full md:mt-16">
-                      <div className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
-                        <div className="mb-2 text-base font-normal uppercase text-[#7F7C7C]">Naira Account</div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-2xl font-medium text-black lg:text-3xl">Contact the church</p>
-                          <button
-                            onClick={() => { navigator.clipboard.writeText("Contact the church"); }}
-                            className="cursor-pointer"
-                          >
-                            <img loading="lazy" decoding="async" src={`${S3}/copy_icon_86e91ae04f.svg`} alt="Copy" width={24} height={24} onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
-                          </button>
+                    <div className="mx-auto mt-6 flex w-full flex-col gap-2">
+                      {[
+                        { bank: "Fidelity Bank", number: "6060094460" },
+                        { bank: "Globus Bank", number: "1000363698" },
+                      ].map((a) => (
+                        <div key={a.number} className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
+                          <div className="mb-2 text-base font-normal uppercase text-[#7F7C7C]">{a.bank} · RCCG ROS Building Fund</div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-2xl font-medium text-black lg:text-3xl">{a.number}</p>
+                            <CopyButton text={a.number} label="Copy" className="cursor-pointer text-xs text-gray-400 hover:text-black" />
+                          </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
                   </div>
 
@@ -340,22 +367,16 @@ export default function BuildingProjectPage() {
           <div className="mx-auto mt-5 w-full max-w-full bg-center md:max-w-[380px] lg:max-w-[500px]">
             <div className="mb-4 flex flex-col items-center md:items-start">
               <h2 className="text-center text-2xl font-black uppercase tracking-[0.2em] text-white md:text-left">
-                THE VISION FOR OUR BUILDING
+                OUR VISION
               </h2>
             </div>
             <p className="text-center font-medium leading-7 text-[#FFFFFFA3] md:text-left">
-              Thank you for partnering with us to build a home for worship, discipleship and community at Rose of Sharon. Every gift, large or small, helps us provide a place where lives are transformed and God&apos;s presence is constant.
+              We envision a welcoming, accessible space with room for worship services, children and youth programs, community gatherings, and practical support for people in need. A dedicated church building will help us serve our congregation and our wider community more effectively—now and for years to come.
               <br /><br />
-              Placeholder: an update on the progress of the building project will appear here.
+              <span className="font-bold text-white">Building together.</span> A project like this is made possible through the generosity, prayers, and participation of many people. Whether you choose to give, volunteer, share the vision, or keep the project in your prayers, you can help bring this dream to life.
               <br /><br />
-              We are grateful to God who backs up His word, and to you for your relentless support.
-              <br /><br />
-              Keep partnering with us to see the vision fulfilled.
+              Every contribution matters. Together, we can build a place that welcomes all and serves many.
             </p>
-            <div className="my-10 text-center md:text-left">
-              <p className="text-2xl text-white italic">Our Lead Pastor</p>
-              <p className="pt-2 text-[#FFFFFFB2]">RCCG Rose of Sharon</p>
-            </div>
           </div>
         </motion.div>
       </section>
