@@ -1,5 +1,6 @@
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
+import { WHATSAPP_GROUPS } from "@ros/shared/links";
 
 /** One ministry of the church: hero, who they are, what they stand for, and how to get involved. */
 export default function MinistryPage({
@@ -15,6 +16,7 @@ export default function MinistryPage({
   points,
   joinText,
   others,
+  group,
 }: {
   pill: string;
   title: React.ReactNode;
@@ -30,13 +32,18 @@ export default function MinistryPage({
   points: { title: string; text: string }[];
   joinText: string;
   others: { label: string; href: string }[];
+  /** "men" or "women": shows join-the-WhatsApp-group buttons instead of the first-timer / other-ministries links */
+  group?: "men" | "women";
 }) {
+  const wa = group ? WHATSAPP_GROUPS.find((g) => g.key === group) : undefined;
+  // the group's invite link when it exists, otherwise its QR code on the Join Us page
+  const waHref = wa ? wa.link || `/join#${wa.key}` : "";
   return (
     <>
       <Hero pill={pill} title={title} subtitle={intro} bg={banner ?? image} bgPosition={bannerPosition ?? imagePosition}>
         <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-start ros:gap-3">
           <Btn href="/membership" variant="white">Become a member</Btn>
-          <Btn href="/ministries" variant="outline-white">All ministries</Btn>
+          {wa ? <Btn href={waHref} variant="outline-white">Join the {wa.key}&apos;s WhatsApp group</Btn> : <Btn href="/ministries" variant="outline-white">All ministries</Btn>}
         </div>
       </Hero>
 
@@ -67,13 +74,15 @@ export default function MinistryPage({
           <SectionTitle center dark pill="🤝 GET INVOLVED" title={<>Come and <span className="text-textRed">join us</span></>} sub={joinText} />
           <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
             <Btn href="/membership" variant="white">Become a member</Btn>
-            <Btn href="/first-timer" variant="outline-white">First-timer registration</Btn>
+            {wa ? <Btn href={waHref} variant="outline-white">Join our WhatsApp group</Btn> : <Btn href="/first-timer" variant="outline-white">First-timer registration</Btn>}
           </div>
+          {!wa && (
           <div className="ros:mt-4 ros:flex ros:flex-wrap ros:justify-center ros:gap-2">
-            {others.map((o) => (
-              <Link key={o.href} href={o.href} className="ros:rounded-full ros:border ros:border-[#FFFFFF44] ros:px-4 ros:py-2 ros:text-[11px] ros:font-bold ros:uppercase ros:tracking-[0.15em] ros:text-white ros:transition ros:hover:border-[#DF4E4E] ros:hover:text-[#DF4E4E]">{o.label}</Link>
-            ))}
-          </div>
+              {others.map((o) => (
+                <Link key={o.href} href={o.href} className="ros:rounded-full ros:border ros:border-[#FFFFFF44] ros:px-4 ros:py-2 ros:text-[11px] ros:font-bold ros:uppercase ros:tracking-[0.15em] ros:text-white ros:transition ros:hover:border-[#DF4E4E] ros:hover:text-[#DF4E4E]">{o.label}</Link>
+              ))}
+            </div>
+            )}
         </div>
       </section>
     </>

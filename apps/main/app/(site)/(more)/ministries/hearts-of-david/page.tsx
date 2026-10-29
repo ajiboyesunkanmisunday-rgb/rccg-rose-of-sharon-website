@@ -8,6 +8,7 @@ export const metadata = {
 export default function HeartsOfDavidPage() {
   return (
     <MinistryPage
+      group="men"
       pill="🛡️ HEARTS OF DAVID · MEN'S MINISTRY"
       title={<>Hearts of <span className="text-textRed">David</span></>}
       intro="The men's ministry of RCCG Rose of Sharon: men after God's own heart, growing in faith, fellowship and service."
