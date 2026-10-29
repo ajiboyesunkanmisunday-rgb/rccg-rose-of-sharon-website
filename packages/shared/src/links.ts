@@ -20,7 +20,7 @@ export const CHURCH_LINKS = {
  * To use a ready-made QR picture instead, put it in public/join and set `qr` (e.g. "/join/men.png").
  */
 export const WHATSAPP_GROUPS: { key: string; name: string; text: string; link: string; qr?: string }[] = [
-  { key: "men", name: "Men", text: "Hearts of David: the men of Rose of Sharon.", link: "" },
+  { key: "men", name: "Men", text: "Hearts of David (Men)", link: "" },
   { key: "women", name: "Women", text: "Oaks of Righteousness (Women)", link: "https://chat.whatsapp.com/LwBNCX4r16j11C9C3y7I8p" },
-  { key: "youth", name: "Youth", text: "Young Leaders & Professionals: the youth of Rose of Sharon.", link: "https://chat.whatsapp.com/LaaACQjqsljGO0acRHcQAW" },
+  { key: "youth", name: "Youth", text: "Young Leaders & Professionals (Youth)", link: "https://chat.whatsapp.com/LaaACQjqsljGO0acRHcQAW" },
 ];
