@@ -5,9 +5,9 @@ import CelebrationForm from "@/components/CelebrationForm";
 export const metadata = { title: "Celebrations | RCCG Rose of Sharon" };
 
 const options = [
-  { icon: "👶", title: "Baby Dedication", text: "Present your child to the Lord before the church family. Choose a Sunday at least two weeks from today.", href: "/requests/baby-dedication", cta: "Request a dedication" },
-  { icon: "🍼", title: "Baby Christening / Naming Ceremony", text: "Celebrate the name of your child. Choose a day at least three days from today.", href: "/requests/baby-christening", cta: "Request a naming ceremony" },
-  { icon: "🎉", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "#request", cta: "Fill the request below" },
+  { image: "/home/baby-dedication.jpg", pos: "50% 30%", title: "Baby Dedication", text: "Present your child to the Lord before the church family. Choose a Sunday at least two weeks from today.", href: "/requests/baby-dedication", cta: "Request a dedication" },
+  { image: "/media/celebkids.601f776b.jpg", pos: "50% 40%", title: "Baby Christening / Naming Ceremony", text: "Celebrate the name of your child. Choose a day at least three days from today.", href: "/requests/baby-christening", cta: "Request a naming ceremony" },
+  { image: "/media/celebrations.f123ede1.jpg", pos: "50% 35%", title: "Your Special Day", text: "Birthdays, wedding thanksgiving and other milestones. Wedding thanksgiving: choose a Sunday at least two weeks from today.", href: "#request", cta: "Fill the request below" },
 ];
 
 export default function CelebrationsPage() {
@@ -24,11 +24,15 @@ export default function CelebrationsPage() {
         <SectionTitle pill="📅 CHOOSE A CELEBRATION" title={<>What are you <span className="text-textRed">celebrating</span>?</>} sub="Pick the one that fits and fill in the short form. Our team will confirm your date." />
         <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:md:grid-cols-3">
           {options.map((o) => (
-            <Link key={o.title} href={o.href} className="ros:group ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
-              <span className="ros:flex ros:size-12 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-[22px]">{o.icon}</span>
-              <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{o.title}</h3>
-              <p className="ros:text-[#00000099]">{o.text}</p>
-              <span className="ros:mt-auto ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{o.cta} →</span>
+            <Link key={o.title} href={o.href} className="ros:group ros:flex ros:flex-col ros:overflow-hidden ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:transition ros:hover:border-[#DF4E4E]">
+              <div className="ros:h-[220px] ros:w-full ros:overflow-hidden ros:bg-[#F4F4F4]">
+                <img src={o.image} alt={o.title} loading="lazy" decoding="async" className="ros:h-full ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" style={{ objectPosition: o.pos }} />
+              </div>
+              <div className="ros:flex ros:flex-1 ros:flex-col ros:gap-3 ros:p-6">
+                <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{o.title}</h3>
+                <p className="ros:text-[#00000099]">{o.text}</p>
+                <span className="ros:mt-auto ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{o.cta} →</span>
+              </div>
             </Link>
           ))}
         </div>
