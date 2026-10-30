@@ -11,7 +11,9 @@ import { post } from "@ros/shared/api";
 
 type Kind = "dedication" | "christening";
 
-type Field = { key: string; label: string; type?: "text" | "tel" | "date" | "select"; lines?: number; options?: string[]; required?: boolean };
+type Field = { key: string; label: string; type?: "text" | "tel" | "date" | "select"; lines?: number; options?: string[]; required?: boolean; name?: boolean };
+
+const NAME_PATTERN = "[A-Za-z\\u00C0-\\u024F][A-Za-z\\u00C0-\\u024F .'\\-]*";
 
 const FORMS: Record<Kind, {
   endpoint: string;
@@ -31,9 +33,9 @@ const FORMS: Record<Kind, {
     intro: "PLEASE NOTE: YOU ARE TO WRITE ALL IN BLOCK LETTERS",
     introItalic: true,
     fields: [
-      { key: "father", label: "Name of Father", required: true },
-      { key: "mother", label: "Name of Mother", required: true },
-      { key: "child", label: "Full name of Child", required: true },
+      { key: "father", label: "Name of Father", required: true, name: true },
+      { key: "mother", label: "Name of Mother", required: true, name: true },
+      { key: "child", label: "Full name of Child", required: true, name: true },
       { key: "dob", label: "Date of Birth", type: "date", required: true },
       { key: "placeOfBirth", label: "Place of Birth" },
       { key: "meaning", label: "Meaning of names", lines: 2 },
@@ -58,7 +60,7 @@ const FORMS: Record<Kind, {
     intro: "PLEASE FILL ALL IN BLOCK LETTERS",
     introItalic: false,
     fields: [
-      { key: "parent", label: "Name of Parent", required: true },
+      { key: "parent", label: "Name of Parent", required: true, name: true },
       { key: "address", label: "Parents' Address", lines: 2 },
       { key: "sex", label: "Sex", type: "select", options: ["Male", "Female"] },
       { key: "dob", label: "Date of birth", type: "date", required: true },
@@ -116,7 +118,7 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
             {f.options!.map((o) => <option key={o} value={o}>{o}</option>)}
           </select>
         ) : (
-          <input id={`baby-${f.key}`} type={f.type ?? "text"} value={v[f.key] || ""} onChange={set(f.key)} style={line} required={f.required} autoComplete="off" />
+          <input id={`baby-${f.key}`} type={f.type ?? "text"} value={v[f.key] || ""} onChange={set(f.key)} style={line} required={f.required} autoComplete="off" {...(f.name ? { pattern: NAME_PATTERN, title: "Use letters only (spaces, hyphens and apostrophes are fine)" } : {})} {...(f.type === "tel" ? { pattern: "[0-9+\\(\\) \\-]{7,20}", title: "Enter a valid phone number" } : {})} />
         )}
       </div>
       {f.lines === 2 && <input aria-label={`${f.label} (line 2)`} type="text" value={v[f.key + "2"] || ""} onChange={set(f.key + "2")} style={{ ...line, display: "block", width: "100%", marginTop: 14 }} />}

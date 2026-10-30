@@ -86,7 +86,7 @@ const communityCards = [
   },
   {
     image: "/media/thumbnail2.17e9ea4a.jpg",
-    title: "Counselling",
+    title: "Relationship Talks",
     href: "/counselling",
     description:
       "Need counsel? There is always someone available to pray with you and provide sound biblical counsel with zero judgment.",

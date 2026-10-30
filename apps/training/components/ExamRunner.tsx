@@ -91,8 +91,8 @@ export default function ExamRunner({ slug }: { slug: string }) {
             <FormField label="Full name" required>
               <input required value={candidate.name} onChange={(e) => setCandidate((c) => ({ ...c, name: e.target.value }))} className={inputCls} />
             </FormField>
-            <FormField label="Admission number">
-              <input value={candidate.id} onChange={(e) => setCandidate((c) => ({ ...c, id: e.target.value }))} className={inputCls} placeholder="If you have one" />
+            <FormField label="Admission number" required>
+              <input required value={candidate.id} onChange={(e) => setCandidate((c) => ({ ...c, id: e.target.value }))} className={inputCls} placeholder="Your admission number" />
             </FormField>
           </div>
           <div className="ros:flex ros:justify-center">
@@ -139,7 +139,7 @@ export default function ExamRunner({ slug }: { slug: string }) {
     <div className="ros:flex ros:flex-col ros:gap-4">
       <div className="ros:sticky ros:top-[72px] ros:z-10 ros:flex ros:items-center ros:justify-between ros:rounded-xl ros:bg-black ros:px-5 ros:py-3 ros:text-white">
         <span className="ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.15em]">Question {index + 1} of {questions.length}</span>
-        <span className={`ros:rounded-full ros:px-4 ros:py-1 ros:text-sm ros:font-bold ros:tabular-nums ${low ? "ros:bg-[#DF4E4E]" : "ros:bg-[#FFFFFF22]"}`}>⏱ {fmt(left)}</span>
+        <span className={`ros:rounded-full ros:px-5 ros:py-1.5 ros:text-2xl ros:font-extrabold ros:tabular-nums ros:md:text-3xl ${low ? "ros:bg-[#DF4E4E]" : "ros:bg-[#FFFFFF22]"}`} aria-live="off">⏱ {fmt(left)}</span>
       </div>
 
       <div className={card}>

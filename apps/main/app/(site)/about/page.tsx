@@ -242,7 +242,17 @@ export default function AboutPage() {
           </motion.div>
 
           {/* Open view photo */}
-          <img loading="eager" decoding="async" src="/about-open-view.jpg" alt="The Rose of Sharon congregation worshipping together" className="mx-auto w-full max-w-screen-2xl md:h-full" />
+          <motion.img
+            loading="eager"
+            decoding="async"
+            src="/about-open-view.jpg"
+            alt="The Rose of Sharon congregation worshipping together"
+            className="mx-auto w-full max-w-screen-2xl md:h-full"
+            initial={{ opacity: 0.35, scale: 1.06 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1.6, ease: "easeOut" }}
+          />
 
           {/* ─── Lead Pastor ─── */}
           <div className="mt-24" id="pastey" style={{ scrollMarginTop: 110 }}>

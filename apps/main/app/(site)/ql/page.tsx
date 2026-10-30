@@ -28,7 +28,7 @@ const quickLinks = [
   { href: CHURCH_LINKS.youtube, label: "Follow us on YouTube" },
   { href: "/media", label: "Sermons" },
   { href: "/requests/suggestion", label: "Suggestion Box" },
-  { href: "/counselling", label: "Marriage Counseling" },
+  { href: "/counselling", label: "Relationship Talks" },
   { href: "/trainings/believers-class", label: "Join Believers Class" },
   { href: "/trainings/water-baptism/register", label: "Join the next Baptismal Class" },
   { href: "/trainings/workers-in-training/register", label: "Register for Workers-in-training" },
