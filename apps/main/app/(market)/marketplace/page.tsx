@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "@ros/shared/link";
-import { API_BASE } from "@ros/shared/api";
+import { API_BASE, uploadProfilePicture } from "@ros/shared/api";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
@@ -15,7 +15,6 @@ const AD_SLIDES = [
 ];
 
 /* ─────────────── STATIC DATA ─────────────── */
-const CATEGORIES = ["All", "Books", "Restaurant", "Sneakers", "T-shirts", "Roundnecks", "Foodstuffs", "Shoes", "Children Toys", "Suits"];
 
 const SORT_OPTIONS = [
   { label: "Best Match", value: "featured" },
@@ -34,7 +33,6 @@ const PRICE_BUCKETS = [
   { label: "₦100,000 & above", min: 100000, max: Infinity },
 ];
 
-const SELLERS = ["All Sellers", "Church Members", "ROS Restaurant", "CSR Program"];
 const CONDITIONS = ["new", "used", "refurbished"] as const;
 type Condition = typeof CONDITIONS[number];
 
@@ -46,10 +44,12 @@ const PRODUCT_CATEGORIES_API = [
   { label: "Wears & Clothing", value: "WEARS" },
 ];
 
+const CATEGORIES = ["All", ...PRODUCT_CATEGORIES_API.map((c) => c.label)];
+
 const ITEMS_PER_PAGE = 9;
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: string;
@@ -66,17 +66,36 @@ interface Product {
   tags: string[];
 }
 
-const PRODUCTS: Product[] = [
-  { id: 1, name: "Nike Round Neck", description: "Silk and linen material quality Nike wears.", price: "₦45,000.00", category: "Roundnecks", image: "/marketplace/img2.jpg", stock: "in_stock", rating: 4.5, ratingCount: 128, condition: "new", seller: "Church Members", tags: ["clothing", "men", "nike"] },
-  { id: 2, name: "Sport Sneaker", description: "Sneaker suitable for jogging and special sport activities.", price: "₦45,000.00", category: "Sneakers", image: "/marketplace/img3.jpg", isNew: true, stock: "limited", rating: 4.2, ratingCount: 64, condition: "new", seller: "Church Members", tags: ["shoes", "sport", "new"] },
-  { id: 3, name: "Purpose Driven Life", description: "Book on purpose finding by Rick Warren.", price: "₦4,000", category: "Books", image: "/marketplace/img4.jpg", stock: "limited", rating: 5.0, ratingCount: 312, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "rick warren"] },
-  { id: 4, name: "Italian Shoe", description: "Quality Italian leather shoes for formal occasions.", price: "₦75,000.00", category: "Shoes", image: "/marketplace/img5.jpg", stock: "limited", rating: 4.7, ratingCount: 44, condition: "new", seller: "Church Members", tags: ["shoes", "formal", "leather"] },
-  { id: 5, name: "Men Blue Suit", description: "Classic blue suit for formal and church occasions.", price: "₦145,000", category: "Suits", image: "/marketplace/img6.jpg", stock: "in_stock", rating: 4.3, ratingCount: 87, condition: "new", seller: "Church Members", tags: ["formal", "men", "suit"] },
-  { id: 6, name: "Snack & Spicy", description: "Sweet taste snack & spicy from ROS restaurant.", price: "₦5,060", category: "Restaurant", image: "/marketplace/img7.jpg", stock: "in_stock", rating: 4.8, ratingCount: 203, condition: "new", seller: "ROS Restaurant", tags: ["food", "snack", "restaurant"] },
-  { id: 7, name: "Fried Rice & Chicken", description: "Delicious fried rice and chicken from ROS kitchen.", price: "₦9,500", category: "Restaurant", image: "/marketplace/img8.jpg", stock: "in_stock", rating: 4.9, ratingCount: 445, condition: "new", seller: "ROS Restaurant", tags: ["food", "rice", "restaurant"] },
-  { id: 8, name: "Female Red Leather Bag", description: "Premium red leather bag, stylish and durable.", price: "₦45,000.00", category: "T-shirts", image: "/marketplace/img9.jpg", stock: "limited", rating: 4.1, ratingCount: 33, condition: "new", seller: "Church Members", tags: ["bag", "women", "leather"] },
-  { id: 9, name: "Power of Character", description: "Book on character by Myles Munroe.", price: "₦4,000", category: "Books", image: "/marketplace/img10.jpg", stock: "in_stock", rating: 4.6, ratingCount: 178, condition: "new", seller: "Church Members", tags: ["book", "spiritual", "myles munroe"] },
-];
+/** The approved products of the Rose of Sharon API (the church team approves or rejects them in ROSMS). */
+interface ApiProduct {
+  id: string; name: string; price?: number; quantityLeft?: number; description?: string; otherInformation?: string;
+  images?: string[]; tags?: string[]; productCategory?: string; averageRating?: number; createdOn?: string;
+  owner?: { firstName?: string; lastName?: string };
+}
+
+const naira = (n: number) => `₦${n.toLocaleString("en-NG", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+
+function toProduct(p: ApiProduct): Product {
+  const qty = p.quantityLeft ?? 0;
+  const category = PRODUCT_CATEGORIES_API.find((c) => c.value === p.productCategory)?.label ?? "Other";
+  const tags = p.tags ?? [];
+  const created = p.createdOn ? new Date(p.createdOn).getTime() : 0;
+  return {
+    id: String(p.id),
+    name: p.name,
+    description: [p.description, p.otherInformation].filter(Boolean).join("\n\n"),
+    price: naira(p.price ?? 0),
+    category,
+    image: p.images?.[0] || "/ros-logo.png",
+    isNew: !!created && Date.now() - created < 14 * 24 * 3600 * 1000,
+    stock: qty <= 0 ? "out" : qty <= 5 ? "limited" : "in_stock",
+    rating: p.averageRating ?? 0,
+    ratingCount: 0,
+    condition: tags.map((t) => t.toLowerCase()).includes("used") ? "used" : tags.map((t) => t.toLowerCase()).includes("refurbished") ? "refurbished" : "new",
+    seller: [p.owner?.firstName, p.owner?.lastName].filter(Boolean).join(" ") || "Church Member",
+    tags,
+  };
+}
 
 interface VerifiedMember { id: string; name: string; type: "member" | "emember" }
 
@@ -127,8 +146,8 @@ export default function MarketplacePage() {
   const [page, setPage] = useState(1);
 
   /* Cart / wishlist / modals */
-  const [cart, setCart] = useState<number[]>([]);
-  const [wishlist, setWishlist] = useState<number[]>([]);
+  const [cart, setCart] = useState<string[]>([]);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [modalMode, setModalMode] = useState<"sell" | "checkout" | null>(null);
@@ -142,6 +161,24 @@ export default function MarketplacePage() {
   const [listError, setListError] = useState("");
 
   const productsRef = useRef<HTMLDivElement>(null);
+
+  /* Products from the API */
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadState, setLoadState] = useState<"loading" | "ready" | "error">("loading");
+  const loadProducts = useCallback(async () => {
+    setLoadState("loading");
+    try {
+      const res = await fetch(`${API_BASE}/products/filter-approved?pageNo=0&pageSize=100`, { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      if (!res.ok) throw new Error("bad response");
+      const data = await res.json();
+      setProducts(((data.content ?? []) as ApiProduct[]).map(toProduct));
+      setLoadState("ready");
+    } catch {
+      setLoadState("error");
+    }
+  }, []);
+  useEffect(() => { loadProducts(); }, [loadProducts]);
+  const [listPhotos, setListPhotos] = useState<File[]>([]);
 
   /* Compute effective price range */
   const effectivePriceMin = useMemo(() => {
@@ -158,16 +195,16 @@ export default function MarketplacePage() {
 
   /* Filter count helpers — count products matching all OTHER filters except the target dimension */
   const countFor = useCallback((predicate: (p: Product) => boolean) => {
-    return PRODUCTS.filter((p) => {
+    return products.filter((p) => {
       const num = priceToNum(p.price);
       const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase()) || p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
       return matchSearch && predicate(p);
     }).length;
-  }, [search]);
+  }, [search, products]);
 
   /* Filtered + sorted products */
   const filtered = useMemo(() => {
-    let list = PRODUCTS.filter((p) => {
+    let list = products.filter((p) => {
       const num = priceToNum(p.price);
       const matchCat = activeCategory === "All" || p.category === activeCategory;
       const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase()) || p.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
@@ -186,7 +223,7 @@ export default function MarketplacePage() {
     if (sort === "newest") list = [...list].sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
     if (sort === "name_asc") list = [...list].sort((a, b) => a.name.localeCompare(b.name));
     return list;
-  }, [search, activeCategory, effectivePriceMin, effectivePriceMax, minRating, activeSeller, activeConditions, availability, onSaleOnly, newOnly, sort]);
+  }, [search, activeCategory, effectivePriceMin, effectivePriceMax, minRating, activeSeller, activeConditions, availability, onSaleOnly, newOnly, sort, products]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
   const paginated = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
@@ -214,18 +251,19 @@ export default function MarketplacePage() {
   const [favOpen, setFavOpen] = useState(false);
   useEffect(() => { try { const w = JSON.parse(localStorage.getItem("ros-market-favourites") || "[]"); if (Array.isArray(w)) setWishlist(w); } catch {} }, []);
   useEffect(() => { try { localStorage.setItem("ros-market-favourites", JSON.stringify(wishlist)); } catch {} }, [wishlist]);
-  function addToCart(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setCart((p) => [...p, id]); }
+  function addToCart(id: string, e?: React.MouseEvent) { e?.stopPropagation(); setCart((p) => [...p, id]); }
   function removeFromCart(index: number) { setCart((p) => p.filter((_, i) => i !== index)); }
   function runSlideAction(sl: { action: string; productId?: number }) {
+    const hints: Record<number, string> = { 3: "purpose driven", 4: "italian" };
     if (sl.action === "shop") productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    else if (sl.action === "product") { const pr = PRODUCTS.find((x) => x.id === sl.productId); if (pr) setSelectedProduct(pr); }
+    else if (sl.action === "product") { const hint = sl.productId ? hints[sl.productId] : undefined; const pr = hint ? products.find((x) => x.name.toLowerCase().includes(hint)) : undefined; if (pr) setSelectedProduct(pr); else productsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }); }
   }
-  function toggleWishlist(id: number, e?: React.MouseEvent) { e?.stopPropagation(); setWishlist((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]); }
+  function toggleWishlist(id: string, e?: React.MouseEvent) { e?.stopPropagation(); setWishlist((p) => p.includes(id) ? p.filter((x) => x !== id) : [...p, id]); }
 
   function openModal(mode: "sell" | "checkout") {
     setModalMode(mode); setSellStep("verify"); setVerifyInput(""); setVerifyStatus("idle"); setVerifyError(""); setVerifiedMember(null);
     setListForm({ name: "", description: "", price: "", category: "", quantityLeft: "", imageUrl: "", otherInformation: "", tags: "" });
-    setListStatus("idle"); setListError(""); setCartOpen(false);
+    setListStatus("idle"); setListError(""); setListPhotos([]); setCartOpen(false);
   }
   function closeModal() { setModalMode(null); }
 
@@ -234,34 +272,40 @@ export default function MarketplacePage() {
     if (!verifyInput.trim()) return;
     setVerifyStatus("loading"); setVerifyError("");
     try {
-      for (const endpoint of ["/users/member/search", "/users/e-member/search"]) {
-        const res = await fetch(`${API_BASE}${endpoint}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text: verifyInput.trim() }) });
-        if (res.ok) {
-          const data = await res.json();
-          const users = Array.isArray(data) ? data : (data.content || data.data || []);
-          if (users.length > 0) {
-            const u = users[0];
-            setVerifiedMember({ id: u.id, name: `${u.firstName} ${u.lastName}`, type: endpoint.includes("e-member") ? "emember" : "member" });
-            setSellStep("form"); setVerifyStatus("idle"); return;
-          }
-        }
+      // the member look-up needs the church system's login, so it happens on our server (nothing but the id and first name comes back)
+      const res = await fetch("/api/marketplace/seller", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier: verifyInput.trim() }) });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.id) {
+        setVerifiedMember({ id: data.id, name: data.firstName || "Member", type: "member" });
+        setSellStep("form"); setVerifyStatus("idle"); return;
       }
-      setVerifyStatus("error"); setVerifyError("No church member found. Please register first.");
+      setVerifyStatus("error"); setVerifyError(data.message || "Could not verify membership. Please try again.");
     } catch { setVerifyStatus("error"); setVerifyError("Could not verify membership. Please try again."); }
   }
 
   async function handleListProduct(e: React.FormEvent) {
     e.preventDefault();
     if (!verifiedMember) return;
+    const price = parseFloat(listForm.price);
+    const qty = parseInt(listForm.quantityLeft, 10);
+    if (!listForm.name.trim() || !listForm.description.trim()) { setListStatus("error"); setListError("Please give the item a name and a description."); return; }
+    if (!(price > 0)) { setListStatus("error"); setListError("The price must be more than zero."); return; }
+    if (!(qty >= 1)) { setListStatus("error"); setListError("The quantity must be at least 1."); return; }
     setListStatus("loading"); setListError("");
     try {
-      const body: Record<string, unknown> = { name: listForm.name, description: listForm.description, owner: verifiedMember.id, price: parseFloat(listForm.price), category: listForm.category, quantityLeft: parseInt(listForm.quantityLeft) || 1 };
-      if (listForm.imageUrl.trim()) body.images = [listForm.imageUrl.trim()];
+      const images: string[] = [];
+      for (const file of listPhotos.slice(0, 4)) images.push(await uploadProfilePicture(file));
+      const body: Record<string, unknown> = { name: listForm.name.trim(), description: listForm.description.trim(), owner: verifiedMember.id, price, category: listForm.category, quantityLeft: qty };
+      if (images.length) body.images = images;
       if (listForm.otherInformation.trim()) body.otherInformation = listForm.otherInformation.trim();
       if (listForm.tags.trim()) body.tags = listForm.tags.split(",").map((t) => t.trim()).filter(Boolean);
-      await fetch(`${API_BASE}/products`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-      setSellStep("success"); setListStatus("idle");
-    } catch { setListStatus("error"); setListError("Failed to submit. Please try again."); }
+      const res = await fetch(`${API_BASE}/products`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        setListStatus("error"); setListError(err.message || "Your item could not be submitted. Please try again."); return;
+      }
+      setSellStep("success"); setListStatus("idle"); setListPhotos([]);
+    } catch (err) { setListStatus("error"); setListError(err instanceof Error && err.message ? err.message : "Failed to submit. Please try again."); }
   }
 
   const inputBase = "w-full rounded-lg border border-[#E5E7EB] px-4 py-3 text-sm text-[#374151] outline-none placeholder:text-[#9CA3AF] focus:border-[#000080] focus:ring-1 focus:ring-[#000080]";
@@ -370,7 +414,7 @@ export default function MarketplacePage() {
           </div>
           {wishlist.length === 0 ? <p className="text-[#A3A1AF] text-[14px] leading-[1.6]" style={vs}>You have no favourites yet. Tap the heart on any product to save it here.</p> : (
             <div className="flex max-h-[320px] flex-col gap-[10px] overflow-y-auto pr-1">
-              {wishlist.map((id) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (
+              {wishlist.map((id) => { const p = products.find((x) => x.id === id); return p ? (
                 <div key={id} className="flex items-center gap-3">
                   <button onClick={() => { setSelectedProduct(p); setFavOpen(false); }} className="flex min-w-0 flex-1 items-center gap-3 text-left"><img src={p.image} alt={p.name} className="size-[44px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></button>
                   <button onClick={() => addToCart(id)} className="rounded-full bg-[#000080] px-3 py-[6px] text-[11px] font-bold text-white hover:bg-[#0000a0]" style={vs}>Add to cart</button>
@@ -391,7 +435,7 @@ export default function MarketplacePage() {
           {cart.length === 0 ? <p className="text-[#A3A1AF] text-[14px]" style={vs}>Your cart is empty.</p> : (
             <div className="flex flex-col gap-[8px]">
               <div className="flex max-h-[280px] flex-col gap-[8px] overflow-y-auto pr-1">
-                {cart.map((id, i) => { const p = PRODUCTS.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div><button onClick={() => removeFromCart(i)} aria-label={`Remove ${p.name} from the cart`} title="Remove" className="flex size-[30px] flex-shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-red-50 hover:text-red-600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="size-[17px]"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 001 1h8a1 1 0 001-1l1-12M9 7V4h6v3" /></svg></button></div>) : null; })}
+                {cart.map((id, i) => { const p = products.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div><button onClick={() => removeFromCart(i)} aria-label={`Remove ${p.name} from the cart`} title="Remove" className="flex size-[30px] flex-shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-red-50 hover:text-red-600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="size-[17px]"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 001 1h8a1 1 0 001-1l1-12M9 7V4h6v3" /></svg></button></div>) : null; })}
               </div>
               <button onClick={() => openModal("checkout")} className="mt-2 w-full bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[20px] hover:bg-[#0000a0] transition-colors" style={vs}>Proceed to Checkout</button>
             </div>
@@ -413,7 +457,7 @@ export default function MarketplacePage() {
             <div className="flex items-center gap-2">
               <StarRow rating={selectedProduct.rating} />
               <span className="text-[13px] text-[#F59E0B] font-bold">{selectedProduct.rating.toFixed(1)}</span>
-              <span className="text-[12px] text-[#9CA3AF]">({selectedProduct.ratingCount} reviews)</span>
+              {selectedProduct.ratingCount > 0 && <span className="text-[12px] text-[#9CA3AF]">({selectedProduct.ratingCount} reviews)</span>}
             </div>
             <p className="text-[#6B7280] text-[14px] leading-[1.6]" style={vs}>{selectedProduct.description}</p>
             <div className="flex flex-wrap gap-2">
@@ -463,7 +507,7 @@ export default function MarketplacePage() {
                   <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold">Quantity *</label><input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="1" style={vs} /></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Category *</label><select required value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}><option value="">Select category</option>{PRODUCT_CATEGORIES_API.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Description *</label><textarea required rows={3} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe your product..." style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Image URL <span className="text-[#9CA3AF] font-normal">(optional)</span></label><input type="url" value={listForm.imageUrl} onChange={(e) => setListForm(p => ({ ...p, imageUrl: e.target.value }))} className={inputBase} placeholder="https://..." style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Photos <span className="text-[#9CA3AF] font-normal">(optional, up to 4)</span></label><input type="file" accept="image/*" multiple onChange={(e) => setListPhotos(Array.from(e.target.files ?? []).slice(0, 4))} className={inputBase} style={vs} />{listPhotos.length > 0 && <p className="text-[12px] text-[#6B7280]" style={vs}>{listPhotos.length} photo{listPhotos.length > 1 ? "s" : ""} selected</p>}</div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated)</span></label><input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="leather, formal, men" style={vs} /></div>
                   <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Other Info <span className="text-[#9CA3AF] font-normal">(optional)</span></label><textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact, pickup location..." style={vs} /></div>
                 </div>
@@ -487,7 +531,7 @@ export default function MarketplacePage() {
               <div className="flex flex-col gap-4 items-center text-center py-4">
                 <div className="size-[64px] rounded-full bg-green-100 flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg></div>
                 <p className="text-[#000080] text-[18px] font-bold" style={vs}>Product Submitted!</p>
-                <p className="text-[#6B7280] text-[13px] leading-[1.6]" style={vs}>Your listing is pending admin approval and will appear in the marketplace once approved.</p>
+                <p className="text-[#6B7280] text-[13px] leading-[1.6]" style={vs}>Submitted for approval. Your item will appear on the marketplace once the church team approves it.</p>
                 <button onClick={closeModal} className="w-full bg-[#000080] text-white py-[13px] rounded-[24px] text-[14px] font-bold" style={vs}>Done</button>
               </div>
             )}
@@ -543,7 +587,22 @@ export default function MarketplacePage() {
           )}
 
           {/* Results */}
-          {filtered.length === 0 ? (
+          {loadState === "loading" ? (
+            <div className="flex flex-col items-center justify-center h-[360px] gap-3"><p className="text-[#A3A1AF] text-[15px]" style={vs}>Loading items…</p></div>
+          ) : loadState === "error" ? (
+            <div className="flex flex-col items-center justify-center h-[360px] gap-4 text-center px-4">
+              <span className="text-[44px]">📡</span>
+              <p className="text-[#A3A1AF] text-[16px]" style={vs}>We could not load the items right now. Please try again.</p>
+              <button onClick={loadProducts} className="text-[#000080] text-[13px] font-semibold underline" style={vs}>Try again</button>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-[360px] gap-4 text-center px-4">
+              <span className="text-[44px]">🛍️</span>
+              <p className="text-[#100E1A] text-[18px] font-bold" style={vs}>No items listed yet</p>
+              <p className="text-[#A3A1AF] text-[14px]" style={vs}>Be the first to sell something to the church family.</p>
+              <button onClick={() => openModal("sell")} className="bg-[#000080] text-white px-6 py-[11px] rounded-[24px] text-[14px] font-bold" style={vs}>Start selling</button>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-[360px] gap-4">
               <span className="text-[44px]">🔍</span>
               <p className="text-[#A3A1AF] text-[16px]" style={vs}>No products match your filters.</p>
@@ -571,7 +630,7 @@ export default function MarketplacePage() {
                       <div className="flex items-center gap-1 mt-1">
                         <StarRow rating={product.rating} />
                         <span className="text-[11px] text-[#F59E0B] font-bold">{product.rating.toFixed(1)}</span>
-                        <span className="text-[11px] text-[#9CA3AF]">({product.ratingCount})</span>
+                        {product.ratingCount > 0 && <span className="text-[11px] text-[#9CA3AF]">({product.ratingCount})</span>}
                       </div>
                     </div>
                     <div className="flex items-center justify-between">

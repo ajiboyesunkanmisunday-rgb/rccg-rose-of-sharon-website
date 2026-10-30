@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./market.css";
+import FormChecks from "@ros/shared/kit/FormChecks";
 
 export const metadata: Metadata = {
   title: "ROS Marketplace | RCCG Rose of Sharon",
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 export default function MarketLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body>
+        <FormChecks />
+        {children}
+      </body>
     </html>
   );
 }
