@@ -12,6 +12,7 @@ export default function BecomeAMemberPage() {
   const [form, setForm] = useState({
     firstName: "", middleName: "", lastName: "", sex: "", maritalStatus: "",
     dobDay: "", dobMonth: "", dobYear: "",
+    weddingDay: "", weddingMonth: "", weddingYear: "", occupation: "",
     countryCode: "+234", phoneNumber: "", email: "",
     street: "", city: "", state: "", country: "Nigeria",
   });
@@ -57,6 +58,10 @@ export default function BecomeAMemberPage() {
         dayOfBirth: form.dobDay ? parseInt(form.dobDay) : undefined,
         monthOfBirth: form.dobMonth ? parseInt(form.dobMonth) : undefined,
         yearOfBirth: form.dobYear ? parseInt(form.dobYear) : undefined,
+        dayOfWedding: form.maritalStatus === "MARRIED" && form.weddingDay ? parseInt(form.weddingDay) : undefined,
+        monthOfWedding: form.maritalStatus === "MARRIED" && form.weddingMonth ? parseInt(form.weddingMonth) : undefined,
+        yearOfWedding: form.maritalStatus === "MARRIED" && form.weddingYear ? parseInt(form.weddingYear) : undefined,
+        occupation: form.occupation || undefined,
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: form.phoneNumber,
         email: form.email || undefined,
@@ -75,7 +80,7 @@ export default function BecomeAMemberPage() {
   }
 
   function reset() {
-    setForm({ firstName: "", middleName: "", lastName: "", sex: "", maritalStatus: "", dobDay: "", dobMonth: "", dobYear: "", countryCode: "+234", phoneNumber: "", email: "", street: "", city: "", state: "", country: "Nigeria" });
+    setForm({ firstName: "", middleName: "", lastName: "", sex: "", maritalStatus: "", dobDay: "", dobMonth: "", dobYear: "", weddingDay: "", weddingMonth: "", weddingYear: "", occupation: "", countryCode: "+234", phoneNumber: "", email: "", street: "", city: "", state: "", country: "Nigeria" });
     setDepartments([]); setPhoto(null); setStatus("idle");
   }
 
@@ -136,6 +141,20 @@ export default function BecomeAMemberPage() {
                   </div>
                 </FormField>
               </div>
+              <div className="ros:mt-4">
+                <FormField label="Occupation"><input type="text" value={form.occupation} onChange={set("occupation")} className={inputCls} placeholder="Your occupation" /></FormField>
+              </div>
+              {form.maritalStatus === "MARRIED" && (
+                <div className="ros:mt-4">
+                  <FormField label="Wedding Anniversary">
+                    <div className="ros:grid ros:grid-cols-3 ros:gap-3">
+                      <select value={form.weddingDay} onChange={set("weddingDay")} className={selectCls}><option value="">Day</option>{Array.from({ length: 31 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d}</option>)}</select>
+                      <select value={form.weddingMonth} onChange={set("weddingMonth")} className={selectCls}><option value="">Month</option>{months.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}</select>
+                      <select value={form.weddingYear} onChange={set("weddingYear")} className={selectCls}><option value="">Year</option>{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => <option key={y} value={y}>{y}</option>)}</select>
+                    </div>
+                  </FormField>
+                </div>
+              )}
             </FormCard>
 
             <FormCard title="Contact Details">

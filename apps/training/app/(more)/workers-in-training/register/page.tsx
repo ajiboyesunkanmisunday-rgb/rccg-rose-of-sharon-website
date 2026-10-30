@@ -8,6 +8,29 @@ import Image from "next/image";
 import Link from "@ros/shared/link";
 import { FormField, inputCls, wrapCls, selectCls, SectionHeading, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { RepeatRows, emptyRow, cleanRows, type Row, type RowField } from "@ros/shared/kit/rows";
+
+const PLACE_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Name of Church" },
+  { key: "address", label: "Address" },
+  { key: "phoneNumber", label: "Phone Number", type: "tel" },
+  { key: "pastorName", label: "Pastor's Name" },
+  { key: "pastorPhoneNumber", label: "Pastor's Phone Number", type: "tel" },
+  { key: "yourMinistry", label: "Your Ministry There" },
+];
+const POSITION_FIELDS: RowField[] = [
+  { key: "worshipPlace", label: "Place of Worship" },
+  { key: "positionHeld", label: "Position Held" },
+];
+const QUAL_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "institution", label: "Institution" },
+  { key: "qualificationReceived", label: "Qualification Received" },
+  { key: "fieldOfStudy", label: "Field of Study" },
+  { key: "isProfessional", label: "This is a professional qualification", type: "checkbox" },
+];
+const GIFTS = ["Teaching", "Preaching", "Prophecy", "Healing", "Helps", "Hospitality", "Music / Worship", "Evangelism", "Administration", "Counselling", "Intercession", "Giving"];
 
 
 export default function WorkersInTrainingPage() {
@@ -22,7 +45,13 @@ export default function WorkersInTrainingPage() {
     waterBaptismDate: "", waterBaptismLocation: "",
     holySpiritBaptismDate: "", holySpiritBaptismLocation: "",
     yourMinistry: "", reasonForApplying: "", otherInformation: "",
+    otherPhoneNumber: "", reasonForLeavingPastChurch: "", lifeCenterAttended: "",
   });
+  const [gifts, setGifts] = useState<string[]>([]);
+  const [groups, setGroups] = useState<string[]>([""]);
+  const [places, setPlaces] = useState<Row[]>([emptyRow(PLACE_FIELDS)]);
+  const [positions, setPositions] = useState<Row[]>([emptyRow(POSITION_FIELDS)]);
+  const [quals, setQuals] = useState<Row[]>([emptyRow(QUAL_FIELDS)]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -63,6 +92,14 @@ export default function WorkersInTrainingPage() {
         holySpiritBaptismLocation: form.holySpiritBaptismLocation || undefined,
         yourMinistry: form.yourMinistry || undefined,
         reasonForApplying: form.reasonForApplying || undefined,
+        otherPhoneNumber: form.otherPhoneNumber || undefined,
+        reasonForLeavingPastChurch: form.reasonForLeavingPastChurch || undefined,
+        lifeCenterAttended: form.lifeCenterAttended || undefined,
+        giftsManifesting: gifts.length ? gifts : undefined,
+        nonRCCGChristianGroups: groups.map((g) => g.trim()).filter(Boolean).length ? groups.map((g) => g.trim()).filter(Boolean) : undefined,
+        createPastPlaceOfWorshipRequests: cleanRows(places, PLACE_FIELDS).length ? cleanRows(places, PLACE_FIELDS) : undefined,
+        createPositionHeldRequests: cleanRows(positions, POSITION_FIELDS).length ? cleanRows(positions, POSITION_FIELDS) : undefined,
+        qualificationRequests: cleanRows(quals, QUAL_FIELDS).length ? cleanRows(quals, QUAL_FIELDS) : undefined,
         consent: true,
       });
       setStatus("success");
@@ -129,6 +166,7 @@ export default function WorkersInTrainingPage() {
               </FormField>
               <FormField label="Email Address"><div className={wrapCls}><input type="email" value={form.email} onChange={set("email")} className={inputCls} /></div></FormField>
             </div>
+            <FormField label="Other Phone Number"><div className={wrapCls}><input type="tel" value={form.otherPhoneNumber} onChange={set("otherPhoneNumber")} className={inputCls} /></div></FormField>
             <FormField label="Home Address"><div className={wrapCls}><input type="text" value={form.street} onChange={set("street")} className={inputCls} placeholder="Street address" /></div></FormField>
             <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:lg:grid-cols-3 ros:gap-[16px] ros:w-full">
               <FormField label="City"><div className={wrapCls}><input type="text" value={form.city} onChange={set("city")} className={inputCls} /></div></FormField>
@@ -171,6 +209,36 @@ export default function WorkersInTrainingPage() {
               <FormField label="Location of Holy Spirit Baptism"><div className={wrapCls}><input type="text" value={form.holySpiritBaptismLocation} onChange={set("holySpiritBaptismLocation")} className={inputCls} /></div></FormField>
             </div>
             <FormField label="Your Ministry / Gift"><div className="ros:bg-[#FFFDFD] ros:border ros:border-[#A3A1AF] ros:rounded-[10px] ros:w-full ros:min-h-[80px]"><textarea value={form.yourMinistry} onChange={set("yourMinistry")} className="ros:w-full ros:h-full ros:min-h-[80px] ros:px-3 ros:py-2 ros:bg-transparent ros:text-[#000000] ros:text-sm ros:focus:outline-none ros:rounded-[10px] ros:resize-none" /></div></FormField>
+
+            <SectionHeading>Gifts & Church Background</SectionHeading>
+            <FormField label="Gifts You Are Manifesting">
+              <div className="ros:grid ros:grid-cols-2 ros:sm:grid-cols-3 ros:gap-[8px] ros:w-full">
+                {GIFTS.map((g) => (
+                  <label key={g} className="ros:flex ros:items-center ros:gap-[8px] ros:text-sm ros:text-[#374151]">
+                    <input type="checkbox" checked={gifts.includes(g)} onChange={(e) => setGifts((p) => (e.target.checked ? [...p, g] : p.filter((x) => x !== g)))} className="ros:size-[16px] ros:accent-[#DF4E4E]" />
+                    {g}
+                  </label>
+                ))}
+              </div>
+            </FormField>
+            <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px] ros:w-full">
+              <FormField label="Life Centre Attended"><div className={wrapCls}><input type="text" value={form.lifeCenterAttended} onChange={set("lifeCenterAttended")} className={inputCls} /></div></FormField>
+              <FormField label="Reason for Leaving Past Church"><div className={wrapCls}><input type="text" value={form.reasonForLeavingPastChurch} onChange={set("reasonForLeavingPastChurch")} className={inputCls} /></div></FormField>
+            </div>
+            <FormField label="Non-RCCG Christian Groups You Belong To">
+              <div className="ros:flex ros:flex-col ros:gap-[8px] ros:w-full">
+                {groups.map((g, i) => (
+                  <div key={i} className="ros:flex ros:gap-[8px]">
+                    <input type="text" value={g} onChange={(e) => setGroups((p) => p.map((x, idx) => (idx === i ? e.target.value : x)))} className={inputCls} placeholder="Group name" />
+                    {groups.length > 1 && <button type="button" onClick={() => setGroups((p) => p.filter((_, idx) => idx !== i))} className="ros:text-xs ros:font-bold ros:uppercase ros:text-[#DF4E4E] ros:hover:underline">Remove</button>}
+                  </div>
+                ))}
+                <button type="button" onClick={() => setGroups((p) => [...p, ""])} className="ros:self-start ros:rounded-full ros:border ros:border-black ros:px-4 ros:py-2 ros:text-xs ros:font-extrabold ros:uppercase ros:tracking-[0.15em] ros:transition ros:hover:bg-black ros:hover:text-white">+ Add another group</button>
+              </div>
+            </FormField>
+            <RepeatRows title="Past Places of Worship" fields={PLACE_FIELDS} rows={places} onChange={setPlaces} addLabel="Add another place" />
+            <RepeatRows title="Positions Held" fields={POSITION_FIELDS} rows={positions} onChange={setPositions} addLabel="Add another position" />
+            <RepeatRows title="Educational & Professional Qualifications" fields={QUAL_FIELDS} rows={quals} onChange={setQuals} addLabel="Add another qualification" />
 
             <SectionHeading>Application Details</SectionHeading>
             <FormField label="Reason for Applying" required>

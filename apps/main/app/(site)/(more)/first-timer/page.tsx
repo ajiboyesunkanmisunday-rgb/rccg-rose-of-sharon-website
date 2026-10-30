@@ -13,9 +13,13 @@ const SERVICE_RATING: Record<string, number> = { Excellent: 5, Good: 4, Fair: 3,
 // so this is a fixed list until the backend exposes it publicly.)
 const SERVICES = ["Sunday Service", "Midweek Service", "Special Service / Program", "Online Service"];
 
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 export default function FirstTimerPage() {
   const [form, setForm] = useState({
     firstName: "", middleName: "", lastName: "", sex: "", maritalStatus: "", occupation: "",
+    dobDay: "", dobMonth: "", dobYear: "",
+    street: "", city: "", state: "", country: "Nigeria",
     countryCode: "+234", phoneNumber: "", email: "",
     isVisiting: false,
     mediumOfInvitation: "", serviceAttended: "", worshippedOnline: false,
@@ -51,6 +55,13 @@ export default function FirstTimerPage() {
         sex: form.sex || undefined,
         maritalStatus: form.maritalStatus || undefined,
         occupation: form.occupation || undefined,
+        dayOfBirth: form.dobDay ? parseInt(form.dobDay) : undefined,
+        monthOfBirth: form.dobMonth ? parseInt(form.dobMonth) : undefined,
+        yearOfBirth: form.dobYear ? parseInt(form.dobYear) : undefined,
+        street: form.street || undefined,
+        city: form.city || undefined,
+        state: form.state || undefined,
+        country: form.country || undefined,
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: form.phoneNumber,
         email: form.email || undefined,
@@ -140,10 +151,28 @@ export default function FirstTimerPage() {
                 <FormField label="Email Address"><input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="your@email.com" /></FormField>
               </div>
               <div className="ros:mt-4">
+                <FormField label="Date of Birth">
+                  <div className="ros:grid ros:grid-cols-3 ros:gap-3">
+                    <select value={form.dobDay} onChange={set("dobDay")} className={selectCls}><option value="">Day</option>{Array.from({ length: 31 }, (_, i) => i + 1).map((d) => <option key={d} value={d}>{d}</option>)}</select>
+                    <select value={form.dobMonth} onChange={set("dobMonth")} className={selectCls}><option value="">Month</option>{MONTHS.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}</select>
+                    <select value={form.dobYear} onChange={set("dobYear")} className={selectCls}><option value="">Year</option>{Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map((y) => <option key={y} value={y}>{y}</option>)}</select>
+                  </div>
+                </FormField>
+              </div>
+              <div className="ros:mt-4">
                 <label className={tickLabel}>
                   <input type="checkbox" checked={form.isVisiting} onChange={tick("isVisiting")} className={tickCls} />
                   I am just visiting
                 </label>
+              </div>
+            </FormCard>
+
+            <FormCard title="Home Address">
+              <FormField label="Street"><input type="text" value={form.street} onChange={set("street")} className={inputCls} placeholder="House number and street" /></FormField>
+              <div className="ros:mt-4 ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-3">
+                <FormField label="City"><input type="text" value={form.city} onChange={set("city")} className={inputCls} placeholder="City" /></FormField>
+                <FormField label="State / Province"><input type="text" value={form.state} onChange={set("state")} className={inputCls} placeholder="State or province" /></FormField>
+                <FormField label="Country"><input type="text" value={form.country} onChange={set("country")} className={inputCls} placeholder="Country" /></FormField>
               </div>
             </FormCard>
 

@@ -8,6 +8,28 @@ import Image from "next/image";
 import Link from "@ros/shared/link";
 import { FormField, inputCls, wrapCls, selectCls, SectionHeading, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { RepeatRows, emptyRow, cleanRows, type Row, type RowField } from "@ros/shared/kit/rows";
+
+const DEPT_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Department / group" },
+];
+const WORSHIP_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Church name" },
+  { key: "address", label: "Address" },
+  { key: "phoneNumber", label: "Phone number", type: "tel" },
+  { key: "pastorName", label: "Pastor's name" },
+  { key: "pastorPhoneNumber", label: "Pastor's phone number", type: "tel" },
+  { key: "yourMinistry", label: "Your ministry there" },
+];
+const QUAL_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "institution", label: "Institution" },
+  { key: "qualificationReceived", label: "Qualification received" },
+  { key: "fieldOfStudy", label: "Field of study" },
+  { key: "isProfessional", label: "This is a professional qualification", type: "checkbox" },
+];
 
 
 const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -19,11 +41,16 @@ export default function WaterBaptismPage() {
     street: "", city: "", state: "", country: "Nigeria", stateOfOrigin: "",
     dateOfBirth: "", maritalStatus: "", noOfChildren: "", spouseName: "",
     occupation: "", employer: "",
+    officeFullAddress: "", officePhoneNumber: "", officeEmail: "", officeSocialMediaHandle: "",
+    afraidOfWater: "false",
     salvationDate: "", salvationLocation: "",
     holySpiritBaptismDate: "", holySpiritBaptismLocation: "",
     goneThroughNewConvertClass: "false",
     reasonForApplying: "", otherInformation: "",
   });
+  const [departments, setDepartments] = useState<Row[]>([emptyRow(DEPT_FIELDS)]);
+  const [pastWorship, setPastWorship] = useState<Row[]>([emptyRow(WORSHIP_FIELDS)]);
+  const [qualifications, setQualifications] = useState<Row[]>([emptyRow(QUAL_FIELDS)]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -55,6 +82,14 @@ export default function WaterBaptismPage() {
         spouseName: form.spouseName || undefined,
         occupation: form.occupation || undefined,
         employer: form.employer || undefined,
+        officeFullAddress: form.officeFullAddress || undefined,
+        officePhoneNumber: form.officePhoneNumber || undefined,
+        officeEmail: form.officeEmail || undefined,
+        officeSocialMediaHandle: form.officeSocialMediaHandle || undefined,
+        afraidOfWater: form.afraidOfWater === "true",
+        studentDepartmentRequests: cleanRows(departments, DEPT_FIELDS),
+        createPastPlaceOfWorshipRequests: cleanRows(pastWorship, WORSHIP_FIELDS),
+        qualificationRequests: cleanRows(qualifications, QUAL_FIELDS),
         salvationDate: form.salvationDate || undefined,
         salvationLocation: form.salvationLocation || undefined,
         holySpiritBaptismDate: form.holySpiritBaptismDate || undefined,
@@ -171,6 +206,25 @@ export default function WaterBaptismPage() {
               <FormField label="Country"><div className={wrapCls}><input type="text" value={form.country} onChange={set("country")} className={inputCls} /></div></FormField>
             </div>
 
+            <SectionHeading>Employer / Office Details</SectionHeading>
+            <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px] ros:w-full">
+              <FormField label="Employer">
+                <div className={wrapCls}><input type="text" value={form.employer} onChange={set("employer")} className={inputCls} /></div>
+              </FormField>
+              <FormField label="Office Phone Number">
+                <div className={wrapCls}><input type="tel" value={form.officePhoneNumber} onChange={set("officePhoneNumber")} className={inputCls} /></div>
+              </FormField>
+              <FormField label="Office Email">
+                <div className={wrapCls}><input type="email" value={form.officeEmail} onChange={set("officeEmail")} className={inputCls} /></div>
+              </FormField>
+              <FormField label="Office Social Media Handle">
+                <div className={wrapCls}><input type="text" value={form.officeSocialMediaHandle} onChange={set("officeSocialMediaHandle")} className={inputCls} /></div>
+              </FormField>
+            </div>
+            <FormField label="Office Address">
+              <div className={wrapCls}><input type="text" value={form.officeFullAddress} onChange={set("officeFullAddress")} className={inputCls} /></div>
+            </FormField>
+
             <SectionHeading>Spiritual Journey</SectionHeading>
             <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px] ros:w-full">
               <FormField label="Date of Salvation">
@@ -196,6 +250,20 @@ export default function WaterBaptismPage() {
                 </select>
               </div>
             </FormField>
+
+            <FormField label="Are You Afraid of Water?">
+              <div className={wrapCls}>
+                <select value={form.afraidOfWater} onChange={set("afraidOfWater")} className={selectCls}>
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+            </FormField>
+
+            <SectionHeading>Background</SectionHeading>
+            <RepeatRows title="Departments / groups you have been in" fields={DEPT_FIELDS} rows={departments} onChange={setDepartments} addLabel="Add department" />
+            <RepeatRows title="Churches you have worshipped in before" fields={WORSHIP_FIELDS} rows={pastWorship} onChange={setPastWorship} addLabel="Add church" />
+            <RepeatRows title="Qualifications" fields={QUAL_FIELDS} rows={qualifications} onChange={setQualifications} addLabel="Add qualification" />
 
             <SectionHeading>Application Details</SectionHeading>
             <FormField label="Reason for Applying" required>

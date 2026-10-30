@@ -8,6 +8,28 @@ import Image from "next/image";
 import Link from "@ros/shared/link";
 import { FormField, inputCls, wrapCls, selectCls, SectionHeading, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { RepeatRows, emptyRow, cleanRows, type Row, type RowField } from "@ros/shared/kit/rows";
+
+const PLACE_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Name of Church" },
+  { key: "address", label: "Address" },
+  { key: "phoneNumber", label: "Phone Number", type: "tel" },
+  { key: "pastorName", label: "Pastor's Name" },
+  { key: "pastorPhoneNumber", label: "Pastor's Phone Number", type: "tel" },
+  { key: "yourMinistry", label: "Your Ministry There" },
+];
+const POSITION_FIELDS: RowField[] = [
+  { key: "worshipPlace", label: "Place of Worship" },
+  { key: "positionHeld", label: "Position Held" },
+];
+const QUAL_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "institution", label: "Institution" },
+  { key: "qualificationReceived", label: "Qualification Received" },
+  { key: "fieldOfStudy", label: "Field of Study" },
+  { key: "isProfessional", label: "This is a professional qualification", type: "checkbox" },
+];
 
 
 export default function SchoolOfDisciplesPage() {
@@ -23,7 +45,11 @@ export default function SchoolOfDisciplesPage() {
     holySpiritBaptismDate: "", holySpiritBaptismLocation: "",
     currentParishPastorName: "", currentParishPastorPhoneNumber: "", activityInCurrentParish: "",
     otherInformation: "",
+    region: "", province: "", centre: "", hasAnotherSimultaneousProgram: "",
   });
+  const [places, setPlaces] = useState<Row[]>([emptyRow(PLACE_FIELDS)]);
+  const [positions, setPositions] = useState<Row[]>([emptyRow(POSITION_FIELDS)]);
+  const [quals, setQuals] = useState<Row[]>([emptyRow(QUAL_FIELDS)]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -65,7 +91,13 @@ export default function SchoolOfDisciplesPage() {
         activityInCurrentParish: form.activityInCurrentParish || undefined,
         otherInformation: form.otherInformation || undefined,
         consent: true,
-        hasAnotherSimultaneousProgram: false,
+        hasAnotherSimultaneousProgram: form.hasAnotherSimultaneousProgram === "yes",
+        region: form.region || undefined,
+        province: form.province || undefined,
+        centre: form.centre || undefined,
+        createPastPlaceOfWorshipRequests: cleanRows(places, PLACE_FIELDS).length ? cleanRows(places, PLACE_FIELDS) : undefined,
+        createPositionHeldRequests: cleanRows(positions, POSITION_FIELDS).length ? cleanRows(positions, POSITION_FIELDS) : undefined,
+        qualificationRequests: cleanRows(quals, QUAL_FIELDS).length ? cleanRows(quals, QUAL_FIELDS) : undefined,
       });
       setStatus("success");
     } catch (err: unknown) {
@@ -169,6 +201,17 @@ export default function SchoolOfDisciplesPage() {
             </div>
             <FormField label="Your Activity in Current Parish">
               <div className="ros:bg-[#FFFDFD] ros:border ros:border-[#A3A1AF] ros:rounded-[10px] ros:w-full ros:min-h-[80px]"><textarea value={form.activityInCurrentParish} onChange={set("activityInCurrentParish")} className="ros:w-full ros:h-full ros:min-h-[80px] ros:px-3 ros:py-2 ros:bg-transparent ros:text-[#000000] ros:text-sm ros:focus:outline-none ros:rounded-[10px] ros:resize-none" /></div>
+            </FormField>
+            <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-3 ros:gap-[16px] ros:w-full">
+              <FormField label="Region"><div className={wrapCls}><input type="text" value={form.region} onChange={set("region")} className={inputCls} /></div></FormField>
+              <FormField label="Province"><div className={wrapCls}><input type="text" value={form.province} onChange={set("province")} className={inputCls} /></div></FormField>
+              <FormField label="Centre"><div className={wrapCls}><input type="text" value={form.centre} onChange={set("centre")} className={inputCls} /></div></FormField>
+            </div>
+            <RepeatRows title="Past Places of Worship" fields={PLACE_FIELDS} rows={places} onChange={setPlaces} addLabel="Add another place" />
+            <RepeatRows title="Positions Held" fields={POSITION_FIELDS} rows={positions} onChange={setPositions} addLabel="Add another position" />
+            <RepeatRows title="Educational & Professional Qualifications" fields={QUAL_FIELDS} rows={quals} onChange={setQuals} addLabel="Add another qualification" />
+            <FormField label="Are you attending another programme at the same time?">
+              <div className={wrapCls}><select value={form.hasAnotherSimultaneousProgram} onChange={set("hasAnotherSimultaneousProgram")} className={selectCls}><option value="">Select</option><option value="no">No</option><option value="yes">Yes</option></select></div>
             </FormField>
             <FormField label="Other Information">
               <div className="ros:bg-[#FFFDFD] ros:border ros:border-[#A3A1AF] ros:rounded-[10px] ros:w-full ros:min-h-[80px]"><textarea value={form.otherInformation} onChange={set("otherInformation")} className="ros:w-full ros:h-full ros:min-h-[80px] ros:px-3 ros:py-2 ros:bg-transparent ros:text-[#000000] ros:text-sm ros:focus:outline-none ros:rounded-[10px] ros:resize-none" /></div>
