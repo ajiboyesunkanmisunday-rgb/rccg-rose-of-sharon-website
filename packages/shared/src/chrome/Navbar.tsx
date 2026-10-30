@@ -46,13 +46,171 @@ function DesktopNav({ pathname }: { pathname: string }) {
   );
 }
 
+const SOCIALS: { href: string; label: string; path: string }[] = [
+                  { href: "https://www.instagram.com/rccgros/?hl=en", label: "Instagram", path: "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" },
+                  { href: "https://x.com/", label: "X", path: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" },
+                  { href: "https://www.youtube.com/@rccgrostv", label: "YouTube", path: "M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" },
+];
+
+// ─── Mobile menu body (phones only) ───────────────────────────────────────────
+// The wide menu above suits desktop. On a phone it becomes a tidy list: big tappable primary links, then the
+// longer link groups folded into tap-to-open sections.
+
+type MenuLink = { href: string; label: string; external?: boolean; sub?: boolean };
+type MenuGroup = { title: string; links: MenuLink[] };
+
+const PRIMARY_LINKS: MenuLink[] = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/ql", label: "Quick Links" },
+  { href: "/cell-church", label: "House Fellowship" },
+  { href: "/media", label: "Sermons" },
+  { href: "/give", label: "Give" },
+  { href: "/youth", label: "Youth" },
+  { href: "/trainings", label: "Training" },
+  { href: "/marketplace", label: "Marketplace" },
+];
+
+function menuGroups(): MenuGroup[] {
+  return [
+    { title: "Ministries", links: [
+      { href: "/ministries/hearts-of-david", label: "Hearts of David (Men)" },
+      { href: "/ministries/oaks-of-righteousness", label: "Oaks of Righteousness (Women)" },
+      { href: "/youth", label: "Youth Fellowship" },
+      { href: "/ministries/kids-and-teens", label: "Children Church" },
+    ] },
+    { title: "Resources & Requests", links: [
+      { href: "/trainings/believers-class", label: "Believers class" },
+      { href: "/trainings/water-baptism", label: "Water Baptism class" },
+      { href: "/celebrations", label: "Celebrations" },
+      { href: "/counselling", label: "Relationship Talks" },
+      { href: "/welfare", label: "Welfare Request" },
+      { href: "/requests/prayer", label: "Prayer Request" },
+      { href: "/requests/counseling", label: "Counselling Request" },
+      { href: "/requests/suggestion", label: "Suggestion" },
+      { href: "/requests/baby-dedication", label: "Baby Dedication" },
+      { href: "/requests/baby-christening", label: "Baby Christening" },
+      { href: "/celebrations#request", label: "Celebration Request" },
+    ] },
+    { title: "Connect", links: [
+      { href: "/cell-church", label: "House Fellowship" },
+      { href: "/membership", label: "Become a member" },
+      { href: "/first-timer", label: "First-Timer Registration" },
+      { href: "/e-member", label: "E-Member Registration" },
+      { href: "/new-believer", label: "New Believer" },
+    ] },
+    { title: "Media", links: [
+      { href: "https://www.youtube.com/@rccgrostv", label: "Watch online", external: true },
+      { href: "/media", label: "Sermons & Media" },
+      { href: "/events", label: "Events & Services" },
+      { href: "/announcements", label: "Announcements" },
+      { href: "/testimonies", label: "Testimonies" },
+    ] },
+    { title: "Training Programs", links: [
+      { href: "/trainings", label: "All training programs" },
+      ...PROGRAMS.flatMap((prog) => [
+        { href: programMenu(prog)[0].href, label: prog.name },
+        ...programMenu(prog).slice(1).map((pg) => ({ href: pg.href, label: pg.label, sub: true })),
+      ]),
+    ] },
+    { title: "Youth", links: [
+      { href: "/youth", label: "Youth Fellowship" },
+      ...YOUTH_PAGES.filter((pg) => pg.key !== "overview").map((pg) => ({ href: pg.href, label: pg.label, sub: true })),
+    ] },
+  ];
+}
+
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transition: "transform 0.2s", transform: open ? "rotate(180deg)" : "none", opacity: 0.7 }}>
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  );
+}
+
+function MobileMenuBody({ setOpen, pathname }: { setOpen: (v: boolean) => void; pathname: string }) {
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const groups = menuGroups();
+  const close = () => setOpen(false);
+  return (
+    <div className="mm-mobile" style={{ padding: "4px 20px 32px" }}>
+      <nav>
+        {PRIMARY_LINKS.map((item) => {
+          const active = isHere(pathname, item.href);
+          return (
+            <A
+              key={item.label}
+              href={item.href}
+              onClick={close}
+              className={`font-anton uppercase ${active ? "text-textRed" : "text-white"}`}
+              style={{ display: "flex", alignItems: "center", justifyContent: "space-between", minHeight: 56, fontSize: 28, letterSpacing: "0.02em", borderBottom: "1px solid rgba(255,255,255,0.12)" }}
+            >
+              {item.label}
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.5 }}><polyline points="9 6 15 12 9 18" /></svg>
+            </A>
+          );
+        })}
+      </nav>
+
+      <p style={{ margin: "28px 0 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>Explore more</p>
+      <div>
+        {groups.map((g) => {
+          const isOpen = openGroup === g.title;
+          return (
+            <div key={g.title} style={{ borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
+              <button
+                type="button"
+                onClick={() => setOpenGroup(isOpen ? null : g.title)}
+                aria-expanded={isOpen}
+                className="text-white"
+                style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between", minHeight: 52, fontSize: 13, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", textAlign: "left" }}
+              >
+                {g.title}
+                <Chevron open={isOpen} />
+              </button>
+              {isOpen && (
+                <div style={{ paddingBottom: 12 }}>
+                  {g.links.map((l, i) => (
+                    <A
+                      key={l.label + i}
+                      href={l.href}
+                      onClick={() => !l.external && close()}
+                      target={l.external ? "_blank" : undefined}
+                      rel={l.external ? "noopener noreferrer" : undefined}
+                      className="text-white"
+                      style={{ display: "flex", alignItems: "center", minHeight: 42, fontSize: l.sub ? 13 : 15, paddingLeft: l.sub ? 16 : 0, fontWeight: l.sub ? 400 : 600, opacity: l.sub ? 0.75 : 1 }}
+                    >
+                      {l.label}
+                    </A>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div style={{ marginTop: 28, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+        <div style={{ display: "flex", gap: 10 }}>
+          {SOCIALS.map((social) => (
+            <A key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label} className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FFFFFF1F]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d={social.path} /></svg>
+            </A>
+          ))}
+        </div>
+        <p style={{ fontSize: 10, textAlign: "center", color: "rgba(255,255,255,0.45)" }}>© Copyright {year} RCCG Rose of Sharon. All Rights Reserved.</p>
+      </div>
+    </div>
+  );
+}
+
 // ─── Mobile fullscreen menu ───────────────────────────────────────────────────
 
 function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; pathname: string }) {
   return (
     <div className="no-scrollbar fixed inset-0 z-50 overflow-y-auto bg-black">
       {/* Header row */}
-      <div className="flex w-full items-center justify-between p-4">
+      <div className="mm-head flex w-full items-center justify-between p-4">
         <A href="/" onClick={() => setOpen(false)}>
           <img src="/logo.svg" alt="RCCG Rose of Sharon" width={110} height={44} style={{ width: 110, height: "auto" }} />
         </A>
@@ -71,8 +229,11 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
         </button>
       </div>
 
-      {/* Main content */}
-      <div className="fade-in mx-auto flex min-h-screen max-w-screen-2xl items-center justify-center">
+      <style>{`@media (max-width: 767px) { .mm-head { position: sticky; top: 0; z-index: 10; background: #000; } .mm-desktop { display: none !important; } } @media (min-width: 768px) { .mm-mobile { display: none !important; } }`}</style>
+      <MobileMenuBody setOpen={setOpen} pathname={pathname} />
+
+      {/* Main content (wide screens) */}
+      <div className="mm-desktop fade-in mx-auto flex min-h-screen max-w-screen-2xl items-center justify-center">
         <div className="flex w-[90%] flex-col items-start justify-between gap-4 md:flex-row lg:items-center">
 
           {/* Primary nav links — giant Anton font */}
