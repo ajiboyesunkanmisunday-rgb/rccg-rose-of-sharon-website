@@ -21,13 +21,24 @@ const reasons = [
   { icon: "🙌", title: "Everyone is welcome", text: "Members, friends, neighbours and first-timers. Come, bring someone and be blessed." },
 ];
 
+const ministers = [
+  { title: "", first: "Lilian", last: "Nneji" },
+  { title: "Pst.", first: "Nathaniel", last: "Bassey" },
+  { title: "Rev.", first: "Sam", last: "Oye" },
+  { title: "Pst.", first: "Adefioye", last: "Adewumi" },
+  { title: "Vicar", first: "", last: "Yaneh" },
+  { title: "", first: "Bidemi", last: "Olaoba" },
+];
+
+const themeWords = ["Salvation", "Deliverance", "Healing", "Miracles", "Restoration"];
+
 export default function LightUpIkejaPage() {
   return (
     <>
       <Hero
-        pill="🔥 30TH ANNIVERSARY"
+        pill="🔥 REACH4CHRIST · 6TH EDITION"
         title={<>Light Up <span className="text-textRed">Ikeja</span></>}
-        subtitle="A city-wide crusade of worship, the word and prayer, and a highlight of Rose of Sharon's 30th anniversary celebration."
+        subtitle="God of Wonders. Saturday 28 November 2026, 4PM at Police College Ground, GRA Ikeja, Lagos. A city-wide crusade of worship, the word and prayer, and a highlight of Rose of Sharon's 30th anniversary celebration."
         bg="/gallery/light-up-ikeja/10.jpg"
       >
         <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
@@ -51,15 +62,48 @@ export default function LightUpIkejaPage() {
 
       <section className="ros:bg-black ros:px-4 ros:py-16">
         <div className="ros:mx-auto ros:max-w-4xl ros:text-center">
-          <SectionTitle center dark pill="📍 DATE & VENUE" title={<>Join us at the <span className="text-textRed">next one</span></>} sub="The date, time and venue of the next Light Up Ikeja will be announced here and on the calendar." />
+          <SectionTitle center dark pill="📍 DATE & VENUE" title={<>Join us at <span className="text-textRed">Light Up Ikeja</span></>} sub="Light Up Ikeja Crusade 2026, the 6th edition: God of Wonders." />
           <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-4 ros:md:grid-cols-3">
-            {[{ k: "Date", v: "To be announced" }, { k: "Time", v: "To be announced" }, { k: "Venue", v: "To be announced" }].map((x) => (
+            {[{ k: "Date", v: "Saturday, 28 November 2026" }, { k: "Time", v: "4:00 PM WAT" }, { k: "Venue", v: "Police College Ground, GRA Ikeja, Lagos" }].map((x) => (
               <div key={x.k} className="ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5">
                 <p className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#FFFFFF99]">{x.k}</p>
                 <p className="ros:mt-1 ros:font-bold ros:text-white">{x.v}</p>
               </div>
             ))}
           </div>
+          <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-x-3 ros:gap-y-2">
+            {themeWords.map((w) => (
+              <span key={w} className="ros:rounded-full ros:bg-[#1F1F1F] ros:px-4 ros:py-1.5 ros:text-[11px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-white">{w}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Section>
+        <SectionTitle center pill="🎤 AN ENCOUNTER TO REMEMBER" title={<>Who is <span className="text-textRed">ministering</span></>} sub="In word, worship and praise." />
+        <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-4 ros:md:grid-cols-3">
+          {ministers.map((m) => (
+            <div key={m.last} className="ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:text-center">
+              <p className="ros:text-xs ros:text-[#00000099]">{[m.title, m.first].filter(Boolean).join(" ") || "\u00A0"}</p>
+              <p className="ros-anton ros:mt-1 ros:text-2xl ros:uppercase">{m.last}</p>
+            </div>
+          ))}
+        </div>
+        <p className="ros:mt-6 ros:text-center ros:text-sm ros:text-[#00000099]">Also ministering: <span className="ros:font-bold ros:text-black">Fragrance of Life Choir</span></p>
+      </Section>
+
+      <section className="ros:bg-black ros:px-4 ros:py-16">
+        <div className="ros:mx-auto ros:flex ros:max-w-4xl ros:flex-col ros:items-center ros:gap-4 ros:text-center">
+          <SectionTitle center dark pill="🩺 CARE FOR THE COMMUNITY" title={<>Free <span className="text-textRed">medicals</span> available</>} sub="Come early for the free medicals, then stay for Light Up Ikeja Crusade: God of Wonders." />
+          <div className="ros:mt-4 ros:grid ros:w-full ros:grid-cols-1 ros:gap-4 ros:md:grid-cols-3">
+            {[{ k: "Free medicals start", v: "10:00 AM" }, { k: "Date", v: "Saturday, 28 November 2026" }, { k: "Venue", v: "Police College Ground, GRA Ikeja, Lagos" }].map((x) => (
+              <div key={x.k} className="ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5">
+                <p className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#FFFFFF99]">{x.k}</p>
+                <p className="ros:mt-1 ros:font-bold ros:text-white">{x.v}</p>
+              </div>
+            ))}
+          </div>
+          <p className="ros:mt-2 ros:text-sm ros:text-[#FFFFFFB2]">The crusade itself starts at 4:00 PM.</p>
         </div>
       </section>
 
