@@ -8,6 +8,28 @@ import Image from "next/image";
 import Link from "@ros/shared/link";
 import { FormField, inputCls, wrapCls, selectCls, SectionHeading, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { RepeatRows, emptyRow, cleanRows, type Row, type RowField } from "@ros/shared/kit/rows";
+
+const DEPT_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Department / group" },
+];
+const WORSHIP_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "name", label: "Church name" },
+  { key: "address", label: "Address" },
+  { key: "phoneNumber", label: "Phone number", type: "tel" },
+  { key: "pastorName", label: "Pastor's name" },
+  { key: "pastorPhoneNumber", label: "Pastor's phone number", type: "tel" },
+  { key: "yourMinistry", label: "Your ministry there" },
+];
+const QUAL_FIELDS: RowField[] = [
+  { key: "date", label: "Date", type: "date" },
+  { key: "institution", label: "Institution" },
+  { key: "qualificationReceived", label: "Qualification received" },
+  { key: "fieldOfStudy", label: "Field of study" },
+  { key: "isProfessional", label: "This is a professional qualification", type: "checkbox" },
+];
 
 
 export default function SchoolOfMinistryPage() {
@@ -23,6 +45,9 @@ export default function SchoolOfMinistryPage() {
     holySpiritBaptismDate: "", holySpiritBaptismLocation: "",
     reasonsForApplying: "", otherInformation: "",
   });
+  const [departments, setDepartments] = useState<Row[]>([emptyRow(DEPT_FIELDS)]);
+  const [pastWorship, setPastWorship] = useState<Row[]>([emptyRow(WORSHIP_FIELDS)]);
+  const [qualifications, setQualifications] = useState<Row[]>([emptyRow(QUAL_FIELDS)]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -58,6 +83,9 @@ export default function SchoolOfMinistryPage() {
         holySpiritBaptismLocation: form.holySpiritBaptismLocation || undefined,
         reasonsForApplying: form.reasonsForApplying ? [form.reasonsForApplying] : [],
         otherInformation: form.otherInformation || undefined,
+        createStudentDepartmentRequests: cleanRows(departments, DEPT_FIELDS),
+        createPastPlaceOfWorshipRequests: cleanRows(pastWorship, WORSHIP_FIELDS),
+        qualificationRequests: cleanRows(qualifications, QUAL_FIELDS),
         consent: true,
       });
       setStatus("success");
@@ -151,6 +179,11 @@ export default function SchoolOfMinistryPage() {
               <FormField label="Date of Holy Spirit Baptism"><div className={wrapCls}><input type="text" value={form.holySpiritBaptismDate} onChange={set("holySpiritBaptismDate")} className={inputCls} placeholder="e.g. June 2020" /></div></FormField>
               <FormField label="Location"><div className={wrapCls}><input type="text" value={form.holySpiritBaptismLocation} onChange={set("holySpiritBaptismLocation")} className={inputCls} /></div></FormField>
             </div>
+
+            <SectionHeading>Background</SectionHeading>
+            <RepeatRows title="Departments / groups you have been in" fields={DEPT_FIELDS} rows={departments} onChange={setDepartments} addLabel="Add department" />
+            <RepeatRows title="Churches you have worshipped in before" fields={WORSHIP_FIELDS} rows={pastWorship} onChange={setPastWorship} addLabel="Add church" />
+            <RepeatRows title="Qualifications" fields={QUAL_FIELDS} rows={qualifications} onChange={setQualifications} addLabel="Add qualification" />
 
             <SectionHeading>Application Details</SectionHeading>
             <FormField label="Reason for Applying" required>

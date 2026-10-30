@@ -13,7 +13,7 @@ export function emptyRow(fields: RowField[]): Row {
 }
 
 /** Rows with at least one filled-in value, ready to send to the API. */
-export function cleanRows(rows: Row[], fields: RowField[]): Row[] {
+export function cleanRows(rows: Row[], fields: RowField[]): Record<string, string | boolean | undefined>[] {
   return rows
     .filter((r) => fields.some((f) => (f.type === "checkbox" ? false : String(r[f.key] ?? "").trim() !== "")))
     .map((r) => Object.fromEntries(fields.map((f) => [f.key, f.type === "checkbox" ? Boolean(r[f.key]) : (String(r[f.key] ?? "").trim() || undefined)])));
