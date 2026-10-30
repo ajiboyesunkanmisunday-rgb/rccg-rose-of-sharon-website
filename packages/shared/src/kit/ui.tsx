@@ -32,16 +32,16 @@ export function Hero({
       style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')`, ...(bgPosition ? { backgroundPosition: bgPosition } : {}) } : undefined}
     >
       <div className="ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
-      <Reveal className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-start ros:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
+      <Reveal className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-center ros:text-center ros:md:items-start ros:md:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
         {logo && <img src={logo} alt="" width={96} height={96} className="ros:size-20 ros:rounded-full ros:bg-white ros:object-cover ros:md:size-24" />}
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
           {pill}
         </h3>
-        <h1 className={`ros-anton ros:my-3 ros:max-w-[900px] ${bg ? "ros:text-left" : "ros:text-center"} ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]`}>
+        <h1 className={`ros-anton ros:my-3 ros:max-w-[900px] ${bg ? "ros:text-center ros:md:text-left" : "ros:text-center"} ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]`}>
           {title}
         </h1>
         {subtitle && (
-          <p className={`ros:w-full ros:max-w-2xl ${bg ? "ros:text-left" : "ros:text-center"} ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl`}>{subtitle}</p>
+          <p className={`ros:w-full ros:max-w-2xl ${bg ? "ros:text-center ros:md:text-left" : "ros:text-center"} ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl`}>{subtitle}</p>
         )}
         {children}
       </Reveal>

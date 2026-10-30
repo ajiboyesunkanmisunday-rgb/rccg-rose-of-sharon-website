@@ -55,12 +55,12 @@ export default function BuildingProjectPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6"
+          className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start"
         >
-          <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
+          <h1 className="my-3 max-w-[900px] text-center md:text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             BUILD <span className="text-textRed">WITH US</span>
           </h1>
-          <p className="w-full max-w-2xl text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
+          <p className="w-full max-w-2xl text-center md:text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             Our church is growing, and we&apos;re excited to take the next step: creating a building where our community can gather, worship, learn, and serve together.
           </p>
           <div className="mt-8 md:flex md:items-center md:justify-start">

@@ -150,7 +150,7 @@ export default function Home() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="mx-auto flex w-full max-w-7xl flex-col items-start gap-4 px-4 text-left text-white md:px-8"
+              className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-4 text-center text-white md:items-start md:px-8 md:text-left"
             >
               <h3 className="rounded-full bg-[#FFFFFF1F] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]">
                 🌍 <span className="ml-0.5">our vision</span>

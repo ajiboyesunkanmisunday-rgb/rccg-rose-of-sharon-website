@@ -45,14 +45,14 @@ export default function MinistriesPage() {
         className="flex h-[500px] items-center justify-center bg-black bg-cover bg-center bg-no-repeat lg:h-[700px]"
         style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/fire.jpg')" }}
       >
-        <div className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6">
+        <div className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start">
           <h3 className="rounded-full bg-[#00000078] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]">
             🌍 RCCG ROSE OF SHARON
           </h3>
-          <h1 className="my-3 max-w-[900px] text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
+          <h1 className="my-3 max-w-[900px] text-center md:text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             Get <span className="text-textRed">involved</span>
           </h1>
-          <p className="w-full max-w-2xl text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
+          <p className="w-full max-w-2xl text-center md:text-left text-base text-[#FFFFFFB2] md:text-lg lg:text-xl">
             Rose of Sharon ministries are expressions of our mandate as a Church and as a community. We serve God by His Spirit - joyfully.
           </p>
         </div>
