@@ -22,6 +22,7 @@ interface EventItem {
   street?: string;
   city?: string;
   state?: string;
+  country?: string;
   additionalInstructions?: string;
   isCanceled?: boolean;
   eflyer?: string;
@@ -33,6 +34,12 @@ const CAT: Record<string, { label: string; bg: string; light: string }> = {
   WEDDING:         { label: "Wedding",         bg: "#9D174D", light: "#FCE7F3" },
   FUNERAL:         { label: "Funeral",         bg: "#374151", light: "#F3F4F6" },
   CONFERENCE:      { label: "Conference",      bg: "#0E7490", light: "#E0F7FA" },
+  // the categories the church picks in the management system
+  BIBLE_STUDY:     { label: "Bible Study",     bg: "#B45309", light: "#FEF3C7" },
+  YOUTH:           { label: "Youth",           bg: "#0369A1", light: "#E0F2FE" },
+  MEETING:         { label: "Meeting",         bg: "#4D7C0F", light: "#ECFCCB" },
+  SPECIAL_EVENT:   { label: "Special Event",   bg: "#6B21A8", light: "#F3E8FF" },
+  OTHER:           { label: "Other",           bg: "#475569", light: "#F1F5F9" },
 };
 
 const DAYS  = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -41,15 +48,27 @@ const MONTHS = [
   "July","August","September","October","November","December",
 ];
 
+/** The management system stores start and end times as epoch milliseconds; older entries may be HHmm. */
 function formatTime(t?: number): string {
-  if (t == null) return "";
-  const s = String(t).padStart(4, "0");
+  if (t == null || !Number.isFinite(Number(t)) || Number(t) === 0) return "";
+  const n = Number(t);
+  if (n >= 1e9) {
+    return new Date(n)
+      .toLocaleTimeString("en-NG", { hour: "numeric", minute: "2-digit", hour12: true, timeZone: "Africa/Lagos" })
+      .replace(/\s/g, "")
+      .toLowerCase();
+  }
+  const s = String(n).padStart(4, "0");
   const h = parseInt(s.slice(0, -2), 10);
   const m = s.slice(-2);
   const ampm = h >= 12 ? "pm" : "am";
   const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
   return `${h12}:${m}${ampm}`;
 }
+
+const dayOf = (e: EventItem) => (e.date ?? "").slice(0, 10);
+const isOnline = (e: EventItem) => e.locationType === "ONLINE" || e.locationType === "VIRTUAL" || e.locationType === "HYBRID";
+const hasVenue = (e: EventItem) => e.locationType !== "ONLINE" && e.locationType !== "VIRTUAL" && !!(e.street || e.city);
 
 function toISO(y: number, m: number, d: number) {
   return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
@@ -69,20 +88,39 @@ export default function EventsPage() {
   const [month, setMonth] = useState(today.getMonth());
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const [soon, setSoon] = useState<EventItem[]>([]);
+  const [soonLoading, setSoonLoading] = useState(true);
+  const [soonError, setSoonError] = useState(false);
 
   const load = useCallback((y: number, m: number) => {
     setLoading(true);
+    setError(false);
     const start = toISO(y, m, 1);
     const end   = toISO(y, m, new Date(y, m + 1, 0).getDate());
     fetch(`${API_BASE}/events/calendar?startDay=${start}&endDay=${end}`)
-      .then(r => r.ok ? r.json() : [])
-      .then(d => setEvents(Array.isArray(d) ? d.filter((e: EventItem) => !e.isCanceled) : []))
-      .catch(() => setEvents([]))
+      .then(r => { if (!r.ok) throw new Error("calendar"); return r.json(); })
+      .then(d => setEvents(Array.isArray(d) ? d : []))
+      .catch(() => { setEvents([]); setError(true); })
       .finally(() => setLoading(false));
   }, []);
 
+  // the next 90 days, whichever month the calendar is showing
+  const loadSoon = useCallback(() => {
+    setSoonLoading(true);
+    setSoonError(false);
+    const from = new Date();
+    const to = new Date(from.getTime() + 90 * 86400000);
+    fetch(`${API_BASE}/events/calendar/upcoming?startDay=${toISO(from.getFullYear(), from.getMonth(), from.getDate())}&endDay=${toISO(to.getFullYear(), to.getMonth(), to.getDate())}`)
+      .then(r => { if (!r.ok) throw new Error("upcoming"); return r.json(); })
+      .then(d => setSoon(Array.isArray(d) ? d : []))
+      .catch(() => { setSoon([]); setSoonError(true); })
+      .finally(() => setSoonLoading(false));
+  }, []);
+
   useEffect(() => { load(year, month); }, [year, month, load]);
+  useEffect(() => { loadSoon(); }, [loadSoon]);
 
   function prev() {
     if (month === 0) { setYear(y => y - 1); setMonth(11); } else setMonth(m => m - 1);
@@ -100,15 +138,16 @@ export default function EventsPage() {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const byDate = events.reduce<Record<string, EventItem[]>>((acc, e) => {
-    if (e.date) { (acc[e.date] ??= []).push(e); }
+    const k = dayOf(e);
+    if (k) { (acc[k] ??= []).push(e); }
     return acc;
   }, {});
 
   const selectedEvts = selected ? (byDate[selected] ?? []) : [];
 
-  const upcoming = [...events]
-    .filter(e => e.date && e.date >= todayStr)
-    .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""))
+  const upcoming = [...soon]
+    .filter(e => dayOf(e) >= todayStr)
+    .sort((a, b) => dayOf(a).localeCompare(dayOf(b)) || (Number(a.startTime) || 0) - (Number(b.startTime) || 0))
     .slice(0, 10);
 
   return (
@@ -149,6 +188,12 @@ export default function EventsPage() {
           </div>
 
           {/* Day cells */}
+          {error && !loading && (
+            <div className="ros:flex ros:flex-col ros:items-center ros:gap-[10px] ros:border-b ros:border-[#DF4E4E]/10 ros:bg-[#FFF5F5] ros:px-[20px] ros:py-[14px] ros:text-center">
+              <p className="ros:text-[13px] ros:text-[#A3A1AF]">We could not load this month&apos;s events. Please check your connection.</p>
+              <button onClick={() => load(year, month)} className="ros:rounded-full ros:border ros:border-[#DF4E4E] ros:px-[16px] ros:py-[6px] ros:text-[12px] ros:font-bold ros:text-[#DF4E4E] ros:hover:bg-[#DF4E4E] ros:hover:text-white">Try again</button>
+            </div>
+          )}
           {loading ? (
             <div className="ros:flex ros:items-center ros:justify-center ros:py-[100px]">
               <div className="ros:size-[48px] ros:rounded-full ros:border-4 ros:border-[#DF4E4E] ros:border-t-transparent ros:animate-spin" />
@@ -189,9 +234,9 @@ export default function EventsPage() {
                       {dayEvts.slice(0, 2).map((ev, idx) => {
                         const cfg = CAT[ev.eventCategory ?? ""] ?? CAT.SERVICE;
                         return (
-                          <div key={idx} className="ros:flex ros:items-center ros:gap-[4px] ros:w-full ros:overflow-hidden ros:rounded-[3px] ros:px-[4px] ros:py-[1px]" style={{ background: cfg.light }}>
+                          <div key={idx} className={`ros:flex ros:items-center ros:gap-[4px] ros:w-full ros:overflow-hidden ros:rounded-[3px] ros:px-[4px] ros:py-[1px] ${ev.isCanceled ? "ros:opacity-50" : ""}`} style={{ background: cfg.light }}>
                             <div className="ros:size-[5px] ros:rounded-full ros:flex-shrink-0" style={{ background: cfg.bg }} />
-                            <span className="ros:text-[10px] ros:font-semibold ros:truncate ros:leading-tight" style={{ color: cfg.bg }}>
+                            <span className={`ros:text-[10px] ros:font-semibold ros:truncate ros:leading-tight ${ev.isCanceled ? "ros:line-through" : ""}`} style={{ color: cfg.bg }}>
                               {ev.title}
                             </span>
                           </div>
@@ -231,24 +276,34 @@ export default function EventsPage() {
                         <div className="ros:w-[4px] ros:self-stretch ros:rounded-full ros:flex-shrink-0" style={{ background: cfg.bg }} />
                         <div className="ros:flex ros:flex-col ros:gap-[6px] ros:flex-1 ros:min-w-0">
                           <div className="ros:flex ros:items-center ros:gap-[8px] ros:flex-wrap">
-                            <span className="ros:text-[#000000] ros:text-[15px] ros:md:text-[17px] ros:font-bold">{ev.title}</span>
+                            <span className={`ros:text-[#000000] ros:text-[15px] ros:md:text-[17px] ros:font-bold ${ev.isCanceled ? "ros:line-through ros:opacity-60" : ""}`}>{ev.title}</span>
                             <span className="ros:px-[10px] ros:py-[3px] ros:rounded-full ros:text-[11px] ros:font-semibold ros:text-white" style={{ background: cfg.bg }}>
                               {cfg.label}
                             </span>
+                            {ev.isCanceled && (
+                              <span className="ros:px-[10px] ros:py-[3px] ros:rounded-full ros:bg-[#DC2626] ros:text-[11px] ros:font-semibold ros:text-white">Cancelled</span>
+                            )}
                           </div>
                           {ev.topic && <p className="ros:text-[#A3A1AF] ros:text-[13px]">📖 {ev.topic}</p>}
                           {ev.preacher && <p className="ros:text-[#A3A1AF] ros:text-[13px]">🎤 {ev.preacher}</p>}
-                          {ev.startTime != null && (
+                          {ev.startTime != null && formatTime(ev.startTime) && (
                             <p className="ros:text-[#DF4E4E] ros:text-[13px] ros:font-semibold">
-                              🕐 {formatTime(ev.startTime)}{ev.endTime != null ? ` – ${formatTime(ev.endTime)}` : ""}
+                              🕐 {formatTime(ev.startTime)}{ev.endTime != null && formatTime(ev.endTime) ? ` – ${formatTime(ev.endTime)}` : ""}
                             </p>
                           )}
-                          {ev.locationType === "VIRTUAL" && ev.virtualMeetingLink && (
-                            <A href={ev.virtualMeetingLink} target="_blank" rel="noopener noreferrer"
-                              className="ros:text-[#DF4E4E] ros:text-[13px] ros:hover:underline">🔗 Join Online</A>
+                          {isOnline(ev) && !ev.isCanceled && (
+                            ev.virtualMeetingLink ? (
+                              <A href={ev.virtualMeetingLink} target="_blank" rel="noopener noreferrer"
+                                className="ros:text-[#DF4E4E] ros:text-[13px] ros:hover:underline">🔗 Online: join the meeting</A>
+                            ) : (
+                              <p className="ros:text-[#A3A1AF] ros:text-[13px]">🔗 Online</p>
+                            )
                           )}
-                          {ev.locationType !== "VIRTUAL" && ev.city && (
-                            <p className="ros:text-[#A3A1AF] ros:text-[13px]">📍 {[ev.street, ev.city, ev.state].filter(Boolean).join(", ")}</p>
+                          {hasVenue(ev) && (
+                            <p className="ros:text-[#A3A1AF] ros:text-[13px]">📍 {[ev.street, ev.city, ev.state, ev.country].filter(Boolean).join(", ")}</p>
+                          )}
+                          {ev.eflyer && (
+                            <img src={ev.eflyer} alt={`${ev.title ?? "Event"} flyer`} loading="lazy" className="ros:mt-[6px] ros:max-h-[320px] ros:w-auto ros:max-w-full ros:rounded-[12px] ros:object-contain" />
                           )}
                           {ev.additionalInstructions && (
                             <p className="ros:text-[#A3A1AF] ros:text-[13px] ros:italic">{ev.additionalInstructions}</p>
@@ -278,27 +333,35 @@ export default function EventsPage() {
             <h2 className="ros:text-[#000000] ros:text-[22px] ros:md:text-[24px] ros:font-bold">Upcoming Events</h2>
           </div>
 
-          {loading && (
+          {soonLoading && (
             <div className="ros:flex ros:flex-col ros:gap-[12px]">
               {[0, 1, 2].map(i => <div key={i} className="ros:bg-white ros:rounded-[16px] ros:h-[80px] ros:animate-pulse ros:shadow-sm" />)}
             </div>
           )}
 
-          {!loading && upcoming.length === 0 && (
+          {!soonLoading && soonError && (
+            <div className="ros:bg-white ros:rounded-[16px] ros:p-[24px] ros:text-center ros:shadow-sm ros:flex ros:flex-col ros:items-center ros:gap-[10px]">
+              <p className="ros:text-[#A3A1AF] ros:text-[14px]">We could not load the upcoming events.</p>
+              <button onClick={loadSoon} className="ros:rounded-full ros:border ros:border-[#DF4E4E] ros:px-[16px] ros:py-[6px] ros:text-[12px] ros:font-bold ros:text-[#DF4E4E] ros:hover:bg-[#DF4E4E] ros:hover:text-white">Try again</button>
+            </div>
+          )}
+
+          {!soonLoading && !soonError && upcoming.length === 0 && (
             <div className="ros:bg-white ros:rounded-[16px] ros:p-[24px] ros:text-center ros:shadow-sm">
-              <p className="ros:text-[#A3A1AF] ros:text-[14px]">No upcoming events this month.</p>
+              <p className="ros:text-[#A3A1AF] ros:text-[14px]">No special events scheduled yet. Check back soon.</p>
             </div>
           )}
 
           <div className="ros:flex ros:flex-col ros:gap-[10px]">
             {upcoming.map((ev, i) => {
               const cfg = CAT[ev.eventCategory ?? ""] ?? CAT.SERVICE;
-              const d   = ev.date ? new Date(ev.date + "T00:00:00") : null;
-              const isActive = selected === ev.date;
+              const evDay = dayOf(ev);
+              const d   = evDay ? new Date(evDay + "T00:00:00") : null;
+              const isActive = selected === evDay;
               return (
                 <button
                   key={i}
-                  onClick={() => { if (ev.date) { setSelected(isActive ? null : ev.date); setYear(d!.getFullYear()); setMonth(d!.getMonth()); } }}
+                  onClick={() => { if (evDay && d) { setSelected(isActive ? null : evDay); setYear(d.getFullYear()); setMonth(d.getMonth()); } }}
                   className={[
                     "ros:bg-white ros:rounded-[16px] ros:p-[16px] ros:flex ros:items-center ros:gap-[14px] ros:text-left ros:w-full ros:transition-all",
                     isActive
@@ -318,10 +381,12 @@ export default function EventsPage() {
                     </>}
                   </div>
                   <div className="ros:flex ros:flex-col ros:gap-[3px] ros:flex-1 ros:min-w-0">
-                    <span className="ros:text-[#000000] ros:text-[14px] ros:font-bold ros:truncate ros:leading-tight">{ev.title}</span>
-                    {ev.startTime != null && (
+                    <span className={`ros:text-[#000000] ros:text-[14px] ros:font-bold ros:truncate ros:leading-tight ${ev.isCanceled ? "ros:line-through ros:opacity-60" : ""}`}>{ev.title}</span>
+                    {ev.isCanceled ? (
+                      <span className="ros:text-[#DC2626] ros:text-[12px] ros:font-semibold">Cancelled</span>
+                    ) : ev.startTime != null && formatTime(ev.startTime) ? (
                       <span className="ros:text-[#DF4E4E] ros:text-[12px] ros:font-semibold">{formatTime(ev.startTime)}</span>
-                    )}
+                    ) : null}
                     <div className="ros:flex ros:items-center ros:gap-[6px]">
                       <div className="ros:size-[6px] ros:rounded-full ros:flex-shrink-0" style={{ background: cfg.bg }} />
                       <span className="ros:text-[#A3A1AF] ros:text-[11px]">{cfg.label}</span>
