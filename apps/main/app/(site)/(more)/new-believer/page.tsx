@@ -57,7 +57,7 @@ export default function NewBelieverPage() {
         <h2 className="ros-anton ros:uppercase ros:text-[#000000] ros:text-[48px] ros:leading-normal ros:text-center">
           What Happens Next?
         </h2>
-        <div className="ros:grid ros:gap-[24px] ros:w-full" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+        <div className="ros:grid ros:w-full ros:grid-cols-1 ros:gap-[24px] ros:md:grid-cols-3">
           {[
             { step: "01", title: "Believer's Class", desc: "Join our free believer's class to understand your new faith, the church, and how to live as a Christian." },
             { step: "02", title: "Personal Follow-up", desc: "A dedicated team member will reach out to welcome you and answer any questions you may have." },
