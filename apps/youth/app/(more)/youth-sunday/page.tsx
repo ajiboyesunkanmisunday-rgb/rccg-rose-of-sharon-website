@@ -25,7 +25,7 @@ export default function YouthSunday() {
   return (
     <>
       <Hero pill="⛪ YOUTH SUNDAY" title={<>Youth <span className="text-textRed">Sunday</span></>} subtitle="The one Sunday the youth anchor the whole service — from the opening song to the final prayer." bg="/youth/hangout-5.jpg">
-        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3"><Btn href="/youth/events" variant="white">See the date</Btn><Btn href="/youth/join" variant="outline-white">Serve with us</Btn></div>
+        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]"><Btn href="/youth/events" variant="white">See the date</Btn><Btn href="/youth/join" variant="outline-white">Serve with us</Btn></div>
       </Hero>
       <Section>
         <YouthTabs />

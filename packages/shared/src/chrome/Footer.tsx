@@ -20,7 +20,6 @@ const footerSections = [
     title: "Ministries",
     links: [
       { title: "Hearts of David (Men)",  href: "/ministries/hearts-of-david" },
-      { title: "Rose of Sharon Choir",  href: "/ministries/choir" },
       { title: "Oaks of Righteousness (Women)", href: "/ministries/oaks-of-righteousness" },
       { title: "Youth Fellowship",         href: "/youth" },
       { title: "Children Church",          href: "/ministries/kids-and-teens" },
@@ -158,6 +157,7 @@ export default function Footer() {
         <img src="/logo.svg" alt="RCCG Rose of Sharon" className="2xl:hidden mb-8 h-10 w-auto" />
 
         {/* Footer nav grid */}
+        <style>{`@media (max-width: 767px) { .footer-grid dd { margin-bottom: 0; } .footer-grid dd a { display: inline-block; padding: 9px 0; } }`}</style>
         <div className="footer-grid my-12 md:my-[7.5rem]">
           {/* Logo (desktop) */}
           <img src="/logo.svg" alt="RCCG Rose of Sharon" className="hidden 2xl:inline-block h-10 w-auto" />

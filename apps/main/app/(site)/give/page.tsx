@@ -54,6 +54,7 @@ function CopyButton({ text }: { text: string }) {
     <button
       onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
       className="text-xs text-[#DF4E4E] underline hover:no-underline"
+      style={{ padding: 8, margin: -8 }}
     >
       {copied ? "Copied!" : "Copy"}
     </button>

@@ -32,7 +32,7 @@ export default function LightUpIkejaPage() {
         subtitle="God of Wonders. Saturday 28 November 2026, 4PM at Police College Ground, GRA Ikeja, Lagos. A city-wide crusade of worship, the word and prayer, and a highlight of Rose of Sharon's 30th anniversary celebration."
         bg="/gallery/light-up-ikeja/10.jpg"
       >
-        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]">
           <Btn href="/events" variant="white">See the calendar</Btn>
           <Btn href="/first-timer" variant="outline-white">I am coming</Btn>
         </div>

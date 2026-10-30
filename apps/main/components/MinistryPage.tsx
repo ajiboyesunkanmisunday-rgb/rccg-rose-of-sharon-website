@@ -95,7 +95,7 @@ export default function MinistryPage({
       <section className="ros:bg-black ros:px-4 ros:py-16">
         <div className="ros:mx-auto ros:flex ros:max-w-3xl ros:flex-col ros:items-center ros:gap-5 ros:text-center">
           <SectionTitle center dark pill="🤝 GET INVOLVED" title={<>Come and <span className="text-textRed">join us</span></>} sub={joinText} />
-          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]">
             <Btn href="/membership" variant="white">Become a member</Btn>
             {wa ? <Btn href={waHref} variant="outline-white">Join our WhatsApp group</Btn> : <Btn href="/first-timer" variant="outline-white">First-timer registration</Btn>}
           </div>
