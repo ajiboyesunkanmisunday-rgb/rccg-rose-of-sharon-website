@@ -119,7 +119,7 @@ export default function EventsPage() {
       <section className="ros:bg-[#EEF0F7] ros:px-4 ros:md:px-[32px] ros:lg:px-[64px] ros:py-[32px] ros:md:py-[64px] ros:flex ros:flex-col ros:lg:flex-row ros:gap-[24px] ros:lg:gap-[40px] ros:items-start ros:w-full ros:min-h-screen">
 
         {/* LEFT — calendar card */}
-        <div className="ros:flex-1 ros:min-w-0 ros:rounded-[24px] ros:overflow-hidden ros:shadow-[0_8px_48px_rgba(0,0,0,0.10)] ros:bg-white">
+        <div className="ros:w-full ros:lg:w-auto ros:flex-1 ros:min-w-0 ros:rounded-[24px] ros:overflow-hidden ros:shadow-[0_8px_48px_rgba(0,0,0,0.10)] ros:bg-white">
 
           {/* Month nav */}
           <div className="ros:bg-[#DF4E4E] ros:flex ros:items-center ros:justify-between ros:px-[20px] ros:md:px-[32px] ros:py-[20px] ros:md:py-[28px]">
