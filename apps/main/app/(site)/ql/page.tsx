@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 const quickLinks = [
   { href: "/membership", label: "Become a Member" },
   { href: "/testimonies", label: "Testimonies" },
+  { href: "/face-of-the-month", label: "Vote: Face of the Month" },
   { href: "/celebrations", label: "Celebrations" },
   { href: "/requests/prayer", label: "Prayer Request" },
   { href: "/csr#register", label: "Register for CSR" },
