@@ -107,6 +107,27 @@ function BulletItem({ label }: { label: string }) {
 
 export default function AboutPage() {
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Pictures above the target load after the browser jumps to a #section link and push it down, so keep
+  // re-aligning on the section until the layout settles (stops as soon as the visitor scrolls).
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (!id) return;
+    let stop = false;
+    const go = () => { if (!stop) document.getElementById(id)?.scrollIntoView({ block: "start" }); };
+    const halt = () => { stop = true; };
+    window.addEventListener("wheel", halt, { once: true });
+    window.addEventListener("touchstart", halt, { once: true });
+    window.addEventListener("load", go);
+    const timers = [100, 500, 1200, 2500].map((t) => setTimeout(go, t));
+    return () => {
+      timers.forEach(clearTimeout);
+      window.removeEventListener("wheel", halt);
+      window.removeEventListener("touchstart", halt);
+      window.removeEventListener("load", go);
+    };
+  }, []);
+
   return (
     <>
       {modalOpen && <PastorModal onClose={() => setModalOpen(false)} />}
