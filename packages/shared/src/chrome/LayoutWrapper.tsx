@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import FormChecks from "../kit/FormChecks";
 
 /*
  * Header, page and footer. The "?t=mini" embed mode (no header/footer) is detected after the page has loaded,
@@ -17,6 +18,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
   return (
     <>
+      <FormChecks />
       {!isMini && <Navbar />}
       <main className={isMini ? "" : "mt-[72px]"}>
         {children}
