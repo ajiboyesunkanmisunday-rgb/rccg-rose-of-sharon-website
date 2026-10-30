@@ -28,7 +28,7 @@ const quickLinks = [
   { href: "/media", label: "Sermons" },
   { href: "/requests/suggestion", label: "Suggestion Box" },
   { href: "/counselling", label: "Marriage Counseling" },
-  { href: "/membership-class", label: "Join Believers Class" },
+  { href: "/trainings/believers-class", label: "Join Believers Class" },
   { href: "/trainings/water-baptism/register", label: "Join the next Baptismal Class" },
   { href: "/trainings/workers-in-training/register", label: "Register for Workers-in-training" },
   { href: "/trainings/rila/apply", label: "Register for RILA" },

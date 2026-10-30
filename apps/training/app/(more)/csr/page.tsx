@@ -224,7 +224,7 @@ export default function CSRPage() {
 
       {/* ── Register Form ── */}
       <section id="register" className="ros:bg-[#EEF0F7] ros:px-6 ros:md:px-[60px] ros:lg:px-[120px] ros:py-[60px] ros:md:py-[84px] ros:flex ros:flex-col ros:lg:flex-row ros:gap-8 ros:lg:gap-[80px] ros:items-start ros:w-full">
-        <div className="ros:flex ros:flex-col ros:gap-[24px] ros:flex-1 ros:min-w-0 ros:lg:max-w-[440px]">
+        <div className="ros:flex ros:flex-col ros:gap-[24px] ros:w-full ros:lg:w-auto ros:flex-1 ros:min-w-0 ros:lg:max-w-[440px]">
           <div className="ros:flex ros:flex-col ros:gap-[8px]">
             <p className="ros:text-[#DF4E4E] ros:text-[14px] ros:font-normal ros:uppercase ros:tracking-[0.2em]">Get Started</p>
             <h2 className="ros-anton ros:uppercase ros:text-[#000000] ros:text-[26px] ros:md:text-[36px] ros:lg:text-[40px] ros:leading-[1.2]">Register Your Interest</h2>
@@ -254,7 +254,7 @@ export default function CSRPage() {
         </div>
 
         {/* Form card */}
-        <div className="ros:flex-1 ros:min-w-0 ros:bg-white ros:rounded-[24px] ros:p-[28px] ros:md:p-[40px] ros:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
+        <div className="ros:w-full ros:lg:w-auto ros:flex-1 ros:min-w-0 ros:bg-white ros:rounded-[24px] ros:p-[28px] ros:md:p-[40px] ros:shadow-[0_8px_40px_rgba(0,0,0,0.10)]">
           {status === "success" ? (
             <div className="ros:flex ros:flex-col ros:gap-[20px] ros:items-center ros:text-center ros:py-[40px]">
               <div className="ros:size-[64px] ros:rounded-full ros:bg-[#DF4E4E] ros:flex ros:items-center ros:justify-center">

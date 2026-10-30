@@ -233,7 +233,7 @@ export function getProgram(slug: string): Program {
 
 /** The pages that make up a program (used by the tab strip, the hub cards, the menu and Quick Links). */
 export function programPages(p: Program): ProgramPage[] {
-  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? "/membership-class" : `${p.base}/register`;
+  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? p.base : `${p.base}/register`;
   const pages: ProgramPage[] = [
     { key: "overview", label: "Overview", href: p.base, text: "About the program and how it works.", icon: "📘" },
     { key: "register", label: p.registerLabel, href: registerHref, text: p.registerText, icon: "📝" },
@@ -249,7 +249,7 @@ export function programPages(p: Program): ProgramPage[] {
 
 /** The two entries each training shows in menus and tab strips: its general page, and online registration. */
 export function programMenu(p: Program): { label: string; href: string }[] {
-  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? "/membership-class" : `${p.base}/register`;
+  const registerHref = p.slug === "csr" ? "/csr#register" : p.slug === "rila" ? "/trainings/rila/apply" : p.slug === "believers-class" ? p.base : `${p.base}/register`;
   return [
     { label: "Home", href: p.base },
     { label: "Register online", href: registerHref },
