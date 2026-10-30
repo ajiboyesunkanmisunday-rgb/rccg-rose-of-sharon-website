@@ -21,7 +21,7 @@ function RilaSponsorInner() {
   if (!rilaId) {
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", fontFamily: FONT }}>
-        <p style={{ color: "#DC2626", fontSize: 14 }}>Invalid link — no application ID found.</p>
+        <p style={{ color: "#DC2626", fontSize: 14 }}>This sponsor form page opens from the link sent with a RILA application. Please use the link in your message; if you do not have one, ask the applicant to send it again.</p>
       </div>
     );
   }
