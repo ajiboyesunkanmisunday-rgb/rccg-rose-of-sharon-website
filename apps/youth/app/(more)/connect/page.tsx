@@ -16,7 +16,7 @@ export default function YouthConnect() {
       <section className="ros:bg-black ros:px-4 ros:py-16">
         <div className="ros:mx-auto ros:flex ros:max-w-3xl ros:flex-col ros:items-center ros:gap-5 ros:text-center">
           <SectionTitle center dark pill="🤝 NEW HERE?" title={<>Come and <span className="text-textRed">join us</span></>} sub="Tell us you are coming and we will welcome you." />
-          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3"><Btn href="/youth/join" variant="white">Join the youth</Btn><Btn href="/first-timer" variant="outline-white">First-timer registration</Btn></div>
+          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]"><Btn href="/youth/join" variant="white">Join the youth</Btn><Btn href="/first-timer" variant="outline-white">First-timer registration</Btn></div>
         </div>
       </section>
     </>

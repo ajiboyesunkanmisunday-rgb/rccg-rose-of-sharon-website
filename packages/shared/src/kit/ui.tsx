@@ -87,7 +87,7 @@ export function SectionTitle({
 }
 
 const btnBase =
-  "ros:flex ros:w-fit ros:items-center ros:justify-center ros:gap-2 ros:rounded-full ros:border ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:duration-300";
+  "ros:flex ros:w-fit ros:max-sm:w-full ros:items-center ros:justify-center ros:gap-2 ros:rounded-full ros:border ros:px-5 ros:py-3 ros:text-[0.75rem] ros:font-extrabold ros:uppercase ros:tracking-[.25em] ros:transition ros:duration-300";
 
 export function Btn({
   href,

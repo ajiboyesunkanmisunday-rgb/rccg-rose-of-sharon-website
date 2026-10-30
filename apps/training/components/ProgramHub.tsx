@@ -24,7 +24,7 @@ export default function ProgramHub({ slug }: { slug: string }) {
   return (
     <>
       <Hero pill="🌍 TRAINING PROGRAM" title={heroTitle} subtitle={p.description} bg="/assets/hero-bg.png">
-        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+        <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]">
           <Btn href={register.href} variant="white">{p.registerLabel}</Btn>
           <Btn href={`${p.base}/exam`} variant="outline-white">Take exam</Btn>
           <Btn href={`${p.base}/results`} variant="outline-white">View results</Btn>
