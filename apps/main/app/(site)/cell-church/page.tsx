@@ -10,11 +10,11 @@ export default function CellChurchPage() {
       style={{ backgroundImage: "url('/media/hero.da0d6666.jpg')" }}
       >
         <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%)" }} />
-        <div className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-start gap-6">
-          <h3 className="rounded-full bg-[#00000078] p-2 text-left text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
+        <div className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start">
+          <h3 className="rounded-full bg-[#00000078] p-2 text-center md:text-left text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
             ⛪ <span className="ml-0.5">the house fellowship</span>
           </h3>
-          <div className="w-full px-4 text-left font-anton text-[3rem] font-bold uppercase leading-[120%] tracking-wide text-white md:text-7xl md:leading-[108%]">
+          <div className="w-full px-4 text-center md:text-left font-anton text-[3rem] font-bold uppercase leading-[120%] tracking-wide text-white md:text-7xl md:leading-[108%]">
             <span className="block">Fellowship In</span>
             <span className="block">The Neighborhood</span>
           </div>
