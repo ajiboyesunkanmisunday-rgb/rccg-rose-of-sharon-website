@@ -73,7 +73,7 @@ const communityCards = [
   {
     image: "/home/believers-class.jpg",
     title: "Believers Classes",
-    href: "/membership-class",
+    href: "/trainings/believers-class",
     description:
       "Our Believers Classes get you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth",
   },

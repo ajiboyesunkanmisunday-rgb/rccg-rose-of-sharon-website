@@ -29,7 +29,7 @@ const footerSections = [
   {
     title: "Resources",
     links: [
-      { title: "Believers Class",          href: "/membership-class" },
+      { title: "Believers Class",          href: "/trainings/believers-class" },
       { title: "Celebrations",             href: "/celebrations" },
       { title: "Relationship Talks",       href: "/counselling" },
       { title: "Announcements",           href: "/announcements" },

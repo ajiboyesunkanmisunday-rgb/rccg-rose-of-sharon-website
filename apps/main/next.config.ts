@@ -5,6 +5,8 @@ import path from "node:path";
 // and the server forwards it to the ROS API. Point ROS_API_ORIGIN at the new server when moving.
 const ROS_API_ORIGIN = process.env.ROS_API_ORIGIN || "http://137.184.72.16:6001";
 
+const TRAINING_URL = (process.env.NEXT_PUBLIC_URL_TRAINING || (process.env.NODE_ENV === "production" ? "https://training.rccgros.org" : "http://localhost:3004")).replace(/\/+$/, "");
+
 const nextConfig: NextConfig = {
   env: { NEXT_PUBLIC_SITE: "main" },
   // the shared package lives two folders up, so let the bundler read from the repository root
@@ -12,6 +14,9 @@ const nextConfig: NextConfig = {
   // Old addresses of forms that used to be embedded from another site now open the native forms.
   async redirects() {
     return [
+      // the old Believers Class pages now live on the training site
+      { source: "/membership-class", destination: `${TRAINING_URL}/believers-class`, permanent: true },
+      { source: "/membership-class/:path*", destination: `${TRAINING_URL}/believers-class`, permanent: true },
       { source: "/ft", destination: "/first-timer", permanent: true },
       { source: "/ministries/women", destination: "/ministries/oaks-of-righteousness", permanent: true },
       { source: "/special-day", destination: "/celebrations#request", permanent: true },
