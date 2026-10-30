@@ -1,0 +1,923 @@
+"use client";
+
+/**
+ * SchoolOfDisciplesFormCore: the School of Disciples application, laid out exactly like the printed ROSMS form
+ * (ported from ROSMS SodFormCore). mode "fill" is editable with Print and Submit; mode "blank" is an empty,
+ * printable copy. Submits to the same ROSMS endpoint as before (POST /school-of-disciples).
+ *
+ * Backend field formats: dateOfBirth yyyy-mm-dd; noOfChildren integer; spiritual dates are free text;
+ * address is street / city / state / country; countryCode is separate (default 234).
+ */
+
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { Printer, Send, CheckCircle, XCircle } from "lucide-react";
+import { post, uploadProfilePicture } from "@ros/shared/api";
+import { resolveHref } from "@ros/shared/sites";
+import { usePaperScale } from "./usePaperScale";
+
+export type SodMode = "blank" | "fill";
+
+/* ─── Required asterisk ───────────────────────────────────────────────────── */
+const REQ = <span style={{ color: "red", marginLeft: 2 }}>*</span>;
+
+/* ─── Primitive dotted-line input ────────────────────────────────────────── */
+function F({
+  value,
+  onChange,
+  style,
+  readOnly,
+  placeholder,
+  maxLength,
+  onlyAlpha,
+  onlyNumeric,
+}: {
+  value: string;
+  onChange?: (v: string) => void;
+  style?: React.CSSProperties;
+  readOnly?: boolean;
+  placeholder?: string;
+  maxLength?: number;
+  onlyAlpha?: boolean;
+  onlyNumeric?: boolean;
+}) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let v = e.target.value;
+    if (onlyNumeric) v = v.replace(/\D/g, "");
+    else if (onlyAlpha) v = v.replace(/[^a-zA-Z\s'\-]/g, "");
+    if (maxLength !== undefined && v.length > maxLength) v = v.slice(0, maxLength);
+    onChange?.(v);
+  };
+  return (
+    <input
+      className="sod-f"
+      value={value}
+      onChange={readOnly ? undefined : handleChange}
+      style={style}
+      readOnly={readOnly}
+      placeholder={readOnly ? undefined : placeholder}
+    />
+  );
+}
+
+function FullRow({
+  label,
+  value,
+  onChange,
+  readOnly,
+  required,
+  maxLength,
+  onlyAlpha,
+  onlyNumeric,
+}: {
+  label: string;
+  value: string;
+  onChange?: (v: string) => void;
+  readOnly?: boolean;
+  required?: boolean;
+  maxLength?: number;
+  onlyAlpha?: boolean;
+  onlyNumeric?: boolean;
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+      <span style={{ whiteSpace: "nowrap" }}>{label}{required && REQ}</span>
+      <F value={value} onChange={onChange} style={{ flex: 1 }} readOnly={readOnly}
+         maxLength={maxLength} onlyAlpha={onlyAlpha} onlyNumeric={onlyNumeric} />
+    </div>
+  );
+}
+
+function PairedRow({
+  left,
+  right,
+  readOnly,
+}: {
+  left:  { label: string; value: string; onChange?: (v: string) => void; required?: boolean; maxLength?: number; onlyAlpha?: boolean; onlyNumeric?: boolean };
+  right: { label: string; value: string; onChange?: (v: string) => void; required?: boolean; maxLength?: number; onlyAlpha?: boolean; onlyNumeric?: boolean };
+  readOnly?: boolean;
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "baseline", gap: 28 }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "baseline", gap: 4 }}>
+        <span style={{ whiteSpace: "nowrap" }}>{left.label}{left.required && REQ}</span>
+        <F value={left.value} onChange={left.onChange} style={{ flex: 1 }} readOnly={readOnly}
+           maxLength={left.maxLength} onlyAlpha={left.onlyAlpha} onlyNumeric={left.onlyNumeric} />
+      </div>
+      <div style={{ flex: 1, display: "flex", alignItems: "baseline", gap: 4 }}>
+        <span style={{ whiteSpace: "nowrap" }}>{right.label}{right.required && REQ}</span>
+        <F value={right.value} onChange={right.onChange} style={{ flex: 1 }} readOnly={readOnly}
+           maxLength={right.maxLength} onlyAlpha={right.onlyAlpha} onlyNumeric={right.onlyNumeric} />
+      </div>
+    </div>
+  );
+}
+
+function SectionHead({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      fontWeight: 700, fontSize: 12, textTransform: "uppercase",
+      marginTop: 20, marginBottom: 12, letterSpacing: 0.3,
+    }}>
+      {children}
+    </div>
+  );
+}
+
+function Chk({
+  label,
+  checked,
+  onChange,
+  readOnly,
+}: {
+  label: string;
+  checked: boolean;
+  onChange?: () => void;
+  readOnly?: boolean;
+}) {
+  return (
+    <label style={{ display: "inline-flex", alignItems: "center", gap: 4, cursor: readOnly ? "default" : "pointer", fontSize: 12 }}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={readOnly ? undefined : onChange}
+        readOnly={readOnly}
+        style={{ width: 13, height: 13, cursor: readOnly ? "default" : "pointer" }}
+      />
+      {label}
+    </label>
+  );
+}
+
+const PAPER_STYLE: React.CSSProperties = {
+  background: "#fff",
+  width: 794,
+  margin: "0 auto",
+  padding: "52px 64px",
+  boxShadow: "0 8px 40px rgba(0,0,0,0.28)",
+  fontFamily: "Arial, sans-serif",
+  fontSize: 12,
+  color: "#000",
+  lineHeight: 1.5,
+};
+
+const MARITAL = ["Single", "Married", "Engaged", "Divorced", "Widowed"];
+
+/* ═══════════════════════════════════════════════════════════════════════════ */
+export default function SchoolOfDisciplesFormCore({ mode = "fill" }: { mode?: SodMode }) {
+  const ro = mode === "blank";
+  const router = useRouter();
+  const scale = usePaperScale(794, 12);
+
+  /* Church identifiers */
+  const [set,      setSet]      = useState("");
+  const [region,   setRegion]   = useState("");
+  const [province, setProvince] = useState("");
+  const [centre,   setCentre]   = useState("");
+
+  /* ── Section A — Personal ── */
+  const [surname,       setSurname]       = useState("");
+  const [firstName,     setFirstName]     = useState("");
+  const [middleName,    setMiddleName]    = useState("");
+
+  /* Address — separate fields per backend spec */
+  const [street,        setStreet]        = useState("");
+  const [city,          setCity]          = useState("");
+  const [addrState,     setAddrState]     = useState("");
+  const [country,       setCountry]       = useState("");
+
+  const [dob,           setDob]           = useState("");
+  const [sex,           setSex]           = useState("");
+  const [nationality,   setNationality]   = useState("");
+  const [stateOfOrigin, setStateOfOrigin] = useState("");
+  const [homeTown,      setHomeTown]      = useState("");
+
+  /* Phone — split countryCode / phoneNumber */
+  const [countryCode,   setCountryCode]   = useState("234");
+  const [phone,         setPhone]         = useState("");
+
+  const [email,         setEmail]         = useState("");
+  const [occupation,    setOccupation]    = useState("");
+  const [officeAddr,    setOfficeAddr]    = useState("");
+  const [marital,       setMarital]       = useState("");
+  const [spouseName,    setSpouseName]    = useState("");
+  const [spousePhone,   setSpousePhone]   = useState("");
+  const [spouseOcc,     setSpouseOcc]     = useState("");
+  const [numChildren,   setNumChildren]   = useState("");
+
+  /* ── Section B — Qualifications (date + institution + qualification received) ── */
+  const [quals, setQuals] = useState(() => Array.from({ length: 3 }, () => ({ institution: "", date: "", qualificationReceived: "" })));
+  const updateQual = (i: number, k: keyof typeof quals[0], v: string) =>
+    setQuals((prev) => prev.map((r, idx) => idx === i ? { ...r, [k]: v } : r));
+
+  /* ── Section C — worship places ── */
+  const [wp,  setWp]  = useState(() => Array.from({ length: 3 }, () => ({ name: "", address: "", date: "" })));
+  const updateWp = (i: number, k: keyof typeof wp[0], v: string) =>
+    setWp((prev) => prev.map((r, idx) => idx === i ? { ...r, [k]: v } : r));
+
+  /* ── Section C — positions held ── */
+  const [ph,  setPh]  = useState(() => Array.from({ length: 3 }, () => ({ name: "", position: "" })));
+  const updatePh = (i: number, k: keyof typeof ph[0], v: string) =>
+    setPh((prev) => prev.map((r, idx) => idx === i ? { ...r, [k]: v } : r));
+
+  /* ── Spiritual dates — sent as raw strings per backend spec ── */
+  const [salvationDate,      setSalvationDate]      = useState("");
+  const [salvationWhere,     setSalvationWhere]     = useState("");
+  const [waterBaptismDate,   setWaterBaptismDate]   = useState("");
+  const [waterBaptismChurch, setWaterBaptismChurch] = useState("");
+  const [holyGhostDate,      setHolyGhostDate]      = useState("");
+  const [holyGhostWhere,     setHolyGhostWhere]     = useState("");
+  const [pastorName,         setPastorName]         = useState("");
+  const [pastorPhone,        setPastorPhone]        = useState("");
+  const [activity1,          setActivity1]          = useState("");
+  const [activity2,          setActivity2]          = useState("");
+  const [otherTraining,      setOtherTraining]      = useState<"yes" | "no" | "">("");
+  const [pastorKnows,        setPastorKnows]        = useState("");
+
+  /* ── Section D ── */
+  const [otherInfo1, setOtherInfo1] = useState("");
+  const [otherInfo2, setOtherInfo2] = useState("");
+
+  /* ── Section E — Declaration ── */
+  const [declName, setDeclName] = useState(`${firstName} ${surname}`.trim());
+  const [declOf,   setDeclOf]   = useState("");
+  const [consent,  setConsent]  = useState(false);
+
+  /* ── Section F ── */
+  const [remarks1, setRemarks1] = useState("");
+  const [remarks2, setRemarks2] = useState("");
+
+  /* ── Photo ── */
+  const [photo,        setPhoto]        = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [uploading,    setUploading]    = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] ?? null;
+    setPhoto(file);
+    setPhotoPreview(file ? URL.createObjectURL(file) : null);
+  };
+
+  /* ── Submit ── */
+  const [submitting,    setSubmitting]    = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError,   setSubmitError]   = useState("");
+
+  const handleSubmit = async () => {
+    // Validate required fields
+    const missing: string[] = [];
+    if (!set.trim())          missing.push("Set");
+    if (!region.trim())       missing.push("Region");
+    if (!province.trim())     missing.push("Province");
+    if (!centre.trim())       missing.push("Centre");
+    if (!firstName.trim())    missing.push("First Name");
+    if (!surname.trim())      missing.push("Last Name");
+    if (!countryCode.trim())  missing.push("Country Code");
+    if (!phone.trim())        missing.push("Phone Number");
+    // Phone must contain at least one digit after stripping non-numeric characters
+    if (phone.trim() && !/\d/.test(phone)) missing.push("Phone Number (must contain digits)");
+    // Email, if provided, must be a valid format
+    const emailTrimmed = email.trim();
+    if (emailTrimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed))
+      missing.push("Email (invalid format — must be like name@example.com)");
+    if (!dob.trim())          missing.push("Date of Birth");
+    if (!nationality.trim())  missing.push("Nationality");
+    if (!street.trim())       missing.push("Street Address");
+    if (!city.trim())         missing.push("City");
+    if (!addrState.trim())    missing.push("State");
+    if (!country.trim())      missing.push("Country");
+    if (!occupation.trim())   missing.push("Occupation");
+    if (!officeAddr.trim())   missing.push("Office Address");
+    if (!salvationDate.trim())      missing.push("Salvation Date");
+    if (!salvationWhere.trim())     missing.push("Salvation Location");
+    if (!waterBaptismDate.trim())   missing.push("Water Baptism Date");
+    if (!waterBaptismChurch.trim()) missing.push("Water Baptism Location");
+    if (!holyGhostDate.trim())      missing.push("Holy Spirit Baptism Date");
+    if (!holyGhostWhere.trim())     missing.push("Holy Spirit Baptism Location");
+    if (!pastorName.trim())         missing.push("Current Parish Pastor Name");
+    if (!photoPreview && !photo)    missing.push("Profile Picture");
+    if (quals.filter((q) => q.institution.trim()).length === 0) missing.push("At least one Qualification");
+    if (!consent) missing.push("Consent to form declaration");
+    if (marital === "Married" && !spouseName.trim()) missing.push("Spouse Name (required if Married)");
+
+    if (missing.length > 0) {
+      setSubmitError(`Please fill in: ${missing.join(", ")}.`);
+      return;
+    }
+
+    setSubmitError("");
+    setSubmitting(true);
+    setUploading(false);
+    try {
+      let profilePictureUrl: string | undefined;
+      if (photo) {
+        setUploading(true);
+        profilePictureUrl = await uploadProfilePicture(photo);
+        setUploading(false);
+      }
+
+      const maritalMap: Record<string, string> = {
+        Single: "SINGLE", Married: "MARRIED", Engaged: "ENGAGED",
+        Divorced: "DIVORCED", Widowed: "WIDOWED",
+      };
+      const sexNorm = sex.trim().toLowerCase().startsWith("f") ? "FEMALE"
+                    : sex.trim().toLowerCase().startsWith("m") ? "MALE"
+                    : sex.trim() || undefined;
+
+      // Qualifications — all three columns
+      const qualItems = quals
+        .filter((q) => q.institution.trim())
+        .map((q) => ({
+          institution:           q.institution.trim(),
+          date:                  q.date.trim() || undefined,
+          qualificationReceived: q.qualificationReceived.trim() || undefined,
+        }));
+
+      // Worship places — date sent as raw string
+      const wpItems = wp
+        .filter((r) => r.name.trim())
+        .map((r) => ({
+          name:    r.name.trim(),
+          address: r.address.trim() || undefined,
+          date:    r.date.trim() || undefined,
+        }));
+
+      // Positions held — worshipPlace = church name, positionHeld = position
+      const phItems = ph
+        .filter((r) => r.name.trim() || r.position.trim())
+        .map((r) => ({
+          worshipPlace: r.name.trim() || undefined,
+          positionHeld: r.position.trim() || undefined,
+        }));
+
+      const created = await post("/school-of-disciples", {
+        set:               set.trim(),
+        region:            region.trim()   || undefined,
+        province:          province.trim() || undefined,
+        centre:            centre.trim()   || undefined,
+        profilePictureUrl,
+        firstName:         firstName.trim(),
+        lastName:          surname.trim(),
+        middleName:        middleName.trim() || undefined,
+        countryCode:       countryCode.trim().replace(/^\+/, ""), // strip any leading + from country code
+        phoneNumber:       (() => {
+          // Normalise to digits only. When a country code is present, strip the
+          // leading "0" that Nigerian (and many other) local numbers start with.
+          let n = phone.trim().replace(/\D/g, ""); // keep digits only
+          if (n.startsWith("0") && countryCode.trim()) n = n.slice(1);
+          return n;
+        })(),
+        email:             emailTrimmed || undefined,
+        sex:               sexNorm as string | undefined,
+        dateOfBirth:       dob.trim() || undefined,          // yyyy-mm-dd from date input
+        maritalStatus:     marital ? (maritalMap[marital] ?? marital.toUpperCase()) : undefined,
+        spouseName:        spouseName.trim()  || undefined,
+        spousePhoneNumber: spousePhone.trim() || undefined,
+        spouseOccupation:  spouseOcc.trim()   || undefined,
+        noOfChildren:      numChildren.trim() ? Number(numChildren.trim()) : undefined,
+        nationality:       nationality.trim()   || undefined,
+        homeTown:          homeTown.trim()      || undefined,
+        stateOfOrigin:     stateOfOrigin.trim() || undefined,
+        // Address — separate fields
+        street:            street.trim()     || undefined,
+        city:              city.trim()       || undefined,
+        state:             addrState.trim()  || undefined,
+        country:           country.trim()    || undefined,
+        occupation:        occupation.trim()  || undefined,
+        officeFullAddress: officeAddr.trim()  || undefined,
+        // Spiritual history — raw strings
+        salvationDate:             salvationDate.trim()      || undefined,
+        salvationLocation:         salvationWhere.trim()     || undefined,
+        waterBaptismDate:          waterBaptismDate.trim()   || undefined,
+        waterBaptismLocation:      waterBaptismChurch.trim() || undefined,
+        holySpiritBaptismDate:     holyGhostDate.trim()      || undefined,
+        holySpiritBaptismLocation: holyGhostWhere.trim()     || undefined,
+        currentParishPastorName:        pastorName.trim()  || undefined,
+        currentParishPastorPhoneNumber: pastorPhone.trim() || undefined,
+        activityInCurrentParish: [activity1, activity2].filter(Boolean).join(" ") || undefined,
+        hasAnotherSimultaneousProgram: otherTraining === "yes" ? true
+                                      : otherTraining === "no"  ? false
+                                      : undefined,
+        otherInformation: [otherInfo1, otherInfo2, pastorKnows && `My current parish pastor knows me: ${pastorKnows}.`].filter(Boolean).join(" ") || undefined,
+        consent: true,
+        ...(qualItems.length ? { qualificationRequests: qualItems } : {}),
+        ...(wpItems.length   ? { createPastPlaceOfWorshipRequests: wpItems } : {}),
+        ...(phItems.length   ? { createPositionHeldRequests: phItems }       : {}),
+      });
+
+      void created;
+      setSubmitSuccess(true);
+      setSubmitError("");
+      if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to submit. Please try again.";
+      setSubmitError(msg);
+    } finally {
+      setSubmitting(false);
+      setUploading(false);
+    }
+  };
+
+  /* ─────────────────────────────────────────────────────────────────────── */
+  return (
+    <>
+      <style>{`
+        @page { size: A4 portrait; margin: 12mm 16mm; }
+
+        @media print {
+          .sod-no-print  { display: none !important; }
+          .sod-print-only { display: flex !important; }
+          .sod-wrapper  { background: #fff !important; padding: 0 !important; min-height: auto !important; }
+          .sod-paper    { zoom: 1 !important; box-shadow: none !important; width: 100% !important; max-width: none !important;
+                          margin: 0 !important; padding: 0 !important; }
+          .sod-page2    { page-break-before: always; break-before: page; margin-top: 0 !important; }
+        }
+
+        .sod-f {
+          border: none;
+          border-bottom: 1px dotted #555;
+          background: transparent;
+          outline: none;
+          font-size: 12px;
+          font-family: Arial, sans-serif;
+          color: #000;
+          padding: 0 2px;
+          min-width: 20px;
+          display: inline-block;
+        }
+        .sod-f:focus { border-bottom-color: #000080; background: #eef2ff; }
+        .sod-f[readonly]:focus { background: transparent; border-bottom-color: #555; }
+        @media print { .sod-f { border-bottom: 1px dotted #333; background: transparent !important; } }
+
+        .sod-td-input {
+          border: 1px solid #000;
+          padding: 2px 6px;
+        }
+      `}</style>
+
+      {/* ── Toolbar ────────────────────────────────────────────────────── */}
+      <div className="sod-no-print" style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", padding: "14px 12px 8px", flexWrap: "wrap", background: "#f9fafb", borderBottom: "1px solid #e5e7eb", position: "sticky", top: 0, zIndex: 10 }}>
+        <button onClick={() => router.push(resolveHref("/trainings/school-of-disciples"))}
+          style={{ padding: "7px 16px", borderRadius: 8, border: "1px solid #d1d5db", background: "#fff", color: "#374151", fontWeight: 600, cursor: "pointer", fontSize: 13 }}>
+          ← Back
+        </button>
+        <button onClick={() => window.print()}
+          style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 16px", borderRadius: 8, border: "1px solid #000080", background: "#fff", color: "#000080", fontWeight: 600, cursor: "pointer", fontSize: 13 }}>
+          <Printer size={14} /> {mode === "blank" ? "Print blank form" : "Print / Download PDF"}
+        </button>
+        {mode === "fill" && (
+          <button onClick={handleSubmit} disabled={submitting || uploading || submitSuccess}
+            style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 20px", borderRadius: 8, border: "none", background: submitSuccess ? "#16A34A" : submitting || uploading ? "#9ca3af" : "#DC2626", color: "#fff", fontWeight: 700, cursor: submitting || uploading || submitSuccess ? "not-allowed" : "pointer", fontSize: 13 }}>
+            {submitSuccess ? <><CheckCircle size={14} /> Submitted</>
+              : uploading ? <><Send size={14} /> Uploading photo…</>
+              : submitting ? <><Send size={14} /> Submitting…</>
+              : <><Send size={14} /> Submit Application</>}
+          </button>
+        )}
+      </div>
+
+      {submitError && (
+        <div className="sod-no-print" style={{ display: "flex", alignItems: "center", gap: 8, maxWidth: 794, margin: "6px auto", padding: "9px 14px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13 }}>
+          <XCircle size={16} style={{ flexShrink: 0 }} /> <span style={{ flex: 1 }}>{submitError}</span>
+          <button onClick={() => setSubmitError("")} style={{ background: "none", border: "none", cursor: "pointer", color: "#991b1b", fontWeight: 700 }}>✕</button>
+        </div>
+      )}
+      {submitSuccess && (
+        <div className="sod-no-print" style={{ display: "flex", alignItems: "center", gap: 8, maxWidth: 794, margin: "6px auto", padding: "9px 14px", borderRadius: 8, border: "1px solid #bbf7d0", background: "#f0fdf4", color: "#15803d", fontSize: 13, fontWeight: 600 }}>
+          <CheckCircle size={16} style={{ flexShrink: 0 }} /> Application submitted. Thank you, our team will contact you shortly.
+          <a href={resolveHref("/trainings/school-of-disciples")} style={{ marginLeft: "auto", color: "#15803d", textDecoration: "underline", fontWeight: 700, whiteSpace: "nowrap" }}>Back to School of Disciples →</a>
+        </div>
+      )}
+
+      {/* ── Gray screen wrapper ─────────────────────────────────────────── */}
+      <div className="sod-wrapper" style={{
+        background: "#b0bec5", padding: "20px 0 48px",
+        display: "flex", flexDirection: "column", gap: 32, overflowX: "hidden",
+      }}>
+
+        {/* ════════════════════════════════════════════════════════════════
+            PAGE 1
+        ════════════════════════════════════════════════════════════════ */}
+        <div className="sod-paper" style={{ ...PAPER_STYLE, zoom: scale }}>
+
+          {/* ── HEADER ──────────────────────────────────────────────── */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+
+            {/* Logo + church name */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <img src="/trainings/sod-logo.png" alt="School of Disciples" width={60} height={64} style={{ objectFit: "contain", flexShrink: 0 }} />
+              <div style={{ textAlign: "center", lineHeight: 1.65 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>The Redeemed Christian Church of God</div>
+                <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase" }}>Rose of Sharon Parish</div>
+                <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase" }}>The School of Disciples</div>
+                <div style={{ fontSize: 13, fontWeight: 700, textTransform: "uppercase" }}>Application Form</div>
+                <div style={{ fontSize: 11, marginTop: 4, display: "flex", alignItems: "baseline", justifyContent: "center", gap: 4 }}>
+                  <span>SET{REQ}</span>
+                  <F
+                    value={set}
+                    onChange={setSet}
+                    readOnly={ro}
+                    placeholder="e.g. 2026"
+                    maxLength={10}
+                    style={{ width: 120, borderBottom: (!ro && !set.trim()) ? "1.5px solid red" : undefined }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Passport photo */}
+            {mode === "fill" ? (
+              <div
+                className="sod-no-print"
+                onClick={() => photoInputRef.current?.click()}
+                style={{
+                  width: 90, height: 110, border: !photoPreview ? "2px dashed red" : "2px dashed #000080",
+                  borderRadius: 6, display: "flex", flexDirection: "column", alignItems: "center",
+                  justifyContent: "center", flexShrink: 0, cursor: "pointer",
+                  overflow: "hidden", background: photoPreview ? "transparent" : "#fff5f5",
+                }}
+                title="Profile picture is required — click to upload"
+              >
+                {photoPreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <span style={{ fontSize: 8, textAlign: "center", color: "#dc2626", lineHeight: 1.4, marginTop: 4 }}>
+                      Photo{REQ}<br />(click to upload)
+                    </span>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div style={{
+                width: 90, height: 110, border: "1px solid #000", flexShrink: 0,
+                display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden",
+              }}>
+                {photoPreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  <span style={{ fontSize: 9, textAlign: "center", color: "#666", lineHeight: 1.6 }}>
+                    Passport<br />Photograph
+                  </span>
+                )}
+              </div>
+            )}
+
+            {mode === "fill" && (
+              <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhotoChange} style={{ display: "none" }} />
+            )}
+          </div>
+
+          {/* ── REGION / PROVINCE / CENTRE ──────────────────────────── */}
+          <table style={{ borderCollapse: "collapse", marginBottom: 20 }}>
+            <tbody>
+              {(
+                [
+                  ["REGION",   region,   setRegion,   true, 40],
+                  ["PROVINCE", province, setProvince, true, 40],
+                  ["CENTRE",   centre,   setCentre,   true, 40],
+                ] as [string, string, (v: string) => void, boolean, number][]
+              ).map(([lbl, val, setter, req, maxLen]) => (
+                <tr key={lbl}>
+                  <td style={{ border: "1px solid #000", padding: "4px 10px", fontWeight: 700, fontSize: 11, whiteSpace: "nowrap" }}>
+                    {lbl}{req && REQ}
+                  </td>
+                  <td style={{ border: "1px solid #000", padding: "2px 8px", width: 240 }}>
+                    <F value={val} onChange={setter} style={{ width: "100%" }} readOnly={ro} maxLength={maxLen} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* ══ SECTION A ═══════════════════════════════════════════════ */}
+          <SectionHead>A.  Personal Information</SectionHead>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+
+            {/* 1. Name */}
+            <div>
+              <div style={{ marginBottom: 6 }}>1.  Name:</div>
+              <div style={{ display: "flex", gap: 14, paddingLeft: 18 }}>
+                {(
+                  [
+                    ["Surname *",     surname,    setSurname],
+                    ["First Name *",  firstName,  setFirstName],
+                    ["Middle Name",   middleName, setMiddleName],
+                  ] as [string, string, (v: string) => void][]
+                ).map(([lbl, val, setter]) => (
+                  <div key={lbl} style={{ flex: 1 }}>
+                    <F value={val} onChange={setter} style={{ width: "100%" }} readOnly={ro} maxLength={25} onlyAlpha={!ro} />
+                    <div style={{ fontSize: 9, textAlign: "center", color: "#666", marginTop: 2 }}>{lbl}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 2. Address — Street / City / State / Country */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              <FullRow label="2.  Street Address:" value={street} onChange={setStreet} readOnly={ro} required maxLength={100} />
+              <PairedRow
+                left={{  label: "City:",    value: city,      onChange: setCity,      required: true, maxLength: 30, onlyAlpha: !ro }}
+                right={{ label: "State:",   value: addrState, onChange: setAddrState, required: true, maxLength: 30, onlyAlpha: !ro }}
+                readOnly={ro}
+              />
+              <FullRow label="    Country:" value={country} onChange={setCountry} readOnly={ro} required maxLength={30} onlyAlpha={!ro} />
+            </div>
+
+            {/* 3 & 3b */}
+            <PairedRow
+              left={{  label: "3.  Date of Birth (yyyy-mm-dd):", value: dob, onChange: setDob, required: true, maxLength: 10 }}
+              right={{ label: "3b. Sex:", value: sex, onChange: setSex, maxLength: 6 }}
+              readOnly={ro}
+            />
+
+            {/* 4 & 4b */}
+            <PairedRow
+              left={{  label: "4.  Nationality:", value: nationality, onChange: setNationality, required: true, maxLength: 30, onlyAlpha: !ro }}
+              right={{ label: "4b. State of Origin:", value: stateOfOrigin, onChange: setStateOfOrigin, maxLength: 30, onlyAlpha: !ro }}
+              readOnly={ro}
+            />
+
+            {/* 5 & 5b */}
+            <PairedRow
+              left={{  label: "5.  Home Town:", value: homeTown, onChange: setHomeTown, maxLength: 40, onlyAlpha: !ro }}
+              right={{ label: "5b. Phone Number:", value: phone, onChange: setPhone, required: true, maxLength: 15, onlyNumeric: !ro }}
+              readOnly={ro}
+            />
+
+            {/* Country code inline before phone note */}
+            <div style={{ display: "flex", alignItems: "baseline", gap: 6, paddingLeft: 18, fontSize: 11, color: "#555" }}>
+              <span>Country Code{REQ}:</span>
+              <F
+                value={countryCode}
+                onChange={setCountryCode}
+                readOnly={ro}
+                placeholder="e.g. 234"
+                maxLength={4}
+                onlyNumeric={!ro}
+                style={{ width: 70 }}
+              />
+              <span style={{ color: "#888" }}>(digits only, e.g. 234 for Nigeria)</span>
+            </div>
+
+            {/* 6 & 6b */}
+            <PairedRow
+              left={{  label: "6.  Email Address:", value: email, onChange: setEmail, maxLength: 60 }}
+              right={{ label: "6b. Occupation:", value: occupation, onChange: setOccupation, required: true, maxLength: 50 }}
+              readOnly={ro}
+            />
+
+            {/* 7. Office / Occupation Address */}
+            <FullRow label="7.  Office / Occupation Address:" value={officeAddr} onChange={setOfficeAddr} readOnly={ro} required maxLength={100} />
+
+            {/* 8. Marital Status */}
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+              <span>8.  Marital status:</span>
+              {MARITAL.map((m) => (
+                <Chk key={m} label={m} checked={marital === m} onChange={() => setMarital(marital === m ? "" : m)} readOnly={ro} />
+              ))}
+            </div>
+
+            {/* 9 & 9b */}
+            <PairedRow
+              left={{  label: "9.  Spouse Name:", value: spouseName, onChange: setSpouseName,
+                       required: marital === "Married", maxLength: 60, onlyAlpha: !ro }}
+              right={{ label: "Spouse Phone Number:", value: spousePhone, onChange: setSpousePhone, maxLength: 15, onlyNumeric: !ro }}
+              readOnly={ro}
+            />
+
+            {/* 10 & 10b */}
+            <PairedRow
+              left={{  label: "10. Spouse's Occupation:", value: spouseOcc, onChange: setSpouseOcc, maxLength: 50 }}
+              right={{ label: "Number of Children (digits only):", value: numChildren, onChange: setNumChildren, maxLength: 2, onlyNumeric: !ro }}
+              readOnly={ro}
+            />
+          </div>
+
+          {/* ══ SECTION B — Qualifications ══════════════════════════════ */}
+          <SectionHead>B.  Educational and Professional Qualifications{REQ}</SectionHead>
+
+          <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 11 }}>
+            <thead>
+              <tr>
+                <th style={{ border: "1px solid #000", width: 24, padding: "3px 4px" }}></th>
+                <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "left", fontWeight: 700 }}>Institution</th>
+                <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "left", fontWeight: 700, width: 90 }}>Date</th>
+                <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "left", fontWeight: 700 }}>Qualification Received</th>
+              </tr>
+            </thead>
+            <tbody>
+              {quals.map((q, i) => (
+                <tr key={i}>
+                  <td style={{ border: "1px solid #000", padding: "2px 4px", textAlign: "center", fontWeight: 700 }}>
+                    {["i.", "ii.", "iii."][i]}
+                  </td>
+                  <td className="sod-td-input">
+                    <F value={q.institution} onChange={(v) => updateQual(i, "institution", v)} style={{ width: "100%" }} readOnly={ro} placeholder="e.g. UNILAG" maxLength={60} />
+                  </td>
+                  <td className="sod-td-input">
+                    <F value={q.date} onChange={(v) => updateQual(i, "date", v)} style={{ width: "100%" }} readOnly={ro} placeholder="e.g. 2018" maxLength={15} />
+                  </td>
+                  <td className="sod-td-input">
+                    <F value={q.qualificationReceived} onChange={(v) => updateQual(i, "qualificationReceived", v)} style={{ width: "100%" }} readOnly={ro} placeholder="e.g. B.Sc." maxLength={60} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>{/* end page 1 */}
+
+        {/* ════════════════════════════════════════════════════════════════
+            PAGE 2
+        ════════════════════════════════════════════════════════════════ */}
+        <div className="sod-paper sod-page2" style={{ ...PAPER_STYLE, marginTop: 0, zoom: scale }}>
+
+          {/* Page number */}
+          <div style={{ textAlign: "center", fontSize: 12, marginBottom: 16 }}>2</div>
+
+          {/* ══ SECTION C ═══════════════════════════════════════════════ */}
+          <SectionHead>C.  Spiritual Information</SectionHead>
+
+          {/* 12. Places of worship */}
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ marginBottom: 8, fontSize: 12 }}>
+              12. List your place(s) of worship for the past five years
+            </div>
+            <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 11 }}>
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #000", width: 24, padding: "3px 4px" }}></th>
+                  <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "center", fontWeight: 700 }}>Name</th>
+                  <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "center", fontWeight: 700 }}>Address</th>
+                  <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "center", fontWeight: 700, width: 80 }}>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {wp.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ border: "1px solid #000", padding: "2px 4px", textAlign: "center", fontWeight: 700 }}>
+                      {["I.", "II.", "III."][i]}
+                    </td>
+                    <td className="sod-td-input">
+                      <F value={row.name} onChange={(v) => updateWp(i, "name", v)} style={{ width: "100%" }} readOnly={ro} maxLength={60} />
+                    </td>
+                    <td className="sod-td-input">
+                      <F value={row.address} onChange={(v) => updateWp(i, "address", v)} style={{ width: "100%" }} readOnly={ro} maxLength={100} />
+                    </td>
+                    <td className="sod-td-input">
+                      <F value={row.date} onChange={(v) => updateWp(i, "date", v)} style={{ width: "100%" }} readOnly={ro} placeholder="e.g. 2020–2023" maxLength={15} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 13. Positions held */}
+          <div style={{ marginBottom: 16 }}>
+            <div style={{ marginBottom: 8, fontSize: 12 }}>
+              13. What position did you hold in the above place(s)?
+            </div>
+            <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 11 }}>
+              <thead>
+                <tr>
+                  <th style={{ border: "1px solid #000", width: 24, padding: "3px 4px" }}></th>
+                  <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "center", fontWeight: 700 }}>Church Name</th>
+                  <th style={{ border: "1px solid #000", padding: "3px 8px", textAlign: "center", fontWeight: 700 }}>Position Held</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ph.map((row, i) => (
+                  <tr key={i}>
+                    <td style={{ border: "1px solid #000", padding: "2px 4px", textAlign: "center", fontWeight: 700 }}>
+                      {["I.", "II.", "III."][i]}
+                    </td>
+                    <td className="sod-td-input">
+                      <F value={row.name} onChange={(v) => updatePh(i, "name", v)} style={{ width: "100%" }} readOnly={ro} maxLength={60} />
+                    </td>
+                    <td className="sod-td-input">
+                      <F value={row.position} onChange={(v) => updatePh(i, "position", v)} style={{ width: "100%" }} readOnly={ro} maxLength={40} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 14 onwards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <PairedRow
+              left={{  label: "14. Salvation Date:", value: salvationDate, onChange: setSalvationDate, required: true, maxLength: 30 }}
+              right={{ label: "Where:", value: salvationWhere, onChange: setSalvationWhere, required: true, maxLength: 50 }}
+              readOnly={ro}
+            />
+
+            <PairedRow
+              left={{  label: "15. Water Baptism Date (by Immersion):", value: waterBaptismDate, onChange: setWaterBaptismDate, required: true, maxLength: 30 }}
+              right={{ label: "Church:", value: waterBaptismChurch, onChange: setWaterBaptismChurch, required: true, maxLength: 50 }}
+              readOnly={ro}
+            />
+
+            <PairedRow
+              left={{  label: "16. Holy Spirit Baptism Date (with speaking in tongues):", value: holyGhostDate, onChange: setHolyGhostDate, required: true, maxLength: 30 }}
+              right={{ label: "Where:", value: holyGhostWhere, onChange: setHolyGhostWhere, required: true, maxLength: 50 }}
+              readOnly={ro}
+            />
+
+            <FullRow label="17. Current Parish Pastor Name:" value={pastorName} onChange={setPastorName} readOnly={ro} required maxLength={60} />
+
+            <FullRow label="18. Current Parish Pastor Phone Number:" value={pastorPhone} onChange={setPastorPhone} readOnly={ro} maxLength={15} onlyNumeric={!ro} />
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              <FullRow label="19. Your Activity / Department in your Current Parish:" value={activity1} onChange={setActivity1} readOnly={ro} maxLength={100} />
+              <F value={activity2} onChange={setActivity2} style={{ width: "100%" }} readOnly={ro} maxLength={100} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <span>20. Are you currently running or do you intend to run another training alongside SOD?</span>
+              <Chk label="Yes" checked={otherTraining === "yes"} onChange={() => setOtherTraining(otherTraining === "yes" ? "" : "yes")} readOnly={ro} />
+              <Chk label="No"  checked={otherTraining === "no"}  onChange={() => setOtherTraining(otherTraining === "no"  ? "" : "no")}  readOnly={ro} />
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+              <span>21. Does your Current Parish Pastor know you:</span>
+              {["Closely", "Intimately", "Just as a member"].map((opt) => (
+                <Chk key={opt} label={opt} checked={pastorKnows === opt} onChange={() => setPastorKnows(pastorKnows === opt ? "" : opt)} readOnly={ro} />
+              ))}
+            </div>
+          </div>
+
+          {/* ══ SECTION D ═══════════════════════════════════════════════ */}
+          <SectionHead>D.  Other Relevant Information:</SectionHead>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <F value={otherInfo1} onChange={setOtherInfo1} style={{ width: "100%" }} readOnly={ro} maxLength={300} />
+            <F value={otherInfo2} onChange={setOtherInfo2} style={{ width: "100%" }} readOnly={ro} maxLength={300} />
+          </div>
+
+          {/* ══ SECTION E — Declaration ═════════════════════════════════ */}
+          <SectionHead>E.  Declaration:</SectionHead>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 8 }}>
+            <span>I,</span>
+            <F value={declName} onChange={setDeclName} style={{ flex: 1 }} readOnly={ro} maxLength={60} />
+            <span style={{ whiteSpace: "nowrap" }}> of</span>
+            <F value={declOf} onChange={setDeclOf} style={{ flex: 1 }} readOnly={ro} maxLength={100} />
+          </div>
+          <p style={{ fontSize: 12, lineHeight: 1.7, margin: "0 0 12px 0" }}>
+            Hereby promise that if taken as an S.O.D student, I will abide by the rules and regulations of
+            the School of Disciples, obey the Authorities of the school and pray for them. I also promise
+            not to be a stumbling block in the way of my fellow students.
+          </p>
+
+          {/* Consent checkbox */}
+          {(
+            <div style={{ marginBottom: 12 }}>
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 8, cursor: ro ? "default" : "pointer", fontSize: 12 }}>
+                <input
+                  type="checkbox"
+                  checked={mode === "blank" ? false : consent}
+                  onChange={ro ? undefined : () => setConsent((p) => !p)}
+                  readOnly={ro}
+                  style={{ width: 14, height: 14, marginTop: 2, cursor: ro ? "default" : "pointer",
+                           accentColor: "#000080" }}
+                />
+                <span>
+                  I confirm that the information provided above is true and correct, and I consent to this
+                  application being processed by the school administration.{" "}
+                  {!ro && <span style={{ color: "red" }}>*</span>}
+                </span>
+              </label>
+            </div>
+          )}
+
+          {/* Signature line */}
+          <div style={{ display: "flex", gap: 48, marginTop: 16 }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ borderBottom: "1px solid #000", height: 30 }} />
+              <div style={{ fontSize: 10, textAlign: "center", marginTop: 3 }}>Signature</div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ borderBottom: "1px solid #000", height: 30 }} />
+              <div style={{ fontSize: 10, textAlign: "center", marginTop: 3 }}>Date</div>
+            </div>
+          </div>
+
+          {/* ══ SECTION F ═══════════════════════════════════════════════ */}
+          <SectionHead>F.  Official Remarks:</SectionHead>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <F value={remarks1} onChange={setRemarks1} style={{ width: "100%" }} readOnly maxLength={300} />
+            <F value={remarks2} onChange={setRemarks2} style={{ width: "100%" }} readOnly maxLength={300} />
+          </div>
+
+        </div>{/* end page 2 */}
+      </div>{/* end wrapper */}
+    </>
+  );
+}
