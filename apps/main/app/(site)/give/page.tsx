@@ -92,7 +92,7 @@ export default function GivePage() {
         initial="hidden"
         animate="visible"
         className="give-hero-banner flex h-[600px] items-center justify-center bg-cover bg-center bg-no-repeat lg:h-[700px]"
-        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.58)), url('/assets/give-banner-seed.jpg')", backgroundPosition: "85% 50%" }}
+        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), url('/assets/give-banner-seed.jpg')", backgroundPosition: "50% 50%" }}
       >
         <motion.div
           variants={fadeUp}
