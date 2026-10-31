@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured } from "@/lib/ros-server";
+import { rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +11,7 @@ const digits = (s: string) => s.replace(/\D/g, "");
  * the server. Only the id and first name go back to the browser, never the email, phone or address.
  */
 export async function POST(req: Request) {
+  if (tooManyRequests(req, "verify", 12)) return NextResponse.json({ message: "Too many attempts. Please wait a few minutes and try again." }, { status: 429 });
   if (!rosConfigured()) return NextResponse.json({ message: "Membership check is not available right now. Please try again later." }, { status: 503 });
   let identifier = "";
   try { identifier = String((await req.json()).identifier ?? "").trim(); } catch { /* handled below */ }

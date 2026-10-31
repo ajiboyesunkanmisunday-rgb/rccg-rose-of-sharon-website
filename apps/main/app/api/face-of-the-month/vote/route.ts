@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured } from "@/lib/ros-server";
+import { rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +10,7 @@ const digits = (s: string) => s.replace(/\D/g, "");
  * on their membership record and the member is looked up here on the server (their details are not sent back).
  */
 export async function POST(req: Request) {
+  if (tooManyRequests(req, "vote", 8)) return NextResponse.json({ message: "Too many attempts. Please wait a few minutes and try again." }, { status: 429 });
   if (!rosConfigured()) return NextResponse.json({ message: "Voting is not available right now." }, { status: 503 });
   let body: { eventId?: string; nomineeId?: string; category?: string; phone?: string };
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Invalid request." }, { status: 400 }); }
