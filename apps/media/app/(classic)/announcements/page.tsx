@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Hero } from "@ros/shared/kit/ui";
 import { API_BASE } from "@ros/shared/api";
+import SubmitAnnouncement from "@/components/SubmitAnnouncement";
 
 interface Announcement {
   id: string;
@@ -199,6 +200,8 @@ export default function AnnouncementsPage() {
           ))}
         </div>
       </section>
+
+      <SubmitAnnouncement />
     </div>
   );
 }
