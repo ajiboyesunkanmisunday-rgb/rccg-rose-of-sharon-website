@@ -12,6 +12,7 @@ export default function SermonCard({ s, index = 0, queue }: { s: Sermon; index?:
         <div className="ros:overflow-hidden ros:rounded-lg ros:bg-black ros:transition ros:duration-300 ros:group-hover:scale-95">
           <img src={s.thumb} alt={s.title} loading={index < 6 ? "eager" : "lazy"} decoding="async" className="ros:aspect-video ros:w-full ros:object-cover ros:opacity-100 ros:transition ros:duration-300 ros:group-hover/image:opacity-40" />
         </div>
+        {s.video && <span className="ros:absolute ros:left-2 ros:top-2 ros:rounded-md ros:bg-black/70 ros:px-2 ros:py-0.5 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider">Video</span>}
         <span className="ros:absolute ros:inset-0 ros:m-auto ros:flex ros:size-[72px] ros:scale-50 ros:items-center ros:justify-center ros:rounded-full ros:border-[3px] ros:border-white ros:opacity-0 ros:transition ros:duration-300 ros:group-hover/image:scale-100 ros:group-hover/image:opacity-100">
           <svg viewBox="0 0 24 24" fill="white" className="ros:ml-1 ros:size-8"><path d="M8 5v14l11-7z" /></svg>
         </span>

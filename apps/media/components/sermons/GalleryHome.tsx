@@ -2,16 +2,16 @@
 
 import { useMemo, useState } from "react";
 import NextLink from "next/link";
-import { ALBUMS, ALBUM_CATEGORIES, albumPhoto, type AlbumCategory } from "@ros/shared/kit/albums";
+import { ALBUM_CATEGORIES, albumPhoto, type Album, type AlbumCategory } from "@ros/shared/kit/albums";
 
 /** Gallery home: albums by service or event day, filtered by kind of service and by year. Photos open inside an album, never all at once. */
-export default function GalleryHome() {
+export default function GalleryHome({ albums: ALBUMS }: { albums: Album[] }) {
   const [cat, setCat] = useState<AlbumCategory | "All">("All");
   const [year, setYear] = useState<string>("All");
-  const years = useMemo(() => Array.from(new Set(ALBUMS.map((a) => a.iso.slice(0, 4)))).sort().reverse(), []);
+  const years = useMemo(() => Array.from(new Set(ALBUMS.map((a) => a.iso.slice(0, 4)))).sort().reverse(), [ALBUMS]);
   const list = useMemo(
     () => ALBUMS.filter((a) => (cat === "All" || a.category === cat) && (year === "All" || a.iso.startsWith(year))).sort((a, b) => b.iso.localeCompare(a.iso)),
-    [cat, year],
+    [ALBUMS, cat, year],
   );
   const byYear = useMemo(() => {
     const m = new Map<string, typeof list>();
@@ -56,7 +56,7 @@ export default function GalleryHome() {
               {albums.map((a, i) => (
                 <NextLink key={a.slug} href={`/gallery/${a.slug}`} className="sermon-card ros:group ros:block ros:rounded-xl ros:p-2 ros:transition ros:hover:bg-white/5" style={{ ["--i" as string]: i }}>
                   <div className="ros:relative ros:overflow-hidden ros:rounded-lg ros:bg-black">
-                    <img src={albumPhoto(a.slug, 1, true)} alt={a.title} loading="lazy" decoding="async" className="ros:aspect-video ros:w-full ros:object-cover ros:transition ros:duration-300 ros:group-hover:scale-105" />
+                    <img src={a.cover ?? albumPhoto(a.slug, 1, true)} alt={a.title} loading="lazy" decoding="async" className="ros:aspect-video ros:w-full ros:object-cover ros:transition ros:duration-300 ros:group-hover:scale-105" />
                     <span className="ros:absolute ros:bottom-2 ros:right-2 ros:rounded-md ros:bg-black/70 ros:px-2 ros:py-0.5 ros:text-[11px] ros:font-bold">{a.count} photos</span>
                   </div>
                   <p className="ros:mt-2 ros:line-clamp-2 ros:text-[15px] ros:font-semibold ros:leading-tight">{a.title}</p>

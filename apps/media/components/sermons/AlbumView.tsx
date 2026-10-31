@@ -2,16 +2,16 @@
 
 import { useCallback, useEffect, useState } from "react";
 import NextLink from "next/link";
-import { ALBUMS, albumPhotos, type Album } from "@ros/shared/kit/albums";
+import { albumPhotos, type Album } from "@ros/shared/kit/albums";
 
 const PAGE = 24;
 
 /** One album: its pictures in pages of 24, a full-screen viewer, and links to the neighbouring albums. */
-export default function AlbumView({ album }: { album: Album }) {
+export default function AlbumView({ album, albums }: { album: Album; albums: Album[] }) {
   const photos = albumPhotos(album);
   const [shown, setShown] = useState(PAGE);
   const [open, setOpen] = useState<number | null>(null);
-  const sorted = [...ALBUMS].sort((a, b) => b.iso.localeCompare(a.iso));
+  const sorted = [...albums].sort((a, b) => b.iso.localeCompare(a.iso));
   const i = sorted.findIndex((a) => a.slug === album.slug);
   const newer = sorted[i - 1], older = sorted[i + 1];
 
