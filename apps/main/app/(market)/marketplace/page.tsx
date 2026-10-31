@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "@ros/shared/link";
 import { API_BASE, uploadProfilePicture } from "@ros/shared/api";
+import { parseApiDate } from "@ros/shared/dates";
 
 const vs = { fontVariationSettings: '"wdth" 100' };
 
@@ -101,7 +102,7 @@ function toProduct(p: ApiProduct): Product {
   const qty = p.quantityLeft ?? 0;
   const category = PRODUCT_CATEGORIES_API.find((c) => c.value === p.productCategory)?.label ?? "Other";
   const tags = p.tags ?? [];
-  const created = p.createdOn ? new Date(p.createdOn).getTime() : 0;
+  const created = parseApiDate(p.createdOn)?.getTime() ?? 0;
   return {
     id: String(p.id),
     name: p.name,

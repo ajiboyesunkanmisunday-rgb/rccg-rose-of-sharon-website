@@ -58,7 +58,7 @@ export const PROGRAMS: Program[] = [
   {
     slug: "water-baptism",
     name: "Water Baptism",
-    short: "WB",
+    short: "Water Baptism",
     base: "/trainings/water-baptism",
     description:
       "Take the step of public declaration of your faith in Jesus Christ through water baptism as commanded in scripture.",
