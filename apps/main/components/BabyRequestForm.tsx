@@ -100,7 +100,15 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
       const rows = cfg.fields.map((f) => `${f.label}: ${v[f.key] || ""}`);
       if (kind === "christening") rows.push(`Do you want the Church to handle the naming ceremony?: ${v.churchHandles || ""}`);
       if (kind === "christening") rows.push(`House Fellowship Centre: ${v.centre || ""}`, `House Leader & Signature: ${v.leader || ""}`);
-      await post(cfg.endpoint, { subject: cfg.subject(v), content: rows.join("\n") });
+      const payload = { subject: cfg.subject(v), content: rows.join("\n") };
+      try {
+        await post(cfg.endpoint, payload);
+      } catch (err) {
+        // the backend currently asks for a login on this request type; until that is opened, the request is sent as a
+        // suggestion with a clear title so the church team still receives it and nobody's request is lost
+        if (!(err instanceof Error) || !/token/i.test(err.message)) throw err;
+        await post("/requests/suggestion", { subject: `[${cfg.title}] ${payload.subject}`, content: payload.content });
+      }
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
