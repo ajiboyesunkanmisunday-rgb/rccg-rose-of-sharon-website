@@ -1,52 +1,74 @@
 "use client";
 
-import { FormHero } from "@ros/shared/kit/ui";
-
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Link from "@ros/shared/link";
-import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
+import { FormHero } from "@ros/shared/kit/ui";
 import { post } from "@ros/shared/api";
+import PhoneField from "@ros/shared/kit/PhoneField";
+import SearchSelect from "@ros/shared/kit/SearchSelect";
+import { CountryState, R_BUTTON, R_INPUT, R_SELECT, RError, RField, RSpinner } from "@ros/shared/kit/RosmsForm";
 
+type Service = { id: string; title?: string; topic?: string; date?: string; eventCategory?: string };
+
+const EMPTY = {
+  firstName: "", middleName: "", lastName: "",
+  countryCode: "+234", phoneNumber: "", email: "", sex: "", eventId: "",
+  street: "", city: "", country: "Nigeria", state: "",
+};
+
+const dayIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 export default function NewBelieverPage() {
-  const [form, setForm] = useState({
-    firstName: "", middleName: "", lastName: "",
-    countryCode: "+234", phoneNumber: "", email: "",
-    sex: "", street: "", city: "", state: "", country: "Nigeria",
-  });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [form, setForm] = useState(EMPTY);
+  const [services, setServices] = useState<Service[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
   const [error, setError] = useState("");
 
-  function set(k: string) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-      setForm((p) => ({ ...p, [k]: e.target.value }));
-  }
+  // "Service Attended": the church's services from the last two months, from the same calendar as the Events page
+  useEffect(() => {
+    const to = new Date();
+    const from = new Date(to.getTime() - 60 * 86400000);
+    fetch(`/ros-api/events/calendar?startDay=${dayIso(from)}&endDay=${dayIso(to)}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list: Service[]) => setServices((Array.isArray(list) ? list : []).filter((e) => !e.eventCategory || ["SERVICE", "SPECIAL_SERVICE"].includes(e.eventCategory)).sort((a, b) => String(b.date).localeCompare(String(a.date)))))
+      .catch(() => setServices([]));
+  }, []);
+
+  const set = (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setForm((p) => ({ ...p, [k]: e.target.value }));
+  const put = (k: keyof typeof EMPTY) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus("loading");
+    setLoading(true);
     setError("");
     try {
       await post("/new-converts", {
-        firstName: form.firstName,
-        middleName: form.middleName || undefined,
-        lastName: form.lastName,
-        countryCode: form.countryCode,
+        firstName: form.firstName.trim(),
+        middleName: form.middleName.trim() || undefined,
+        lastName: form.lastName.trim(),
+        email: form.email.trim() || undefined,
         phoneNumber: form.phoneNumber,
-        email: form.email || undefined,
-        sex: form.sex,
-        street: form.street || undefined,
-        city: form.city || undefined,
+        countryCode: form.countryCode.replace(/^\+/, ""),
+        sex: form.sex || undefined,
+        street: form.street.trim() || undefined,
+        city: form.city.trim() || undefined,
         state: form.state || undefined,
         country: form.country || undefined,
+        eventId: form.eventId || undefined,
       });
-      setStatus("success");
+      setDone(true);
     } catch (err: unknown) {
-      setStatus("error");
       setError(err instanceof Error ? err.message : "Submission failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
+
+  const serviceOptions = (services ?? []).map((s) => ({
+    label: `${s.title ?? s.topic ?? "Service"}${s.date ? " — " + new Date(s.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""}`,
+    value: s.id,
+  }));
 
   return (
     <div>
@@ -72,115 +94,70 @@ export default function NewBelieverPage() {
         </div>
       </section>
 
-      {/* Registration Form */}
-      <FormSheet>
-        <h2 className="ros-anton ros:uppercase ros:text-[#DF4E4E] ros:text-[48px] ros:leading-normal ros:text-center">
-          Register as a New Believer
-        </h2>
-        <p className="ros:text-[#6B7280] ros:text-[20px] ros:font-normal ros:leading-normal ros:text-center ros:max-w-[700px]">
-          Fill out the form below and a member of our New Converts team will reach out to you.
-        </p>
-
-        {status === "success" ? (
-          <div className="ros:bg-white ros:rounded-2xl ros:p-10 ros:shadow-sm ros:flex ros:flex-col ros:gap-[24px] ros:items-center ros:max-w-[600px] ros:text-center">
-            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="32" cy="32" r="32" fill="#16A34A" fillOpacity="0.12" />
-              <circle cx="32" cy="32" r="24" fill="#16A34A" fillOpacity="0.2" />
-              <path d="M20 32L28 40L44 24" stroke="#16A34A" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <p className="ros:text-[#111827] ros:text-[25px] ros:font-medium">Welcome to the Kingdom!</p>
-            <p className="ros:text-[#6B7280] ros:text-[20px] ros:font-normal">
-              Your registration has been received. Our New Converts team will contact you shortly. Heaven is rejoicing over your decision!
-            </p>
-            <Link
-              href="/trainings/water-baptism"
-              className={submitCls}
-             
-            >
-              Register for Water Baptism →
-            </Link>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="ros:flex ros:flex-col ros:gap-[16px] ros:w-full ros:max-w-[700px]">
-            <FormCard title="Personal Information">
-              <div className="ros:flex ros:flex-col ros:gap-[16px]">
-                <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-3 ros:gap-[16px]">
-                  <FormField label="First Name" required>
-                    <input type="text" required value={form.firstName} onChange={set("firstName")} className={inputCls} placeholder="First name" />
-                  </FormField>
-                  <FormField label="Middle Name">
-                    <input type="text" value={form.middleName} onChange={set("middleName")} className={inputCls} placeholder="Middle name" />
-                  </FormField>
-                  <FormField label="Last Name" required>
-                    <input type="text" required value={form.lastName} onChange={set("lastName")} className={inputCls} placeholder="Last name" />
-                  </FormField>
-                </div>
-                <FormField label="Gender" required>
-                  <select required value={form.sex} onChange={set("sex")} className={selectCls}>
-                    <option value="">Select gender</option>
-                    <option value="MALE">Male</option>
-                    <option value="FEMALE">Female</option>
-                  </select>
-                </FormField>
+      {/* Registration form: laid out like the ROSMS New Convert registration */}
+      <div className="ros:bg-[#F9FAFB] ros:py-12">
+        <div className="ros:mx-auto ros:max-w-2xl ros:px-4">
+          {done ? (
+            <div className="ros:flex ros:flex-col ros:items-center ros:py-16 ros:text-center">
+              <div className="ros:mb-4 ros:flex ros:h-16 ros:w-16 ros:items-center ros:justify-center ros:rounded-full ros:bg-green-100">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
               </div>
-            </FormCard>
-
-            <FormCard title="Contact Details">
-              <div className="ros:flex ros:flex-col ros:gap-[16px]">
-                <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px]">
-                  <FormField label="Phone Number" required>
-                    <div className="ros:flex ros:gap-[8px] ros:w-full">
-                      <select value={form.countryCode} onChange={set("countryCode")} className="ros:rounded-lg ros:border ros:border-[#E5E7EB] ros:px-2 ros:py-3 ros:text-sm ros:text-[#374151] ros:outline-none ros:focus:border-[#DF4E4E] ros:focus:ring-1 ros:focus:ring-[#DF4E4E] ros:bg-white ros:flex-shrink-0 ros:w-[80px]">
-                        <option value="+234">+234</option>
-                        <option value="+1">+1</option>
-                        <option value="+44">+44</option>
-                      </select>
-                      <input type="tel" required value={form.phoneNumber} onChange={set("phoneNumber")} className={`${inputCls} ros:flex-1`} placeholder="080 0000 0000" />
-                    </div>
-                  </FormField>
-                  <FormField label="Email Address">
-                    <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="your@email.com" />
-                  </FormField>
-                </div>
+              <h2 className="ros:text-2xl ros:font-bold ros:text-[#000080]">Submission Successful!</h2>
+              <p className="ros:mt-2 ros:text-gray-600">Thank you! Your information has been recorded. Our New Converts team will contact you shortly. Heaven is rejoicing over your decision!</p>
+              <div className="ros:mt-6 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+                <Link href="/trainings/water-baptism" className="ros:rounded-lg ros:border ros:border-[#000080] ros:px-6 ros:py-3 ros:font-medium ros:text-[#000080]">Register for Water Baptism →</Link>
+                <button type="button" onClick={() => { setForm(EMPTY); setDone(false); }} className="ros:rounded-lg ros:bg-[#000080] ros:px-6 ros:py-3 ros:font-medium ros:text-white">Submit Another</button>
               </div>
-            </FormCard>
-
-            <FormCard title="Home Address">
-              <div className="ros:flex ros:flex-col ros:gap-[16px]">
-                <FormField label="Street Address">
-                  <input type="text" value={form.street} onChange={set("street")} className={inputCls} placeholder="Street address" />
-                </FormField>
-                <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-3 ros:gap-[16px]">
-                  <FormField label="City">
-                    <input type="text" value={form.city} onChange={set("city")} className={inputCls} placeholder="City" />
-                  </FormField>
-                  <FormField label="State">
-                    <input type="text" value={form.state} onChange={set("state")} className={inputCls} placeholder="State" />
-                  </FormField>
-                  <FormField label="Country">
-                    <input type="text" value={form.country} onChange={set("country")} className={inputCls} />
-                  </FormField>
-                </div>
-              </div>
-            </FormCard>
-
-            {status === "error" && (
-              <p className="ros:text-[#FF383C] ros:text-[14px] ros:font-normal ros:text-center">{error}</p>
-            )}
-
-            <div className="ros:flex ros:justify-center ros:mt-[8px]">
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className={submitCls}
-               
-              >
-                {status === "loading" ? "Submitting..." : "REGISTER"}
-              </button>
             </div>
-          </form>
-        )}
-      </FormSheet>
+          ) : (
+            <>
+              <div className="ros:mb-6">
+                <h2 className="ros:text-xl ros:font-bold ros:text-[#000080]">New Convert Registration</h2>
+                <p className="ros:mt-0.5 ros:text-sm ros:text-gray-500">Welcome to the family of God!</p>
+              </div>
+              <form onSubmit={handleSubmit}>
+                <div className="ros:mb-8 ros:rounded-xl ros:border ros:border-[#E5E7EB] ros:bg-white ros:p-4 ros:sm:p-6">
+                  <h2 className="ros:mb-6 ros:text-[18px] ros:font-bold ros:text-black">Enter Details</h2>
+                  <div className="ros:grid ros:grid-cols-1 ros:gap-x-6 ros:gap-y-4 ros:md:grid-cols-2">
+                    <RField label="First Name" required><input type="text" value={form.firstName} onChange={set("firstName")} placeholder="Enter First Name" className={R_INPUT} required /></RField>
+                    <RField label="Middle Name"><input type="text" value={form.middleName} onChange={set("middleName")} placeholder="Enter Middle Name (optional)" className={R_INPUT} /></RField>
+                    <RField label="Last Name" required><input type="text" value={form.lastName} onChange={set("lastName")} placeholder="Enter Last Name" className={R_INPUT} required /></RField>
+                    <PhoneField label="Phone Number" code={form.countryCode} number={form.phoneNumber} onCodeChange={put("countryCode")} onNumberChange={put("phoneNumber")} placeholder="Enter Phone Number" />
+                    <RField label="Email"><input type="email" value={form.email} onChange={set("email")} placeholder="Enter Email" className={R_INPUT} /></RField>
+                    <RField label="Gender">
+                      <select value={form.sex} onChange={set("sex")} className={R_SELECT}>
+                        <option value="">Select Gender</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                      </select>
+                    </RField>
+                    <RField label="Service Attended">
+                      <SearchSelect placeholder={services === null ? "Loading services..." : serviceOptions.length ? "Select Service" : "No recent services found"} searchPlaceholder="Search services..." options={serviceOptions} value={form.eventId} onChange={put("eventId")} disabled={!serviceOptions.length} />
+                    </RField>
+                  </div>
+                </div>
+
+                <div className="ros:mb-8 ros:rounded-xl ros:border ros:border-[#E5E7EB] ros:bg-white ros:p-4 ros:sm:p-6">
+                  <h2 className="ros:mb-6 ros:text-[18px] ros:font-bold ros:text-black">Address</h2>
+                  <div className="ros:grid ros:grid-cols-1 ros:gap-x-6 ros:gap-y-4 ros:md:grid-cols-2">
+                    <RField label="Street"><input type="text" value={form.street} onChange={set("street")} placeholder="Enter Street" className={R_INPUT} /></RField>
+                    <RField label="City"><input type="text" value={form.city} onChange={set("city")} placeholder="Enter City" className={R_INPUT} /></RField>
+                    <CountryState country={form.country} state={form.state} onCountry={put("country")} onState={put("state")} />
+                  </div>
+                </div>
+
+                <RError message={error} />
+                <div className="ros:flex ros:justify-end">
+                  <button type="submit" disabled={loading} className={`${R_BUTTON} ros:w-full ros:sm:w-auto`}>
+                    {loading && <RSpinner />}
+                    {loading ? "Saving…" : "Save"}
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

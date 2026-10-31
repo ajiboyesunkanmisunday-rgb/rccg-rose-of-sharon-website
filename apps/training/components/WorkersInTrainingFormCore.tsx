@@ -14,6 +14,8 @@ import { usePaperScale } from "./usePaperScale";
 
 export type WitMode = "blank" | "fill";
 
+import MemberVerifyBar, { type VerifiedMember } from "./MemberVerifyBar";
+
 const FONT = "Arial, Helvetica, sans-serif";
 
 const PAPER: React.CSSProperties = {
@@ -115,7 +117,7 @@ const initial = {
   street: "", city: "", state: "", country: "Nigeria", phone: "", fax: "", mobile: "",
   occupation: "", employer: "", officeAddress: "", officePhone: "", officeFax: "", email: "",
   salvDate: "", salvWhere: "", waterDate: "", waterChurch: "", hgDate: "", hgWhere: "",
-  leaving: "", lifeCenter: "", ministry: "", why: "", signature: "", signDate: "",
+  leaving: "", lifeCenter: "", ministry: "", why: "", signature: "", signDate: "", set: "",
 };
 
 export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: WitMode }) {
@@ -128,6 +130,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
   const [passportPreview, setPassportPreview] = useState("");
   const [passportFile, setPassportFile] = useState<File | null>(null);
   const [f, setF] = useState(initial);
+  const [member, setMember] = useState<VerifiedMember>(null);
   const u = (k: keyof typeof initial) => (v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const QUAL_KEYS = ["institution", "date", "qualification"];
@@ -156,7 +159,12 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
   };
 
   const handleSubmit = async () => {
+    if (!member) {
+      setSubmitError("Please verify your membership first (the bar above the form): enter the email or phone number on your membership record and press Verify.");
+      return;
+    }
     const need: [string, string, number][] = [
+      [f.set, "Set", 1],
       [f.surname, "Surname", 1], [f.firstName, "First Name", 1], [f.sex, "Sex", 1], [f.dob, "Date of Birth", 1],
       [f.marital, "Marital Status", 1], [f.street, "Home Address", 1], [f.city, "City", 1], [f.state, "State", 1],
       [f.country, "Country", 1], [f.phone, "Phone", 1], [f.occupation, "Occupation", 1],
@@ -192,6 +200,8 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
       const nonRCCGChristianGroups = groups.map((g) => g.trim()).filter(Boolean);
 
       await post("/workers-in-training", {
+        userId: member.id,
+        set: f.set.trim(),
         firstName: f.firstName.trim(),
         middleName: names || undefined,
         lastName: f.surname.trim(),
@@ -273,6 +283,13 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
           <div style={{ fontWeight: 700, fontSize: 15, marginTop: 8, letterSpacing: 0.3 }}>THE REDEEMED CHRISTIAN CHURCH OF GOD</div>
           <div style={{ fontWeight: 700, fontSize: 12, marginTop: 6 }}>ROSE OF SHARON PARISH</div>
           <div style={{ fontWeight: 700, fontSize: 14, marginTop: 6, textDecoration: "underline" }}>WORKERS REGISTRATION FORM</div>
+          <div style={{ fontSize: 11, marginTop: 6, display: "flex", alignItems: "baseline", justifyContent: "center", gap: 4 }}>
+            <span style={{ fontWeight: 700 }}>SET<Req />:</span>
+            <input
+              value={f.set} readOnly={ro} onChange={ro ? undefined : (e) => u("set")(e.target.value)} maxLength={20} placeholder="e.g. 2026"
+              style={{ ...inputBase, width: 110, textAlign: "center", borderBottom: !ro && !f.set.trim() ? "1.5px solid #DC2626" : "1px solid #000" }}
+            />
+          </div>
         </div>
         <div
           onClick={() => !ro && photoRef.current?.click()}
@@ -544,6 +561,8 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
           </button>
         )}
       </div>
+
+      {mode === "fill" && <MemberVerifyBar member={member} onChange={setMember} noPrintClass="wit-no-print" />}
 
       {submitError && (
         <div className="wit-no-print" style={{ display: "flex", alignItems: "center", gap: 8, maxWidth: 794, margin: "6px auto", padding: "9px 14px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13 }}>

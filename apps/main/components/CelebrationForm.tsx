@@ -17,6 +17,28 @@ export default function CelebrationForm() {
   const [form, setForm] = useState({ name: "", phone: "", email: "", type: "", date: "", notes: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+  // the backend wants to know which member is asking, so the visitor is found by membership email or phone first
+  const [identifier, setIdentifier] = useState("");
+  const [member, setMember] = useState<{ id: string; firstName: string } | null>(null);
+  const [verifying, setVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState("");
+
+  async function verify(e: React.FormEvent) {
+    e.preventDefault();
+    setVerifying(true);
+    setVerifyError("");
+    try {
+      const res = await fetch("/api/member/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier }) });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.message || "We could not check your membership. Please try again.");
+      setMember({ id: json.id, firstName: json.firstName || "" });
+      if (json.firstName) setForm((p) => ({ ...p, name: p.name || json.firstName }));
+    } catch (err: unknown) {
+      setVerifyError(err instanceof Error ? err.message : "We could not check your membership. Please try again.");
+    } finally {
+      setVerifying(false);
+    }
+  }
 
   function set(k: string) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -25,6 +47,7 @@ export default function CelebrationForm() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!member) return;
     setStatus("loading");
     setError("");
     try {
@@ -37,7 +60,7 @@ export default function CelebrationForm() {
         .filter(Boolean)
         .join("\n");
 
-      await post("/celebrations", { type: form.type, date: form.date, notes: contactInfo });
+      await post("/celebrations", { userId: member.id, type: form.type, date: form.date, notes: contactInfo });
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
@@ -66,8 +89,33 @@ export default function CelebrationForm() {
               ← Back to Home
             </Link>
           </div>
+        ) : !member ? (
+          <form onSubmit={verify} noValidate className="ros:flex ros:flex-col ros:gap-4">
+            <FormCard title="Your Membership">
+              <div className="ros:flex ros:flex-col ros:gap-4">
+                <p className="ros:text-sm ros:text-[#00000099]">
+                  Celebration requests are for members of Rose of Sharon. Enter the email address or phone number on your membership record and we will find you.
+                </p>
+                <FormField label="Membership email or phone number" required>
+                  <input type="text" required value={identifier} onChange={(e) => setIdentifier(e.target.value)} className={inputCls} placeholder="you@example.com or 080 0000 0000" autoComplete="off" data-no-check />
+                </FormField>
+                {verifyError && <p className="ros:text-sm ros:text-[#FF383C]">{verifyError}</p>}
+              </div>
+            </FormCard>
+            <div className="ros:flex ros:justify-center">
+              <button type="submit" disabled={verifying || identifier.trim().length < 5} className={submitCls}>
+                {verifying ? "Checking..." : "Continue"}
+              </button>
+            </div>
+            <p className="ros:text-center ros:text-sm ros:text-[#00000099]">
+              Not a member yet? <Link href="/membership" className="ros:font-bold ros:text-[#DF4E4E] ros:hover:underline">Become a member</Link>
+            </p>
+          </form>
         ) : (
           <form onSubmit={handleSubmit} className="ros:flex ros:flex-col ros:gap-4">
+            <p className="ros:self-center ros:rounded-full ros:bg-[#16A34A]/10 ros:px-4 ros:py-1.5 ros:text-sm ros:font-bold ros:text-[#16A34A]">
+              ✓ Verified member{member.firstName ? `: ${member.firstName}` : ""}
+            </p>
             <FormCard title="Your Information">
               <div className="ros:flex ros:flex-col ros:gap-4">
                 <FormField label="Full Name" required>

@@ -11,6 +11,8 @@ import { usePaperScale } from "./usePaperScale";
 
 export type SomMode = "blank" | "fill";
 
+import MemberVerifyBar, { type VerifiedMember } from "./MemberVerifyBar";
+
 const FONT = "'Times New Roman', Times, serif";
 
 const PAPER: React.CSSProperties = {
@@ -83,13 +85,14 @@ function SH({ letter, children }: { letter: string; children?: React.ReactNode }
   );
 }
 
-function Title() {
+function Title({ children }: { children?: React.ReactNode }) {
   return (
     <div style={{ textAlign: "center", marginBottom: 14 }}>
       <div style={{ fontWeight: 700, fontSize: 16, textTransform: "uppercase", marginBottom: 4 }}>The Redeemed Christian Church of God</div>
       <div style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive", fontStyle: "italic", fontWeight: 700, fontSize: 26, margin: "2px 0 6px" }}>Rose of Sharon Parish</div>
       <div style={{ fontWeight: 700, fontSize: 16, textTransform: "uppercase", marginBottom: 6 }}>School of Ministry Programme</div>
       <div style={{ fontStyle: "italic", fontSize: 13 }}>(Please answer every question)</div>
+      {children}
     </div>
   );
 }
@@ -149,6 +152,8 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
 
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [setLabel, setSetLabel] = useState("");
+  const [member, setMember] = useState<VerifiedMember>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const setAt = <T,>(list: T[], setList: (l: T[]) => void, i: number, patch: Partial<T> | T) =>
@@ -156,6 +161,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
 
   const handleSubmit = async () => {
     const missing: string[] = [];
+    if (!setLabel.trim()) missing.push("Set");
     if (!surname.trim()) missing.push("Surname");
     if (!firstName.trim()) missing.push("First name");
     if (!phone.trim()) missing.push("Phone no.");
@@ -172,6 +178,8 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
       const otherLines = other.map((x) => x.trim()).filter(Boolean);
       if (waterClass) otherLines.push(`Gone through the water baptismal class: ${waterClass === "yes" ? "Yes" : "No"}`);
       await post("/school-of-ministries", {
+        set: setLabel.trim(),
+        userId: member?.id,
         firstName: firstName.trim(),
         middleName: otherNames.trim() || undefined,
         lastName: surname.trim(),
@@ -238,7 +246,14 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
 
   const page1 = (
     <div id="som-sheet-1" className="som-paper" style={PAPER}>
-      <Title />
+      <Title>
+        <div style={{ fontSize: 13, marginTop: 8, display: "flex", alignItems: "baseline", justifyContent: "center", gap: 6 }}>
+          <span style={{ fontWeight: 700 }}>SET<Req />:</span>
+          <div style={{ width: 130 }}>
+            <CI value={setLabel} onChange={setSetLabel} readOnly={ro} placeholder="e.g. 2026" style={{ textAlign: "center", borderBottom: !ro && !setLabel.trim() ? "1.5px solid #DC2626" : "1px solid #000" }} />
+          </div>
+        </div>
+      </Title>
       <SH letter="A">Biographical Data</SH>
       <table style={TB}>
         <tbody>
@@ -505,6 +520,8 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
           </button>
         )}
       </div>
+
+      {mode === "fill" && <MemberVerifyBar member={member} onChange={setMember} noPrintClass="som-no-print" optional />}
 
       {submitError && (
         <div className="som-no-print" style={{ display: "flex", alignItems: "center", gap: 8, maxWidth: 794, margin: "6px auto", padding: "9px 14px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13, fontFamily: "Arial, Helvetica, sans-serif" }}>

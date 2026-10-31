@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import MemberVerifyBar, { type VerifiedMember } from "./MemberVerifyBar";
 import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { post, uploadProfilePicture } from "@ros/shared/api";
@@ -119,8 +120,9 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
     salvationDate: "", salvationWhere: "", hgDate: "", hgWhere: "",
     newConvert: "", newConvertNote: "", afraid: "", afraidNote: "",
     reason1: "", reason2: "", reason3: "",
-    otherInfo: "", signature: "", signDate: "",
+    otherInfo: "", signature: "", signDate: "", set: "",
   });
+  const [member, setMember] = useState<VerifiedMember>(null);
   const set = (k: keyof typeof f) => (v: string) => setF((p) => ({ ...p, [k]: v }));
 
   const [schools, setSchools] = useState(() => Array.from({ length: 3 }, () => ({ school: "", dates: "", qualification: "" })));
@@ -144,7 +146,12 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
   };
 
   const handleSubmit = async () => {
+    if (!member) {
+      setSubmitError("Please verify your membership first (the bar above the form): enter the email or phone number on your membership record and press Verify.");
+      return;
+    }
     const missing: string[] = [];
+    if (!f.set.trim()) missing.push("Set");
     if (!f.firstName.trim()) missing.push("First Name");
     if (!f.surname.trim()) missing.push("Surname");
     if (!f.sex) missing.push("Sex");
@@ -190,6 +197,8 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
       const otherInformation = [f.otherInfo.trim(), ...extras].filter(Boolean).join("\n");
 
       await post("/water-baptisms", {
+        userId: member.id,
+        set: f.set.trim(),
         firstName: f.firstName.trim(),
         middleName: f.middleName.trim() || undefined,
         lastName: f.surname.trim(),
@@ -262,6 +271,12 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
           <div style={{ fontWeight: 700, fontSize: 15 }}>ROSE OF SHARON PARISH</div>
           <div style={{ fontWeight: 700, fontSize: 15, textDecoration: "underline" }}>FOUNDATION AND WATER BAPTISM COURSE</div>
           <div style={{ fontStyle: "italic", fontSize: 13 }}>(PLEASE ANSWER EVERY QUESTION)</div>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "center", gap: 6, fontSize: 13, lineHeight: 1.4, marginTop: 4 }}>
+            <span style={{ fontWeight: 700 }}>SET<span style={{ color: "#DC2626" }}>*</span>:</span>
+            <div style={{ width: 130 }}>
+              <CI value={f.set} onChange={set("set")} readOnly={ro} style={{ borderBottom: !ro && !f.set.trim() ? "1.5px solid #DC2626" : "1px solid #000", textAlign: "center" }} />
+            </div>
+          </div>
         </div>
         <div
           onClick={() => !ro && photoRef.current?.click()}
@@ -470,6 +485,8 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
           </button>
         )}
       </div>
+
+      {mode === "fill" && <MemberVerifyBar member={member} onChange={setMember} noPrintClass="wb-no-print" />}
 
       {submitError && (
         <div className="wb-no-print" style={{ display: "flex", alignItems: "center", gap: 8, maxWidth: 794, margin: "6px auto", padding: "9px 14px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#991b1b", fontSize: 13 }}>
