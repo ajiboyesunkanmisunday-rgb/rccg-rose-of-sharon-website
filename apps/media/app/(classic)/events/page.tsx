@@ -2,7 +2,7 @@
 
 import { Hero } from "@ros/shared/kit/ui";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { API_BASE } from "@ros/shared/api";
 import { A } from "@ros/shared/link";
@@ -94,17 +94,32 @@ export default function EventsPage() {
   const [soonLoading, setSoonLoading] = useState(true);
   const [soonError, setSoonError] = useState(false);
 
-  const load = useCallback((y: number, m: number) => {
-    setLoading(true);
-    setError(false);
+  // months already fetched stay in memory, and the months either side are fetched quietly, so paging is instant
+  const cache = useRef<Record<string, EventItem[]>>({});
+  const fetchMonth = useCallback((y: number, m: number): Promise<EventItem[]> => {
     const start = toISO(y, m, 1);
     const end   = toISO(y, m, new Date(y, m + 1, 0).getDate());
-    fetch(`${API_BASE}/events/calendar?startDay=${start}&endDay=${end}`)
+    return fetch(`${API_BASE}/events/calendar?startDay=${start}&endDay=${end}`)
       .then(r => { if (!r.ok) throw new Error("calendar"); return r.json(); })
-      .then(d => setEvents(Array.isArray(d) ? d : []))
+      .then(d => { const list: EventItem[] = Array.isArray(d) ? d : []; cache.current[`${y}-${m}`] = list; return list; });
+  }, []);
+  const prefetch = useCallback((y: number, m: number) => {
+    for (const d of [-1, 1]) {
+      const t = new Date(y, m + d, 1);
+      if (!cache.current[`${t.getFullYear()}-${t.getMonth()}`]) fetchMonth(t.getFullYear(), t.getMonth()).catch(() => undefined);
+    }
+  }, [fetchMonth]);
+  const load = useCallback((y: number, m: number) => {
+    setError(false);
+    const hit = cache.current[`${y}-${m}`];
+    if (hit) { setEvents(hit); setLoading(false); prefetch(y, m); return; }
+    setLoading(true);
+    setEvents([]);
+    fetchMonth(y, m)
+      .then(d => { setEvents(d); prefetch(y, m); })
       .catch(() => { setEvents([]); setError(true); })
       .finally(() => setLoading(false));
-  }, []);
+  }, [fetchMonth, prefetch]);
 
   // the next 90 days, whichever month the calendar is showing
   const loadSoon = useCallback(() => {
@@ -194,11 +209,13 @@ export default function EventsPage() {
               <button onClick={() => load(year, month)} className="ros:rounded-full ros:border ros:border-[#DF4E4E] ros:px-[16px] ros:py-[6px] ros:text-[12px] ros:font-bold ros:text-[#DF4E4E] ros:hover:bg-[#DF4E4E] ros:hover:text-white">Try again</button>
             </div>
           )}
-          {loading ? (
-            <div className="ros:flex ros:items-center ros:justify-center ros:py-[100px]">
-              <div className="ros:size-[48px] ros:rounded-full ros:border-4 ros:border-[#DF4E4E] ros:border-t-transparent ros:animate-spin" />
+          {loading && (
+            <div className="ros:flex ros:items-center ros:justify-center ros:gap-[10px] ros:py-[8px]" role="status" aria-label="Loading events">
+              <div className="ros:size-[16px] ros:rounded-full ros:border-2 ros:border-[#DF4E4E] ros:border-t-transparent ros:animate-spin" />
+              <span className="ros:text-[12px] ros:text-[#A3A1AF]">Loading events…</span>
             </div>
-          ) : (
+          )}
+          {(
             <div className="ros:grid ros:grid-cols-7">
               {Array.from({ length: firstDow }).map((_, i) => (
                 <div key={`pad-${i}`} className="ros:h-[60px] ros:md:h-[80px] ros:lg:h-[108px] ros:border-b ros:border-r ros:border-gray-100 ros:bg-gray-50/50" />
