@@ -141,6 +141,7 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
           #baby-sheet, #baby-sheet * { visibility: visible !important; }
           #baby-sheet { position: absolute !important; left: 0; top: 0; width: 100% !important; max-width: none !important; border: none !important; box-shadow: none !important; margin: 0 !important; padding: 12mm 14mm !important; }
           .baby-no-print { display: none !important; }
+          #baby-sheet input, #baby-sheet select { color: #000 !important; -webkit-text-fill-color: #000 !important; opacity: 1 !important; }
           @page { size: A4; margin: 0; }
         }
       `}</style>
@@ -153,14 +154,20 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
           </div>
         </div>
 
-        {status === "success" ? (
-          <div className="baby-no-print" style={{ maxWidth: 700, margin: "0 auto", background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", padding: "48px 24px", textAlign: "center" }}>
+        {status === "success" && (
+          <div className="baby-no-print" style={{ maxWidth: 700, margin: "0 auto 18px", background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", padding: "32px 24px", textAlign: "center" }}>
             <p style={{ fontSize: 24, fontWeight: 700, color: "#111827", marginBottom: 10 }}>Thank you!</p>
             <p style={{ color: "#6B7280", fontSize: 16, marginBottom: 20 }}>{cfg.successText}</p>
-            <button type="button" onClick={() => { setStatus("idle"); setV({ churchHandles: "", centre: "", leader: "" }); }} style={{ color: "#DF4E4E", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>Submit another form</button>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
+              <button type="button" onClick={() => window.print()} style={{ background: "#000080", color: "#fff", borderRadius: 10, padding: "10px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Download filled form</button>
+              <button type="button" onClick={() => { setStatus("idle"); setV({ churchHandles: "", centre: "", leader: "" }); }} style={{ color: "#DF4E4E", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>Submit another form</button>
+            </div>
+            <p style={{ color: "#9CA3AF", fontSize: 12, marginTop: 14 }}>Your filled copy is below. In the print window choose &ldquo;Save as PDF&rdquo;.</p>
           </div>
-        ) : (
+        )}
+        {(
           <form id="baby-sheet" onSubmit={submit} style={{ maxWidth: 700, margin: "0 auto", background: "#fff", borderRadius: 16, border: "1px solid #D1D5DB", padding: "28px 36px 30px", color: "#000", boxSizing: "border-box" }}>
+            <fieldset disabled={status === "success"} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
             <div style={{ textAlign: "center" }}>
               <img src="/ros-logo.png" alt="RCCG Rose of Sharon" width={84} height={84} style={{ width: 84, height: 84, margin: "0 auto 8px", objectFit: "contain" }} />
               <p style={{ fontWeight: 700, fontSize: 18, letterSpacing: "0.01em" }}>THE REDEEMED CHRISTIAN CHURCH OF GOD</p>
@@ -194,14 +201,16 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
 
             <div style={{ fontSize: 13, color: "#4B5563", lineHeight: 1.5, marginTop: 22, display: "grid", gap: 8 }}>{cfg.note}</div>
 
+            </fieldset>
+
             {status === "error" && <p className="baby-no-print" style={{ color: "#DC2626", fontSize: 13, marginTop: 14 }}>{error}</p>}
 
-            <div className="baby-no-print" style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 22 }}>
+            {status !== "success" && <div className="baby-no-print" style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 22 }}>
               <Link href="/celebrations" style={{ background: "#B8B8F0", color: "#000080", borderRadius: 10, padding: "10px 20px", fontSize: 14, fontWeight: 600 }}>Cancel</Link>
               <button type="submit" disabled={status === "loading"} style={{ background: "#000080", color: "#fff", borderRadius: 10, padding: "10px 22px", fontSize: 14, fontWeight: 600, cursor: "pointer", opacity: status === "loading" ? 0.6 : 1 }}>
                 {status === "loading" ? "Submitting…" : "Submit Form"}
               </button>
-            </div>
+            </div>}
           </form>
         )}
       </div>
