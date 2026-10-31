@@ -89,7 +89,7 @@ export default function NewBelieverPage() {
       </section>
 
       {/* Registration Form */}
-      <FormSheet>
+      <FormSheet flat>
         <h2 className="ros-anton ros:uppercase ros:text-[#DF4E4E] ros:text-[48px] ros:leading-normal ros:text-center">
           Register as a New Believer
         </h2>
