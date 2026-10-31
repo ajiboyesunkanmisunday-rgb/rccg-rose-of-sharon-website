@@ -85,7 +85,7 @@ const communityCards = [
       "You are the answer to our prayers, so we celebrate you every day, especially on your special days. You mean that much to us.",
   },
   {
-    image: "/media/thumbnail2.17e9ea4a.jpg",
+    image: "/home/relationship-talks.jpg",
     title: "Relationship Talks",
     href: "/counselling",
     description:
