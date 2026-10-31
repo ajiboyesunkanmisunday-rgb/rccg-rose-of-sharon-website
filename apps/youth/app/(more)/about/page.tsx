@@ -5,7 +5,7 @@ import { VALUES, TBA } from "@ros/shared/kit/youth";
 export const metadata = { title: "About the Youth | RCCG Rose of Sharon" };
 
 const DOES = [
-  { icon: "⛪", title: "Youth Sunday", text: "Once a year the youth anchor the entire Sunday service." },
+  { icon: "⛪", title: "Youth Sunday", text: "Once a month the youth anchor the entire Sunday service." },
   { icon: "📖", title: "Teaching & discipleship", text: "Bible study, mentoring and leadership training for young people." },
   { icon: "🎉", title: "Fellowship", text: "Hangouts, sports and retreats that build lasting friendships." },
   { icon: "🌍", title: "Outreach", text: "Campus and community evangelism, and care for the needy." },

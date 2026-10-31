@@ -22,7 +22,7 @@ export default function YouthHome() {
         <div className="ros:grid ros:grid-cols-1 ros:items-center ros:gap-10 ros:md:grid-cols-2">
           <div className="ros:flex ros:flex-col ros:gap-4">
             <SectionTitle pill="🌍 WHO WE ARE" title={<>A church <span className="text-textRed">within</span> the church</>} />
-            <p className="ros:text-[#00000099]">The Rose of Sharon youth fellowship has its own president, two vice presidents and a full executive council. It runs its own departments — media, protocol, choir, ushering and more — and anchors its own Youth Sunday every year.</p>
+            <p className="ros:text-[#00000099]">The Rose of Sharon youth fellowship has its own president, two vice presidents and a full executive council. It runs its own departments — media, protocol, choir, ushering and more — and anchors its own Youth Sunday once a month.</p>
             <p className="ros:text-[#00000099]">It is where young people find friends, grow in the Word, discover their gifts and learn to lead.</p>
             <div className="ros:mt-2 ros:flex ros:flex-wrap ros:gap-3">
               <Btn href="/youth/about" variant="outline">About us</Btn>

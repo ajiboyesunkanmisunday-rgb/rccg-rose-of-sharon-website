@@ -25,7 +25,7 @@ export default function CoordinatorView({ slug }: { slug: string }) {
         subtitle={`Everything a coordinator needs to run ${p.name}: students, attendance, fees, scores and graduation.`}
         bg="/assets/hero-bg.png"
       >
-        <Btn href={COORDINATOR_PORTAL} variant="white" className="ros:mt-2">Open coordinator portal</Btn>
+        <Btn href={COORDINATOR_PORTAL} variant="white" className="ros:mt-2">Coordinator login</Btn>
       </Hero>
 
       <Section>
@@ -47,7 +47,7 @@ export default function CoordinatorView({ slug }: { slug: string }) {
           <div className="ros:flex ros:flex-col ros:gap-3 ros:rounded-2xl ros:bg-black ros:p-8 ros:text-white">
             <h3 className="ros-anton ros:text-2xl ros:uppercase">Coordinator sign-in</h3>
             <p className="ros:text-[#FFFFFFB2]">Use the account the church office gave you. If you don&apos;t have one yet, ask the training office.</p>
-            <Btn href={COORDINATOR_PORTAL} variant="white" className="ros:mt-2">Open coordinator portal</Btn>
+            <Btn href={COORDINATOR_PORTAL} variant="white" className="ros:mt-2">Coordinator login</Btn>
           </div>
           <div className="ros:flex ros:flex-col ros:gap-3 ros:rounded-2xl ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-8">
             <h3 className="ros-anton ros:text-2xl ros:uppercase">Need help?</h3>

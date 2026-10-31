@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Hero } from "@ros/shared/kit/ui";
 import { API_BASE } from "@ros/shared/api";
+import { parseApiDate } from "@ros/shared/dates";
 import SubmitAnnouncement from "@/components/SubmitAnnouncement";
 
 interface Announcement {
@@ -27,7 +28,7 @@ const SAMPLE: Announcement[] = [
   { id: "s5", subject: "Thank you for a wonderful Father's Day", content: "We celebrated our fathers in worship and fellowship. Photos are now in the gallery.", createdOn: new Date(Date.now() - 45 * 86400e3).toISOString() },
 ];
 
-const when = (a: Announcement) => new Date(a.startDate || a.createdOn || Date.now());
+const when = (a: Announcement) => parseApiDate(a.startDate) ?? parseApiDate(a.createdOn) ?? new Date();
 
 function ago(d: Date) {
   const mins = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
