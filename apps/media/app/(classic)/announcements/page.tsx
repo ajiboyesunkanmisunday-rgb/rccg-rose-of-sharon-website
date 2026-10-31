@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Hero } from "@ros/shared/kit/ui";
-import { API_BASE } from "@ros/shared/api";
 import { parseApiDate } from "@ros/shared/dates";
 import SubmitAnnouncement from "@/components/SubmitAnnouncement";
 
@@ -71,7 +70,7 @@ export default function AnnouncementsPage() {
   useEffect(() => {
     try { setRead(JSON.parse(localStorage.getItem(READ_KEY) || "[]")); } catch {}
     if (new URLSearchParams(window.location.search).get("demo") === "1") setSample(true);
-    fetch(`${API_BASE}/announcements/read`)
+    fetch("/api/announcements", { cache: "no-store" })
       .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((data) => setItems(Array.isArray(data) ? data : data.content ?? []))
       .catch(() => setError(true))
