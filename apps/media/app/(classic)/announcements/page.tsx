@@ -110,7 +110,7 @@ export default function AnnouncementsPage() {
 
   return (
     <div>
-      <Hero pill="🌍 STAY INFORMED" title={<>Announcements</>} subtitle="Latest news, updates and notices from the house of God." bg="/assets/hero-bg.png" />
+      <Hero pill="🌍 STAY INFORMED" title={<>Announcements</>} subtitle="Latest news, updates and notices from the house of God." bg="/assets/announcements-banner.jpg" bgPosition="50% 40%" />
 
       <section className="ros:bg-[#F7F7F8] ros:px-4 ros:py-12 ros:md:py-16">
         <div className="ros:mx-auto ros:flex ros:w-full ros:max-w-[760px] ros:flex-col ros:gap-6">
