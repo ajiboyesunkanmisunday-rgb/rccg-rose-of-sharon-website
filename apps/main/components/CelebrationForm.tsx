@@ -7,14 +7,14 @@ import { FormField, FormCard, FormSheet, inputCls, selectCls, textareaCls, submi
 
 const celebrationTypes = [
   { value: "BIRTHDAY", label: "Birthday" },
-  { value: "WEDDING", label: "Wedding Anniversary" },
+  { value: "WEDDING", label: "Wedding" },
   { value: "CHILD_DEDICATION", label: "Child Dedication" },
-  { value: "FUNERAL", label: "Funeral / Remembrance" },
+  { value: "FUNERAL", label: "Funeral" },
   { value: "OTHERS", label: "Others" },
 ];
 
 export default function CelebrationForm() {
-  const [form, setForm] = useState({ name: "", phone: "", email: "", type: "", date: "", notes: "" });
+  const [form, setForm] = useState({ type: "", date: "", notes: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
   // the backend wants to know which member is asking, so the visitor is found by membership email or phone first
@@ -32,7 +32,6 @@ export default function CelebrationForm() {
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json.message || "We could not check your membership. Please try again.");
       setMember({ id: json.id, firstName: json.firstName || "" });
-      if (json.firstName) setForm((p) => ({ ...p, name: p.name || json.firstName }));
     } catch (err: unknown) {
       setVerifyError(err instanceof Error ? err.message : "We could not check your membership. Please try again.");
     } finally {
@@ -51,16 +50,8 @@ export default function CelebrationForm() {
     setStatus("loading");
     setError("");
     try {
-      const contactInfo = [
-        `Name: ${form.name}`,
-        form.phone ? `Phone: ${form.phone}` : null,
-        form.email ? `Email: ${form.email}` : null,
-        form.notes ? `\nMessage: ${form.notes}` : null,
-      ]
-        .filter(Boolean)
-        .join("\n");
-
-      await post("/celebrations", { userId: member.id, type: form.type, date: form.date, notes: contactInfo });
+      // the requester is the verified member, so the church already has their name, phone and email on record
+      await post("/celebrations", { userId: member.id, type: form.type, date: form.date, notes: form.notes.trim() || undefined });
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
@@ -116,28 +107,12 @@ export default function CelebrationForm() {
             <p className="ros:self-center ros:rounded-full ros:bg-[#16A34A]/10 ros:px-4 ros:py-1.5 ros:text-sm ros:font-bold ros:text-[#16A34A]">
               ✓ Verified member{member.firstName ? `: ${member.firstName}` : ""}
             </p>
-            <FormCard title="Your Information">
-              <div className="ros:flex ros:flex-col ros:gap-4">
-                <FormField label="Full Name" required>
-                  <input type="text" required value={form.name} onChange={set("name")} className={inputCls} />
-                </FormField>
-                <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2">
-                  <FormField label="Phone Number" required>
-                    <input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} />
-                  </FormField>
-                  <FormField label="Email Address">
-                    <input type="email" value={form.email} onChange={set("email")} className={inputCls} />
-                  </FormField>
-                </div>
-              </div>
-            </FormCard>
-
             <FormCard title="Celebration Details">
               <div className="ros:flex ros:flex-col ros:gap-4">
                 <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2">
                   <FormField label="Celebration Type" required>
                     <select required value={form.type} onChange={set("type")} className={selectCls}>
-                      <option value="">Select type</option>
+                      <option value="">Select Celebration Type</option>
                       {celebrationTypes.map((t) => (
                         <option key={t.value} value={t.value}>
                           {t.label}
@@ -145,16 +120,15 @@ export default function CelebrationForm() {
                       ))}
                     </select>
                   </FormField>
-                  <FormField label="Date of Celebration" required>
+                  <FormField label="Date" required>
                     <input type="date" required value={form.date} onChange={set("date")} className={inputCls} />
                   </FormField>
                 </div>
-                <FormField label="Additional Message">
+                <FormField label="Notes">
                   <textarea
                     value={form.notes}
                     onChange={set("notes")}
                     rows={4}
-                    placeholder="Any special requests or things you would like the church to know..."
                     className={textareaCls}
                   />
                 </FormField>
