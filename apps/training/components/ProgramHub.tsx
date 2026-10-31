@@ -1,4 +1,5 @@
 import Link from "@ros/shared/link";
+import NextClass from "./NextClass";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
 import ProgramTabs from "./ProgramTabs";
 import { PROGRAMS, getProgram, programMenu } from "@ros/shared/kit/programs";
@@ -77,7 +78,7 @@ export default function ProgramHub({ slug }: { slug: string }) {
               </div>
               <div className="ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">
                 <h3 className="ros:text-[11px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">Next class</h3>
-                <p className="ros:text-[22px] ros:font-bold ros:leading-snug">{p.nextClass}</p>
+                <NextClass program={p.slug} fallback={p.nextClass} />
                 <p className="ros:text-sm ros:text-[#00000099]">Register online and the training office will confirm the date and venue with you.</p>
               </div>
             </div>
