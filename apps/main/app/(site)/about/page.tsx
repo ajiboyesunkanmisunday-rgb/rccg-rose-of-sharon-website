@@ -341,7 +341,7 @@ export default function AboutPage() {
               {[
                 { image: "/home/believers-class.jpg", title: "Believers Class", href: "/trainings/believers-class", description: "Our Believers Class gets you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth" },
                 { image: "/media/celebrations.f123ede1.jpg", title: "Celebrations", href: "/celebrations", description: "You are the answer to our prayers, so we celebrate you every day, especially on your special days. You mean that much to us." },
-                { image: "/media/thumbnail2.17e9ea4a.jpg", title: "Counselling", href: "/counselling", description: "Need counsel? There is always someone available to pray with you and provide sound biblical counsel with zero judgment." },
+                { image: "/home/counselling-card.jpg", title: "Counselling", href: "/counselling", description: "Need counsel? There is always someone available to pray with you and provide sound biblical counsel with zero judgment." },
               ].map((card, i) => (
                 <Link href={card.href} key={i}>
                   <div className="flex w-full flex-col gap-3 rounded-lg">
