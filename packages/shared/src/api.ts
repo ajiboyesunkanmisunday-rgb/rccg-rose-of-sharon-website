@@ -1,28 +1,44 @@
 export const API_BASE = "/ros-api";
 
-export async function post(path: string, body: object) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: "An error occurred" }));
-    throw new Error(err.message || "Submission failed");
+/** An API failure that keeps the HTTP status (0 = network problem / timeout) so callers can decide what to do. */
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
   }
-  return res.json();
+}
+
+const TIMEOUT_MS = 20000;
+
+async function request(path: string, options: RequestInit): Promise<Response> {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), TIMEOUT_MS);
+  try {
+    return await fetch(`${API_BASE}${path}`, { headers: { "Content-Type": "application/json" }, ...options, signal: ctl.signal });
+  } catch {
+    throw new ApiError("We could not reach the server. Check your connection and try again.", 0);
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function readJson(res: Response) {
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({} as { message?: string }));
+    if (res.status >= 500) throw new ApiError("Something went wrong on our side. Please try again in a few minutes.", res.status);
+    if (res.status === 401 || res.status === 403) throw new ApiError(err.message || "This request needs a login that is not available here yet.", res.status);
+    throw new ApiError(err.message || "Request failed", res.status);
+  }
+  return res.json().catch(() => ({}));
+}
+
+export async function post(path: string, body: object) {
+  return readJson(await request(path, { method: "POST", body: JSON.stringify(body) }));
 }
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
-    ...options,
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: "An error occurred" }));
-    throw new Error(err.message || "Request failed");
-  }
-  return res.json();
+  return readJson(await request(path, options ?? {})) as Promise<T>;
 }
 
 /* ─── Groups / departments ──────────────────────────────────────────────────── */
