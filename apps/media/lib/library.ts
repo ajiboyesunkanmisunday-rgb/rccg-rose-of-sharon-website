@@ -1,9 +1,10 @@
 /*
  * Media uploaded in the ROSMS media section (Rose of Sharon API), read on the SERVER only: the API needs a token,
- * which comes from ROS_API_TOKEN or ROS_MEDIA_TOKEN and never reaches the browser. With no token, or on any API
+ * which comes from the service account or token set in lib/ros-server.ts and never reaches the browser. With no token, or on any API
  * error, every function returns nothing and the site shows what it always did.
  */
 import { ALBUMS, ALBUM_CATEGORIES, type Album, type AlbumCategory } from "@ros/shared/kit/albums";
+import { rosFetch, rosConfigured } from "./ros-server";
 
 export interface LibraryMedia {
   id: string;
@@ -18,20 +19,14 @@ export interface LibraryMedia {
   tags?: string[];
 }
 
-export const libraryToken = () => process.env.ROS_API_TOKEN || process.env.ROS_MEDIA_TOKEN || undefined;
-const origin = () => (process.env.ROS_API_ORIGIN || "http://137.184.72.16:6001").replace(/\/$/, "");
 
 /** ROSMS tells videos from pictures by the file extension, or "/VIDEOS/" in the address. */
 export const isVideoUrl = (url: string) => /\.(mp4|mov|webm|avi|mkv|m4v|ogv)(\?|$)/i.test(url) || url.includes("/VIDEOS/");
 
 export async function fetchCategory(category: string): Promise<LibraryMedia[]> {
-  const token = libraryToken();
-  if (!token) return [];
+  if (!rosConfigured()) return [];
   try {
-    const res = await fetch(`${origin()}/api/v1/media/category?category=${encodeURIComponent(category)}&pageNo=0&pageSize=100`, {
-      headers: { Authorization: `Bearer ${token}` },
-      next: { revalidate: 300 },
-    });
+    const res = await rosFetch(`/media/category?category=${encodeURIComponent(category)}&pageNo=0&pageSize=100`);
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json.content) ? json.content : [];
