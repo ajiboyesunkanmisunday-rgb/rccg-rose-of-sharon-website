@@ -66,3 +66,20 @@ export async function rosFetch(path: string, init: RequestInit = {}): Promise<Re
   }
   return res;
 }
+
+const hits = new Map<string, number[]>();
+
+/**
+ * Small per-visitor limit for the routes that look people up or cast votes, so they cannot be used to guess emails or
+ * phone numbers, or to stuff the ballot. Counted in memory per server instance, which is enough to slow abuse down.
+ */
+export function tooManyRequests(req: Request, bucket: string, max = 12, windowMs = 10 * 60_000): boolean {
+  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || req.headers.get("x-real-ip") || "local";
+  const key = `${bucket}:${ip}`;
+  const now = Date.now();
+  const recent = (hits.get(key) ?? []).filter((t) => now - t < windowMs);
+  recent.push(now);
+  hits.set(key, recent);
+  if (hits.size > 5000) for (const [k, v] of hits) if (!v.some((t) => now - t < windowMs)) hits.delete(k);
+  return recent.length > max;
+}

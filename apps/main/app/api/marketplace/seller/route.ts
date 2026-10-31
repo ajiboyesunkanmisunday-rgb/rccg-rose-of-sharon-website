@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured } from "@/lib/ros-server";
+import { rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +10,7 @@ const digits = (s: string) => s.replace(/\D/g, "");
  * record; the member is looked up here on the server (the API needs a login) and only the id and first name are returned.
  */
 export async function POST(req: Request) {
+  if (tooManyRequests(req, "seller", 12)) return NextResponse.json({ message: "Too many attempts. Please wait a few minutes and try again." }, { status: 429 });
   if (!rosConfigured()) return NextResponse.json({ message: "Seller verification is not available right now. Please try again later." }, { status: 503 });
   let identifier = "";
   try { identifier = String((await req.json()).identifier ?? "").trim(); } catch { /* handled below */ }
