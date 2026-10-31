@@ -6,7 +6,9 @@ export const ALBUM_CATEGORIES = ["Sunday Services", "Special Services", "Crusade
 export type AlbumCategory = (typeof ALBUM_CATEGORIES)[number];
 
 /** One album = one service or event day. Add a new entry (and its pictures) after each service; the gallery sorts it by date. */
-export interface Album { slug: string; title: string; date: string; iso: string; category: AlbumCategory; text: string; count: number }
+export interface AlbumPhoto { src: string; thumb: string; alt: string }
+/** `photos` and `cover` are set for albums that come from the ROSMS media library (their pictures are addresses, not files in public/gallery). */
+export interface Album { slug: string; title: string; date: string; iso: string; category: AlbumCategory; text: string; count: number; photos?: AlbumPhoto[]; cover?: string }
 
 export const ALBUMS: Album[] = [
   { slug: "light-up-ikeja", iso: "2025-11-22", category: "Crusades & Outreach", title: "Light Up Ikeja Crusade 2025", date: "Nov 22nd, 2025", text: "A night of worship, the word and testimonies as we lit up Ikeja.", count: 16 },
@@ -20,5 +22,6 @@ export function albumPhoto(slug: string, n: number, thumb = false) {
 }
 
 export function albumPhotos(album: Album) {
+  if (album.photos) return album.photos;
   return Array.from({ length: album.count }, (_, i) => ({ src: albumPhoto(album.slug, i + 1), thumb: albumPhoto(album.slug, i + 1, true), alt: `${album.title} — photo ${i + 1}` }));
 }

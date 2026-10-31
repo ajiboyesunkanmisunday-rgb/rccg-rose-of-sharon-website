@@ -32,6 +32,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [failed, setFailed] = useState(false);
+  const [video, setVideo] = useState<Sermon | null>(null);
 
   const load = useCallback((s: Sermon) => {
     const a = audio.current;
@@ -42,7 +43,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     a.play().catch(() => setPlaying(false));
   }, []);
 
-  const play = useCallback((s: Sermon, q?: Sermon[]) => { if (q) setQueue(q); load(s); }, [load]);
+  const play = useCallback((s: Sermon, q?: Sermon[]) => {
+    // a video message from the media library opens in its own video window; the audio player is paused, not replaced
+    if (s.video && !s.audio) { audio.current?.pause(); setVideo(s); return; }
+    if (q) setQueue(q);
+    load(s);
+  }, [load]);
   const idx = now ? queue.findIndex((x) => x.id === now.id) : -1;
   const hasNext = idx >= 0 && idx < queue.length - 1;
   const hasPrev = idx > 0;
@@ -81,7 +87,32 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         onEnded={() => (hasNext ? next() : setPlaying(false))}
         onError={() => { if (now?.audio) setFailed(true); }}
       />
+      {video && <VideoWindow s={video} onClose={() => setVideo(null)} />}
     </PlayerCtx.Provider>
+  );
+}
+
+/** A video message from the church's media library, in a window over the page (YouTube messages are not played here). */
+function VideoWindow({ s, onClose }: { s: Sermon; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return (
+    <div className="ros:fixed ros:inset-0 ros:z-[100] ros:flex ros:items-center ros:justify-center ros:bg-black/95 ros:p-3 ros:md:p-6" role="dialog" aria-modal="true" aria-label={s.title} onClick={onClose}>
+      <div className="ros:flex ros:max-h-full ros:w-full ros:max-w-4xl ros:flex-col ros:gap-3" onClick={(e) => e.stopPropagation()}>
+        <video src={s.video} poster={s.thumb} controls playsInline preload="none" autoPlay className="ros:max-h-[70vh] ros:w-full ros:rounded-lg ros:bg-black" />
+        <div className="ros:min-w-0">
+          <p className="ros:text-[18px] ros:font-bold ros:leading-tight">{s.title}</p>
+          <p className="ros:mt-1 ros:text-[12px] ros:font-semibold ros:uppercase ros:tracking-wider ros:text-white/45">
+            {[s.speaker, new Date(s.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })].filter(Boolean).join(" · ")}
+          </p>
+          {s.description && <p className="ros:mt-2 ros:line-clamp-3 ros:text-[14px] ros:text-white/60">{s.description}</p>}
+        </div>
+      </div>
+      <button type="button" onClick={onClose} aria-label="Close video" className="ros:absolute ros:right-4 ros:top-3 ros:text-4xl ros:leading-none ros:text-white">×</button>
+    </div>
   );
 }
 
