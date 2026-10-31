@@ -9,7 +9,7 @@ import Image from "next/image";
 import { post } from "@ros/shared/api";
 
 
-const skills = [
+const skills: { icon: string; title: string; desc: string; badge?: string; highlight?: boolean }[] = [
   {
     icon: "💄",
     title: "Make Up & Gele Tying",
@@ -19,7 +19,6 @@ const skills = [
     icon: "📣",
     title: "Digital Marketing & AI",
     desc: "Learn SEO, social media strategy, paid advertising, AI-powered tools, and how to grow a business online.",
-    highlight: true,
     badge: "14–16 weeks · ₦10,000",
   },
   {
@@ -178,7 +177,7 @@ export default function CSRPage() {
                   {skill.desc}
                 </p>
                 {skill.badge && (
-                  <p className="ros:text-[#FFFDFD]/60 ros:text-[11px] ros:font-semibold ros:mt-[4px]">{skill.badge}</p>
+                  <p className={`ros:text-[11px] ros:font-semibold ros:mt-[4px] ${skill.highlight ? "ros:text-[#FFFDFD]/60" : "ros:text-[#DF4E4E]"}`}>{skill.badge}</p>
                 )}
               </div>
             </div>
