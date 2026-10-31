@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "@ros/shared/link";
-import { post } from "@ros/shared/api";
+import { post, ApiError } from "@ros/shared/api";
 
 /*
  * The ROSMS "Baby Dedication Form" and "Baby Christening Form" as one-page paper forms: filled in on screen,
@@ -104,9 +104,9 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
       try {
         await post(cfg.endpoint, payload);
       } catch (err) {
-        // the backend currently asks for a login on this request type; until that is opened, the request is sent as a
+        // the backend currently refuses this request type (login required or server error); until that is fixed, the request is sent as a
         // suggestion with a clear title so the church team still receives it and nobody's request is lost
-        if (!(err instanceof Error) || !/token/i.test(err.message)) throw err;
+        if (!(err instanceof ApiError) || ![401, 403, 500, 502, 503].includes(err.status)) throw err;
         await post("/requests/suggestion", { subject: `[${cfg.title}] ${payload.subject}`, content: payload.content });
       }
       setStatus("success");
