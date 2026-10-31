@@ -47,7 +47,7 @@ export default function CentresDirectory() {
               <span aria-hidden="true">📍 </span>{c.location}{" "}
               <a href={maps(c.location)} target="_blank" rel="noopener noreferrer" style={{ color: "#DF4E4E", fontWeight: 700, whiteSpace: "nowrap" }}>Map ↗</a>
             </p>
-            <p style={{ fontSize: 14, color: "#374151" }}><span aria-hidden="true">👤 </span><b>{c.leader.includes("/") ? "Leaders: " : "Leader: "}</b>{c.leader}</p>
+            <p style={{ fontSize: 14, color: "#374151" }}><span aria-hidden="true">👤 </span><b>{/\s\/\s/.test(c.leader) ? "Leaders: " : "Leader: "}</b>{c.leader}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
               {c.phones.map((p) => (
                 <a key={p} href={`tel:${p}`} style={pill}>📞 {p.replace(/^(\d{4})(\d{3})(\d{4})$/, "$1 $2 $3")}</a>
