@@ -67,7 +67,6 @@ export default function ChildrenChurch() {
           <h1 className="ros-anton ros:my-3 ros:max-w-[900px] ros:text-center ros:md:text-left ros:text-[3rem] ros:font-medium ros:uppercase ros:text-white ros:md:text-7xl ros:md:leading-[1.2]">Children <span className="text-textRed">Church</span></h1>
           <p className="ros:w-full ros:max-w-2xl ros:text-center ros:md:text-left ros:text-base ros:text-[#FFFFFFB2] ros:md:text-lg ros:lg:text-xl">Helping every child and teenager celebrate endless life in Christ.</p>
           <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:md:justify-start ros:gap-3">
-            <Btn href="/membership" variant="white">Become a member</Btn>
             <Btn href="#age-groups" variant="outline-white">Age groups</Btn>
           </div>
         </div>
@@ -131,10 +130,6 @@ export default function ChildrenChurch() {
       <section className="ros:bg-black ros:px-4 ros:py-16">
         <div className="ros:mx-auto ros:flex ros:max-w-3xl ros:flex-col ros:items-center ros:gap-5 ros:text-center">
           <SectionTitle center dark pill="🤝 GET INVOLVED" title={<>Bring your <span className="text-textRed">children</span></>} sub="Register as a first-timer or become a member, and our team will welcome your family." />
-          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:max-sm:w-full ros:max-sm:max-w-[320px]">
-            <Btn href="/membership" variant="white">Become a member</Btn>
-            <Btn href="/first-timer" variant="outline-white">First-timer registration</Btn>
-          </div>
         </div>
       </section>
 
