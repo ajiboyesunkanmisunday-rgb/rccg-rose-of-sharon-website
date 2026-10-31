@@ -30,7 +30,6 @@ export default function ResultsView({ slug }: { slug: string }) {
               <p className="ros:text-[#00000099]">{saved.name ? `${saved.name}, you` : "You"} scored <b className="ros:text-black">{saved.score} / {saved.total}</b>. The pass mark is {saved.passMark}%.</p>
               <p className="ros:text-sm ros:text-[#00000066]">Taken {new Date(saved.at).toLocaleString("en-GB", { dateStyle: "long", timeStyle: "short" })}</p>
               <div className="ros:mt-2 ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
-                <Btn href={`${p.base}/exam`} variant="outline">Retake the exam</Btn>
                 <Btn href={p.base} variant="red">Back to {p.short}</Btn>
               </div>
               <p className="ros:text-xs ros:text-[#00000066]">This result is saved on this device only. Official results are recorded by the training office.</p>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
-import { post } from "@ros/shared/api";
+import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
 import { usePaperScale } from "./usePaperScale";
 
@@ -155,6 +155,17 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
   const [setLabel, setSetLabel] = useState("");
   const [member, setMember] = useState<VerifiedMember>(null);
   const [submitted, setSubmitted] = useState(false);
+  const photoRef = useRef<HTMLInputElement>(null);
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState("");
+  const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    const r = new FileReader();
+    r.onloadend = () => setPhotoPreview(r.result as string);
+    r.readAsDataURL(file);
+  };
 
   const setAt = <T,>(list: T[], setList: (l: T[]) => void, i: number, patch: Partial<T> | T) =>
     setList(list.map((x, idx) => (idx === i ? (typeof x === "object" ? { ...x, ...(patch as object) } : (patch as T)) : x)));
@@ -167,6 +178,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
     if (!phone.trim()) missing.push("Phone no.");
     if (!city.trim()) missing.push("City");
     if (!state.trim()) missing.push("State");
+    if (!photoFile) missing.push("Passport photograph");
     if (!signature.trim()) missing.push("Signature (type your full name)");
     if (missing.length) {
       setSubmitError(`Please fill in: ${missing.join(", ")}.`);
@@ -176,6 +188,16 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
     setSubmitting(true);
     try {
       const otherLines = other.map((x) => x.trim()).filter(Boolean);
+      let photoUrl = "";
+      try {
+        photoUrl = await uploadProfilePicture(photoFile!);
+      } catch {
+        setSubmitError("The passport photograph could not be uploaded. Try a smaller picture.");
+        setSubmitting(false);
+        return;
+      }
+      // the School of Ministry record has no picture field of its own, so the photograph's address travels with the form
+      otherLines.push(`Passport photograph: ${photoUrl}`);
       if (waterClass) otherLines.push(`Gone through the water baptismal class: ${waterClass === "yes" ? "Yes" : "No"}`);
       await post("/school-of-ministries", {
         set: setLabel.trim(),
@@ -245,7 +267,19 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
   const pageNo = (n: number) => <div style={{ textAlign: "center", marginTop: 18, fontSize: 13 }}>{n}</div>;
 
   const page1 = (
-    <div id="som-sheet-1" className="som-paper" style={PAPER}>
+    <div id="som-sheet-1" className="som-paper" style={{ ...PAPER, position: "relative" }}>
+      <div
+        onClick={() => !ro && photoRef.current?.click()}
+        style={{ position: "absolute", top: 28, right: 28, width: 96, height: 120, border: !ro && !photoPreview ? "1.5px solid #DC2626" : "1px solid #000", display: "flex", alignItems: "center", justifyContent: "center", cursor: ro ? "default" : "pointer", overflow: "hidden", background: "#fff" }}
+      >
+        {photoPreview ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        ) : (
+          <span style={{ fontSize: 10, color: "#555", textAlign: "center", padding: 4 }}>Passport<br />Photograph<Req /><br />(click to upload)</span>
+        )}
+        {!ro && <input ref={photoRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhoto} />}
+      </div>
       <Title>
         <div style={{ fontSize: 13, marginTop: 8, display: "flex", alignItems: "baseline", justifyContent: "center", gap: 6 }}>
           <span style={{ fontWeight: 700 }}>SET<Req />:</span>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosToken } from "@/lib/ros-server";
+import { rosFetch, rosConfigured } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,7 @@ const digits = (s: string) => s.replace(/\D/g, "");
  * record; the member is looked up here on the server (the API needs a login) and only the id and first name are returned.
  */
 export async function POST(req: Request) {
-  if (!rosToken()) return NextResponse.json({ message: "Seller verification is not available right now. Please try again later." }, { status: 503 });
+  if (!rosConfigured()) return NextResponse.json({ message: "Seller verification is not available right now. Please try again later." }, { status: 503 });
   let identifier = "";
   try { identifier = String((await req.json()).identifier ?? "").trim(); } catch { /* handled below */ }
   if (identifier.length < 5) return NextResponse.json({ message: "Enter the email or phone number on your membership record." }, { status: 400 });

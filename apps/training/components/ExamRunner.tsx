@@ -12,6 +12,12 @@ function fmt(sec: number) {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
+const ATTEMPTS_KEY = "ros-exam-attempts";
+const norm = (v: string) => v.trim().toLowerCase().replace(/\s+/g, "");
+function readAttempts(): Record<string, string[]> {
+  try { return JSON.parse(localStorage.getItem(ATTEMPTS_KEY) || "{}"); } catch { return {}; }
+}
+
 /** Timed online exam (demo question bank). Results are shown on screen only — nothing is submitted. */
 export default function ExamRunner({ slug }: { slug: string }) {
   const program = getProgram(slug);
@@ -24,6 +30,7 @@ export default function ExamRunner({ slug }: { slug: string }) {
   const [index, setIndex] = useState(0);
   const [left, setLeft] = useState(total);
   const endsAt = useRef(0);
+  const [blocked, setBlocked] = useState("");
 
   useEffect(() => {
     if (stage !== "running") return;
@@ -45,6 +52,16 @@ export default function ExamRunner({ slug }: { slug: string }) {
 
   function start(e: React.FormEvent) {
     e.preventDefault();
+    // one attempt per admission number: it is recorded the moment the exam starts, so closing or refreshing the page
+    // cannot be used to try again
+    const key = norm(candidate.id);
+    const attempts = readAttempts();
+    if ((attempts[slug] ?? []).includes(key)) {
+      setBlocked("This admission number has already taken this exam. The exam can only be taken once. Please contact your coordinator if you believe this is a mistake.");
+      return;
+    }
+    try { localStorage.setItem(ATTEMPTS_KEY, JSON.stringify({ ...attempts, [slug]: [...(attempts[slug] ?? []), key] })); } catch {}
+    setBlocked("");
     setAnswers(questions.map(() => null));
     setIndex(0);
     endsAt.current = Date.now() + total * 1000;
@@ -83,6 +100,7 @@ export default function ExamRunner({ slug }: { slug: string }) {
             <li>You have <b className="ros:text-black">{minutes} minutes</b>. The exam submits automatically when the time is up.</li>
             <li>Pass mark: <b className="ros:text-black">{passMark}%</b>.</li>
             <li>You can move back and forth between questions before you submit.</li>
+            <li><b className="ros:text-black">The exam can only be taken once.</b> Closing or refreshing the page after you start counts as your attempt.</li>
           </ul>
         </div>
         <form onSubmit={start} className={`${card} ros:flex ros:flex-col ros:gap-4`}>
@@ -95,6 +113,7 @@ export default function ExamRunner({ slug }: { slug: string }) {
               <input required value={candidate.id} onChange={(e) => setCandidate((c) => ({ ...c, id: e.target.value }))} className={inputCls} placeholder="Your admission number" />
             </FormField>
           </div>
+          {blocked && <p role="alert" className="ros:rounded-lg ros:border ros:border-[#DF4E4E55] ros:bg-[#DF4E4E12] ros:px-4 ros:py-3 ros:text-sm ros:text-[#7B1D1D]">{blocked}</p>}
           <div className="ros:flex ros:justify-center">
             <button type="submit" className={submitCls}>Start exam</button>
           </div>
@@ -123,12 +142,8 @@ export default function ExamRunner({ slug }: { slug: string }) {
               <p className={`ros:mt-1 ros:text-sm ${answers[i] === q.answer ? "ros:text-[#16A34A]" : "ros:text-[#DF4E4E]"}`}>
                 Your answer: {answers[i] === null ? "— not answered" : q.options[answers[i] as number]}
               </p>
-              {answers[i] !== q.answer && <p className="ros:text-sm ros:text-[#00000099]">Correct answer: {q.options[q.answer]}</p>}
             </div>
           ))}
-        </div>
-        <div className="ros:flex ros:justify-center">
-          <button type="button" onClick={() => setStage("intro")} className={submitCls}>Retake exam</button>
         </div>
       </div>
     );

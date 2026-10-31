@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosToken } from "@/lib/ros-server";
+import { rosFetch, rosConfigured } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
 /** The current Face of the Month voting event and its nominees, straight from the Rose of Sharon API. */
 export async function GET() {
-  if (!rosToken()) return NextResponse.json({ available: false, reason: "not-configured" });
+  if (!rosConfigured()) return NextResponse.json({ available: false, reason: "not-configured" });
   try {
     const list = await rosFetch("/face-of-the-months?pageNo=0&pageSize=20");
     if (!list.ok) return NextResponse.json({ available: false, reason: "api" });

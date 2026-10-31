@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosToken } from "@/lib/ros-server";
+import { rosFetch, rosConfigured } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,7 @@ const digits = (s: string) => s.replace(/\D/g, "");
  * on their membership record and the member is looked up here on the server (their details are not sent back).
  */
 export async function POST(req: Request) {
-  if (!rosToken()) return NextResponse.json({ message: "Voting is not available right now." }, { status: 503 });
+  if (!rosConfigured()) return NextResponse.json({ message: "Voting is not available right now." }, { status: 503 });
   let body: { eventId?: string; nomineeId?: string; category?: string; phone?: string };
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Invalid request." }, { status: 400 }); }
   const { eventId, nomineeId, category, phone } = body;
