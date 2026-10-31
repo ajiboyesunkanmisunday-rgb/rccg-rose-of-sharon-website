@@ -8,19 +8,24 @@ import { FormField, FormCard, inputCls, selectCls, textareaCls, FormSheet, submi
 import { post } from "@ros/shared/api";
 
 
-const prayerTopics = [
-  "Healing & Health",
-  "Financial Breakthrough",
-  "Marriage & Family",
-  "Career & Business",
-  "Salvation of Loved Ones",
-  "Spiritual Growth",
-  "Protection & Safety",
-  "Other",
-];
+// Same category list as the ROSMS "Add Prayer Request" form
+const CATEGORY_OPTIONS = ["Healing", "Finance", "Family", "Marriage", "Salvation", "Career", "Other"];
+const MAX_REQUEST = 1000;
+
+/** A label row with the ROSMS-style character counter on the right (e.g. 0/150). */
+function CountedLabel({ label, required, count, max }: { label: string; required?: boolean; count?: number; max?: number }) {
+  return (
+    <div className="ros:flex ros:items-center ros:justify-between">
+      <label className="ros:block ros:text-sm ros:font-semibold ros:text-[#111827]">
+        {label}{required && <span className="ros:ml-[3px] ros:text-[#DF4E4E]">*</span>}
+      </label>
+      {max !== undefined && <span className="ros:text-xs ros:tabular-nums ros:text-[#9CA3AF]">{count ?? 0}/{max}</span>}
+    </div>
+  );
+}
 
 export default function PrayerRequestPage() {
-  const [form, setForm] = useState({ name: "", phone: "", email: "", topic: "", prayerRequest: "" });
+  const [form, setForm] = useState({ name: "", phone: "", email: "", category: "", prayerRequest: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -34,8 +39,8 @@ export default function PrayerRequestPage() {
     setStatus("loading");
     setError("");
     try {
-      const content = `Name: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nTopic: ${form.topic}\n\nPrayer Request:\n${form.prayerRequest}`;
-      await post("/requests/prayer", { subject: `Prayer Request — ${form.topic || "General"}`, content });
+      const from = [`Submitted by: ${form.name.trim()}`, form.phone && `Phone: ${form.phone}`, form.email && `Email: ${form.email}`].filter(Boolean).join("\n");
+      await post("/requests/prayer", { subject: form.category || "Prayer Request", content: `${form.prayerRequest.trim()}\n\n${from}` });
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
@@ -70,32 +75,33 @@ export default function PrayerRequestPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="ros:flex ros:flex-col ros:gap-[16px] ros:w-full ros:max-w-[700px]">
-            <FormCard title="Your Information">
-              <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-4">
-                <FormField label="Your Name" required>
-                  <input type="text" required value={form.name} onChange={set("name")} className={inputCls} placeholder="Full name" />
-                </FormField>
-                <FormField label="Phone Number">
-                  <input type="tel" value={form.phone} onChange={set("phone")} className={inputCls} placeholder="+234 800 000 0000" />
-                </FormField>
-              </div>
-              <div className="ros:mt-4">
-                <FormField label="Email Address">
-                  <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="your@email.com" />
-                </FormField>
+            <FormCard title="Prayer Request">
+              <div className="ros:flex ros:flex-col ros:gap-4">
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Submitted By" required />
+                  <input type="text" required value={form.name} onChange={set("name")} className={inputCls} placeholder="Enter your full name" autoComplete="name" />
+                </div>
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Category" required />
+                  <select required value={form.category} onChange={set("category")} className={selectCls}>
+                    <option value="">Select category</option>
+                    {CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Prayer Request" required count={form.prayerRequest.length} max={MAX_REQUEST} />
+                  <textarea required value={form.prayerRequest} onChange={set("prayerRequest")} rows={5} maxLength={MAX_REQUEST} className={textareaCls} placeholder="Describe the prayer request in detail..." />
+                </div>
               </div>
             </FormCard>
 
-            <FormCard title="Prayer Request">
-              <div className="ros:flex ros:flex-col ros:gap-4">
-                <FormField label="Prayer Topic" required>
-                  <select required value={form.topic} onChange={set("topic")} className={selectCls}>
-                    <option value="">Select a topic</option>
-                    {prayerTopics.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
+            <FormCard title="How can we reach you? (optional)">
+              <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-4">
+                <FormField label="Phone Number">
+                  <input type="tel" value={form.phone} onChange={set("phone")} className={inputCls} placeholder="+234 800 000 0000" />
                 </FormField>
-                <FormField label="Your Prayer Request" required>
-                  <textarea required value={form.prayerRequest} onChange={set("prayerRequest")} rows={6} className={textareaCls} placeholder="Share your prayer request..." />
+                <FormField label="Email">
+                  <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="Enter email address" />
                 </FormField>
               </div>
             </FormCard>
@@ -105,7 +111,7 @@ export default function PrayerRequestPage() {
             )}
             <div className="ros:flex ros:justify-center">
               <button type="submit" disabled={status === "loading"} className={submitCls}>
-                {status === "loading" ? "Submitting..." : "SEND PRAYER REQUEST"}
+                {status === "loading" ? "Submitting..." : "Submit Request"}
               </button>
             </div>
           </form>

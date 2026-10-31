@@ -44,6 +44,28 @@ const PRODUCT_CATEGORIES_API = [
   { label: "Wears & Clothing", value: "WEARS" },
 ];
 
+// the category wording on the ROSMS "Add Product" form
+const ROSMS_CATEGORY_OPTIONS = [
+  { label: "Book", value: "BOOK" },
+  { label: "Electronics", value: "ELECTRONICS" },
+  { label: "Cooking Utensils", value: "COOKING_UTENSILS" },
+  { label: "Automobile", value: "AUTOMOBILE" },
+  { label: "Wears", value: "WEARS" },
+];
+
+/** Uploads a product video the way ROSMS does (media category VIDEOS) and returns its address. */
+async function uploadProductVideo(file: File): Promise<string> {
+  const params = new URLSearchParams({ title: `product-${Date.now()}-${file.name.replace(/\s+/g, "_")}`, type: "VIDEOS", category: "VIDEOS", size: String(file.size), isFromMedia: "true" });
+  const form = new FormData();
+  form.append("multipartFile", file);
+  const res = await fetch(`${API_BASE}/media?${params.toString()}`, { method: "POST", body: form });
+  if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.message || `The video "${file.name}" could not be uploaded.`); }
+  const data = await res.json();
+  const url = data.displayUrl ?? data.url;
+  if (!url) throw new Error(`Uploaded "${file.name}" but no address was returned.`);
+  return url as string;
+}
+
 const CATEGORIES = ["All", ...PRODUCT_CATEGORIES_API.map((c) => c.label)];
 
 const ITEMS_PER_PAGE = 9;
@@ -286,16 +308,20 @@ export default function MarketplacePage() {
   async function handleListProduct(e: React.FormEvent) {
     e.preventDefault();
     if (!verifiedMember) return;
-    const price = parseFloat(listForm.price);
-    const qty = parseInt(listForm.quantityLeft, 10);
-    if (!listForm.name.trim() || !listForm.description.trim()) { setListStatus("error"); setListError("Please give the item a name and a description."); return; }
-    if (!(price > 0)) { setListStatus("error"); setListError("The price must be more than zero."); return; }
-    if (!(qty >= 1)) { setListStatus("error"); setListError("The quantity must be at least 1."); return; }
+    const price = listForm.price.trim() ? parseFloat(listForm.price.replace(/,/g, "")) : undefined;
+    const qty = listForm.quantityLeft.trim() ? parseInt(listForm.quantityLeft, 10) : undefined;
+    if (!listForm.name.trim()) { setListStatus("error"); setListError("Please give the product a name."); return; }
+    if (price !== undefined && !(price > 0)) { setListStatus("error"); setListError("The price must be more than zero."); return; }
+    if (qty !== undefined && !(qty >= 1)) { setListStatus("error"); setListError("The quantity must be at least 1."); return; }
     setListStatus("loading"); setListError("");
     try {
       const images: string[] = [];
-      for (const file of listPhotos.slice(0, 4)) images.push(await uploadProfilePicture(file));
-      const body: Record<string, unknown> = { name: listForm.name.trim(), description: listForm.description.trim(), owner: verifiedMember.id, price, category: listForm.category, quantityLeft: qty };
+      for (const file of listPhotos.slice(0, 6)) images.push(file.type.startsWith("video/") ? await uploadProductVideo(file) : await uploadProfilePicture(file));
+      const body: Record<string, unknown> = { name: listForm.name.trim(), owner: verifiedMember.id };
+      if (listForm.description.trim()) body.description = listForm.description.trim();
+      if (price !== undefined) body.price = price;
+      if (qty !== undefined) body.quantityLeft = qty;
+      if (listForm.category) body.category = listForm.category;
       if (images.length) body.images = images;
       if (listForm.otherInformation.trim()) body.otherInformation = listForm.otherInformation.trim();
       if (listForm.tags.trim()) body.tags = listForm.tags.split(",").map((t) => t.trim()).filter(Boolean);
@@ -485,36 +511,39 @@ export default function MarketplacePage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={closeModal}>
           <div className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-[520px] flex flex-col gap-5 shadow-2xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between">
-              <div><h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>{modalMode === "sell" ? "List a Product" : "Order request"}</h2>
-                <p className="text-[#A3A1AF] text-[12px] mt-1" style={vs}>{modalMode === "sell" ? "Church members can list items for sale" : "ROS Marketplace"}</p></div>
+              <div><h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>{modalMode === "sell" ? "Add Product" : "Order request"}</h2>
+                <p className="text-[#A3A1AF] text-[12px] mt-1" style={vs}>{modalMode === "sell" ? "Marketplace" : "ROS Marketplace"}</p></div>
               <button onClick={closeModal} className="text-[#A3A1AF] text-[24px] leading-none">×</button>
             </div>
             {modalMode === "sell" && sellStep === "verify" && (
               <form onSubmit={handleVerify} className="flex flex-col gap-4">
                 <div className="bg-[#F3F4F6] rounded-[12px] p-4 flex items-start gap-3"><span className="text-[18px]">🔒</span><p className="text-[#374151] text-[13px] leading-[1.6]" style={vs}>Enter your registered phone number or email to verify church membership.</p></div>
-                <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold text-[#111827]">Phone or Email</label>
-                  <input type="text" required value={verifyInput} onChange={(e) => setVerifyInput(e.target.value)} placeholder="e.g. 08012345678 or your@email.com" className={inputBase} style={vs} /></div>
+                <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold text-[#111827]">Owner (Member) <span className="text-red-500">*</span></label>
+                  <input type="text" required value={verifyInput} onChange={(e) => setVerifyInput(e.target.value)} placeholder="Phone number or email on your membership record" className={inputBase} style={vs} /></div>
                 {verifyStatus === "error" && <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-700" style={vs}>{verifyError}<br /><Link href="/first-timer" className="text-[#000080] font-medium underline">Register</Link> or <Link href="/e-member" className="text-[#000080] font-medium underline">become an e-member</Link></div>}
                 <button type="submit" disabled={verifyStatus === "loading"} className="w-full bg-[#000080] text-white py-[13px] rounded-[24px] text-[14px] font-bold hover:bg-[#0000a0] disabled:opacity-60" style={vs}>{verifyStatus === "loading" ? "Verifying..." : "Verify Membership"}</button>
               </form>
             )}
             {sellStep === "form" && verifiedMember && modalMode === "sell" && (
               <form onSubmit={handleListProduct} className="flex flex-col gap-4">
-                <div className="bg-green-50 border border-green-200 rounded-[10px] px-4 py-2 flex items-center gap-2"><span className="text-green-600 font-bold">✓</span><p className="text-green-700 text-[13px]" style={vs}>Verified: <strong>{verifiedMember.name}</strong></p></div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Product Name *</label><input type="text" required value={listForm.name} onChange={(e) => setListForm(p => ({ ...p, name: e.target.value }))} className={inputBase} placeholder="e.g. Men's Leather Shoes" style={vs} /></div>
-                  <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold">Price (₦) *</label><input type="number" required min="0" step="0.01" value={listForm.price} onChange={(e) => setListForm(p => ({ ...p, price: e.target.value }))} className={inputBase} placeholder="5000" style={vs} /></div>
-                  <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold">Quantity *</label><input type="number" required min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="1" style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Category *</label><select required value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}><option value="">Select category</option>{PRODUCT_CATEGORIES_API.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Description *</label><textarea required rows={3} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe your product..." style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Photos <span className="text-[#9CA3AF] font-normal">(optional, up to 4)</span></label><input type="file" accept="image/*" multiple onChange={(e) => setListPhotos(Array.from(e.target.files ?? []).slice(0, 4))} className={inputBase} style={vs} />{listPhotos.length > 0 && <p className="text-[12px] text-[#6B7280]" style={vs}>{listPhotos.length} photo{listPhotos.length > 1 ? "s" : ""} selected</p>}</div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Tags <span className="text-[#9CA3AF] font-normal">(comma-separated)</span></label><input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="leather, formal, men" style={vs} /></div>
-                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Other Info <span className="text-[#9CA3AF] font-normal">(optional)</span></label><textarea rows={2} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Contact, pickup location..." style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><div className="flex items-end justify-between"><label className="text-[13px] font-semibold">Product Name <span className="text-red-500">*</span></label><span className="text-[11px] text-[#9CA3AF]">{listForm.name.length}/120</span></div><input type="text" required maxLength={120} value={listForm.name} onChange={(e) => setListForm(p => ({ ...p, name: e.target.value }))} className={inputBase} placeholder="e.g. Samsung Galaxy S21" style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><div className="flex items-end justify-between"><label className="text-[13px] font-semibold">Description</label><span className="text-[11px] text-[#9CA3AF]">{listForm.description.length}/1000</span></div><textarea rows={3} maxLength={1000} value={listForm.description} onChange={(e) => setListForm(p => ({ ...p, description: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Describe the product…" style={vs} /></div>
+                  <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold">Price (₦)</label><input type="text" inputMode="decimal" value={listForm.price} onChange={(e) => setListForm(p => ({ ...p, price: e.target.value }))} className={inputBase} placeholder="e.g. 5,000" style={vs} /></div>
+                  <div className="flex flex-col gap-1"><label className="text-[13px] font-semibold">Quantity Available</label><input type="number" min="1" value={listForm.quantityLeft} onChange={(e) => setListForm(p => ({ ...p, quantityLeft: e.target.value }))} className={inputBase} placeholder="e.g. 1" style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Category</label><select value={listForm.category} onChange={(e) => setListForm(p => ({ ...p, category: e.target.value }))} className={`${inputBase} appearance-none cursor-pointer`} style={vs}><option value="">Select category…</option>{ROSMS_CATEGORY_OPTIONS.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}</select></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Tags (comma-separated)</label><input type="text" value={listForm.tags} onChange={(e) => setListForm(p => ({ ...p, tags: e.target.value }))} className={inputBase} placeholder="e.g. phone, android, second-hand" style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><div className="flex items-end justify-between"><label className="text-[13px] font-semibold">Other Information</label><span className="text-[11px] text-[#9CA3AF]">{listForm.otherInformation.length}/1000</span></div><textarea rows={2} maxLength={1000} value={listForm.otherInformation} onChange={(e) => setListForm(p => ({ ...p, otherInformation: e.target.value }))} className={`${inputBase} resize-none`} placeholder="Any additional details about the product…" style={vs} /></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Owner (Member) <span className="text-red-500">*</span></label><div className={`${inputBase} flex items-center gap-2 bg-green-50`} style={vs}><span className="text-green-600 font-bold">✓</span><span className="text-green-700">{verifiedMember.name} (verified from your membership)</span></div></div>
+                  <div className="flex flex-col gap-1 sm:col-span-2"><label className="text-[13px] font-semibold">Product Images &amp; Video <span className="text-[#9CA3AF] font-normal">(up to 6 files — images or video)</span></label>
+                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-dashed border-[#9CA3AF] px-4 py-4 text-sm text-[#374151] hover:border-[#000080]" style={vs}>Add images or video<input type="file" accept="image/*,video/*" multiple className="hidden" onChange={(e) => { setListPhotos((prev) => [...prev, ...Array.from(e.target.files ?? [])].slice(0, 6)); e.target.value = ""; }} /></label>
+                    {listPhotos.length > 0 && <ul className="flex flex-col gap-1">{listPhotos.map((file, i) => <li key={file.name + i} className="flex items-center justify-between rounded-md bg-[#F3F4F6] px-3 py-1.5 text-[12px] text-[#374151]" style={vs}><span className="truncate">{file.type.startsWith("video/") ? "🎬 " : "🖼️ "}{file.name}</span><button type="button" onClick={() => setListPhotos((prev) => prev.filter((_, j) => j !== i))} className="ml-3 text-[#DC2626]" aria-label={`Remove ${file.name}`}>×</button></li>)}</ul>}
+                  </div>
                 </div>
                 {listStatus === "error" && <p className="text-red-600 text-[13px]" style={vs}>{listError}</p>}
                 <div className="flex gap-3">
-                  <button type="button" onClick={() => setSellStep("verify")} className="flex-1 border-2 border-[#000080] text-[#000080] py-[11px] rounded-[24px] text-[14px] font-bold" style={vs}>Back</button>
-                  <button type="submit" disabled={listStatus === "loading"} className="flex-1 bg-[#000080] text-white py-[11px] rounded-[24px] text-[14px] font-bold disabled:opacity-60" style={vs}>{listStatus === "loading" ? "Submitting..." : "List Product"}</button>
+                  <button type="button" onClick={closeModal} className="flex-1 border-2 border-[#000080] text-[#000080] py-[11px] rounded-[24px] text-[14px] font-bold" style={vs}>Cancel</button>
+                  <button type="submit" disabled={listStatus === "loading"} className="flex-1 bg-[#000080] text-white py-[11px] rounded-[24px] text-[14px] font-bold disabled:opacity-60" style={vs}>{listStatus === "loading" ? "Saving..." : "Save Product"}</button>
                 </div>
               </form>
             )}

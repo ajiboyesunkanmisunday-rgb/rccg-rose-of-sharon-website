@@ -8,21 +8,25 @@ import { FormField, FormCard, inputCls, selectCls, textareaCls, FormSheet, submi
 import { post } from "@ros/shared/api";
 
 
-const topics = [
-  "Marriage & Relationship",
-  "Grief & Loss",
-  "Financial Challenges",
-  "Career & Purpose",
-  "Family Conflict",
-  "Mental & Emotional Health",
-  "Spiritual Crisis",
-  "Other",
-];
+const MAX_DETAILS = 1000;
+const MAX_SUBJECT = 150;
+// the ROSMS "New Request" Category list; this page always files a Counseling request
+const CATEGORIES = [{ value: "PRAYER", label: "Prayer" }, { value: "COUNSELING", label: "Counseling" }, { value: "SUGGESTIONS", label: "Suggestion" }];
+
+/** A label row with the ROSMS-style character counter on the right (e.g. 0/150). */
+function CountedLabel({ label, required, count, max }: { label: string; required?: boolean; count?: number; max?: number }) {
+  return (
+    <div className="ros:flex ros:items-center ros:justify-between">
+      <label className="ros:block ros:text-sm ros:font-semibold ros:text-[#111827]">
+        {label}{required && <span className="ros:ml-[3px] ros:text-[#DF4E4E]">*</span>}
+      </label>
+      {max !== undefined && <span className="ros:text-xs ros:tabular-nums ros:text-[#9CA3AF]">{count ?? 0}/{max}</span>}
+    </div>
+  );
+}
 
 export default function CounselingPage() {
-  const [form, setForm] = useState({
-    name: "", phone: "", email: "", topic: "", preferredTime: "", message: "",
-  });
+  const [form, setForm] = useState({ name: "", phone: "", email: "", subject: "", preferredTime: "", details: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -36,11 +40,8 @@ export default function CounselingPage() {
     setStatus("loading");
     setError("");
     try {
-      const content = `Name: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nTopic: ${form.topic}\nPreferred Time: ${form.preferredTime}\n\nMessage:\n${form.message}`;
-      await post("/requests/counseling", {
-        subject: `Counselling Session Request — ${form.topic || "General"}`,
-        content,
-      });
+      const from = [`Submitted by: ${form.name.trim()}`, `Phone: ${form.phone}`, form.email && `Email: ${form.email}`, form.preferredTime && `Preferred time: ${form.preferredTime}`].filter(Boolean).join("\n");
+      await post("/requests/counseling", { subject: form.subject.trim(), content: `${form.details.trim()}\n\n${from}` });
       setStatus("success");
     } catch (err: unknown) {
       setStatus("error");
@@ -71,51 +72,49 @@ export default function CounselingPage() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="ros:flex ros:flex-col ros:gap-[16px] ros:items-center ros:w-full ros:max-w-[700px]">
-            <FormCard title="Your Contact Details">
-              <div className="ros:flex ros:flex-col ros:gap-[16px]">
-                <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px]">
-                  <FormField label="Your Name" required>
-                    <input type="text" required value={form.name} onChange={set("name")} className={inputCls} placeholder="Full name" />
-                  </FormField>
-                  <FormField label="Phone Number" required>
-                    <input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} placeholder="+234 800 000 0000" />
-                  </FormField>
+            <FormCard title="New Request">
+              <div className="ros:flex ros:flex-col ros:gap-4">
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Subject" required count={form.subject.length} max={MAX_SUBJECT} />
+                  <input type="text" required value={form.subject} onChange={set("subject")} maxLength={MAX_SUBJECT} className={inputCls} placeholder="Brief subject for the request" />
                 </div>
-                <FormField label="Email Address">
-                  <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="your@email.com" />
-                </FormField>
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Category" required />
+                  <select value="COUNSELING" disabled className={selectCls} aria-label="Category">
+                    <option value="">Select</option>
+                    {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
+                  </select>
+                </div>
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Submitted By" required />
+                  <input type="text" required value={form.name} onChange={set("name")} className={inputCls} placeholder="Enter your full name" autoComplete="name" />
+                </div>
+                <div className="ros:flex ros:flex-col ros:gap-[6px]">
+                  <CountedLabel label="Details" required count={form.details.length} max={MAX_DETAILS} />
+                  <textarea required value={form.details} onChange={set("details")} rows={6} maxLength={MAX_DETAILS} className={textareaCls} placeholder="Describe the request…" />
+                </div>
               </div>
             </FormCard>
 
-            <FormCard title="Session Details">
+            <FormCard title="How can we reach you?">
               <div className="ros:flex ros:flex-col ros:gap-[16px]">
                 <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:gap-[16px]">
-                  <FormField label="Topic / Area of Concern" required>
-                    <select required value={form.topic} onChange={set("topic")} className={selectCls}>
-                      <option value="">Select a topic</option>
-                      {topics.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </select>
+                  <FormField label="Phone Number" required>
+                    <input type="tel" required value={form.phone} onChange={set("phone")} className={inputCls} placeholder="+234 800 000 0000" />
                   </FormField>
-                  <FormField label="Preferred Time">
-                    <select value={form.preferredTime} onChange={set("preferredTime")} className={selectCls}>
-                      <option value="">Select preferred time</option>
-                      <option value="Weekday Morning">Weekday Morning</option>
-                      <option value="Weekday Afternoon">Weekday Afternoon</option>
-                      <option value="Weekday Evening">Weekday Evening</option>
-                      <option value="Saturday">Saturday</option>
-                      <option value="Sunday (After Service)">Sunday (After Service)</option>
-                    </select>
+                  <FormField label="Email">
+                    <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="Enter email address" />
                   </FormField>
                 </div>
-                <FormField label="Brief Description" required>
-                  <textarea
-                    required
-                    value={form.message}
-                    onChange={set("message")}
-                    className={textareaCls}
-                    rows={5}
-                    placeholder="Briefly describe what you would like to discuss..."
-                  />
+                <FormField label="Preferred Time">
+                  <select value={form.preferredTime} onChange={set("preferredTime")} className={selectCls}>
+                    <option value="">Select preferred time</option>
+                    <option value="Weekday Morning">Weekday Morning</option>
+                    <option value="Weekday Afternoon">Weekday Afternoon</option>
+                    <option value="Weekday Evening">Weekday Evening</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday (After Service)">Sunday (After Service)</option>
+                  </select>
                 </FormField>
               </div>
             </FormCard>
@@ -134,7 +133,7 @@ export default function CounselingPage() {
               className={submitCls}
              
             >
-              {status === "loading" ? "Submitting..." : "BOOK SESSION"}
+              {status === "loading" ? "Submitting..." : "Save Request"}
             </button>
           </form>
         )}
