@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { parseApiDate } from "@ros/shared/dates";
 
 type Nominee = { id: string; name: string; sex: "MALE" | "FEMALE" | string; photo: string | null; votes: number };
 type EventInfo = { id: string; title?: string; start?: string; end?: string; status: "upcoming" | "open" | "closed"; totalVotes: number };
 type Payload = { available: boolean; reason?: string; event?: EventInfo | null; nominees?: Nominee[] };
 
-const fmt = (s?: string) => (s ? new Date(s).toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" }) : "");
+const fmt = (s?: string) => parseApiDate(s)?.toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" }) ?? "";
 const GROUPS: { sex: string; title: string }[] = [
   { sex: "MALE", title: "The brothers" },
   { sex: "FEMALE", title: "The sisters" },
