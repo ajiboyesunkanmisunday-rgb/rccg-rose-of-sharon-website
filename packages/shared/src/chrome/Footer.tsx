@@ -21,6 +21,8 @@ const footerSections = [
     links: [
       { title: "Hearts of David (Men)",  href: "/ministries/hearts-of-david" },
       { title: "Oaks of Righteousness (Women)", href: "/ministries/oaks-of-righteousness" },
+      { title: "Wisdom Group (Elders)",  href: "/ministries/wisdom-group" },
+      { title: "Graceful Oaks (Widows)", href: "/ministries/graceful-oaks" },
       { title: "Youth Fellowship",         href: "/youth" },
       { title: "Children Church",          href: "/ministries/kids-and-teens" },
     ],

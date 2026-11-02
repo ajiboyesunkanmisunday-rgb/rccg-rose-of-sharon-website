@@ -76,6 +76,8 @@ function menuGroups(): MenuGroup[] {
     { title: "Ministries", links: [
       { href: "/ministries/hearts-of-david", label: "Hearts of David (Men)" },
       { href: "/ministries/oaks-of-righteousness", label: "Oaks of Righteousness (Women)" },
+      { href: "/ministries/wisdom-group", label: "Wisdom Group (Elders)" },
+      { href: "/ministries/graceful-oaks", label: "Graceful Oaks (Widows)" },
       { href: "/youth", label: "Youth Fellowship" },
       { href: "/ministries/kids-and-teens", label: "Children Church" },
     ] },
@@ -272,6 +274,8 @@ function MobileMenu({ setOpen, pathname }: { setOpen: (v: boolean) => void; path
                 <h2 className="text-[10px] font-bold uppercase text-[#FFFFFFAA]">MINISTRIES</h2>
                 <A onClick={() => setOpen(false)} href="/ministries/hearts-of-david" className="text-sm hover:underline">Hearts of David (Men)</A>
                 <A onClick={() => setOpen(false)} href="/ministries/oaks-of-righteousness" className="text-sm hover:underline">Oaks of Righteousness (Women)</A>
+                <A onClick={() => setOpen(false)} href="/ministries/wisdom-group" className="text-sm hover:underline">Wisdom Group (Elders)</A>
+                <A onClick={() => setOpen(false)} href="/ministries/graceful-oaks" className="text-sm hover:underline">Graceful Oaks (Widows)</A>
                 <A onClick={() => setOpen(false)} href="/youth" className="text-sm hover:underline">Youth Fellowship</A>
                 <A onClick={() => setOpen(false)} href="/ministries/kids-and-teens" className="text-sm hover:underline">Children Church</A>
               </div>
