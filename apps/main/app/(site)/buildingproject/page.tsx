@@ -11,7 +11,7 @@ const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, 
  * (for example proposed-plan.mp4) and set this to "/buildingproject/proposed-plan.mp4". While it is empty the
  * hero shows the banner picture.
  */
-const PLAN_VIDEO = "";
+const PLAN_VIDEO = "/buildingproject/ros-tower.mp4";
 
 const S3 = "/assets/payments"; // payment logos, stored with the site
 
@@ -44,7 +44,7 @@ export default function BuildingProjectPage() {
       >
         {PLAN_VIDEO && (
           <>
-            <video autoPlay loop muted playsInline preload="auto" poster="/media/rbc-give-banner.75b7724a.jpg" className="absolute left-0 top-0 h-full w-full object-cover" aria-hidden="true">
+            <video autoPlay loop muted playsInline preload="auto" poster="/buildingproject/ros-tower-2.jpg" className="absolute left-0 top-0 h-full w-full object-cover" aria-hidden="true">
               <source src={PLAN_VIDEO} type="video/mp4" />
             </video>
             <div className="absolute left-0 top-0 h-full w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6))" }} />
