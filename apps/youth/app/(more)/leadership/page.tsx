@@ -42,9 +42,9 @@ export default function YouthLeadership() {
           ].map((g) => (
             <div key={g.pill}>
               <div className="ros:flex ros:justify-center"><span className="ros:inline-flex ros:items-center ros:gap-2 ros:rounded-full ros:border ros:border-[#FFFFFF33] ros:bg-[#FFFFFF14] ros:px-4 ros:py-1.5 ros:text-[11px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-white">{g.pill}</span></div>
-              <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:items-start ros:justify-items-center ros:gap-5 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
+              <div className="ros:mt-8 ros:flex ros:flex-wrap ros:items-start ros:justify-center ros:gap-5">
                 {g.list.map((l) => (
-                  <div key={l.role + l.name} className="ros:flex ros:w-full ros:flex-col ros:items-center ros:gap-2 ros:overflow-hidden ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5 ros:text-center">
+                  <div key={l.role + l.name} className="ros:flex ros:w-full ros:sm:w-[calc(50%-10px)] ros:lg:w-[calc(33.333%-14px)] ros:flex-col ros:items-center ros:gap-2 ros:overflow-hidden ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5 ros:text-center">
                     {l.image && <img loading="lazy" decoding="async" src={l.image} alt={l.name} className="ros:mb-3 ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />}
                     <h3 className="ros:font-bold ros:text-white">{l.role}</h3>
                     <p className="ros:text-xs ros:font-semibold ros:uppercase ros:tracking-[0.15em] ros:text-[#FFFFFF99]">{l.name}</p>
