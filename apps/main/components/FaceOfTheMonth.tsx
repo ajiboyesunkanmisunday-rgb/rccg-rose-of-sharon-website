@@ -5,7 +5,9 @@ import { parseApiDate } from "@ros/shared/dates";
 
 type Nominee = { id: string; name: string; sex: "MALE" | "FEMALE" | string; photo: string | null; votes: number };
 type EventInfo = { id: string; title?: string; start?: string; end?: string; status: "upcoming" | "open" | "closed"; totalVotes: number };
-type Payload = { available: boolean; reason?: string; event?: EventInfo | null; nominees?: Nominee[] };
+type Winner = { name: string; photo: string | null; votes: number };
+type PastEvent = { id: string; title: string; end?: string; male: Winner | null; female: Winner | null };
+type Payload = { available: boolean; reason?: string; event?: EventInfo | null; nominees?: Nominee[]; hallOfFame?: PastEvent[] };
 
 const fmt = (s?: string) => parseApiDate(s)?.toLocaleString("en-NG", { dateStyle: "medium", timeStyle: "short" }) ?? "";
 const GROUPS: { sex: string; title: string }[] = [
@@ -15,6 +17,38 @@ const GROUPS: { sex: string; title: string }[] = [
 
 function initials(name: string) {
   return name.split(" ").filter(Boolean).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("");
+}
+
+function HallOfFame({ list }: { list: PastEvent[] }) {
+  if (!list.length) return null;
+  const card = (w: Winner | null, label: string) =>
+    w ? (
+      <div className="ros:flex ros:flex-col ros:items-center ros:gap-2 ros:text-center">
+        {w.photo ? (
+          <img src={w.photo} alt={w.name} loading="lazy" className="ros:size-24 ros:rounded-full ros:object-cover ros:object-top" />
+        ) : (
+          <span className="ros:flex ros:size-24 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-2xl ros:font-bold ros:text-white">{initials(w.name)}</span>
+        )}
+        <p className="ros:font-bold">{w.name}</p>
+        <p className="ros:text-xs ros:uppercase ros:tracking-[0.15em] ros:text-[#00000099]">{label} · {w.votes} {w.votes === 1 ? "vote" : "votes"}</p>
+      </div>
+    ) : null;
+  return (
+    <section>
+      <h3 className="ros:mb-6 ros:text-center ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.25em] ros:text-[#DF4E4E]">Hall of Fame</h3>
+      <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:md:grid-cols-2 ros:lg:grid-cols-3">
+        {list.map((e) => (
+          <div key={e.id} className="ros:flex ros:flex-col ros:items-center ros:gap-5 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">
+            <p className="ros:text-sm ros:font-bold ros:uppercase ros:tracking-[0.15em]">{e.title || (parseApiDate(e.end)?.toLocaleDateString("en-GB", { month: "long", year: "numeric" }) ?? "")}</p>
+            <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-6">
+              {card(e.male, "Brother")}
+              {card(e.female, "Sister")}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export default function FaceOfTheMonth() {
@@ -53,9 +87,12 @@ export default function FaceOfTheMonth() {
   if (!data) return <p className="ros:py-20 ros:text-center ros:text-[#00000099]">Loading…</p>;
   if (!data.available || !data.event) {
     return (
-      <div className="ros:mx-auto ros:max-w-xl ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-8 ros:text-center">
-        <p className="ros:text-lg ros:font-bold">{data.available ? "No voting is open right now" : "Voting isn't available right now"}</p>
-        <p className="ros:mt-2 ros:text-[#00000099]">When the church opens the next Face of the Month, the nominees will appear here.</p>
+      <div className="ros:flex ros:flex-col ros:gap-10">
+        <div className="ros:mx-auto ros:max-w-xl ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-8 ros:text-center">
+          <p className="ros:text-lg ros:font-bold">{data.available ? "No voting is open right now" : "Voting isn't available right now"}</p>
+          <p className="ros:mt-2 ros:text-[#00000099]">When the church opens the next Face of the Month, the nominees will appear here.</p>
+        </div>
+        <HallOfFame list={data.hallOfFame ?? []} />
       </div>
     );
   }
@@ -100,6 +137,8 @@ export default function FaceOfTheMonth() {
           </section>
         );
       })}
+
+      <HallOfFame list={data.hallOfFame ?? []} />
 
       {picked && (
         <div className="ros:fixed ros:inset-0 ros:z-[60] ros:flex ros:items-end ros:justify-center ros:bg-black/60 ros:p-4 ros:md:items-center" role="dialog" aria-modal="true" onClick={close}>
