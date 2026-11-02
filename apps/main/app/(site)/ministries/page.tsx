@@ -21,6 +21,24 @@ export default function MinistriesPage() {
         "The women's ministry of RCCG Rose of Sharon: a fellowship of women growing in faith, friendship and service",
     },
     {
+      id: "wisdom-group",
+      href: "/ministries/wisdom-group",
+      image: "/about-open-view.jpg",
+      pos: "50% 30%",
+      title: "Wisdom Group (Elders)",
+      description:
+        "The elders' fellowship of RCCG Rose of Sharon: seasoned believers sharing wisdom, prayer and friendship",
+    },
+    {
+      id: "graceful-oaks",
+      href: "/ministries/graceful-oaks",
+      image: "/about-open-view.jpg",
+      pos: "50% 70%",
+      title: "Graceful Oaks (Widows)",
+      description:
+        "The widows' fellowship of RCCG Rose of Sharon: care, comfort and community for widows",
+    },
+    {
       id: "ccw",
       href: "/ministries/choir",
       image: "/ccw.jpg",
