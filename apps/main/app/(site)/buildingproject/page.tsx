@@ -39,7 +39,7 @@ export default function BuildingProjectPage() {
         animate="visible"
         className="rbc-give-header relative flex h-[600px] items-center justify-center overflow-hidden bg-cover bg-no-repeat lg:h-[700px]"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/media/rbc-give-banner.75b7724a.jpg')`,
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/buildingproject/ros-tower-2.jpg')`,
         }}
       >
         {PLAN_VIDEO && (
@@ -346,10 +346,12 @@ export default function BuildingProjectPage() {
           <h2 className="mb-4 text-center font-anton text-4xl font-normal uppercase leading-loose md:mb-8 md:text-6xl">
             Expanding our reach
           </h2>
-          <video controls className="w-full border border-gray-300">
-            <source src="" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <p className="mx-auto mb-8 max-w-3xl text-center text-[#000000A3]">ROS Tower is the building the church is working on now.</p>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-2.jpg" alt="ROS Tower, front view" className="aspect-video w-full rounded-lg object-cover md:col-span-2" />
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-3.jpg" alt="ROS Tower, view from above" className="h-full w-full rounded-lg object-cover" />
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-4.jpg" alt="ROS Tower, corner view" className="h-full w-full rounded-lg object-cover" />
+          </div>
         </motion.div>
       </section>
 
@@ -362,10 +364,11 @@ export default function BuildingProjectPage() {
           viewport={{ once: true }}
           className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-black px-6 py-8 sm:px-12 md:flex-row md:py-16 lg:gap-10 lg:px-24"
         >
-          <div
-            className="building-vision-pastey mb-4 hidden flex-1 bg-cover bg-center bg-no-repeat py-52 md:mb-0 md:flex md:h-auto md:p-0"
-            style={{ backgroundSize: "contain", backgroundColor: "#0e0e0e", minHeight: 380 }}
-          />
+          <div className="mb-4 flex-1 overflow-hidden rounded-lg md:mb-0" style={{ backgroundColor: "#0e0e0e", minHeight: 260 }}>
+            <video autoPlay loop muted playsInline controls preload="metadata" poster="/buildingproject/ros-tower-4.jpg" className="h-full w-full object-cover">
+              <source src="/buildingproject/ros-tower.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div className="mx-auto mt-5 w-full max-w-full bg-center md:max-w-[380px] lg:max-w-[500px]">
             <div className="mb-4 flex flex-col items-center md:items-start">
               <h2 className="text-center text-2xl font-black uppercase tracking-[0.2em] text-white md:text-left">
