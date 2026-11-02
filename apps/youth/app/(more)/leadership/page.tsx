@@ -45,6 +45,7 @@ export default function YouthLeadership() {
               <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
                 {g.list.map((l) => (
                   <div key={l.role + l.name} className="ros:flex ros:flex-col ros:gap-2 ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5">
+                    {l.image && <img loading="lazy" decoding="async" src={l.image} alt={l.name} className="ros:mb-2 ros:size-24 ros:rounded-full ros:object-cover ros:object-top" />}
                     <h3 className="ros:font-bold ros:text-white">{l.role}</h3>
                     <p className="ros:text-xs ros:font-semibold ros:uppercase ros:tracking-[0.15em] ros:text-[#FFFFFF99]">{l.name}</p>
                   </div>

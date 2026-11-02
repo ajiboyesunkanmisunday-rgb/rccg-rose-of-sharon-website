@@ -32,7 +32,7 @@ export const PRESIDENT: Leader = {
   image: "/youth/president.jpg",
 };
 export const VICE_PRESIDENTS: Leader[] = [
-  { role: "VP Operations & HOD Protocol", name: "Bro Chizzy Benson" },
+  { role: "VP Operations & HOD Protocol", name: "DCN Chizzy Benson" },
   { role: "VP Admin & HOD Music", name: "DCNS Victoria Simon" },
 ];
 export const EXECUTIVES: Leader[] = [
@@ -43,7 +43,7 @@ export const DEPARTMENT_HEADS: Leader[] = [
   { role: "HOD Media & Publicity", name: "Frank Ojo" },
   { role: "HOD Evangelism & Mobilization", name: "Bro Sunday Okon" },
   { role: "HOD Ushering", name: "Sis Tayo Isiaka" },
-  { role: "HOD Hospitality & Greeters", name: "Sis Deborah Shobayo" },
+  { role: "HOD Hospitality & Greeters", name: "Sis Deborah Shobayo", image: "/youth/deborah.jpg" },
   { role: "HOD Drama & Creatives", name: "Bro Emmanuel Egbukichi" },
 ];
 export const SPECIAL_ADVISERS: Leader[] = [
