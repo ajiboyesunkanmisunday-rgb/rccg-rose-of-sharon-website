@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Hero, Section, Btn } from "@ros/shared/kit/ui";
 import ProgramTabs from "./ProgramTabs";
 import { getProgram } from "@ros/shared/kit/programs";
+import OfficialResult from "./OfficialResult";
 
 interface Saved { name: string; id: string; score: number; total: number; percent: number; passMark: number; passed: boolean; at: number }
 
@@ -42,6 +43,7 @@ export default function ResultsView({ slug }: { slug: string }) {
               <Btn href={`${p.base}/exam`} variant="red">Take the exam</Btn>
             </div>
           )}
+          {["water-baptism", "workers-in-training", "school-of-disciples", "school-of-ministry", "rila"].includes(slug) && <OfficialResult program={slug} />}
         </div>
       </Section>
     </>

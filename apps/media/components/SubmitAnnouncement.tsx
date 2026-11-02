@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormField, inputCls, textareaCls } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
 
@@ -23,6 +23,14 @@ export default function SubmitAnnouncement() {
   const [form, setForm] = useState({ subject: "", content: "", startDate: "", endDate: "" });
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  // the church sets a last day for submissions in the management app; nothing is blocked when it cannot be read
+  const [deadline, setDeadline] = useState<string | null>(null);
+  useEffect(() => {
+    fetch("/api/announcement-settings", { cache: "no-store" }).then((r) => r.json()).then((d) => setDeadline(d.deadline ?? null)).catch(() => setDeadline(null));
+  }, []);
+  const deadlineDate = deadline ? new Date(`${deadline.slice(0, 10)}T23:59:59`) : null;
+  const closed = !!deadlineDate && !Number.isNaN(deadlineDate.getTime()) && new Date() > deadlineDate;
+  const deadlineText = deadlineDate && !Number.isNaN(deadlineDate.getTime()) ? deadlineDate.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }) : "";
 
   async function verify(e: React.FormEvent) {
     e.preventDefault();
@@ -65,7 +73,13 @@ export default function SubmitAnnouncement() {
         <h2 className="ros-anton ros:text-[32px] ros:uppercase ros:leading-tight ros:text-[#DF4E4E] ros:md:text-[44px]">Submit an announcement</h2>
         <p className="ros:max-w-xl ros:text-[#00000099]">Members can send a notice to the church team. It is reviewed first, and it appears on this page once it is approved.</p>
 
-        {step === "verify" && (
+        {deadlineText && (
+          <p className={`ros:rounded-full ros:px-4 ros:py-1.5 ros:text-sm ros:font-semibold ${closed ? "ros:bg-[#FEE2E2] ros:text-[#B91C1C]" : "ros:bg-[#F4F4F4]"}`}>
+            {closed ? `Submissions closed on ${deadlineText}. Please check back for the next round.` : `Submit before ${deadlineText}`}
+          </p>
+        )}
+
+        {step === "verify" && !closed && (
           <form onSubmit={verify} className="ros:flex ros:w-full ros:flex-col ros:gap-4 ros:rounded-2xl ros:border ros:border-[#00000014] ros:bg-[#FAFAFA] ros:p-6 ros:text-left">
             <FormField label="Your membership email or phone number" required>
               <input type="text" required value={who} onChange={(e) => setWho(e.target.value)} className={inputCls} placeholder="Email or phone number on your membership record" data-no-check />
@@ -76,7 +90,7 @@ export default function SubmitAnnouncement() {
           </form>
         )}
 
-        {step === "form" && member && (
+        {step === "form" && member && !closed && (
           <form onSubmit={submit} className="ros:flex ros:w-full ros:flex-col ros:gap-4 ros:rounded-2xl ros:border ros:border-[#00000014] ros:bg-[#FAFAFA] ros:p-6 ros:text-left">
             <p className="ros:text-sm ros:font-bold ros:text-[#16A34A]">✓ Verified member{member.firstName ? `: ${member.firstName}` : ""}</p>
             <FormField label="Title" required>

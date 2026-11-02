@@ -38,3 +38,9 @@ Member/e-member check (`/users/{member|e-member}/search`), seller check, Face of
 4. No endpoint for exams/results, so one-attempt cannot be server-enforced.
 5. SOM create request has no picture field.
 6. `training-events` needs `set`; the site assumes the set is the year (current and next) - confirm with the training office.
+
+## Round 2 (2026-11-02): management-app features now on the public site
+- Face of the Month: only approved events (those with voting times, as in the management app) are shown; open event first, then the next to open, then the latest closed; Hall of Fame of past winners (top brother and sister per finished event).
+- Announcement submission deadline (`/settings` -> `announcementDeadline`): the submit section shows "Submit before ..." or "Submissions closed", through `/api/announcement-settings`.
+- Official training results (`/score-sheets/broadsheet?category&set`): "Check my result" on each program's Results page by set + admission number, through `/api/result` (rate limited, returns only that student).
+- Welfare requests: member verified first, filed under `/requests/welfare`; management app has a matching Welfare section.
