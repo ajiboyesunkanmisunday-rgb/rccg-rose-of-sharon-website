@@ -10,6 +10,9 @@ export default function WelfarePage() {
       cardTitle="Tell us what you need"
       subject="Welfare Request"
       subjectField="type"
+      endpoint="/requests/welfare"
+      requireMember
+      memberNote="Welfare requests are for members of Rose of Sharon. Enter the email address or phone number on your membership record and we will find you."
       successTitle="Request received"
       successText="Thank you for reaching out. Our welfare team will contact you soon."
       fields={[

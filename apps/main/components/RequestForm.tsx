@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, FormSheet, inputCls, selectCls, textareaCls, submitCls } from "@ros/shared/kit/form";
+import Link from "@ros/shared/link";
 import { post } from "@ros/shared/api";
 
 export interface RequestField {
@@ -31,6 +32,8 @@ export default function RequestForm({
   successTitle = "Thank you!",
   successText = "We have received your request and will be in touch.",
   endpoint = "/requests/suggestion",
+  requireMember = false,
+  memberNote = "This request is for members of Rose of Sharon. Enter the email address or phone number on your membership record and we will find you.",
 }: {
   pill?: string;
   title: React.ReactNode;
@@ -45,11 +48,35 @@ export default function RequestForm({
   successTitle?: string;
   successText?: string;
   endpoint?: string;
+  /** the visitor must be found as a member first (by membership email or phone); the request is then filed under that member */
+  requireMember?: boolean;
+  memberNote?: string;
 }) {
   const empty = Object.fromEntries(fields.map((f) => [f.key, ""]));
   const [values, setValues] = useState<Record<string, string>>(empty);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
+
+  const [identifier, setIdentifier] = useState("");
+  const [member, setMember] = useState<{ id: string; firstName: string } | null>(null);
+  const [verifying, setVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState("");
+
+  async function verify(e: React.FormEvent) {
+    e.preventDefault();
+    setVerifying(true);
+    setVerifyError("");
+    try {
+      const res = await fetch("/api/member/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier }) });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(json.message || "We could not check your membership. Please try again.");
+      setMember({ id: json.id, firstName: json.firstName || "" });
+    } catch (err) {
+      setVerifyError(err instanceof Error ? err.message : "We could not check your membership. Please try again.");
+    } finally {
+      setVerifying(false);
+    }
+  }
 
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setValues((p) => ({ ...p, [k]: e.target.value }));
 
@@ -59,7 +86,7 @@ export default function RequestForm({
     setError("");
     try {
       const lines = fields.filter((f) => values[f.key]?.trim()).map((f) => `${f.label}: ${values[f.key].trim()}`);
-      await post(endpoint, { subject: subjectField && values[subjectField] ? `${subject} — ${values[subjectField]}` : subject, content: lines.join("\n") });
+      await post(endpoint, { ...(member ? { userId: member.id } : {}), subject: subjectField && values[subjectField] ? `${subject} — ${values[subjectField]}` : subject, content: lines.join("\n") });
       setStatus("success");
     } catch (err) {
       setStatus("error");
@@ -93,8 +120,27 @@ export default function RequestForm({
             <p className="ros:text-[15px] ros:text-[#6B7280]">{successText}</p>
             <button onClick={() => { setValues(empty); setStatus("idle"); }} className="ros:text-[14px] ros:font-medium ros:text-[#DF4E4E] ros:hover:underline">Send another</button>
           </div>
+        ) : requireMember && !member ? (
+          <form onSubmit={verify} noValidate className="ros:mx-auto ros:flex ros:w-full ros:max-w-[620px] ros:flex-col ros:gap-4">
+            <FormCard title="Your Membership">
+              <div className="ros:flex ros:flex-col ros:gap-4">
+                <p className="ros:text-sm ros:text-[#00000099]">{memberNote}</p>
+                <FormField label="Membership email or phone number" required>
+                  <input type="text" required value={identifier} onChange={(e) => setIdentifier(e.target.value)} className={inputCls} placeholder="you@example.com or 080 0000 0000" autoComplete="off" data-no-check />
+                </FormField>
+                {verifyError && <p role="alert" className="ros:text-sm ros:text-[#FF383C]">{verifyError}</p>}
+              </div>
+            </FormCard>
+            <div className="ros:flex ros:justify-center">
+              <button type="submit" disabled={verifying || identifier.trim().length < 5} className={submitCls}>{verifying ? "Checking..." : "Continue"}</button>
+            </div>
+            <p className="ros:text-center ros:text-sm ros:text-[#00000099]">
+              Not a member yet? <Link href="/membership" className="ros:font-bold ros:text-[#DF4E4E] ros:hover:underline">Become a member</Link>
+            </p>
+          </form>
         ) : (
           <form onSubmit={submit} className="ros:mx-auto ros:flex ros:w-full ros:max-w-[620px] ros:flex-col ros:gap-4">
+            {member && <p className="ros:self-center ros:rounded-full ros:bg-[#16A34A]/10 ros:px-4 ros:py-1.5 ros:text-sm ros:font-bold ros:text-[#16A34A]">✓ Verified member{member.firstName ? `: ${member.firstName}` : ""}</p>}
             <FormCard title={cardTitle}>
               <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2">
                 {fields.map((f) => (
