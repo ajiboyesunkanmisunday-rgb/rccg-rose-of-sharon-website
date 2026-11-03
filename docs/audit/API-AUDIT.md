@@ -44,3 +44,6 @@ Member/e-member check (`/users/{member|e-member}/search`), seller check, Face of
 - Announcement submission deadline (`/settings` -> `announcementDeadline`): the submit section shows "Submit before ..." or "Submissions closed", through `/api/announcement-settings`.
 - Official training results (`/score-sheets/broadsheet?category&set`): "Check my result" on each program's Results page by set + admission number, through `/api/result` (rate limited, returns only that student).
 - Welfare requests: member verified first, filed under `/requests/welfare`; management app has a matching Welfare section.
+
+## Backend watch (2026-11-03)
+Compared the live Swagger with the endpoint list from 2026-11-02: one new endpoint, `GET /users/verify?text=` ("Verify user", returns id, names, email, phone, sex). It needs the login and, in testing with real member emails, phones, ids and names, answered "User Not Found" every time (also with `textRequest=`), so it is not usable yet; the site keeps using member / e-member search. Recheck later. A copy of the Swagger is saved as `swagger-2026-11-03.json` to diff against next time.
