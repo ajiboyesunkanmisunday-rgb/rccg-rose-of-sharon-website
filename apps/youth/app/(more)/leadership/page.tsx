@@ -25,7 +25,11 @@ export default function YouthLeadership() {
         <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:md:grid-cols-2">
           {VICE_PRESIDENTS.map((l) => (
             <div key={l.role} className="ros:flex ros:flex-col ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:text-center">
-              <span className="ros:flex ros:size-14 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-xl ros:font-bold ros:text-white">VP</span>
+              {l.image ? (
+                <img loading="lazy" decoding="async" src={l.image} alt={l.name} className="ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />
+              ) : (
+                <span className="ros:flex ros:size-14 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-xl ros:font-bold ros:text-white">VP</span>
+              )}
               <h3 className="ros:text-lg ros:font-bold">{l.role}</h3>
               <p className="ros:text-sm ros:font-semibold ros:text-[#00000099]">{l.name}</p>
             </div>
