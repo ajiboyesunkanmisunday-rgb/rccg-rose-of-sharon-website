@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
+import { findMember, rosConfigured, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -20,17 +20,7 @@ export async function POST(req: Request) {
   const wantedPhone = digits(identifier).replace(/^0+/, "").slice(-10);
   if (!isEmail && wantedPhone.length < 7) return NextResponse.json({ message: "Enter a valid email address or phone number." }, { status: 400 });
 
-  type Person = { id: string; firstName?: string; email?: string; phoneNumber?: string };
-  for (const kind of ["member", "e-member"]) {
-    try {
-      const res = await rosFetch(`/users/${kind}/search?pageNo=0&pageSize=20`, { method: "POST", body: JSON.stringify({ text: isEmail ? identifier : wantedPhone }) });
-      if (!res.ok) continue;
-      const people: Person[] = (await res.json()).content ?? [];
-      const match = people.find((p) => isEmail
-        ? p.email?.trim().toLowerCase() === identifier.toLowerCase()
-        : !!p.phoneNumber && digits(p.phoneNumber).replace(/^0+/, "").slice(-10) === wantedPhone);
-      if (match) return NextResponse.json({ id: match.id, firstName: match.firstName ?? "" });
-    } catch { /* try the next list */ }
-  }
+  const found = await findMember(identifier);
+  if (found) return NextResponse.json({ id: found.id, firstName: found.firstName, via: found.via });
   return NextResponse.json({ message: "We could not find a membership with that email or phone number." }, { status: 404 });
 }

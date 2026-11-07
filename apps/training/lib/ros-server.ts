@@ -67,6 +67,40 @@ export async function rosFetch(path: string, init: RequestInit = {}): Promise<Re
   return res;
 }
 
+const digitsOnly = (s: string) => s.replace(/\D/g, "");
+
+/**
+ * Finds the church member behind a membership email or phone number. The backend's dedicated verify endpoint
+ * (GET /users/verify?text=) is tried first; when it does not know the person, the member and e-member searches are used,
+ * exactly as before. `via` says which one answered. Only the id and first name are returned, never contact details.
+ */
+export async function findMember(identifier: string): Promise<{ id: string; firstName: string; via: "verify" | "search" } | null> {
+  const isEmail = identifier.includes("@");
+  const phone10 = digitsOnly(identifier).replace(/^0+/, "").slice(-10);
+  const candidates = isEmail ? [identifier] : [identifier, `0${phone10}`, phone10];
+  for (const text of [...new Set(candidates)]) {
+    try {
+      const res = await rosFetch(`/users/verify?text=${encodeURIComponent(text)}`);
+      if (!res.ok) continue;
+      const u = await res.json();
+      if (u?.id) return { id: u.id, firstName: u.firstName ?? "", via: "verify" };
+    } catch { /* fall back to the search below */ }
+  }
+  type Person = { id: string; firstName?: string; email?: string; phoneNumber?: string };
+  for (const kind of ["member", "e-member"]) {
+    try {
+      const res = await rosFetch(`/users/${kind}/search?pageNo=0&pageSize=20`, { method: "POST", body: JSON.stringify({ text: isEmail ? identifier : phone10 }) });
+      if (!res.ok) continue;
+      const people: Person[] = (await res.json()).content ?? [];
+      const match = people.find((p) => isEmail
+        ? p.email?.trim().toLowerCase() === identifier.toLowerCase()
+        : !!p.phoneNumber && digitsOnly(p.phoneNumber).replace(/^0+/, "").slice(-10) === phone10);
+      if (match) return { id: match.id, firstName: match.firstName ?? "", via: "search" };
+    } catch { /* try the next list */ }
+  }
+  return null;
+}
+
 const hits = new Map<string, number[]>();
 
 /**

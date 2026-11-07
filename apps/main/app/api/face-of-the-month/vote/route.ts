@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
+import { findMember, rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -19,15 +19,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Please choose a nominee and enter the phone number on your membership record." }, { status: 400 });
   }
 
-  const wanted = digits(phone).replace(/^0+/, "");
-  let voterId: string | undefined;
-  for (const kind of ["member", "e-member"]) {
-    const res = await rosFetch(`/users/${kind}/search?pageNo=0&pageSize=20`, { method: "POST", body: JSON.stringify({ text: digits(phone).replace(/^0+/, "") }) });
-    if (!res.ok) continue;
-    const people: { id: string; phoneNumber?: string }[] = (await res.json()).content ?? [];
-    const match = people.find((p) => p.phoneNumber && digits(p.phoneNumber).replace(/^0+/, "").endsWith(wanted.slice(-10)));
-    if (match) { voterId = match.id; break; }
-  }
+  const found = await findMember(phone);
+  const voterId = found?.id;
   if (!voterId) {
     return NextResponse.json({ message: "We could not find a membership with that phone number. Please use the number you registered with." }, { status: 404 });
   }
