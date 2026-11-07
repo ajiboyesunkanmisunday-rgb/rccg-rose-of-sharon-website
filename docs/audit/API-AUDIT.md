@@ -47,3 +47,6 @@ Member/e-member check (`/users/{member|e-member}/search`), seller check, Face of
 
 ## Backend watch (2026-11-03)
 Compared the live Swagger with the endpoint list from 2026-11-02: one new endpoint, `GET /users/verify?text=` ("Verify user", returns id, names, email, phone, sex). It needs the login and, in testing with real member emails, phones, ids and names, answered "User Not Found" every time (also with `textRequest=`), so it is not usable yet; the site keeps using member / e-member search. Recheck later. A copy of the Swagger is saved as `swagger-2026-11-03.json` to diff against next time.
+
+## Backend bug: calendar for May (2026-11-07)
+`GET /events/calendar` returns damaged JSON for any range that includes 31 May 2026: the event "THANKSGIVING SERVICE" lists a new convert (mary ige) whose `service` field contains the same event again, hundreds of levels deep (circular reference), and the output ends in `"createdOn":]`. The management app repairs the text before reading it; the website now does the same on the server (`/api/calendar`) and also drops the first timers / second timers / new converts the endpoint attaches to events (their emails and phone numbers are publicly readable on this endpoint, which is a privacy problem to report). Backend fix: return an event DTO without the nested people.

@@ -25,7 +25,7 @@ export default function NewBelieverPage() {
   useEffect(() => {
     const to = new Date();
     const from = new Date(to.getTime() - 60 * 86400000);
-    fetch(`/ros-api/events/calendar?startDay=${dayIso(from)}&endDay=${dayIso(to)}`)
+    fetch(`/api/calendar?startDay=${dayIso(from)}&endDay=${dayIso(to)}`)
       .then((r) => (r.ok ? r.json() : []))
       .then((list: Service[]) => setServices((Array.isArray(list) ? list : []).filter((e) => !e.eventCategory || ["SERVICE", "SPECIAL_SERVICE"].includes(e.eventCategory)).sort((a, b) => String(b.date).localeCompare(String(a.date)))))
       .catch(() => setServices([]));

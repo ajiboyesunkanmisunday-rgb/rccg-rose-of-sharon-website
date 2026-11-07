@@ -33,10 +33,10 @@ export const PRESIDENT: Leader = {
 };
 export const VICE_PRESIDENTS: Leader[] = [
   { role: "VP Operations & HOD Protocol", name: "DCN Chizzy Benson" },
-  { role: "VP Admin & HOD Music", name: "DCNS Victoria Simon" },
+  { role: "VP Admin & HOD Music", name: "DCNS Victoria Simeon" },
 ];
 export const EXECUTIVES: Leader[] = [
-  { role: "Secretary", name: "DCN Idowu Beatrice" },
+  { role: "Secretary", name: "Sis Idowu Beatrice" },
 ];
 export const DEPARTMENT_HEADS: Leader[] = [
   { role: "HOD Prayer", name: "Bro Prayer Ufot" },

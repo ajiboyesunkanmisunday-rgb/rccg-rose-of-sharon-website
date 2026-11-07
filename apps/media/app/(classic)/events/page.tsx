@@ -99,7 +99,7 @@ export default function EventsPage() {
   const fetchMonth = useCallback((y: number, m: number): Promise<EventItem[]> => {
     const start = toISO(y, m, 1);
     const end   = toISO(y, m, new Date(y, m + 1, 0).getDate());
-    return fetch(`${API_BASE}/events/calendar?startDay=${start}&endDay=${end}`)
+    return fetch(`/api/calendar?startDay=${start}&endDay=${end}`)
       .then(r => { if (!r.ok) throw new Error("calendar"); return r.json(); })
       .then(d => { const list: EventItem[] = Array.isArray(d) ? d : []; cache.current[`${y}-${m}`] = list; return list; });
   }, []);
@@ -127,7 +127,7 @@ export default function EventsPage() {
     setSoonError(false);
     const from = new Date();
     const to = new Date(from.getTime() + 90 * 86400000);
-    fetch(`${API_BASE}/events/calendar/upcoming?startDay=${toISO(from.getFullYear(), from.getMonth(), from.getDate())}&endDay=${toISO(to.getFullYear(), to.getMonth(), to.getDate())}`)
+    fetch(`/api/calendar?kind=upcoming&startDay=${toISO(from.getFullYear(), from.getMonth(), from.getDate())}&endDay=${toISO(to.getFullYear(), to.getMonth(), to.getDate())}`)
       .then(r => { if (!r.ok) throw new Error("upcoming"); return r.json(); })
       .then(d => setSoon(Array.isArray(d) ? d : []))
       .catch(() => { setSoon([]); setSoonError(true); })
