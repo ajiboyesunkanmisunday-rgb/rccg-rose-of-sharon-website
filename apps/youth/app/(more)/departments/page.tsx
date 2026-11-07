@@ -12,9 +12,9 @@ export default function YouthDepartments() {
       <Section>
         <YouthTabs />
         <SectionTitle pill="🗂️ ALL TEAMS" title={<>Pick a <span className="text-textRed">department</span></>} />
-        <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
+        <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-6">
           {DEPARTMENTS.map((d) => (
-            <Link key={d.slug} href={`/youth/departments/${d.slug}`} className="ros:group ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
+            <Link key={d.slug} href={`/youth/departments/${d.slug}`} className="ros:group ros:flex ros:w-full ros:sm:w-[calc(50%-12px)] ros:lg:w-[calc(33.333%-16px)] ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
               <span className="ros:flex ros:size-12 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-[22px]">{d.icon}</span>
               <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{d.name}</h3>
               <p className="ros:text-[#00000099]">{d.short}</p>
@@ -22,7 +22,7 @@ export default function YouthDepartments() {
             </Link>
           ))}
         </div>
-        <div className="ros:mt-10"><Btn href="/youth/join">Join a department</Btn></div>
+        <div className="ros:mt-10 ros:flex ros:justify-center"><Btn href="/youth/join">Join a department</Btn></div>
       </Section>
     </>
   );
