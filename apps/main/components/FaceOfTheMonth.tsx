@@ -36,7 +36,7 @@ function HallOfFame({ list }: { list: PastEvent[] }) {
   return (
     <section>
       <h3 className="ros:mb-6 ros:text-center ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.25em] ros:text-[#DF4E4E]">Hall of Fame</h3>
-      <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:md:grid-cols-2 ros:lg:grid-cols-3">
+      <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-4 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-8px)] ros:lg:[&>*]:w-[calc(33.333%-10.667px)]">
         {list.map((e) => (
           <div key={e.id} className="ros:flex ros:flex-col ros:items-center ros:gap-5 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">
             <p className="ros:text-sm ros:font-bold ros:uppercase ros:tracking-[0.15em]">{e.title || (parseApiDate(e.end)?.toLocaleDateString("en-GB", { month: "long", year: "numeric" }) ?? "")}</p>
@@ -118,7 +118,7 @@ export default function FaceOfTheMonth() {
         return (
           <section key={g.sex}>
             <h3 className="ros:mb-4 ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.25em] ros:text-[#DF4E4E]">{g.title}</h3>
-            <div className="ros:grid ros:grid-cols-2 ros:gap-4 ros:md:grid-cols-3 ros:lg:grid-cols-4">
+            <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-4 ros:[&>*]:w-[calc(50%-8px)] ros:md:[&>*]:w-[calc(33.333%-10.667px)] ros:lg:[&>*]:w-[calc(25%-12px)]">
               {list.map((n) => (
                 <div key={n.id} className={`ros:flex ros:flex-col ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:p-4 ros:text-center ${closed && n.votes === top && top > 0 ? "ros:border-[#DF4E4E] ros:bg-[#FFF5F5]" : "ros:border-[#00000014] ros:bg-[#FAFAFA8F]"}`}>
                   {n.photo ? (

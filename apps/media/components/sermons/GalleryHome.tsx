@@ -52,7 +52,7 @@ export default function GalleryHome({ albums: ALBUMS }: { albums: Album[] }) {
         byYear.map(([y, albums]) => (
           <section key={y} className="ros:mt-8" aria-label={y}>
             <h3 className="ros:border-b ros:border-white/10 ros:pb-2 ros:text-[20px] ros:font-bold">{y}</h3>
-            <div className="ros:mt-4 ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
+            <div className="ros:mt-4 ros:flex ros:flex-wrap ros:justify-center ros:gap-4 ros:[&>*]:w-full ros:sm:[&>*]:w-[calc(50%-8px)] ros:xl:[&>*]:w-[calc(33.333%-10.667px)] ros:2xl:[&>*]:w-[calc(25%-12px)]">
               {albums.map((a, i) => (
                 <NextLink key={a.slug} href={`/gallery/${a.slug}`} className="sermon-card ros:group ros:block ros:rounded-xl ros:p-2 ros:transition ros:hover:bg-white/5" style={{ ["--i" as string]: i }}>
                   <div className="ros:relative ros:overflow-hidden ros:rounded-lg ros:bg-black">

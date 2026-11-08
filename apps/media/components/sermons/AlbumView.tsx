@@ -31,7 +31,7 @@ export default function AlbumView({ album, albums }: { album: Album; albums: Alb
       <p className="ros:mt-2 ros:max-w-2xl ros:text-[15px] ros:text-white/55">{album.text}</p>
       <p className="ros:mt-1 ros:text-[13px] ros:text-white/35">{album.count} photos</p>
 
-      <div className="ros:mt-6 ros:grid ros:grid-cols-2 ros:gap-2 ros:md:grid-cols-3 ros:xl:grid-cols-4">
+      <div className="ros:mt-6 ros:flex ros:flex-wrap ros:justify-center ros:gap-2 ros:[&>*]:w-[calc(50%-4px)] ros:md:[&>*]:w-[calc(33.333%-5.333px)] ros:xl:[&>*]:w-[calc(25%-6px)]">
         {photos.slice(0, shown).map((p, pi) => (
           <button key={p.src} onClick={() => setOpen(pi)} aria-label={`Open photo ${pi + 1}`} className="ros:group ros:block ros:overflow-hidden ros:rounded-lg ros:bg-black">
             <img src={p.thumb} alt={p.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-105" />

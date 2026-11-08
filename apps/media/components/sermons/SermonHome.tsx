@@ -65,7 +65,7 @@ export default function SermonHome({ sermons, search }: { sermons: Sermon[]; sea
         </div>
       ) : (
         <>
-          <div className="ros:-mx-1 ros:mt-4 ros:grid ros:grid-cols-1 ros:gap-x-3 ros:gap-y-4 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
+          <div className="ros:-mx-1 ros:mt-4 ros:flex ros:flex-wrap ros:justify-center ros:gap-x-3 ros:gap-y-4 ros:[&>*]:w-full ros:sm:[&>*]:w-[calc(50%-6px)] ros:xl:[&>*]:w-[calc(33.333%-8px)] ros:2xl:[&>*]:w-[calc(25%-9px)]">
             {list.slice(0, shown).map((s, i) => <SermonCard key={s.id} s={s} index={i} queue={list} />)}
           </div>
           {shown < list.length && (

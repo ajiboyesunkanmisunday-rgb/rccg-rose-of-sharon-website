@@ -71,7 +71,7 @@ const digitsOnly = (s: string) => s.replace(/\D/g, "");
 
 /**
  * Finds the church member behind a membership email or phone number. The backend's dedicated verify endpoint
- * (GET /users/verify?text=) is tried first; when it does not know the person, the member and e-member searches are used,
+ * (POST /users/verify) is tried first; when it does not know the person, the member and e-member searches are used,
  * exactly as before. `via` says which one answered. Only the id and first name are returned, never contact details.
  */
 export async function findMember(identifier: string): Promise<{ id: string; firstName: string; via: "verify" | "search" } | null> {
@@ -80,7 +80,8 @@ export async function findMember(identifier: string): Promise<{ id: string; firs
   const candidates = isEmail ? [identifier] : [identifier, `0${phone10}`, phone10];
   for (const text of [...new Set(candidates)]) {
     try {
-      const res = await rosFetch(`/users/verify?text=${encodeURIComponent(text)}`);
+      // POST /users/verify {text}: 200 with the member, 400 "You are not a register member." when there is none
+      const res = await rosFetch("/users/verify", { method: "POST", body: JSON.stringify({ text }) });
       if (!res.ok) continue;
       const u = await res.json();
       if (u?.id) return { id: u.id, firstName: u.firstName ?? "", via: "verify" };

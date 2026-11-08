@@ -36,7 +36,7 @@ export default function SeriesList({ sermons }: { sermons: Sermon[] }) {
             <h4 className="ros:text-[20px] ros:font-bold">{g.name}{g.parts && <span className="ros:ml-3 ros:rounded-full ros:bg-white/10 ros:px-3 ros:py-0.5 ros:align-middle ros:text-[11px] ros:font-bold ros:uppercase ros:tracking-[0.15em] ros:text-white/70">Multi-part</span>}</h4>
             <span className="ros:whitespace-nowrap ros:text-[13px] ros:text-white/40">{g.items.length} messages</span>
           </div>
-          <div className="ros:-mx-1 ros:mt-3 ros:grid ros:grid-cols-1 ros:gap-3 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
+          <div className="ros:-mx-1 ros:mt-3 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:[&>*]:w-full ros:sm:[&>*]:w-[calc(50%-6px)] ros:xl:[&>*]:w-[calc(33.333%-8px)] ros:2xl:[&>*]:w-[calc(25%-9px)]">
             {g.items.map((s, i) => (
               <div key={s.id} className="ros:relative">
                 {g.parts && s.part && s.series === g.name && <span className="ros:absolute ros:left-4 ros:top-4 ros:z-10 ros:rounded-full ros:bg-white ros:px-2.5 ros:py-0.5 ros:text-[11px] ros:font-extrabold ros:text-black">Part {s.part}</span>}
@@ -53,7 +53,7 @@ export default function SeriesList({ sermons }: { sermons: Sermon[] }) {
             <h4 className="ros:text-[20px] ros:font-bold">More messages</h4>
             <span className="ros:text-[13px] ros:text-white/40">{alone.length}</span>
           </div>
-          <div className="ros:-mx-1 ros:mt-3 ros:grid ros:grid-cols-1 ros:gap-3 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
+          <div className="ros:-mx-1 ros:mt-3 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:[&>*]:w-full ros:sm:[&>*]:w-[calc(50%-6px)] ros:xl:[&>*]:w-[calc(33.333%-8px)] ros:2xl:[&>*]:w-[calc(25%-9px)]">
             {alone.map((s, i) => <SermonCard key={s.id} s={s} index={i} queue={alone} />)}
           </div>
         </section>
