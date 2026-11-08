@@ -11,16 +11,3 @@ body {
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
-
-/* product cards: as many as fit (at most 4 across), never stretched; a short last row or a single product stays centred */
-.mp-grid {
-  display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 320px));
-  justify-content: center;
-  max-width: 1340px;
-  margin-inline: auto;
-}
-@media (min-width: 768px) {
-  .mp-grid { gap: 20px; }
-}

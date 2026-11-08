@@ -639,7 +639,7 @@ export default function MarketplacePage() {
               <button onClick={clearAllFilters} className="text-[#000080] text-[13px] font-semibold underline" style={vs}>Clear all filters</button>
             </div>
           ) : viewMode === "grid" ? (
-            <div className="mp-grid">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[14px] md:gap-[20px]">
               {paginated.map((product) => (
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[20px] p-[13px] flex flex-col gap-[18px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
