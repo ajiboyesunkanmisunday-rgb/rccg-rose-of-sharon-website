@@ -473,12 +473,12 @@ export default function MarketplacePage() {
       {/* Product detail modal */}
       {selectedProduct && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setSelectedProduct(null)}>
-          <div className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-[500px] flex flex-col gap-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-[24px] p-6 md:p-8 w-full max-w-[500px] flex flex-col gap-4 shadow-2xl max-h-[90vh] max-h-[90dvh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between">
               <h2 className="text-[#100E1A] text-[20px] font-bold" style={vs}>{selectedProduct.name}</h2>
               <button onClick={() => setSelectedProduct(null)} className="text-[#A3A1AF] text-[24px] leading-none">×</button>
             </div>
-            <div className="h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]">
+            <div className="h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]" style={{ flexShrink: 0 }}>
               <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
             </div>
             <div className="flex items-center gap-2">
@@ -639,7 +639,7 @@ export default function MarketplacePage() {
               <button onClick={clearAllFilters} className="text-[#000080] text-[13px] font-semibold underline" style={vs}>Clear all filters</button>
             </div>
           ) : viewMode === "grid" ? (
-            <div className="ros:flex ros:flex-wrap ros:justify-center gap-[14px] md:gap-[20px] ros:[&>*]:w-full ros:sm:[&>*]:w-[calc(50%-7px)] ros:md:[&>*]:w-[calc(50%-10px)] ros:lg:[&>*]:w-[calc(33.333%-13.333px)]">
+            <div className="mp-grid">
               {paginated.map((product) => (
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[20px] p-[13px] flex flex-col gap-[18px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
