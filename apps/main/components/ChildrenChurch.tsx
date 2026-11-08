@@ -114,7 +114,7 @@ export default function ChildrenChurch() {
       {/* ── Back To School ── */}
       <section className="ros:mx-auto ros:max-w-7xl ros:px-4 ros:py-14 ros:md:py-20">
         <SectionTitle pill="🎒 BACK TO SCHOOL" title={<>Back to School <span className="text-textRed">programme</span></>} sub="September 6th, 2026: school bags and school supplies were given out so that our children could start the new school year ready and confident." />
-        <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:md:grid-cols-3">
+        <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-3 ros:[&>*]:w-[calc(50%-6px)] ros:md:[&>*]:w-[calc(33.333%-8px)]">
           {SCHOOL_PHOTOS.map((ph, idx) => (
             <button key={ph.n} onClick={() => setOpen(idx)} aria-label={`Enlarge: ${ph.alt}`} className="ros:group ros:block ros:overflow-hidden ros:rounded-lg ros:bg-[#F4F4F4]">
               <img src={p(ph.n, true)} alt={ph.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" />
