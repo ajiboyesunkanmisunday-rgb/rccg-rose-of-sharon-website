@@ -50,3 +50,10 @@ Compared the live Swagger with the endpoint list from 2026-11-02: one new endpoi
 
 ## Backend bug: calendar for May (2026-11-07)
 `GET /events/calendar` returns damaged JSON for any range that includes 31 May 2026: the event "THANKSGIVING SERVICE" lists a new convert (mary ige) whose `service` field contains the same event again, hundreds of levels deep (circular reference), and the output ends in `"createdOn":]`. The management app repairs the text before reading it; the website now does the same on the server (`/api/calendar`) and also drops the first timers / second timers / new converts the endpoint attaches to events (their emails and phone numbers are publicly readable on this endpoint, which is a privacy problem to report). Backend fix: return an event DTO without the nested people.
+
+## Backend update (2026-11-08)
+Swagger diff against 2026-11-03: `GET /users/verify` replaced by `POST /users/verify` (JSON body `{"text": ...}`); new `GET /face-of-the-months/available`; new `PUT /users/{id}/upload-picture?profilePictureUrl=` and `PUT /users/{id}/upload-couple-picture?couplePictureUrl=`.
+- `POST /users/verify`: tested, finds members by email and by phone (200); unknown people get 400 "You are not a register member.". The website now uses it first (`findMember` in `lib/ros-server.ts`), with the member/e-member search as a fallback. Responses carry `"via":"verify"` or `"via":"search"`.
+- `GET /face-of-the-months/available`: public (no login), returns the current voting event with nominees. The Face of the Month page uses it; the Hall of Fame and the fallback still need the server login.
+- upload-picture / upload-couple-picture: not used yet; the registration forms already upload the picture to `/media` and send its address when creating the member.
+- Still open for the backend: `/events/calendar` returns damaged JSON for 31 May 2026 and exposes people's details; baby christening POST 500.
