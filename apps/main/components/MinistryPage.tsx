@@ -65,7 +65,7 @@ export default function MinistryPage({
 
       <Section className="ros:pt-0">
         <SectionTitle pill="💡 OUR HEART" title={<>What we <span className="text-textRed">stand for</span></>} />
-        <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-6 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-12px)]">
+        <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:md:grid-cols-2">
           {points.map((p) => (
             <div key={p.title} className="ros:flex ros:flex-col ros:gap-2 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">
               <h3 className="ros:text-lg ros:font-bold">{p.title}</h3>
