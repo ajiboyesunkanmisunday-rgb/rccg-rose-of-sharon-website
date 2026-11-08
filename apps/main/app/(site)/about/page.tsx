@@ -165,7 +165,7 @@ export default function AboutPage() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="mx-auto flex w-full max-w-6xl flex-wrap justify-center gap-12 px-6 py-12 md:py-16 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-24px)] ros:lg:[&>*]:w-[calc(33.333%-32px)]"
+          className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-12 px-6 py-12 md:grid-cols-2 md:py-16 lg:grid-cols-3"
         >
           <div>
             <h2 className="mt-6 font-anton text-3xl md:text-5xl md:leading-[55px]">
@@ -337,7 +337,7 @@ export default function AboutPage() {
                 <p className="text-center text-xl text-[#00000080]">More than a church, a place to grow</p>
               </div>
             </div>
-            <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-8 px-4 pb-8 md:pb-12 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-16px)] ros:lg:[&>*]:w-[calc(33.333%-21.333px)]">
+            <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
               {[
                 { image: "/home/believers-class.jpg", title: "Believers Class", href: "/trainings/believers-class", description: "Our Believers Class gets you up to speed with accurate scripture-based teachings designed to create a strong bedrock for your spiritual growth" },
                 { image: "/media/celebrations.f123ede1.jpg", title: "Celebrations", href: "/celebrations", description: "You are the answer to our prayers, so we celebrate you every day, especially on your special days. You mean that much to us." },

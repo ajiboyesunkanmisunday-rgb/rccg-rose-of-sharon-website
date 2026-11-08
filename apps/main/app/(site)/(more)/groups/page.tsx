@@ -68,7 +68,7 @@ export default function GroupsPage() {
         )}
 
         {!loading && groups.length > 0 && (
-          <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-[24px] ros:w-full">
+          <div className="ros:grid ros:grid-cols-1 ros:sm:grid-cols-2 ros:lg:grid-cols-3 ros:gap-[24px] ros:w-full">
             {groups.map((group) => {
               const headName = group.groupHead
                 ? `${group.groupHead.firstName ?? ""} ${group.groupHead.lastName ?? ""}`.trim()
@@ -76,7 +76,7 @@ export default function GroupsPage() {
               return (
                 <div
                   key={group.id}
-                  className="ros:w-full ros:sm:w-[calc(50%-12px)] ros:lg:w-[calc(33.333%-16px)] ros:bg-[#111111] ros:rounded-[16px] ros:flex ros:flex-col ros:gap-[16px] ros:p-[24px] ros:border ros:border-[#FFFFFFB3]/10 ros:hover:border-[#FFFFFFB3]/30 ros:transition-colors"
+                  className="ros:bg-[#111111] ros:rounded-[16px] ros:flex ros:flex-col ros:gap-[16px] ros:p-[24px] ros:border ros:border-[#FFFFFFB3]/10 ros:hover:border-[#FFFFFFB3]/30 ros:transition-colors"
                 >
                   <div className="ros:flex ros:items-center ros:gap-[12px]">
                     <div className="ros:size-[48px] ros:rounded-full ros:bg-[#DF4E4E] ros:flex ros:items-center ros:justify-center ros:flex-shrink-0">
