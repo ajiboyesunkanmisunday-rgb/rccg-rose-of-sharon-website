@@ -353,7 +353,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-8 md:grid-cols-2 md:pb-12 lg:grid-cols-3">
+          <div className="mx-auto flex max-w-7xl flex-wrap justify-center gap-8 px-4 pb-8 md:pb-12 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-16px)] ros:lg:[&>*]:w-[calc(33.333%-21.333px)]">
             {communityCards.map((card, index) => (
               <Link href={card.href} key={index}>
                 <div className="flex w-full flex-col gap-3 rounded-lg">

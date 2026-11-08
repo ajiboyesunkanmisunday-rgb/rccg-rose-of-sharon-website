@@ -25,6 +25,19 @@ export default function HeartsOfDavidPage() {
         { title: "Growing in the Word", text: "Teaching and conversation that help men understand and live out the Word of God." },
         { title: "Serving together", text: "Men serving the church family and reaching out to the community." },
       ]}
+      officers={{
+        title: <>New officers on the <span className="text-textRed">executive council</span></>,
+        items: [
+          { role: "Assistant General Secretary", names: "Bro Isreal Baiye" },
+          { role: "Publicity Secretary", names: "Bro Israel K. Adeniba" },
+          { role: "Assistant Publicity Secretary", names: "Bro Tobechuckwu" },
+          { role: "Hospitality / Welfare", names: "Bro Kunle Akintunde" },
+          { role: "Assistant Secretary, Hospitality / Welfare", names: "Bro Godfactor Chukwudi" },
+          { role: "Follow-up", names: "Bro Christian Tuoyo, Bro Emmanuel, Bro Godbless" },
+          { role: "New Media", names: "Bro Chijioke and Bro Prayer Ufot" },
+          { role: "Assistant Financial Secretary", names: "Bro Oluyemi" },
+        ],
+      }}
       joinText="Join the Hearts of David WhatsApp group to hear about meetings and programmes, or speak to the church office to get involved."
       others={[{ label: "Join a WhatsApp group", href: "/join" }, { label: "Rose of Sharon Choir", href: "/ministries/choir" }, { label: "Youth", href: "/youth" }, { label: "All ministries", href: "/ministries" }]}
     />

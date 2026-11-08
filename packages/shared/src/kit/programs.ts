@@ -121,7 +121,7 @@ export const PROGRAMS: Program[] = [
     step: "Step 4",
     registerLabel: "Register",
     registerText: "Apply for the School of Ministry.",
-    head: { name: "To be announced", title: "Head of program" },
+    head: { name: "Pastor Charles", title: "Head of School of Ministry", photo: "/trainings/school-of-ministry.jpg" },
     prerequisites: ["Born again and baptised in water", "A regular, committed member of the church", "A recommendation from your pastor or department head"],
     nextClass: "To be announced — check back soon",
     exam: {
