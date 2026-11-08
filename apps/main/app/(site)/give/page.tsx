@@ -141,7 +141,7 @@ export default function GivePage() {
         </div>
 
         <p className="mt-6 text-center text-sm font-bold uppercase tracking-[0.2em] text-[#00000099]">Rose of Sharon account details</p>
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 flex flex-wrap justify-center gap-4 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-8px)] ros:lg:[&>*]:w-[calc(33.333%-10.667px)]">
           {givingAccounts.map((g) => (
             <div key={g.label} className="flex w-full flex-col gap-3 rounded border p-4 md:p-6">
               <div className="text-xs font-bold uppercase text-[#00000099]">{g.label}</div>

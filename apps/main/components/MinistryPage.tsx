@@ -18,6 +18,7 @@ export default function MinistryPage({
   others,
   group,
   president,
+  officers,
 }: {
   pill: string;
   title: React.ReactNode;
@@ -37,6 +38,8 @@ export default function MinistryPage({
   group?: "men" | "women";
   /** the ministry president: shows a photo space (a placeholder until `photo` is set) */
   president?: { name?: string; photo?: string };
+  /** the executive officers, shown as centred cards */
+  officers?: { title: React.ReactNode; items: { role: string; names: string }[] };
 }) {
   const wa = group ? WHATSAPP_GROUPS.find((g) => g.key === group) : undefined;
   // the group's invite link when it exists, otherwise its QR code on the Join Us page
@@ -62,7 +65,7 @@ export default function MinistryPage({
 
       <Section className="ros:pt-0">
         <SectionTitle pill="💡 OUR HEART" title={<>What we <span className="text-textRed">stand for</span></>} />
-        <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:md:grid-cols-2">
+        <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-6 ros:[&>*]:w-full ros:md:[&>*]:w-[calc(50%-12px)]">
           {points.map((p) => (
             <div key={p.title} className="ros:flex ros:flex-col ros:gap-2 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6">
               <h3 className="ros:text-lg ros:font-bold">{p.title}</h3>
@@ -88,6 +91,20 @@ export default function MinistryPage({
               <h3 className="ros:text-lg ros:font-bold">{president.name || "To be announced"}</h3>
               <p className="ros:text-[10px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">President</p>
             </div>
+          </div>
+        </Section>
+      )}
+
+      {officers && (
+        <Section className="ros:pt-0">
+          <SectionTitle center pill="📋 EXECUTIVE OFFICERS" title={<>{officers.title}</>} />
+          <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-4">
+            {officers.items.map((o) => (
+              <div key={o.role} className="ros:flex ros:w-full ros:flex-col ros:items-center ros:gap-2 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:text-center ros:sm:w-[calc(50%-8px)] ros:lg:w-[calc(33.333%-10.667px)]">
+                <h3 className="ros:text-[11px] ros:font-extrabold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{o.role}</h3>
+                <p className="ros:text-lg ros:font-bold">{o.names}</p>
+              </div>
+            ))}
           </div>
         </Section>
       )}
