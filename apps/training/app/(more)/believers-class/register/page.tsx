@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { normalizePhone } from "@ros/shared/phone";
 import ProgramTabs from "@/components/ProgramTabs";
 
 const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1));
@@ -36,7 +37,7 @@ export default function BelieversClassRegisterPage() {
         middleName: form.middleName || undefined,
         lastName: form.lastName,
         countryCode: form.countryCode.replace(/^\+/, ""),
-        phoneNumber: form.phoneNumber,
+        phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
         sex: form.sex,
         street: form.street || undefined,

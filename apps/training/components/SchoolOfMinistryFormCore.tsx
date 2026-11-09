@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
+import { normalizePhone } from "@ros/shared/phone";
 import { usePaperScale } from "./usePaperScale";
 
 /* School of Ministry application: the same two-sheet paper form as the ROSMS admin web, filled in online. */
@@ -206,7 +207,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
         middleName: otherNames.trim() || undefined,
         lastName: surname.trim(),
         countryCode: countryCode.replace(/^\+/, "") || "234",
-        phoneNumber: phone.trim(),
+        phoneNumber: normalizePhone(phone, countryCode),
         sex: sex || undefined,
         maritalStatus: marital || undefined,
         dateOfBirth: dob || undefined,
@@ -218,7 +219,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
         country: country.trim() || undefined,
         occupation: occupation.trim() || undefined,
         placeOfWork: placeOfWork.trim() || undefined,
-        officePhoneNumber: officePhone.trim() || undefined,
+        officePhoneNumber: officePhone.trim() ? normalizePhone(officePhone, countryCode) : undefined,
         officeFullAddress: officeAddress.trim() || undefined,
         salvationDate: salvDate.trim() || undefined,
         salvationLocation: salvWhere.trim() || undefined,

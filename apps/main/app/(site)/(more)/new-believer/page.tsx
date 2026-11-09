@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "@ros/shared/link";
 import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
+import { normalizePhone } from "@ros/shared/phone";
 import { COUNTRY_CODES, COUNTRIES, statesForCountry } from "@ros/shared/kit/geo";
 
 type Service = { id: string; title?: string; topic?: string; date?: string; eventCategory?: string };
@@ -48,7 +49,7 @@ export default function NewBelieverPage() {
         middleName: form.middleName || undefined,
         lastName: form.lastName,
         countryCode: form.countryCode.replace(/^\+/, ""),
-        phoneNumber: form.phoneNumber,
+        phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
         sex: form.sex || undefined,
         eventId: form.eventId || undefined,

@@ -60,10 +60,8 @@ export default function CSRPage() {
     e.preventDefault();
     setStatus("loading");
     try {
+      // the request has only userId, assignedTo, subject and content: the visitor's details travel in the content
       await post("/requests/suggestion", {
-        fullName: form.fullName,
-        email: form.email,
-        phone: form.phone,
         subject: `CSR Interest — ${form.skill || "General"}`,
         content: `Name: ${form.fullName}\nEmail: ${form.email}\nPhone: ${form.phone}\nSkill of Interest: ${form.skill}\nMessage: ${form.message}`,
       });

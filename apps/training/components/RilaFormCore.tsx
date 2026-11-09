@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { createRila } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
+import { normalizePhone } from "@ros/shared/phone";
+import { toIsoDate } from "@ros/shared/dates";
 
 async function compressImage(file: File, maxDim = 800, quality = 0.8): Promise<File> {
   return new Promise((resolve) => {
@@ -269,6 +271,11 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
     }
     setSubmitError("");
     setSubmitting(true);
+    // the API only accepts dates as yyyy-MM-dd; the form asks for DD/MM/YYYY, so convert and refuse impossible dates
+    const dobIso = dob.trim() ? toIsoDate(dob) : "";
+    if (dob.trim() && !dobIso) { setSubmitError("Please write the Date of Birth as DD/MM/YYYY (a real date)."); return; }
+    const marriedIso = dateMarried.trim() ? toIsoDate(dateMarried) : "";
+    if (dateMarried.trim() && !marriedIso) { setSubmitError("Please write the Date Married as DD/MM/YYYY (a real date)."); return; }
     try {
       /* compress passport photo to base64 if provided — stored in memory only */
       let photoUrl = "";
@@ -328,20 +335,21 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
         middleName,
         lastName: surname.trim(),
         maidenName: maidenName || undefined,
-        phoneNumber: mobile.trim(),
+        phoneNumber: normalizePhone(mobile, "234"),
         otherPhoneNumber: telHome || undefined,
         email: email || undefined,
         profilePictureUrl: photoUrl || undefined,
         sex: sex || undefined,
-        dateOfBirth: dob || undefined,
+        dateOfBirth: dobIso || undefined,
         placeOfBirth: placeOfBirth || undefined,
         nationality: nationality || undefined,
         stateOfOrigin: stateOfOrigin || undefined,
         lga: lga || undefined,
         street: contactAddress || undefined,
-        maritalStatus: marital || undefined,
+        // the API's marital status values are SINGLE, MARRIED, DIVORCED, SEPARATED, WIDOWED, REMARRIED ...
+        maritalStatus: marital ? marital.toUpperCase() : undefined,
         spouseName: spouseName || undefined,
-        weddingDate: dateMarried || undefined,
+        weddingDate: marriedIso || undefined,
         noOfChildren: numChildren ? parseInt(numChildren, 10) : undefined,
         nextOfKinName: nokName || undefined,
         nextOfKinRelationship: nokRel || undefined,
