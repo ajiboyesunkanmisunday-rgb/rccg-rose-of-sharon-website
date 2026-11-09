@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
+import { normalizePhone } from "@ros/shared/phone";
+import { toIsoDate } from "@ros/shared/dates";
 import { usePaperScale } from "./usePaperScale";
 
 /*
@@ -102,15 +104,6 @@ function Note({ children }: { children: React.ReactNode }) {
 type Rows = Record<string, string>[];
 const blankRows = (keys: string[], n: number): Rows => Array.from({ length: n }, () => Object.fromEntries(keys.map((k) => [k, ""])));
 
-/** DD/MM/YYYY (or YYYY-MM-DD) to the YYYY-MM-DD the API wants; "" when it cannot be read. */
-function toIsoDate(v: string): string {
-  const t = v.trim();
-  let m = t.match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/);
-  if (m) return `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`;
-  m = t.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  return m ? t : "";
-}
-
 const initial = {
   surname: "", firstName: "", otherNames: "", sex: "", dob: "", marital: "", children: "", spouse: "", maiden: "",
   nokName: "", nokRel: "", nokPhone: "", nokAddress: "",
@@ -206,8 +199,8 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
         middleName: names || undefined,
         lastName: f.surname.trim(),
         maidenName: f.maiden.trim() || undefined,
-        countryCode: "+234",
-        phoneNumber: f.phone.trim(),
+        countryCode: "234",
+        phoneNumber: normalizePhone(f.phone, "234"),
         otherPhoneNumber: f.mobile.trim() || undefined,
         email: f.email.trim() || undefined,
         profilePictureUrl,

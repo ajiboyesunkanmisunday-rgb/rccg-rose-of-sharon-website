@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle } from "lucide-react";
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
+import { toIsoDate } from "@ros/shared/dates";
 import { usePaperScale } from "./usePaperScale";
 
 export type SodMode = "blank" | "fill";
@@ -282,6 +283,7 @@ export default function SchoolOfDisciplesFormCore({ mode = "fill" }: { mode?: So
     if (emailTrimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailTrimmed))
       missing.push("Email (invalid format — must be like name@example.com)");
     if (!dob.trim())          missing.push("Date of Birth");
+    else if (!toIsoDate(dob)) missing.push("Date of Birth (write it as yyyy-mm-dd or DD/MM/YYYY, a real date)");
     if (!nationality.trim())  missing.push("Nationality");
     if (!street.trim())       missing.push("Street Address");
     if (!city.trim())         missing.push("City");
@@ -370,7 +372,7 @@ export default function SchoolOfDisciplesFormCore({ mode = "fill" }: { mode?: So
         })(),
         email:             emailTrimmed || undefined,
         sex:               sexNorm as string | undefined,
-        dateOfBirth:       dob.trim() || undefined,          // yyyy-mm-dd from date input
+        dateOfBirth:       toIsoDate(dob) || undefined,       // the API only accepts yyyy-MM-dd
         maritalStatus:     marital ? (maritalMap[marital] ?? marital.toUpperCase()) : undefined,
         spouseName:        spouseName.trim()  || undefined,
         spousePhoneNumber: spousePhone.trim() || undefined,

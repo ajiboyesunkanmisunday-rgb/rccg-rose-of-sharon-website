@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
+import { normalizePhone } from "@ros/shared/phone";
 import { usePaperScale } from "./usePaperScale";
 
 export type WaterBaptismMode = "blank" | "fill";
@@ -97,8 +98,8 @@ function YesNo({ value, onChange, readOnly }: { value: string; onChange?: (v: st
 function splitPhone(raw: string): { countryCode: string; phoneNumber: string } {
   const t = raw.replace(/[\s()-]/g, "");
   const m = t.match(/^\+(\d{1,3})(\d{7,})$/);
-  if (m) return { countryCode: `+${m[1]}`, phoneNumber: m[2] };
-  return { countryCode: "+234", phoneNumber: t };
+  if (m) return { countryCode: m[1], phoneNumber: normalizePhone(m[2], m[1]) };
+  return { countryCode: "234", phoneNumber: normalizePhone(t, "234") };
 }
 
 export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBaptismMode }) {
@@ -218,7 +219,7 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
         occupation: f.occupation || undefined,
         employer: f.employer || undefined,
         officeFullAddress: f.officeAddress || undefined,
-        officePhoneNumber: f.officePhone || undefined,
+        officePhoneNumber: f.officePhone.trim() ? normalizePhone(f.officePhone, "234") : undefined,
         officeEmail: f.officeEmail || undefined,
         officeSocialMediaHandle: f.socialHandle || undefined,
         afraidOfWater: f.afraid === "YES",

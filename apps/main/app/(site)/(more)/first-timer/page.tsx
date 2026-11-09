@@ -5,6 +5,7 @@ import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, inputCls, selectCls, textareaCls, FormSheet, submitCls, inputClsNoW, selectClsNoW } from "@ros/shared/kit/form";
 import PhotoField from "@ros/shared/kit/PhotoField";
 import { post, uploadProfilePicture } from "@ros/shared/api";
+import { normalizePhone } from "@ros/shared/phone";
 import { COUNTRY_CODES, COUNTRIES, statesForCountry } from "@ros/shared/kit/geo";
 
 // "How was our service?" as the ROSMS form offers it, turned into the 1-5 rating the API stores.
@@ -68,7 +69,7 @@ export default function FirstTimerPage() {
         state: form.state || undefined,
         country: form.country || undefined,
         countryCode: form.countryCode.replace(/^\+/, ""),
-        phoneNumber: form.phoneNumber,
+        phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
         isVisiting: form.isVisiting,
         mediumOfInvitation: form.mediumOfInvitation || undefined,
