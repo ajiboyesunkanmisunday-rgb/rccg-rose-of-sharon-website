@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { findMember, rosFetch, rosConfigured, tooManyRequests } from "@/lib/ros-server";
+import { findMember, rosFetch, tooManyRequests } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,6 @@ const digits = (s: string) => s.replace(/\D/g, "");
  */
 export async function POST(req: Request) {
   if (tooManyRequests(req, "vote", 8)) return NextResponse.json({ message: "Too many attempts. Please wait a few minutes and try again." }, { status: 429 });
-  if (!rosConfigured()) return NextResponse.json({ message: "Voting is not available right now." }, { status: 503 });
   let body: { eventId?: string; nomineeId?: string; category?: string; phone?: string };
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Invalid request." }, { status: 400 }); }
   const { eventId, nomineeId, category, phone } = body;
@@ -19,8 +18,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Please choose a nominee and enter the phone number on your membership record." }, { status: 400 });
   }
 
-  const found = await findMember(phone);
+  const { found, unavailable } = await findMember(phone);
   const voterId = found?.id;
+  if (unavailable) return NextResponse.json({ message: "Voting is not available right now. Please try again later." }, { status: 503 });
   if (!voterId) {
     return NextResponse.json({ message: "We could not find a membership with that phone number. Please use the number you registered with." }, { status: 404 });
   }

@@ -57,3 +57,11 @@ Swagger diff against 2026-11-03: `GET /users/verify` replaced by `POST /users/ve
 - `GET /face-of-the-months/available`: public (no login), returns the current voting event with nominees. The Face of the Month page uses it; the Hall of Fame and the fallback still need the server login.
 - upload-picture / upload-couple-picture: not used yet; the registration forms already upload the picture to `/media` and send its address when creating the member.
 - Still open for the backend: `/events/calendar` returns damaged JSON for 31 May 2026 and exposes people's details; baby christening POST 500.
+
+## How the backend intends the flows to run (tested 2026-11-09, no login)
+Public (no token): `POST /users/verify {"text"}`, `GET /face-of-the-months/available`, `PUT /voting/{eventId}`, and the create calls (celebrations, requests incl. welfare, water-baptisms, workers-in-training, school-of-*, registrations, testimonies, announcements, products, media upload).
+- Sequence for member-only forms: 1) `POST /users/verify` with the exact member email, or the phone number as the last 10 digits (no leading 0, no country code); 400 "You are not a register member." = not registered. 2) use the returned `id` as `userId` / `submittedBy` / `voterId` in the create call.
+- Face of the Month: `GET /face-of-the-months/available` -> verify the voter -> `PUT /voting/{id}` with `{voterId, votedFor, category}`.
+- The website's server routes now follow this and need no login. The login is only used as a fallback when `/users/verify` is unreachable, and for the token-only reads below.
+Token required (so these stay off on the live sites until the backend says how public pages should read them): `GET /announcements/read`, `GET /settings` (submission deadline), `GET /training-events`, `GET /score-sheets/broadsheet` (official results), `GET /media/category` (sermons/gallery library), `GET /face-of-the-months` (Hall of Fame list), member search.
+Privacy notes for the backend: `POST /users/verify` returns the member's email and phone to anyone who knows an email or number, and `GET /face-of-the-months/available` returns every nominee's email and phone publicly.
