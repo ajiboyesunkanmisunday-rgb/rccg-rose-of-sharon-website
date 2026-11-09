@@ -69,37 +69,42 @@ export async function rosFetch(path: string, init: RequestInit = {}): Promise<Re
 
 const digitsOnly = (s: string) => s.replace(/\D/g, "");
 
+export type MemberLookup = { found: { id: string; firstName: string; via: "verify" | "search" } | null; unavailable?: boolean };
+
 /**
- * Finds the church member behind a membership email or phone number. The backend's dedicated verify endpoint
- * (POST /users/verify) is tried first; when it does not know the person, the member and e-member searches are used,
- * exactly as before. `via` says which one answered. Only the id and first name are returned, never contact details.
+ * Finds the church member behind a membership email or phone number, the way the backend intends: POST /users/verify
+ * with {"text": ...}. It needs no login: 200 gives the member, 400 "You are not a register member." means there is none.
+ * The text must be exactly what the member record holds: the email (any case, no spaces) or the phone number as the
+ * last 10 digits (no leading 0, no country code). Only if the endpoint itself is unavailable, and this server has a
+ * login, the member search is used instead. Only the id and first name are returned, never contact details.
  */
-export async function findMember(identifier: string): Promise<{ id: string; firstName: string; via: "verify" | "search" } | null> {
+export async function findMember(identifier: string): Promise<MemberLookup> {
   const isEmail = identifier.includes("@");
   const phone10 = digitsOnly(identifier).replace(/^0+/, "").slice(-10);
-  const candidates = isEmail ? [identifier] : [identifier, `0${phone10}`, phone10];
-  for (const text of [...new Set(candidates)]) {
-    try {
-      // POST /users/verify {text}: 200 with the member, 400 "You are not a register member." when there is none
-      const res = await rosFetch("/users/verify", { method: "POST", body: JSON.stringify({ text }) });
-      if (!res.ok) continue;
-      const u = await res.json();
-      if (u?.id) return { id: u.id, firstName: u.firstName ?? "", via: "verify" };
-    } catch { /* fall back to the search below */ }
-  }
+  const text = isEmail ? identifier.trim() : phone10;
+  try {
+    const res = await rosFetch("/users/verify", { method: "POST", body: JSON.stringify({ text }) });
+    if (res.ok) {
+      const u = await res.json().catch(() => null);
+      if (u?.id) return { found: { id: u.id, firstName: u.firstName ?? "", via: "verify" } };
+    } else if (res.status === 400) {
+      return { found: null };
+    }
+  } catch { /* endpoint unreachable: try the fallback below */ }
+  if (!rosConfigured()) return { found: null, unavailable: true };
   type Person = { id: string; firstName?: string; email?: string; phoneNumber?: string };
   for (const kind of ["member", "e-member"]) {
     try {
-      const res = await rosFetch(`/users/${kind}/search?pageNo=0&pageSize=20`, { method: "POST", body: JSON.stringify({ text: isEmail ? identifier : phone10 }) });
+      const res = await rosFetch(`/users/${kind}/search?pageNo=0&pageSize=20`, { method: "POST", body: JSON.stringify({ text: isEmail ? identifier.trim() : phone10 }) });
       if (!res.ok) continue;
       const people: Person[] = (await res.json()).content ?? [];
       const match = people.find((p) => isEmail
-        ? p.email?.trim().toLowerCase() === identifier.toLowerCase()
+        ? p.email?.trim().toLowerCase() === identifier.trim().toLowerCase()
         : !!p.phoneNumber && digitsOnly(p.phoneNumber).replace(/^0+/, "").slice(-10) === phone10);
-      if (match) return { id: match.id, firstName: match.firstName ?? "", via: "search" };
+      if (match) return { found: { id: match.id, firstName: match.firstName ?? "", via: "search" } };
     } catch { /* try the next list */ }
   }
-  return null;
+  return { found: null, unavailable: true };
 }
 
 const hits = new Map<string, number[]>();
