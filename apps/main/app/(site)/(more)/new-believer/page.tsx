@@ -52,7 +52,7 @@ export default function NewBelieverPage() {
         phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
         sex: form.sex || undefined,
-        eventId: form.eventId || undefined,
+        eventId: form.eventId,
         street: form.street || undefined,
         city: form.city || undefined,
         state: form.state || undefined,
@@ -143,20 +143,21 @@ export default function NewBelieverPage() {
                 <FormField label="Email">
                   <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="Enter Email" />
                 </FormField>
-                <FormField label="Gender">
-                  <select value={form.sex} onChange={set("sex")} className={selectCls}>
+                <FormField label="Gender" required>
+                  <select required value={form.sex} onChange={set("sex")} className={selectCls}>
                     <option value="">Select Gender</option>
                     <option value="MALE">Male</option>
                     <option value="FEMALE">Female</option>
                   </select>
                 </FormField>
-                <FormField label="Service Attended">
-                  <select value={form.eventId} onChange={set("eventId")} className={selectCls}>
+                <FormField label="Service Attended" required>
+                  <select required value={form.eventId} onChange={set("eventId")} className={selectCls}>
                     <option value="">{services === null ? "Loading services..." : services.length ? "Select Service" : "No recent services found"}</option>
                     {(services ?? []).map((sv) => (
                       <option key={sv.id} value={sv.id}>{`${sv.title ?? sv.topic ?? "Service"}${sv.date ? " — " + new Date(sv.date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""}`}</option>
                     ))}
                   </select>
+                  {services !== null && services.length === 0 && <p className="ros:mt-1 ros:text-[12px] ros:text-[#B45309]">No recent services are listed yet, so the registration cannot be completed right now. Please try again later or speak to the church office.</p>}
                 </FormField>
               </div>
             </FormCard>

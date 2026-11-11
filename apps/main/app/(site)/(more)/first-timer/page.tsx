@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, inputCls, selectCls, textareaCls, FormSheet, submitCls, inputClsNoW, selectClsNoW } from "@ros/shared/kit/form";
 import PhotoField from "@ros/shared/kit/PhotoField";
@@ -19,6 +19,9 @@ const OCCUPATIONS = ["Student", "Engineer", "Doctor", "Teacher", "Lawyer", "Busi
 const HEAR = ["Friends & Family", "Billboard", "Flyer", "Crusade", "TV & Radio", "Social Media", "Others"];
 const FAVOURITE = ["Music", "Media", "Sermon", "Ambience", "Hospitality", "Friendliness"];
 
+type Service = { id: string; title?: string; topic?: string; date?: string; eventCategory?: string };
+const dayIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 export default function FirstTimerPage() {
@@ -30,8 +33,19 @@ export default function FirstTimerPage() {
     isVisiting: false,
     mediumOfInvitation: "", worshippedOnline: "",
     howWasService: "", favouritePartOfService: "", attendRegularly: "", preferredContact: "",
-    prayerRequest: "",
+    prayerRequest: "", eventId: "",
   });
+  // "Service Attended": the backend links a first-timer to the service they came to, so it needs a service id. The
+  // choices are the church's services of the last two months, from the same public calendar as the Events page.
+  const [services, setServices] = useState<Service[] | null>(null);
+  useEffect(() => {
+    const to = new Date();
+    const from = new Date(to.getTime() - 60 * 86400000);
+    fetch(`/api/calendar?startDay=${dayIso(from)}&endDay=${dayIso(to)}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list: Service[]) => setServices((Array.isArray(list) ? list : []).filter((e) => !e.eventCategory || ["SERVICE", "SPECIAL_SERVICE"].includes(e.eventCategory)).sort((a, b) => String(b.date).localeCompare(String(a.date)))))
+      .catch(() => setServices([]));
+  }, []);
   const [photo, setPhoto] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
@@ -71,6 +85,7 @@ export default function FirstTimerPage() {
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
+        eventId: form.eventId,
         isVisiting: form.isVisiting,
         mediumOfInvitation: form.mediumOfInvitation || undefined,
         fromOnline: form.worshippedOnline ? form.worshippedOnline === "Yes" : undefined,
@@ -187,6 +202,15 @@ export default function FirstTimerPage() {
                     <option value="">Select marital status</option>
                     {MARITAL.map((m) => <option key={m.label} value={m.label}>{m.label}</option>)}
                   </select>
+                </FormField>
+                <FormField label="Service Attended" required>
+                  <select required value={form.eventId} onChange={set("eventId")} className={selectCls}>
+                    <option value="">{services === null ? "Loading services..." : services.length ? "Select service" : "No recent services found"}</option>
+                    {(services ?? []).map((sv) => (
+                      <option key={sv.id} value={sv.id}>{`${sv.title ?? sv.topic ?? "Service"}${sv.date ? " — " + new Date(`${String(sv.date).slice(0, 10)}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""}`}</option>
+                    ))}
+                  </select>
+                  {services !== null && services.length === 0 && <p className="ros:mt-1 ros:text-[12px] ros:text-[#B45309]">No recent services are listed yet, so the registration cannot be completed right now. Please try again later or speak to the church office.</p>}
                 </FormField>
                 <FormField label="Occupation">
                   <select value={form.occupation} onChange={set("occupation")} className={selectCls}>
