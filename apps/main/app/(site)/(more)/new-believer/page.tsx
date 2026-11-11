@@ -8,6 +8,7 @@ import Link from "@ros/shared/link";
 import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls, inputClsNoW, selectClsNoW, textareaClsNoW } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
 import { normalizePhone } from "@ros/shared/phone";
+import { addressForApi } from "@ros/shared/address";
 import { COUNTRY_CODES, COUNTRIES, statesForCountry } from "@ros/shared/kit/geo";
 
 type Service = { id: string; title?: string; topic?: string; date?: string; eventCategory?: string };
@@ -41,8 +42,10 @@ export default function NewBelieverPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus("loading");
     setError("");
+    const addr = addressForApi(form, "state-country");
+    if (addr.error) { setStatus("error"); setError(addr.error); return; }
+    setStatus("loading");
     try {
       await post("/new-converts", {
         firstName: form.firstName,
@@ -53,10 +56,7 @@ export default function NewBelieverPage() {
         email: form.email || undefined,
         sex: form.sex || undefined,
         eventId: form.eventId,
-        street: form.street || undefined,
-        city: form.city || undefined,
-        state: form.state || undefined,
-        country: form.country || undefined,
+        ...addr.fields,
       });
       setStatus("success");
     } catch (err: unknown) {
@@ -131,12 +131,12 @@ export default function NewBelieverPage() {
                 <FormField label="Last Name" required>
                   <input type="text" required value={form.lastName} onChange={set("lastName")} className={inputCls} placeholder="Enter Last Name" />
                 </FormField>
-                <FormField label="Phone Number">
+                <FormField label="Phone Number" required>
                   <div className="ros:flex ros:gap-[8px] ros:w-full">
                     <select value={form.countryCode} onChange={set("countryCode")} className={`${selectClsNoW} ros:w-[110px] ros:flex-shrink-0`}>
                       {COUNTRY_CODES.map((c) => <option key={c.name} value={c.code}>{c.code}</option>)}
                     </select>
-                    <input type="tel" value={form.phoneNumber} onChange={set("phoneNumber")} className={`${inputClsNoW} ros:min-w-0 ros:flex-1`} placeholder="Enter Phone Number" />
+                    <input type="tel" required value={form.phoneNumber} onChange={set("phoneNumber")} className={`${inputClsNoW} ros:min-w-0 ros:flex-1`} placeholder="Enter Phone Number" />
                   </div>
                   <p className="ros:mt-1 ros:text-[12px] ros:text-[#6B7280]">Digits only — dashes, spaces &amp; leading 0 are stripped automatically</p>
                 </FormField>

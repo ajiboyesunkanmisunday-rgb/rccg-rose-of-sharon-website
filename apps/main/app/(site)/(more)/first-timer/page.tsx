@@ -6,6 +6,7 @@ import { FormField, FormCard, inputCls, selectCls, textareaCls, FormSheet, submi
 import PhotoField from "@ros/shared/kit/PhotoField";
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { normalizePhone } from "@ros/shared/phone";
+import { addressForApi } from "@ros/shared/address";
 import { COUNTRY_CODES, COUNTRIES, statesForCountry } from "@ros/shared/kit/geo";
 
 // "How was our service?" as the ROSMS form offers it, turned into the 1-5 rating the API stores.
@@ -56,9 +57,11 @@ export default function FirstTimerPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus("loading");
     setError("");
     setPhotoWarning(false);
+    const addr = addressForApi(form, "state-country");
+    if (addr.error) { setStatus("error"); setError(addr.error); return; }
+    setStatus("loading");
     try {
       let profilePictureUrl: string | undefined;
       if (photo) {
@@ -78,10 +81,7 @@ export default function FirstTimerPage() {
         dayOfBirth: form.dobDay ? parseInt(form.dobDay) : undefined,
         monthOfBirth: form.dobMonth ? parseInt(form.dobMonth) : undefined,
         yearOfBirth: form.dobYear ? parseInt(form.dobYear) : undefined,
-        street: form.street || undefined,
-        city: form.city || undefined,
-        state: form.state || undefined,
-        country: form.country || undefined,
+        ...addr.fields,
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
@@ -158,8 +158,8 @@ export default function FirstTimerPage() {
                   </div>
                 </FormField>
                 <FormField label="Middle Name (optional)"><input type="text" value={form.middleName} onChange={set("middleName")} className={inputCls} placeholder="Enter middle name" /></FormField>
-                <FormField label="Gender (optional)">
-                  <select value={form.sex} onChange={set("sex")} className={selectCls}>
+                <FormField label="Gender" required>
+                  <select required value={form.sex} onChange={set("sex")} className={selectCls}>
                     <option value="">Select gender</option><option value="MALE">Male</option><option value="FEMALE">Female</option>
                   </select>
                 </FormField>
@@ -197,8 +197,8 @@ export default function FirstTimerPage() {
 
             <FormCard>
               <div className="ros:grid ros:grid-cols-1 ros:gap-4 ros:sm:grid-cols-2">
-                <FormField label="Marital Status">
-                  <select value={form.maritalStatus} onChange={set("maritalStatus")} className={selectCls}>
+                <FormField label="Marital Status" required>
+                  <select required value={form.maritalStatus} onChange={set("maritalStatus")} className={selectCls}>
                     <option value="">Select marital status</option>
                     {MARITAL.map((m) => <option key={m.label} value={m.label}>{m.label}</option>)}
                   </select>
