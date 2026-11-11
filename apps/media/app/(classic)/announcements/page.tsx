@@ -9,8 +9,8 @@ interface Announcement {
   id: string;
   subject: string;
   content: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | number[];
+  endDate?: string | number[];
   createdOn?: string;
 }
 
@@ -186,7 +186,7 @@ export default function AnnouncementsPage() {
                         <span className="ros:mt-1 ros:flex ros:items-center ros:gap-2 ros:text-[12px] ros:text-[#9CA3AF]">
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="ros:size-[14px]" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>
                           {ago(d)} · {d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
-                          {a.endDate && a.endDate !== a.startDate && <span className="ros:rounded-full ros:bg-black/5 ros:px-2 ros:py-[1px]">until {new Date(a.endDate).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>}
+                          {(() => { const day = (v?: string | number[]) => (Array.isArray(v) ? `${v[0]}-${String(v[1]).padStart(2, "0")}-${String(v[2]).padStart(2, "0")}` : v); const end = day(a.endDate); const until = end ? parseApiDate(end) : null; return end && end !== day(a.startDate) && until ? <span className="ros:rounded-full ros:bg-black/5 ros:px-2 ros:py-[1px]">until {until.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span> : null; })()}
                         </span>
                       </span>
                     </button>
