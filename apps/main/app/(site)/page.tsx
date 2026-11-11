@@ -118,7 +118,7 @@ const adBanners = [
     href: "/light-up-ikeja",
   },
   {
-    image: "/openview.4a75c3d5.jpg",
+    image: "/buildingproject/ros-tower-2.jpg",
     tag: "Project",
     title: "ROS Project 2",
     text: "Details of our next project will be shared here.",
