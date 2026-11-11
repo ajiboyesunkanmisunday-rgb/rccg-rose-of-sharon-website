@@ -6,6 +6,7 @@ import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls, inputCl
 import PhotoField from "@ros/shared/kit/PhotoField";
 import { COUNTRIES, COUNTRY_CODES, NIGERIAN_STATES } from "@ros/shared/kit/geo";
 import { getGroups, post, uploadProfilePicture, type GroupResponse } from "@ros/shared/api";
+import { addressForApi } from "@ros/shared/address";
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -52,6 +53,10 @@ export default function BecomeAMemberPage() {
     setError("");
     setPhotoWarning(false);
     if (!form.sex) { setError("Please select your gender."); return; }
+    if (!form.dobDay || !form.dobMonth) { setError("Please choose the day and month of your birth."); return; }
+    if (!form.maritalStatus) { setError("Please choose your marital status."); return; }
+    const addr = addressForApi(form, "full");
+    if (addr.error) { setError(addr.error); return; }
     setStatus("loading");
     try {
       let profilePictureUrl: string | undefined;
@@ -78,10 +83,7 @@ export default function BecomeAMemberPage() {
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: form.phoneNumber,
         email: form.email.trim() || undefined,
-        street: form.street.trim() || undefined,
-        city: form.city.trim() || undefined,
-        state: form.state || undefined,
-        country: form.country || undefined,
+        ...addr.fields,
         groupIds: departments.length ? departments : undefined,
         profilePictureUrl,
       });
@@ -154,7 +156,7 @@ export default function BecomeAMemberPage() {
                     <option value="">Select Gender</option><option value="MALE">Male</option><option value="FEMALE">Female</option>
                   </select>
                 </FormField>
-                <FormField label="Date of Birth">{dateRow("dobDay", "dobMonth", "dobYear", 100)}</FormField>
+                <FormField label="Date of Birth" required>{dateRow("dobDay", "dobMonth", "dobYear", 100)}</FormField>
               </div>
             </FormCard>
 
@@ -178,7 +180,7 @@ export default function BecomeAMemberPage() {
                     <input type="text" value={form.state} onChange={set("state")} className={inputCls} placeholder={form.country ? "Enter state / province" : "Select a country first"} />
                   )}
                 </FormField>
-                <FormField label="Marital Status">
+                <FormField label="Marital Status" required>
                   <select value={form.maritalStatus} onChange={set("maritalStatus")} className={selectCls}>
                     <option value="">Select Marital Status</option>
                     <option value="SINGLE">Single</option><option value="MARRIED">Married</option>

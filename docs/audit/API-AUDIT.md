@@ -79,3 +79,14 @@ Still to confirm with the backend team: how public pages may read the token-only
 - Fix on the site: both forms now have a required "Service Attended" list (public calendar, last 60 days; the same source as the Events page) and the new believer form marks Gender required. Without a listed service the form says so instead of failing.
 - **Operations:** the public calendar currently has no services after June 2026 (Jul-Nov are empty), so there is nothing to select. The church team must create the Sunday / midweek service events in the management app (Event Management) for first-timer and new-believer registration to work.
 - **Backend (to report):** a missing `eventId` should be a 400 validation message, not a 500; and `POST /media` (picture upload) now answers 401 "Token is required" to the public site (it was public on 30 Oct). Pictures uploaded from public forms (first-timer, membership, e-member, training forms, marketplace) cannot be saved until the backend says how public uploads should work.
+
+## Registration rules of the live backend (tested 2026-11-11 with labelled "ZZ Test" records; 201 = created)
+| Endpoint | Required | Address rule |
+|---|---|---|
+| `POST /users/first-timer` | firstName, lastName, sex, maritalStatus, eventId (service), and at least one of phone / email / address | state + country together or neither (street, city free); duplicate -> 400 "Similar record already exists" |
+| `POST /new-converts` | firstName, lastName, sex, eventId, phone (without a phone it answers 500) | same as first-timer |
+| `POST /users/member` | firstName, lastName, dayOfBirth, monthOfBirth, maritalStatus, sex (+ phone/email as the form asks) | the whole address (street, city, state, country) or none |
+| `POST /users/e-member` | same as member | state + country together or neither |
+Services (`eventId`) can only be created for today or later ("Date cannot be invalid" for past dates), so the church must create each week's services in advance in Event Management; the public form lists the last 60 days of services.
+Website: first-timer, new believer, membership and e-membership forms follow these rules (`packages/shared/src/address.ts` builds the address; required fields marked). Each was submitted for real from the website and returned 201 (test records "ZZ Test ...").
+Not yet re-checked against these new rules: the training application forms (Water Baptism, Workers in Training, School of Ministry, School of Disciples, RILA) and the celebration, welfare and marketplace calls.

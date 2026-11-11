@@ -7,6 +7,7 @@ import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls, selectC
 import { COUNTRIES, COUNTRY_CODES, NIGERIAN_STATES } from "@ros/shared/kit/geo";
 import PhotoField from "@ros/shared/kit/PhotoField";
 import { getGroups, post, uploadProfilePicture, type GroupResponse } from "@ros/shared/api";
+import { addressForApi } from "@ros/shared/address";
 
 const months = [
   "January", "February", "March", "April", "May", "June",
@@ -51,6 +52,10 @@ export default function EMemberPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    const addr = addressForApi({ street: "", city: "", state: form.state, country: form.country }, "state-country");
+    if (addr.error) { setStatus("error"); setError(addr.error); return; }
+    if (!form.dobDay || !form.dobMonth) { setStatus("error"); setError("Please choose the day and month of your birth."); return; }
+    if (!form.maritalStatus) { setStatus("error"); setError("Please choose your marital status."); return; }
     setStatus("loading");
     try {
       let profilePictureUrl: string | undefined;
@@ -66,8 +71,7 @@ export default function EMemberPage() {
         countryCode: form.countryCode.replace(/^\+/, ""),
         phoneNumber: form.phoneNumber || undefined,
         sex: form.sex || undefined,
-        country: form.country || undefined,
-        state: form.state || undefined,
+        ...addr.fields,
         maritalStatus: form.maritalStatus || undefined,
         groupIds: groupIds.length ? groupIds : undefined,
         profilePictureUrl,
@@ -167,8 +171,8 @@ export default function EMemberPage() {
                 <FormField label="Email">
                   <input type="email" value={form.email} onChange={set("email")} className={inputCls} placeholder="Enter email address" />
                 </FormField>
-                <FormField label="Date of Birth">{dateRow("dobDay", "dobMonth", "dobYear", 100)}</FormField>
-                <FormField label="Marital Status">
+                <FormField label="Date of Birth" required>{dateRow("dobDay", "dobMonth", "dobYear", 100)}</FormField>
+                <FormField label="Marital Status" required>
                   <select value={form.maritalStatus} onChange={set("maritalStatus")} className={selectCls}>
                     <option value="">Select Marital Status</option>
                     <option value="SINGLE">Single</option>
