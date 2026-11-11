@@ -6,6 +6,7 @@ import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "
 import { post, uploadProfilePicture } from "@ros/shared/api";
 import { resolveHref } from "@ros/shared/sites";
 import { normalizePhone } from "@ros/shared/phone";
+import { toIsoDate } from "@ros/shared/dates";
 import { usePaperScale } from "./usePaperScale";
 
 /* School of Ministry application: the same two-sheet paper form as the ROSMS admin web, filled in online. */
@@ -156,6 +157,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
   const [setLabel, setSetLabel] = useState("");
   const [member, setMember] = useState<VerifiedMember>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [photoSkipped, setPhotoSkipped] = useState(false);
   const photoRef = useRef<HTMLInputElement>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState("");
@@ -172,14 +174,24 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
     setList(list.map((x, idx) => (idx === i ? (typeof x === "object" ? { ...x, ...(patch as object) } : (patch as T)) : x)));
 
   const handleSubmit = async () => {
+    // what the backend insists on for a School of Ministry application (tested against the live API, 2026-11-11)
     const missing: string[] = [];
     if (!setLabel.trim()) missing.push("Set");
     if (!surname.trim()) missing.push("Surname");
     if (!firstName.trim()) missing.push("First name");
     if (!phone.trim()) missing.push("Phone no.");
-    if (!city.trim()) missing.push("City");
-    if (!state.trim()) missing.push("State");
-    if (!photoFile) missing.push("Passport photograph");
+    if (!dob.trim() || !toIsoDate(dob)) missing.push("Date of Birth");
+    if (!marital) missing.push("Marital Status");
+    if (!occupation.trim()) missing.push("Occupation");
+    if (!placeOfWork.trim()) missing.push("Place of Work");
+    if (!officeAddress.trim()) missing.push("Office Address");
+    if (!salvDate.trim()) missing.push("Date of salvation");
+    if (!salvWhere.trim()) missing.push("Place of salvation");
+    if (!waterDate.trim()) missing.push("Date of water baptism");
+    if (!waterChurch.trim()) missing.push("Church of water baptism");
+    if (!spiritDate.trim()) missing.push("Date of Holy Spirit baptism");
+    if (!spiritChurch.trim()) missing.push("Church of Holy Spirit baptism");
+    if (!schools.some((x) => x.school.trim() || x.dates.trim() || x.qualification.trim())) missing.push("at least one educational or professional qualification");
     if (!signature.trim()) missing.push("Signature (type your full name)");
     if (missing.length) {
       setSubmitError(`Please fill in: ${missing.join(", ")}.`);
@@ -189,16 +201,17 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
     setSubmitting(true);
     try {
       const otherLines = other.map((x) => x.trim()).filter(Boolean);
+      // the backend does not require a picture for this application, and its record has no picture field: the
+      // photograph's address travels with the form when it could be uploaded; if it could not, the application still goes
       let photoUrl = "";
-      try {
-        photoUrl = await uploadProfilePicture(photoFile!);
-      } catch {
-        setSubmitError("The passport photograph could not be uploaded. Try a smaller picture.");
-        setSubmitting(false);
-        return;
+      if (photoFile) {
+        try {
+          photoUrl = await uploadProfilePicture(photoFile);
+        } catch {
+          setPhotoSkipped(true);
+        }
       }
-      // the School of Ministry record has no picture field of its own, so the photograph's address travels with the form
-      otherLines.push(`Passport photograph: ${photoUrl}`);
+      if (photoUrl) otherLines.push(`Passport photograph: ${photoUrl}`);
       if (waterClass) otherLines.push(`Gone through the water baptismal class: ${waterClass === "yes" ? "Yes" : "No"}`);
       await post("/school-of-ministries", {
         set: setLabel.trim(),
@@ -255,6 +268,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
         <p style={{ color: "#555", textAlign: "center", maxWidth: 460, fontSize: 14, margin: 0 }}>
           Your School of Ministry application has been received. Our team will be in touch.
         </p>
+        {photoSkipped && <p style={{ color: "#B45309", textAlign: "center", maxWidth: 460, fontSize: 13, margin: 0 }}>Your passport photograph could not be uploaded this time. Please bring it to the training office.</p>}
         <button
           onClick={() => router.push(resolveHref("/trainings/school-of-ministry"))}
           style={{ padding: "9px 22px", borderRadius: 8, border: "none", background: "#DC2626", color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 14 }}
@@ -271,13 +285,13 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
     <div id="som-sheet-1" className="som-paper" style={{ ...PAPER, position: "relative" }}>
       <div
         onClick={() => !ro && photoRef.current?.click()}
-        style={{ position: "absolute", top: 28, right: 28, width: 96, height: 120, border: !ro && !photoPreview ? "1.5px solid #DC2626" : "1px solid #000", display: "flex", alignItems: "center", justifyContent: "center", cursor: ro ? "default" : "pointer", overflow: "hidden", background: "#fff" }}
+        style={{ position: "absolute", top: 28, right: 28, width: 96, height: 120, border: "1px solid #000", display: "flex", alignItems: "center", justifyContent: "center", cursor: ro ? "default" : "pointer", overflow: "hidden", background: "#fff" }}
       >
         {photoPreview ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
-          <span style={{ fontSize: 10, color: "#555", textAlign: "center", padding: 4 }}>Passport<br />Photograph<Req /><br />(click to upload)</span>
+          <span style={{ fontSize: 10, color: "#555", textAlign: "center", padding: 4 }}>Passport<br />Photograph<br />(click to upload)</span>
         )}
         {!ro && <input ref={photoRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handlePhoto} />}
       </div>

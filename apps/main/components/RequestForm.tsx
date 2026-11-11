@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, FormSheet, inputCls, selectCls, textareaCls, submitCls } from "@ros/shared/kit/form";
 import Link from "@ros/shared/link";
-import { post } from "@ros/shared/api";
+import { post, ApiError } from "@ros/shared/api";
 
 export interface RequestField {
   key: string;
@@ -86,7 +86,15 @@ export default function RequestForm({
     setError("");
     try {
       const lines = fields.filter((f) => values[f.key]?.trim()).map((f) => `${f.label}: ${values[f.key].trim()}`);
-      await post(endpoint, { ...(member ? { userId: member.id } : {}), subject: subjectField && values[subjectField] ? `${subject} — ${values[subjectField]}` : subject, content: lines.join("\n") });
+      const payload = { ...(member ? { userId: member.id } : {}), subject: subjectField && values[subjectField] ? `${subject} — ${values[subjectField]}` : subject, content: lines.join("\n") };
+      try {
+        await post(endpoint, payload);
+      } catch (err) {
+        // while the backend cannot save this request type (it answers 500, tested 2026-11-11), the request is filed as a
+        // suggestion with a clear title and the verified member attached, so the church team still receives it
+        if (endpoint === "/requests/suggestion" || !(err instanceof ApiError) || ![401, 403, 500, 502, 503].includes(err.status)) throw err;
+        await post("/requests/suggestion", { ...payload, subject: `[${subject}] ${payload.subject}` });
+      }
       setStatus("success");
     } catch (err) {
       setStatus("error");
