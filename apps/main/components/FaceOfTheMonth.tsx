@@ -70,7 +70,7 @@ export default function FaceOfTheMonth() {
       const res = await fetch("/api/face-of-the-month/vote", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId: data.event.id, nomineeId: picked.id, category: picked.sex, phone }),
+        body: JSON.stringify({ eventId: data.event.id, nomineeId: picked.id, phone }),
       });
       const json = await res.json().catch(() => ({}));
       setMessage(json.message || (res.ok ? "Thank you, your vote has been recorded." : "Your vote could not be recorded."));
@@ -156,7 +156,7 @@ export default function FaceOfTheMonth() {
                   Phone number on your membership record
                   <input type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="080 0000 0000" className="ros:w-full ros:rounded-lg ros:border ros:border-[#D0D5DD] ros:px-4 ros:py-3 ros:text-sm ros:outline-none ros:focus:border-[#DF4E4E]" />
                 </label>
-                <p className="ros:text-xs ros:text-[#00000099]">Only church members can vote. We use your number to find your membership and never show it.</p>
+                <p className="ros:text-xs ros:text-[#00000099]">Only church members can vote, and each member can vote once. We use your number to find your membership and never show it.</p>
                 {state === "error" && <p className="ros:text-sm ros:text-[#DC2626]">{message}</p>}
                 <div className="ros:flex ros:justify-end ros:gap-3">
                   <button type="button" onClick={close} className="ros:rounded-full ros:border ros:border-black ros:px-5 ros:py-2.5 ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.2em]">Cancel</button>

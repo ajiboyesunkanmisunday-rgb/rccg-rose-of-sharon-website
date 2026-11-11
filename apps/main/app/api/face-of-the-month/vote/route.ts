@@ -5,16 +5,20 @@ export const dynamic = "force-dynamic";
 
 const digits = (s: string) => s.replace(/\D/g, "");
 
+// the backend has one voting category, FACE_OF_THE_MONTH ("Invalid voting category: MALE" for anything else, tested
+// 2026-11-11), and lets a member vote once per event ("You already voted")
+const VOTING_CATEGORY = "FACE_OF_THE_MONTH";
+
 /**
  * Casts a vote on the Rose of Sharon API. The API wants the voter's member id, so the visitor gives the phone number
  * on their membership record and the member is looked up here on the server (their details are not sent back).
  */
 export async function POST(req: Request) {
   if (tooManyRequests(req, "vote", 8)) return NextResponse.json({ message: "Too many attempts. Please wait a few minutes and try again." }, { status: 429 });
-  let body: { eventId?: string; nomineeId?: string; category?: string; phone?: string };
+  let body: { eventId?: string; nomineeId?: string; phone?: string };
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Invalid request." }, { status: 400 }); }
-  const { eventId, nomineeId, category, phone } = body;
-  if (!eventId || !nomineeId || !category || !phone || digits(phone).length < 7) {
+  const { eventId, nomineeId, phone } = body;
+  if (!eventId || !nomineeId || !phone || digits(phone).length < 7) {
     return NextResponse.json({ message: "Please choose a nominee and enter the phone number on your membership record." }, { status: 400 });
   }
 
@@ -25,7 +29,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "We could not find a membership with that phone number. Please use the number you registered with." }, { status: 404 });
   }
 
-  const vote = await rosFetch(`/voting/${encodeURIComponent(eventId)}`, { method: "PUT", body: JSON.stringify({ voterId, votedFor: nomineeId, category }) });
+  const vote = await rosFetch(`/voting/${encodeURIComponent(eventId)}`, { method: "PUT", body: JSON.stringify({ voterId, votedFor: nomineeId, category: VOTING_CATEGORY }) });
   const json = await vote.json().catch(() => ({}));
   if (!vote.ok) return NextResponse.json({ message: json.message || "Your vote could not be recorded." }, { status: vote.status === 401 ? 502 : vote.status });
   return NextResponse.json({ message: json.message || "Thank you, your vote has been recorded." });
