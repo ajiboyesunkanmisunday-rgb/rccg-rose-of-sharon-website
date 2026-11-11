@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, inputCls, selectCls, FormSheet, submitCls } from "@ros/shared/kit/form";
 import { post } from "@ros/shared/api";
 import { normalizePhone } from "@ros/shared/phone";
+import { addressForApi } from "@ros/shared/address";
 import ProgramTabs from "@/components/ProgramTabs";
+
+type Service = { id: string; title?: string; topic?: string; date?: string; eventCategory?: string };
+const dayIso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
 const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1));
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -16,8 +20,19 @@ export default function BelieversClassRegisterPage() {
     dobDay: "", dobMonth: "", dobYear: "",
     countryCode: "+234", phoneNumber: "", email: "",
     street: "", city: "", state: "", country: "Nigeria",
-    slot: "", notes: "",
+    slot: "", notes: "", eventId: "",
   });
+  // the backend links a new believer to the service they attended and refuses the record without one; the choices are the
+  // church's services of the last two months, from the public calendar
+  const [services, setServices] = useState<Service[] | null>(null);
+  useEffect(() => {
+    const to = new Date();
+    const from = new Date(to.getTime() - 60 * 86400000);
+    fetch(`/api/calendar?startDay=${dayIso(from)}&endDay=${dayIso(to)}`)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list: Service[]) => setServices((Array.isArray(list) ? list : []).filter((e) => !e.eventCategory || ["SERVICE", "SPECIAL_SERVICE"].includes(e.eventCategory)).sort((a, b) => String(b.date).localeCompare(String(a.date)))))
+      .catch(() => setServices([]));
+  }, []);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [error, setError] = useState("");
 
@@ -28,8 +43,10 @@ export default function BelieversClassRegisterPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setStatus("loading");
     setError("");
+    const addr = addressForApi(form, "state-country");
+    if (addr.error) { setStatus("error"); setError(addr.error); return; }
+    setStatus("loading");
     try {
       // the New Converts list is where the church team follows up believers class enrolments
       await post("/new-converts", {
@@ -40,10 +57,8 @@ export default function BelieversClassRegisterPage() {
         phoneNumber: normalizePhone(form.phoneNumber, form.countryCode),
         email: form.email || undefined,
         sex: form.sex,
-        street: form.street || undefined,
-        city: form.city || undefined,
-        state: form.state || undefined,
-        country: form.country || undefined,
+        eventId: form.eventId,
+        ...addr.fields,
       });
       // the class details have no field on that record yet, so they go in as a note the team can read
       const dob = form.dobDay && form.dobMonth && form.dobYear ? `${form.dobDay} ${MONTHS[parseInt(form.dobMonth) - 1]} ${form.dobYear}` : "";
@@ -148,6 +163,15 @@ export default function BelieversClassRegisterPage() {
 
             <FormCard title="Class Preference">
               <div className="ros:flex ros:flex-col ros:gap-[16px]">
+                <FormField label="Service Attended" required>
+                  <select required value={form.eventId} onChange={set("eventId")} className={selectCls}>
+                    <option value="">{services === null ? "Loading services..." : services.length ? "Select service" : "No recent services found"}</option>
+                    {(services ?? []).map((sv) => (
+                      <option key={sv.id} value={sv.id}>{`${sv.title ?? sv.topic ?? "Service"}${sv.date ? " — " + new Date(`${String(sv.date).slice(0, 10)}T00:00:00`).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""}`}</option>
+                    ))}
+                  </select>
+                  {services !== null && services.length === 0 && <p className="ros:mt-1 ros:text-[12px] ros:text-[#B45309]">No recent services are listed yet, so the registration cannot be completed right now. Please try again later or speak to the church office.</p>}
+                </FormField>
                 <FormField label="Preferred class time">
                   <select value={form.slot} onChange={set("slot")} className={selectCls}>
                     <option value="">Select</option>

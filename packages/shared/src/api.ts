@@ -9,11 +9,15 @@ export class ApiError extends Error {
   }
 }
 
-const TIMEOUT_MS = 20000;
+// the backend sometimes pauses for a minute before answering a save (measured 54 s on 2026-11-11 while the next saves took
+// 0.4 s). Giving up early would show an error for a request that is saved, and the applicant would then send it twice.
+const READ_TIMEOUT_MS = 30000;
+const WRITE_TIMEOUT_MS = 120000;
 
 async function request(path: string, options: RequestInit): Promise<Response> {
   const ctl = new AbortController();
-  const timer = setTimeout(() => ctl.abort(), TIMEOUT_MS);
+  const method = String(options.method ?? "GET").toUpperCase();
+  const timer = setTimeout(() => ctl.abort(), method === "GET" ? READ_TIMEOUT_MS : WRITE_TIMEOUT_MS);
   try {
     return await fetch(`${API_BASE}${path}`, { headers: { "Content-Type": "application/json" }, ...options, signal: ctl.signal });
   } catch {
