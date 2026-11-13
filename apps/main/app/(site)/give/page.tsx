@@ -160,7 +160,9 @@ export default function GivePage() {
       </motion.div>
 
       {/* ── FAQs ── */}
-      <div className="mx-auto max-w-3xl px-4 pb-20">
+      <div className="give-faq mx-auto max-w-3xl px-4 pb-20">
+        {/* phones only: the "Give to God" box below overlaps the end of the page, so keep the last question clear of it */}
+        <style>{"@media (max-width:767px){.give-faq{padding-bottom:8rem}}"}</style>
         <h2 className="mb-8 font-anton text-3xl font-medium uppercase md:text-5xl">FAQs</h2>
         {faqs.map((faq, i) => (
           <FAQItem key={i} q={faq.q} a={faq.a} index={i} />
