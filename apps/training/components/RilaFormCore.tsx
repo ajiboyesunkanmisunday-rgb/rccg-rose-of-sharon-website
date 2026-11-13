@@ -336,6 +336,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
         middleName,
         lastName: surname.trim(),
         maidenName: maidenName || undefined,
+        countryCode: "234",
         phoneNumber: normalizePhone(mobile, "234"),
         otherPhoneNumber: telHome || undefined,
         email: email || undefined,
