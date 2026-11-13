@@ -26,6 +26,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Load the original site's CSS files for pixel-perfect parity */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="stylesheet" href="/css/f3f8de09d2044a56.css" />
         <link rel="stylesheet" href="/css/3ff23b8742f73c95.css" />
         <link rel="stylesheet" href="/css/07b6fb94d282a177.css" />
