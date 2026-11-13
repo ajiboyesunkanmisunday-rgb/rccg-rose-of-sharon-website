@@ -1,4 +1,5 @@
 import Link from "../link";
+import { preload } from "react-dom";
 import Reveal from "./Reveal";
 
 /* ───────── cci-web look: black hero, small pill, Anton uppercase title with a red word ───────── */
@@ -26,13 +27,15 @@ export function Hero({
   logo?: string;
   children?: React.ReactNode;
 }) {
+  // start fetching the hero photo straight away instead of waiting for the stylesheet to be parsed
+  if (bg) preload(bg, { as: "image", fetchPriority: "high" });
   return (
     <div
       className="ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:bg-black ros:bg-cover ros:bg-center ros:bg-no-repeat ros:lg:h-[700px]"
       style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')`, ...(bgPosition ? { backgroundPosition: bgPosition } : {}) } : undefined}
     >
       <div className="ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
-      <Reveal className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-center ros:text-center ros:md:items-start ros:md:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
+      <Reveal instant className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-center ros:text-center ros:md:items-start ros:md:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
         {logo && <img src={logo} alt="" width={96} height={96} className="ros:size-20 ros:rounded-full ros:bg-white ros:object-cover ros:md:size-24" />}
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
           {pill}
