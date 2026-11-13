@@ -120,7 +120,7 @@ export default function TestimoniesPage() {
           </div>
         ) : liveTestimonies.length > 0 ? (
           <>
-            <div className="ros:grid ros:w-full ros:max-w-7xl ros:grid-cols-1 ros:items-start ros:gap-5 ros:md:grid-cols-3">
+            <div className="ros:grid ros:w-full ros:max-w-7xl ros:grid-cols-1 ros:items-stretch ros:gap-5 ros:md:grid-cols-3">
               {liveTestimonies.map((t) => {
                 const { name, body } = parseTestimony(t);
                 const long = body.length > TEXT_LIMIT;
@@ -141,7 +141,7 @@ export default function TestimoniesPage() {
                     {t.subject && <h3 className="ros:text-[17px] ros:font-bold">{t.subject}</h3>}
                     <p className="ros:text-[15px] ros:italic ros:leading-[1.6]">&ldquo;{shown}&rdquo;</p>
                     {long && (
-                      <button type="button" onClick={() => setExpanded((p) => ({ ...p, [t.id]: !p[t.id] }))} className="ros:text-[13px] ros:font-bold ros:text-[#DF4E4E] ros:hover:underline" aria-expanded={open}>
+                      <button type="button" onClick={() => setExpanded((p) => ({ ...p, [t.id]: !p[t.id] }))} className="ros:mt-auto ros:text-[13px] ros:font-bold ros:text-[#DF4E4E] ros:hover:underline" aria-expanded={open}>
                         {open ? "Read less" : "Read more"}
                       </button>
                     )}
