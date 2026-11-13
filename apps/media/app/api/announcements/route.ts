@@ -1,16 +1,15 @@
 import { NextResponse } from "next/server";
-import { rosFetch, rosConfigured } from "@/lib/ros-server";
+import { publicFetch } from "@/lib/ros-server";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Approved announcements for the public page. The API's read endpoint needs the login, so the list is fetched here on
- * the server (the browser never sees the token) and passed on as it is.
+ * Approved announcements for the public page. The API now serves this list to everyone (no login), so the site just
+ * passes it on. Only announcements that are active today are returned by the API.
  */
 export async function GET() {
-  if (!rosConfigured()) return NextResponse.json({ message: "Announcements are not available right now." }, { status: 503 });
   try {
-    const res = await rosFetch("/announcements/read");
+    const res = await publicFetch("/announcements/read", 30);
     if (!res.ok) return NextResponse.json({ message: "Announcements could not be loaded." }, { status: 502 });
     return NextResponse.json(await res.json());
   } catch {

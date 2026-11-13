@@ -4,7 +4,7 @@
  * error, every function returns nothing and the site shows what it always did.
  */
 import { ALBUMS, ALBUM_CATEGORIES, type Album, type AlbumCategory } from "@ros/shared/kit/albums";
-import { rosFetch, rosConfigured } from "./ros-server";
+import { publicFetch } from "./ros-server";
 
 export interface LibraryMedia {
   id: string;
@@ -24,9 +24,8 @@ export interface LibraryMedia {
 export const isVideoUrl = (url: string) => /\.(mp4|mov|webm|avi|mkv|m4v|ogv)(\?|$)/i.test(url) || url.includes("/VIDEOS/");
 
 export async function fetchCategory(category: string): Promise<LibraryMedia[]> {
-  if (!rosConfigured()) return [];
   try {
-    const res = await rosFetch(`/media/category?category=${encodeURIComponent(category)}&pageNo=0&pageSize=100`);
+    const res = await publicFetch(`/media/category?category=${encodeURIComponent(category)}&pageNo=0&pageSize=100`, 120);
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json.content) ? json.content : [];

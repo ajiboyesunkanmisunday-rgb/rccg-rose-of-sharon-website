@@ -51,6 +51,17 @@ export function rosConfigured(): boolean {
   return Boolean((process.env.ROS_API_EMAIL && process.env.ROS_API_PASSWORD) || rosToken());
 }
 
+/**
+ * GET from an endpoint the API serves to everyone, with no login (announcements, the announcement deadline, the media
+ * library). The answer is kept for a minute so a busy page does not hit the API for every visitor.
+ */
+export async function publicFetch(path: string, revalidateSeconds = 60): Promise<Response> {
+  return fetch(`${ROS_ORIGIN}/api/v1${path}`, {
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    next: { revalidate: revalidateSeconds },
+  });
+}
+
 export async function rosFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const send = (auth?: string) =>
     fetch(`${ROS_ORIGIN}/api/v1${path}`, {
