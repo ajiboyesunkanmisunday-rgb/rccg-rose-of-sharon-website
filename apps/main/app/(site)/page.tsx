@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import Link, { A } from "@ros/shared/link";
 import { motion } from "framer-motion";
 
@@ -49,7 +50,7 @@ function HeroCard({
 }) {
   return (
     <Link href={link} className="relative h-[440px] w-full min-w-[320px] block overflow-hidden flex-shrink-0">
-      <img loading="lazy" decoding="async" src={image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ objectPosition: position }} />
+      <img loading="lazy" decoding="async" src={image} srcSet={srcSetFor(image)} sizes="100vw" alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ objectPosition: position }} />
       <div className="absolute left-0 top-0 h-full w-full bg-gradient-to-t from-black/80 to-black/20" />
       <h2 className="absolute left-4 top-4 z-10 text-xs font-extrabold uppercase tracking-wide text-white">
         {topText}
@@ -142,7 +143,7 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════ HERO */}
       <section className="overflow-hidden">
         <div className="relative h-screen bg-black">
-          <img src="/media/celebrations.f123ede1.jpg" alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+          <img src="/media/celebrations.f123ede1.jpg" srcSet={srcSetFor("/media/celebrations.f123ede1.jpg")} sizes="100vw" alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
           <div className="absolute left-0 top-0 h-full w-full" style={{ background: "rgba(0,0,0,0.74)" }} />
           <div className="relative z-10 flex h-full items-center justify-center overflow-hidden">
             <motion.div
@@ -191,7 +192,7 @@ export default function Home() {
           <div className="pb-12 pt-2 md:pt-8" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 }}>
             {adBanners.map((ad) => (
               <Link key={ad.title} href={ad.href} className="group relative block overflow-hidden rounded-lg" style={{ height: 220 }}>
-                <img loading="lazy" decoding="async" src={ad.image} alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ transition: "transform .6s" }} />
+                <img loading="lazy" decoding="async" src={ad.image} srcSet={srcSetFor(ad.image)} sizes="100vw" alt="" className="absolute left-0 top-0 h-full w-full object-cover" style={{ transition: "transform .6s" }} />
                 <div className="absolute left-0 top-0 h-full w-full" style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.2) 100%)" }} />
                 <div className="relative z-10 flex h-full flex-col justify-center gap-2 px-6 text-white">
                   <span className="w-fit rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider" style={{ background: "#DF4E4E" }}>{ad.tag}</span>
@@ -279,7 +280,7 @@ export default function Home() {
                     key={index}
                     className="group relative h-[360px] min-w-[240px] overflow-hidden flex-shrink-0"
                   >
-                    <img loading="lazy" decoding="async" src={country.image} alt={country.country} className="h-full w-full object-cover" style={{ objectPosition: country.pos }} />
+                    <img loading="lazy" decoding="async" src={country.image} srcSet={srcSetFor(country.image)} sizes="100vw" alt={country.country} className="h-full w-full object-cover" style={{ objectPosition: country.pos }} />
                     <div className="absolute inset-0 bg-black/30" />
                     <h5 className="absolute bottom-12 left-4 text-2xl font-bold text-white">{country.country}</h5>
                     <img loading="lazy" decoding="async"
@@ -358,7 +359,7 @@ export default function Home() {
               <Link href={card.href} key={index}>
                 <div className="flex w-full flex-col gap-3 rounded-lg">
                   <img loading="lazy" decoding="async"
-                    src={card.image}
+                    src={card.image} srcSet={srcSetFor(card.image)} sizes="100vw"
                     alt="thumbnail"
                     className="h-[250px] w-full rounded-lg object-cover object-center"
                   />
@@ -428,7 +429,7 @@ export default function Home() {
             {ministriesData.map((item, index) => (
               <Link href={item.link} key={index} className="flex h-[355px] w-full flex-col gap-2.5 flex-shrink-0">
                 <div className="group relative flex h-[355px] w-[240px] cursor-pointer items-center justify-center overflow-hidden rounded-lg">
-                  <img loading="lazy" decoding="async" src={item.image} alt={item.title} className="h-full w-full object-cover" />
+                  <img loading="lazy" decoding="async" src={item.image} srcSet={srcSetFor(item.image)} sizes="100vw" alt={item.title} className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/30" />
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <span className="rounded-[20px] border border-white px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white">

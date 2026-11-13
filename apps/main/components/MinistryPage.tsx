@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
 import { WHATSAPP_GROUPS } from "@ros/shared/links";
@@ -59,7 +60,7 @@ export default function MinistryPage({
             <SectionTitle pill="🙌 ABOUT THE MINISTRY" title={<>Who <span className="text-textRed">we are</span></>} />
             <p className="ros:text-[#00000099]">{about}</p>
           </div>
-          <img src={image} alt={imageAlt} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover" style={{ objectPosition: imagePosition }} />
+          <img src={image} srcSet={srcSetFor(image)} sizes="100vw" alt={imageAlt} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover" style={{ objectPosition: imagePosition }} />
         </div>
       </Section>
 
@@ -80,7 +81,7 @@ export default function MinistryPage({
           <SectionTitle center pill="👤 LEADERSHIP" title={<>Our <span className="text-textRed">president</span></>} />
           <div className="ros:mx-auto ros:mt-8 ros:flex ros:w-full ros:max-w-[280px] ros:flex-col ros:gap-3">
             {president.photo ? (
-              <img src={president.photo} alt={president.name ? `${president.name}, President` : "The ministry president"} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
+              <img src={president.photo} srcSet={srcSetFor(president.photo)} sizes="100vw" alt={president.name ? `${president.name}, President` : "The ministry president"} loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-top" />
             ) : (
               <div className="ros:flex ros:h-[340px] ros:w-full ros:flex-col ros:items-center ros:justify-center ros:gap-3 ros:rounded-lg ros:bg-[#F4F4F4]">
                 <span className="ros-anton ros:text-[88px] ros:leading-none ros:text-black">{president.name ? president.name.trim().charAt(0).toUpperCase() : "P"}</span>

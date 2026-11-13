@@ -1,3 +1,4 @@
+import { srcSetFor } from "../picture";
 import Link from "../link";
 import { preload } from "react-dom";
 import Reveal from "./Reveal";
@@ -28,15 +29,30 @@ export function Hero({
   children?: React.ReactNode;
 }) {
   // start fetching the hero photo straight away instead of waiting for the stylesheet to be parsed
-  if (bg) preload(bg, { as: "image", fetchPriority: "high" });
+  const bgSet = srcSetFor(bg);
+  if (bg) preload(bg, bgSet ? { as: "image", fetchPriority: "high", imageSrcSet: bgSet, imageSizes: "100vw" } : { as: "image", fetchPriority: "high" });
   return (
     <div
-      className="ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:bg-black ros:bg-cover ros:bg-center ros:bg-no-repeat ros:lg:h-[700px]"
-      style={bg ? { backgroundImage: `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('${bg}')`, ...(bgPosition ? { backgroundPosition: bgPosition } : {}) } : undefined}
+      className="ros:relative ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:overflow-hidden ros:bg-black ros:lg:h-[700px]"
     >
-      <div className="ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
+      {bg && (
+        <>
+          {/* a real <img> (not a CSS background) so the browser finds it early and picks a phone-sized copy */}
+          <img
+            src={bg}
+            srcSet={bgSet}
+            sizes="100vw"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: bgPosition ?? "center" }}
+          />
+          <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
+        </>
+      )}
+      <div className="ros:relative ros:mx-auto ros:w-full ros:max-w-7xl ros:px-4 ros:md:px-8">
       <Reveal instant className={`ros:flex ros:w-full ros:max-w-3xl ros:flex-col ros:gap-6 ${bg ? "ros:items-center ros:text-center ros:md:items-start ros:md:text-left" : "ros:mx-auto ros:items-center ros:text-center"}`}>
-        {logo && <img src={logo} alt="" width={96} height={96} className="ros:size-20 ros:rounded-full ros:bg-white ros:object-cover ros:md:size-24" />}
+        {logo && <img src={logo} srcSet={srcSetFor(logo)} sizes="100vw" alt="" width={96} height={96} className="ros:size-20 ros:rounded-full ros:bg-white ros:object-cover ros:md:size-24" />}
         <h3 className="ros:rounded-full ros:bg-[#00000078] ros:p-2 ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-wider ros:text-[#FFFFFFCC]">
           {pill}
         </h3>
@@ -131,7 +147,7 @@ export function Card({
 }) {
   const body = (
     <div className="ros:flex ros:w-full ros:flex-col ros:gap-3 ros:rounded-lg">
-      {image && <img loading="lazy" decoding="async" src={image} alt={title} className="ros:h-[250px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />}
+      {image && <img loading="lazy" decoding="async" src={image} srcSet={srcSetFor(image)} sizes="100vw" alt={title} className="ros:h-[250px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />}
       {meta && <span className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{meta}</span>}
       <h3 className="ros:text-lg ros:font-bold ros:underline-offset-8 ros:group-hover:underline">{title}</h3>
       {text && <p className="ros:text-[#00000099]">{text}</p>}

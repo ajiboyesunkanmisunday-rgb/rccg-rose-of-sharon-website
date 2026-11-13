@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "@ros/shared/link";
@@ -301,7 +302,7 @@ export default function AboutPage() {
                 <div key={pa.name} className="flex flex-col gap-3" style={{ flex: "0 0 auto", width: "min(100%, 280px)" }}>
                   <div className="overflow-hidden rounded-lg" style={{ height: 340, background: "#F4F4F4" }}>
                     {pa.image ? (
-                      <img loading="lazy" decoding="async" src={pa.image} alt={pa.name} className="h-full w-full object-cover" style={{ objectPosition: pa.focus ?? "50% 25%" }} />
+                      <img loading="lazy" decoding="async" src={pa.image} srcSet={srcSetFor(pa.image)} sizes="100vw" alt={pa.name} className="h-full w-full object-cover" style={{ objectPosition: pa.focus ?? "50% 25%" }} />
                     ) : (
                       <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-[#00000066]">
                         <span className="font-anton uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{pa.name.replace("Pastor ", "").charAt(0)}</span>
@@ -345,7 +346,7 @@ export default function AboutPage() {
               ].map((card, i) => (
                 <Link href={card.href} key={i}>
                   <div className="flex w-full flex-col gap-3 rounded-lg">
-                    <img loading="lazy" decoding="async" src={card.image} alt="thumbnail" className="h-[250px] w-full rounded-lg object-cover object-center" />
+                    <img loading="lazy" decoding="async" src={card.image} srcSet={srcSetFor(card.image)} sizes="100vw" alt="thumbnail" className="h-[250px] w-full rounded-lg object-cover object-center" />
                     <div className="flex cursor-pointer items-center gap-1">
                       <h1 className="text-lg font-bold underline-offset-8 hover:underline">{card.title}</h1>
                       <img loading="lazy" decoding="async" src="/media/arrow-right.59ce7c7f.svg" alt="arrow" className="h-4 w-4" />

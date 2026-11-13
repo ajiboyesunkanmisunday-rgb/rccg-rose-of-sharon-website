@@ -42,6 +42,19 @@ function copyRel(rel, dest, copied) {
   if (!fs.existsSync(src)) return false;
   fs.cpSync(src, path.join(dest, rel), { recursive: true });
   copied.add(rel);
+  // phone-sized copies (name.w480.webp ...) made by make-responsive.mjs travel with their picture
+  if (/\.(jpe?g|png)$/i.test(rel)) {
+    const base = rel.replace(/\.[^.]+$/, "");
+    const dir = path.dirname(path.join(pool, rel));
+    for (const f of fs.readdirSync(dir)) {
+      const full = path.join(dir, f);
+      if (full.startsWith(path.join(pool, base) + ".w") && /\.w\d+\.webp$/.test(f)) {
+        const r = path.relative(pool, full);
+        fs.mkdirSync(path.dirname(path.join(dest, r)), { recursive: true });
+        fs.copyFileSync(full, path.join(dest, r));
+      }
+    }
+  }
   return true;
 }
 

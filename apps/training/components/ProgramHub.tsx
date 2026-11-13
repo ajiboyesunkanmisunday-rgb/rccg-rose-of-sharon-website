@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import Link from "@ros/shared/link";
 import NextClass from "./NextClass";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
@@ -39,7 +40,7 @@ export default function ProgramHub({ slug }: { slug: string }) {
           <div className="ros:flex ros:flex-col ros:gap-3">
             <div className="ros:overflow-hidden ros:rounded-lg ros:bg-[#F4F4F4]" style={{ aspectRatio: "4 / 5" }}>
               {p.head.photo ? (
-                <img src={p.head.photo} alt={p.head.name} className="ros:h-full ros:w-full ros:object-cover ros:object-top" />
+                <img src={p.head.photo} srcSet={srcSetFor(p.head.photo)} sizes="100vw" alt={p.head.name} className="ros:h-full ros:w-full ros:object-cover ros:object-top" />
               ) : (
                 <div className="ros:flex ros:h-full ros:w-full ros:flex-col ros:items-center ros:justify-center ros:gap-2 ros:text-[#00000066]">
                   <span className="ros-anton ros:uppercase" style={{ fontSize: 88, lineHeight: 1 }}>{initial}</span>

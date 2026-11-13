@@ -1,4 +1,5 @@
 "use client";
+import { srcSetFor } from "@ros/shared/picture";
 import { createContext, useContext, useState, useRef, useEffect } from "react";
 
 interface AudioInfo {
@@ -115,7 +116,7 @@ function PersistentMediaPlayer() {
       />
       {mediaItem.audio_info.cover_image && (
         <img
-          src={mediaItem.audio_info.cover_image}
+          src={mediaItem.audio_info.cover_image} srcSet={srcSetFor(mediaItem.audio_info.cover_image)} sizes="100vw"
           alt="cover"
           className="h-12 w-12 rounded object-cover"
         />

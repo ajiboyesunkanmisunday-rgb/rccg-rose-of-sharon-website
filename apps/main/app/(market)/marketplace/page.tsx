@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "@ros/shared/link";
 import { API_BASE, uploadProfilePicture } from "@ros/shared/api";
@@ -445,7 +446,7 @@ export default function MarketplacePage() {
             <div className="flex max-h-[320px] flex-col gap-[10px] overflow-y-auto pr-1">
               {wishlist.map((id) => { const p = products.find((x) => x.id === id); return p ? (
                 <div key={id} className="flex items-center gap-3">
-                  <button onClick={() => { setSelectedProduct(p); setFavOpen(false); }} className="flex min-w-0 flex-1 items-center gap-3 text-left"><img src={p.image} alt={p.name} className="size-[44px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></button>
+                  <button onClick={() => { setSelectedProduct(p); setFavOpen(false); }} className="flex min-w-0 flex-1 items-center gap-3 text-left"><img src={p.image} srcSet={srcSetFor(p.image)} sizes="100vw" alt={p.name} className="size-[44px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div></button>
                   <button onClick={() => addToCart(id)} className="rounded-full bg-[#000080] px-3 py-[6px] text-[11px] font-bold text-white hover:bg-[#0000a0]" style={vs}>Add to cart</button>
                   <button onClick={() => toggleWishlist(id)} aria-label={`Remove ${p.name} from favourites`} className="flex size-[28px] items-center justify-center rounded-full text-[#9CA3AF] hover:bg-red-50 hover:text-red-600">×</button>
                 </div>) : null; })}
@@ -464,7 +465,7 @@ export default function MarketplacePage() {
           {cart.length === 0 ? <p className="text-[#A3A1AF] text-[14px]" style={vs}>Your cart is empty.</p> : (
             <div className="flex flex-col gap-[8px]">
               <div className="flex max-h-[280px] flex-col gap-[8px] overflow-y-auto pr-1">
-                {cart.map((id, i) => { const p = products.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div><button onClick={() => removeFromCart(i)} aria-label={`Remove ${p.name} from the cart`} title="Remove" className="flex size-[30px] flex-shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-red-50 hover:text-red-600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="size-[17px]"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 001 1h8a1 1 0 001-1l1-12M9 7V4h6v3" /></svg></button></div>) : null; })}
+                {cart.map((id, i) => { const p = products.find((x) => x.id === id); return p ? (<div key={i} className="flex items-center gap-3"><img src={p.image} srcSet={srcSetFor(p.image)} sizes="100vw" alt={p.name} className="size-[40px] rounded-[8px] object-cover bg-[#F3F4F6]" /><div className="flex-1 min-w-0"><p className="text-[#100E1A] text-[12px] font-bold truncate" style={vs}>{p.name}</p><p className="text-[#000080] text-[11px]" style={vs}>{p.price}</p></div><button onClick={() => removeFromCart(i)} aria-label={`Remove ${p.name} from the cart`} title="Remove" className="flex size-[30px] flex-shrink-0 items-center justify-center rounded-full text-[#9CA3AF] transition-colors hover:bg-red-50 hover:text-red-600"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" className="size-[17px]"><path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M10 11v6M14 11v6M6 7l1 12a1 1 0 001 1h8a1 1 0 001-1l1-12M9 7V4h6v3" /></svg></button></div>) : null; })}
               </div>
               <button onClick={() => openModal("checkout")} className="mt-2 w-full bg-[#000080] text-white text-[13px] font-bold py-[11px] rounded-[20px] hover:bg-[#0000a0] transition-colors" style={vs}>Proceed to Checkout</button>
             </div>
@@ -481,7 +482,7 @@ export default function MarketplacePage() {
               <button onClick={() => setSelectedProduct(null)} className="text-[#A3A1AF] text-[24px] leading-none">×</button>
             </div>
             <div className="h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]" style={{ flexShrink: 0 }}>
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+              <img src={selectedProduct.image} srcSet={srcSetFor(selectedProduct.image)} sizes="100vw" alt={selectedProduct.name} className="w-full h-full object-cover" />
             </div>
             <div className="flex items-center gap-2">
               <StarRow rating={selectedProduct.rating} />
@@ -646,7 +647,7 @@ export default function MarketplacePage() {
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[20px] p-[13px] flex flex-col gap-[18px] shadow-[-4px_-4px_2px_rgba(0,0,0,0.05),4px_4px_2px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[-4px_-4px_8px_rgba(0,0,128,0.08),4px_4px_8px_rgba(0,0,128,0.08)] transition-shadow group">
                   <div className="relative h-[200px] md:h-[240px] w-full rounded-[16px] overflow-hidden bg-[#F3F4F6]">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                    <img src={product.image} srcSet={srcSetFor(product.image)} sizes="100vw" alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     <div className="absolute top-2 left-2 flex flex-col gap-1">
                       {product.isNew && <span className="bg-[#000080] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full tracking-wide">New</span>}
                       {product.stock === "limited" && <span className="bg-[#D97706] text-white text-[9px] font-bold px-[6px] py-[2px] rounded-full">Low Stock</span>}
@@ -685,7 +686,7 @@ export default function MarketplacePage() {
                 <div key={product.id} onClick={() => setSelectedProduct(product)}
                   className="bg-white rounded-[16px] p-[12px] flex items-center gap-4 shadow-[-2px_-2px_2px_rgba(0,0,0,0.04),2px_2px_2px_rgba(0,0,0,0.04)] cursor-pointer hover:shadow-[-2px_-2px_6px_rgba(0,0,128,0.07),2px_2px_6px_rgba(0,0,128,0.07)] transition-shadow group">
                   <div className="relative size-[90px] md:size-[100px] rounded-[12px] overflow-hidden flex-shrink-0 bg-[#F3F4F6]">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                    <img src={product.image} srcSet={srcSetFor(product.image)} sizes="100vw" alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                     {product.isNew && <span className="absolute top-1 left-1 bg-[#000080] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">New</span>}
                   </div>
                   <div className="flex-1 min-w-0">

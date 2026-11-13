@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useEffect, useState } from "react";
 
 const FLYERS = [
@@ -36,11 +37,11 @@ export default function CsrMedia() {
           </div>
           <div className="ros:grid ros:grid-cols-1 ros:gap-5 ros:md:grid-cols-2">
             <figure className="ros:flex ros:flex-col ros:gap-3">
-              <img src="/csr/centre.jpg" alt="The Rose of Sharon CSR centre building" loading="lazy" decoding="async" className="ros:aspect-[16/9] ros:w-full ros:rounded-xl ros:object-cover" />
+              <img src="/csr/centre.jpg" srcSet={srcSetFor("/csr/centre.jpg")} sizes="100vw" alt="The Rose of Sharon CSR centre building" loading="lazy" decoding="async" className="ros:aspect-[16/9] ros:w-full ros:rounded-xl ros:object-cover" />
               <figcaption className="ros:text-sm ros:text-[#00000099]">The centre where our classes hold.</figcaption>
             </figure>
             <figure className="ros:flex ros:flex-col ros:gap-3">
-              <img src="/csr/centre-gate.jpg" alt="The CSR centre gate with the registration banner" loading="lazy" decoding="async" className="ros:aspect-[16/9] ros:w-full ros:rounded-xl ros:object-cover" />
+              <img src="/csr/centre-gate.jpg" srcSet={srcSetFor("/csr/centre-gate.jpg")} sizes="100vw" alt="The CSR centre gate with the registration banner" loading="lazy" decoding="async" className="ros:aspect-[16/9] ros:w-full ros:rounded-xl ros:object-cover" />
               <figcaption className="ros:text-sm ros:text-[#00000099]">Registration is free. Tuition is ₦10,000 per course.</figcaption>
             </figure>
           </div>
@@ -58,7 +59,7 @@ export default function CsrMedia() {
             {FLYERS.map((f, i) => (
               <article key={f.src} className="ros:flex ros:flex-col ros:overflow-hidden ros:rounded-xl ros:bg-white ros:shadow-sm">
                 <button onClick={() => setOpen(i)} aria-label={`Enlarge: ${f.alt}`} className="ros:block ros:w-full ros:bg-[#EDEDED]" style={{ aspectRatio: "4 / 5", overflow: "hidden" }}>
-                  <img src={f.src} alt={f.alt} loading="lazy" decoding="async" className="ros:h-full ros:w-full ros:object-cover ros:object-top" />
+                  <img src={f.src} srcSet={srcSetFor(f.src)} sizes="100vw" alt={f.alt} loading="lazy" decoding="async" className="ros:h-full ros:w-full ros:object-cover ros:object-top" />
                 </button>
                 <div className="ros:flex ros:flex-col ros:gap-2 ros:p-5">
                   <span className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{f.tag}</span>
@@ -83,7 +84,7 @@ export default function CsrMedia() {
             </video>
           </div>
           <figure className="ros:flex ros:flex-col ros:gap-4">
-            <img src="/csr/graduate.jpg" alt="A CSR graduate celebrating her certificate" loading="lazy" decoding="async" className="ros:mx-auto ros:max-h-[520px] ros:w-auto ros:max-w-full ros:rounded-xl ros:object-cover" />
+            <img src="/csr/graduate.jpg" srcSet={srcSetFor("/csr/graduate.jpg")} sizes="100vw" alt="A CSR graduate celebrating her certificate" loading="lazy" decoding="async" className="ros:mx-auto ros:max-h-[520px] ros:w-auto ros:max-w-full ros:rounded-xl ros:object-cover" />
             <figcaption className="ros:text-center ros:text-sm ros:text-[#FFFFFFB3]">From learning a skill to graduating with a certificate.</figcaption>
           </figure>
         </div>
@@ -91,7 +92,7 @@ export default function CsrMedia() {
 
       {open !== null && (
         <div role="dialog" aria-modal="true" aria-label={FLYERS[open].title} onClick={() => setOpen(null)} style={{ position: "fixed", inset: 0, zIndex: 2000, background: "rgba(0,0,0,0.88)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-          <img src={FLYERS[open].src} alt={FLYERS[open].alt} onClick={(e) => e.stopPropagation()} style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 12, objectFit: "contain" }} />
+          <img src={FLYERS[open].src} srcSet={srcSetFor(FLYERS[open].src)} sizes="100vw" alt={FLYERS[open].alt} onClick={(e) => e.stopPropagation()} style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 12, objectFit: "contain" }} />
           <button onClick={() => setOpen(null)} aria-label="Close" style={{ position: "absolute", top: 18, right: 22, color: "#fff", fontSize: 36, lineHeight: 1 }}>×</button>
           <button onClick={(e) => { e.stopPropagation(); setOpen((open - 1 + FLYERS.length) % FLYERS.length); }} aria-label="Previous flyer" style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: 999, background: "#fff", fontSize: 22 }}>‹</button>
           <button onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % FLYERS.length); }} aria-label="Next flyer" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: 999, background: "#fff", fontSize: 22 }}>›</button>

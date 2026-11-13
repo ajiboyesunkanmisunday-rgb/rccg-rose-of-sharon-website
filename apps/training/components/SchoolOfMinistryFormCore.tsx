@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
@@ -289,7 +290,7 @@ export default function SchoolOfMinistryFormCore({ mode = "fill" }: { mode?: Som
       >
         {photoPreview ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photoPreview} srcSet={srcSetFor(photoPreview)} sizes="100vw" alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
           <span style={{ fontSize: 10, color: "#555", textAlign: "center", padding: 4 }}>Passport<br />Photograph<br />(click to upload)</span>
         )}

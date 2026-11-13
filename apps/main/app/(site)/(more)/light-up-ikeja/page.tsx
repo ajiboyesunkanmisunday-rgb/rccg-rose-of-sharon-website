@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
 
@@ -72,19 +73,19 @@ export default function LightUpIkejaPage() {
 
       <Section>
         <SectionTitle center pill="🎤 AN ENCOUNTER TO REMEMBER" title={<>Who is <span className="text-textRed">ministering</span></>} sub="In word, worship and praise." />
-        <img src="/light-up-ikeja/ministers.jpg" alt="Ministering at Light Up Ikeja 2026: Lilian Nneji, Pst. Nathaniel Bassey, Rev. Sam Oye, Pst. Adefioye Adewumi, Vicar Yaneh and Bidemi Olaoba" loading="lazy" decoding="async" className="ros:mx-auto ros:mt-8 ros:w-full ros:max-w-5xl ros:rounded-xl" />
+        <img src="/light-up-ikeja/ministers.jpg" srcSet={srcSetFor("/light-up-ikeja/ministers.jpg")} sizes="100vw" alt="Ministering at Light Up Ikeja 2026: Lilian Nneji, Pst. Nathaniel Bassey, Rev. Sam Oye, Pst. Adefioye Adewumi, Vicar Yaneh and Bidemi Olaoba" loading="lazy" decoding="async" className="ros:mx-auto ros:mt-8 ros:w-full ros:max-w-5xl ros:rounded-xl" />
         <p className="ros:mt-6 ros:text-center ros:text-sm ros:text-[#00000099]">Also ministering: <span className="ros:font-bold ros:text-black">Fragrance of Life Choir</span></p>
       </Section>
 
       <section className="ros:px-4 ros:pb-16">
-        <img src="/light-up-ikeja/free-medicals.jpg" alt="Free medicals available from 10AM on Saturday 28 November 2026 at Police College Ground, GRA Ikeja, Lagos. The crusade starts at 4PM." loading="lazy" decoding="async" className="ros:mx-auto ros:w-full ros:max-w-5xl ros:rounded-xl" />
+        <img src="/light-up-ikeja/free-medicals.jpg" srcSet={srcSetFor("/light-up-ikeja/free-medicals.jpg")} sizes="100vw" alt="Free medicals available from 10AM on Saturday 28 November 2026 at Police College Ground, GRA Ikeja, Lagos. The crusade starts at 4PM." loading="lazy" decoding="async" className="ros:mx-auto ros:w-full ros:max-w-5xl ros:rounded-xl" />
       </section>
 
       <Section>
         <SectionTitle pill="📸 MOMENTS" title={<>From the <span className="text-textRed">crusade ground</span></>} sub="Pictures from Light Up Ikeja, November 22nd, 2025." />
         <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:md:grid-cols-3">
           {photos.map((p) => (
-            <img key={p.src} src={p.src} alt={p.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:rounded-lg ros:object-cover" />
+            <img key={p.src} src={p.src} srcSet={srcSetFor(p.src)} sizes="100vw" alt={p.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:rounded-lg ros:object-cover" />
           ))}
         </div>
         <div className="ros:mt-12">

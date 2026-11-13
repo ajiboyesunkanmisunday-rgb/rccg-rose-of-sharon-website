@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useMemo, useState } from "react";
 import NextLink from "next/link";
 import { ALBUM_CATEGORIES, albumPhoto, type Album, type AlbumCategory } from "@ros/shared/kit/albums";
@@ -56,7 +57,7 @@ export default function GalleryHome({ albums: ALBUMS }: { albums: Album[] }) {
               {albums.map((a, i) => (
                 <NextLink key={a.slug} href={`/gallery/${a.slug}`} className="sermon-card ros:group ros:block ros:rounded-xl ros:p-2 ros:transition ros:hover:bg-white/5" style={{ ["--i" as string]: i }}>
                   <div className="ros:relative ros:overflow-hidden ros:rounded-lg ros:bg-black">
-                    <img src={a.cover ?? albumPhoto(a.slug, 1, true)} alt={a.title} loading="lazy" decoding="async" className="ros:aspect-video ros:w-full ros:object-cover ros:transition ros:duration-300 ros:group-hover:scale-105" />
+                    <img src={a.cover ?? albumPhoto(a.slug, 1, true)} srcSet={srcSetFor(a.cover ?? albumPhoto(a.slug, 1, true))} sizes="100vw" alt={a.title} loading="lazy" decoding="async" className="ros:aspect-video ros:w-full ros:object-cover ros:transition ros:duration-300 ros:group-hover:scale-105" />
                     <span className="ros:absolute ros:bottom-2 ros:right-2 ros:rounded-md ros:bg-black/70 ros:px-2 ros:py-0.5 ros:text-[11px] ros:font-bold">{a.count} photos</span>
                   </div>
                   <p className="ros:mt-2 ros:line-clamp-2 ros:text-[15px] ros:font-semibold ros:leading-tight">{a.title}</p>

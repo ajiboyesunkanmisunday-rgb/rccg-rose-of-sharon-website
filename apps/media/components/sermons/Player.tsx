@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { Sermon } from "@/lib/sermons";
 
@@ -136,7 +137,7 @@ export function PlayerBar() {
   return (
     <div role="region" aria-label="Audio player" className="ros:mb-14 ros:flex ros:flex-shrink-0 ros:items-center ros:gap-3 ros:px-3 ros:py-3 ros:md:mb-0 ros:md:px-4" style={{ background: "#000", boxShadow: "0 -1px 0 rgba(255,255,255,0.06)" }}>
       <div className="ros:flex ros:min-w-0 ros:flex-1 ros:items-center ros:gap-3 ros:md:w-1/4 ros:md:flex-none">
-        <img src={now.thumb} alt="" className="ros:size-12 ros:flex-shrink-0 ros:rounded-md ros:object-cover" />
+        <img src={now.thumb} srcSet={srcSetFor(now.thumb)} sizes="100vw" alt="" className="ros:size-12 ros:flex-shrink-0 ros:rounded-md ros:object-cover" />
         <div className="ros:min-w-0">
           <p className="ros:line-clamp-1 ros:text-[14px] ros:font-bold">{now.title}</p>
           <p className="ros:line-clamp-1 ros:text-[11px] ros:font-semibold ros:uppercase ros:tracking-wider ros:text-white/45">{failed ? "Audio not available yet" : now.series || "Message"}</p>

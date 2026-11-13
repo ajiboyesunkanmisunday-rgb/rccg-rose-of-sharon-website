@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
 import YouthTabs from "@/components/YouthTabs";
 import { DEPARTMENT_HEADS, EXECUTIVES, PRESIDENT, SPECIAL_ADVISERS, VICE_PRESIDENTS } from "@ros/shared/kit/youth";
@@ -11,7 +12,7 @@ export default function YouthLeadership() {
       <Section>
         <YouthTabs />
         <div className="ros:flex ros:flex-col ros:items-center ros:gap-8 ros:text-center">
-          <img loading="lazy" decoding="async" src={PRESIDENT.image} alt="The Youth President" className="ros:h-[480px] ros:w-full ros:max-w-[360px] ros:rounded-lg ros:object-cover ros:object-top" />
+          <img loading="lazy" decoding="async" src={PRESIDENT.image} srcSet={srcSetFor(PRESIDENT.image)} sizes="100vw" alt="The Youth President" className="ros:h-[480px] ros:w-full ros:max-w-[360px] ros:rounded-lg ros:object-cover ros:object-top" />
           <div className="ros:flex ros:flex-col ros:items-center ros:gap-4">
             <SectionTitle center pill="👤 THE PRESIDENT" title={<>The <span className="text-textRed">President</span></>} />
             <p className="ros:text-sm ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#00000099]">{PRESIDENT.name}</p>
@@ -26,7 +27,7 @@ export default function YouthLeadership() {
           {VICE_PRESIDENTS.map((l) => (
             <div key={l.role} className="ros:flex ros:flex-col ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:text-center">
               {l.image ? (
-                <img loading="lazy" decoding="async" src={l.image} alt={l.name} className="ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />
+                <img loading="lazy" decoding="async" src={l.image} srcSet={srcSetFor(l.image)} sizes="100vw" alt={l.name} className="ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />
               ) : (
                 <span className="ros:flex ros:size-14 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-xl ros:font-bold ros:text-white">VP</span>
               )}
@@ -49,7 +50,7 @@ export default function YouthLeadership() {
               <div className="ros:mt-8 ros:flex ros:flex-wrap ros:items-start ros:justify-center ros:gap-5">
                 {g.list.map((l) => (
                   <div key={l.role + l.name} className="ros:flex ros:w-full ros:sm:w-[calc(50%-10px)] ros:lg:w-[calc(33.333%-14px)] ros:flex-col ros:items-center ros:gap-2 ros:overflow-hidden ros:rounded-lg ros:border ros:border-[#FFFFFF2E] ros:p-5 ros:text-center">
-                    {l.image && <img loading="lazy" decoding="async" src={l.image} alt={l.name} className="ros:mb-3 ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />}
+                    {l.image && <img loading="lazy" decoding="async" src={l.image} srcSet={srcSetFor(l.image)} sizes="100vw" alt={l.name} className="ros:mb-3 ros:aspect-[4/5] ros:w-full ros:max-w-[300px] ros:rounded-lg ros:object-cover ros:object-top" />}
                     <h3 className="ros:font-bold ros:text-white">{l.role}</h3>
                     <p className="ros:text-xs ros:font-semibold ros:uppercase ros:tracking-[0.15em] ros:text-[#FFFFFF99]">{l.name}</p>
                   </div>

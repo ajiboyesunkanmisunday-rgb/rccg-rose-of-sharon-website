@@ -9,6 +9,7 @@
  * address is street / city / state / country; countryCode is separate (default 234).
  */
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle } from "lucide-react";
@@ -543,7 +544,7 @@ export default function SchoolOfDisciplesFormCore({ mode = "fill" }: { mode?: So
               >
                 {photoPreview ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={photoPreview} srcSet={srcSetFor(photoPreview)} sizes="100vw" alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
                   <>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -563,7 +564,7 @@ export default function SchoolOfDisciplesFormCore({ mode = "fill" }: { mode?: So
               }}>
                 {photoPreview ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={photoPreview} alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={photoPreview} srcSet={srcSetFor(photoPreview)} sizes="100vw" alt="Passport" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
                   <span style={{ fontSize: 9, textAlign: "center", color: "#666", lineHeight: 1.6 }}>
                     Passport<br />Photograph
