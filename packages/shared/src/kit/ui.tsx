@@ -33,7 +33,7 @@ export function Hero({
   if (bg) preload(bg, bgSet ? { as: "image", fetchPriority: "high", imageSrcSet: bgSet, imageSizes: "100vw" } : { as: "image", fetchPriority: "high" });
   return (
     <div
-      className="ros:relative ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:overflow-hidden ros:bg-black ros:lg:h-[700px]"
+      className="ros:relative ros:flex ros:h-[500px] ros:max-md:h-auto ros:max-md:min-h-[500px] ros:max-md:py-12 ros:items-center ros:justify-center ros:overflow-hidden ros:bg-black ros:lg:h-[700px]"
     >
       {bg && (
         <>
