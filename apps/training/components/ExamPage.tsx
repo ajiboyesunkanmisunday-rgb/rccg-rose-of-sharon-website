@@ -12,7 +12,7 @@ export default function ExamPage({ slug }: { slug: string }) {
         pill="⏱️ ONLINE TIMED EXAM"
         title={<>{p.short} <span className="text-textRed">Exam</span></>}
         subtitle={`${p.exam.questions.length} questions · ${p.exam.minutes} minutes · pass mark ${p.exam.passMark}%`}
-        bg="/assets/hero-bg.jpg"
+        bg="/assets/hero-bg.png"
       />
       <Section>
         <div className="ros:mx-auto ros:max-w-3xl">

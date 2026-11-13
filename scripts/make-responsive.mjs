@@ -39,7 +39,7 @@ for (const file of walk(pool)) {
   for (const x of widths) {
     const out = `${base}.w${x}.webp`;
     if (fs.existsSync(out)) continue;
-    await sharp(file).resize({ width: x }).webp({ quality: 72, effort: 5 }).toFile(out);
+    await sharp(file).resize({ width: x }).webp({ quality: 80, effort: 5 }).toFile(out);
     made++;
   }
   manifest[rel] = [w, widths];

@@ -38,7 +38,7 @@ export default function GroupsPage() {
 
   return (
     <div>
-      <Hero pill="🌍 COMMUNITY" title={<>Church <span className="text-textRed">Groups</span></>} subtitle="Find your community — connect with a group and grow together in faith." bg="/assets/hero-bg.jpg" />
+      <Hero pill="🌍 COMMUNITY" title={<>Church <span className="text-textRed">Groups</span></>} subtitle="Find your community — connect with a group and grow together in faith." bg="/assets/hero-bg.png" />
 
       {/* Groups grid */}
       <section className="ros:bg-[#000000] ros:px-4 ros:sm:px-[40px] ros:lg:px-[80px] ros:xl:px-[120px] ros:py-[60px] ros:md:py-[84px] ros:flex ros:flex-col ros:gap-[32px] ros:items-center ros:w-full ros:min-h-[400px]">

@@ -23,7 +23,7 @@ export default function CoordinatorView({ slug }: { slug: string }) {
         pill="🧑‍🏫 PROGRAM COORDINATOR"
         title={<>{p.short} <span className="text-textRed">Coordinator</span></>}
         subtitle={`Everything a coordinator needs to run ${p.name}: students, attendance, fees, scores and graduation.`}
-        bg="/assets/hero-bg.jpg"
+        bg="/assets/hero-bg.png"
       >
         <Btn href={COORDINATOR_PORTAL} variant="white" className="ros:mt-2">Coordinator login</Btn>
       </Hero>
