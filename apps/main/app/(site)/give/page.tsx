@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: "Who do I contact with my questions?",
-    a: "If you have any questions about giving, please reach out to our Giving Team at your@email.com or call us at +234 800 000 0000. We're here to assist and ensure that your giving experience at RCCG Rose of Sharon is seamless and meaningful.",
+    a: "If you have any questions about giving, please reach out to our Giving Team at info@rccgros.org or call us on 0806 767 7224. We're here to assist and ensure that your giving experience at RCCG Rose of Sharon is seamless and meaningful.",
   },
 ];
 
