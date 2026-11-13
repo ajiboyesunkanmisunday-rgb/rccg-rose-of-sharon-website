@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./paper-mobile.css";
 import LayoutWrapper from "@ros/shared/chrome/LayoutWrapper";
 import { Suspense } from "react";
 

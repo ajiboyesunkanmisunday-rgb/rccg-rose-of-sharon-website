@@ -268,7 +268,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
 
   /* PAGE 1: A, B, C */
   const page1 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div style={{ width: 120, flexShrink: 0 }} />
         <div style={{ flex: 1, textAlign: "center" }}>
@@ -393,7 +393,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
 
   /* PAGE 2: D */
   const page2 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SH>D.&nbsp;&nbsp;Christian History</SH>
       <table style={TB}>
         <tbody>
@@ -463,7 +463,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
 
   /* PAGE 3: E, F, G, H */
   const page3 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SH>E.&nbsp;&nbsp;Which Life Center do you attend?</SH>
       <input value={f.lifeCenter} readOnly={ro} onChange={(e) => u("lifeCenter")(e.target.value)} style={{ ...inputBase, borderBottom: "1px dotted #555", height: 26, marginBottom: 6 }} />
 
@@ -498,7 +498,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
 
   /* PAGE 4: I, J */
   const page4 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SH>I.&nbsp;&nbsp;Why do you want to be a worker?</SH>
       <table style={TB}>
         <tbody>

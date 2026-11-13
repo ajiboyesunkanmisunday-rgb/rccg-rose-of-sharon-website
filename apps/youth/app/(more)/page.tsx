@@ -62,9 +62,9 @@ export default function YouthHome() {
 
       <Section>
         <SectionTitle pill="🧩 DEPARTMENTS" title={<>Find your <span className="text-textRed">place</span> to serve</>} sub="Every gift has a team." />
-        <div className="no-scrollbar ros:mt-8 ros:flex ros:gap-3 ros:overflow-x-auto ros:pb-2">
+        <div className="no-scrollbar ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:sm:grid-cols-3 ros:md:flex ros:md:overflow-x-auto ros:md:pb-2">
           {DEPARTMENTS.map((d) => (
-            <Link key={d.slug} href={`/youth/departments/${d.slug}`} className="ros:flex ros:min-w-[180px] ros:flex-col ros:items-center ros:gap-2 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:px-4 ros:py-6 ros:text-center ros:transition ros:hover:border-[#DF4E4E]">
+            <Link key={d.slug} href={`/youth/departments/${d.slug}`} className="ros:flex ros:md:min-w-[180px] ros:flex-col ros:items-center ros:gap-2 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:px-4 ros:py-6 ros:text-center ros:transition ros:hover:border-[#DF4E4E]">
               <span className="ros:text-[28px]">{d.icon}</span>
               <span className="ros:text-sm ros:font-bold">{d.name}</span>
             </Link>

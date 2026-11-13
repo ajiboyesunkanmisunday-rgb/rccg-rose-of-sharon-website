@@ -468,7 +468,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
 
   /* PAGE 1 */
   const page1 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div style={{ flex: 1 }}>
           <div style={{ fontWeight: 700, fontSize: 18, textAlign: "center", lineHeight: 1.3 }}>
@@ -548,7 +548,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
 
   /* PAGE 2 */
   const page2 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SmallLogo />
 
       <SH>A.&nbsp;&nbsp;&nbsp;BIOGRAPHIC DATA</SH>
@@ -689,7 +689,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
   };
 
   const page3 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SmallLogo />
 
       <SH>G.&nbsp;&nbsp;&nbsp;PROFESSIONAL QUALIFICATIONS <span style={{ fontWeight: 400, fontSize: 10, textTransform: "none" }}>(attach 2 photocopies of each certificate)</span></SH>
@@ -881,7 +881,7 @@ export default function RilaFormCore({ mode }: { mode: RilaMode }) {
   const dotLine = { borderBottom: "1px dotted #555", display: "block", width: "100%", marginTop: 4, height: 18 } as const;
 
   const page4 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SmallLogo />
 
       <div style={{ marginBottom: 14 }}>
