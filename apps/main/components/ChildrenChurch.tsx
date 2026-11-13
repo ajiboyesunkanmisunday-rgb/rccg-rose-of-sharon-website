@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useCallback, useEffect, useState } from "react";
 import Link from "@ros/shared/link";
 import { SectionTitle, Btn } from "@ros/shared/kit/ui";
@@ -59,7 +60,7 @@ export default function ChildrenChurch() {
       {/* ── Carousel banner ── */}
       <div className="ros:relative ros:flex ros:h-[500px] ros:items-center ros:justify-center ros:overflow-hidden ros:bg-black ros:lg:h-[700px]" aria-roledescription="carousel" aria-label="Children and teenagers of Rose of Sharon">
         {SLIDES.map((s, idx) => (
-          <img key={s.src} src={s.src} alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={idx !== i} className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full ros:object-cover" style={{ opacity: idx === i ? 1 : 0, transition: "opacity 0.9s ease", objectPosition: s.pos }} />
+          <img key={s.src} src={s.src} srcSet={srcSetFor(s.src)} sizes="100vw" alt={s.alt} loading={idx === 0 ? "eager" : "lazy"} decoding="async" aria-hidden={idx !== i} className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full ros:object-cover" style={{ opacity: idx === i ? 1 : 0, transition: "opacity 0.9s ease", objectPosition: s.pos }} />
         ))}
         <div className="ros:absolute ros:left-0 ros:top-0 ros:h-full ros:w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.6))" }} />
         <div className="ros:relative ros:z-10 ros:mx-auto ros:flex ros:w-full ros:max-w-7xl ros:flex-col ros:items-center ros:gap-6 ros:px-4 ros:text-center ros:md:items-start ros:md:px-8 ros:md:text-left">
@@ -90,7 +91,7 @@ export default function ChildrenChurch() {
             <p className="ros:text-[#00000099]">Children Church is the children&apos;s and teens&apos; ministry of RCCG Rose of Sharon. Our vision is to see all children celebrating endless life in Christ and training them to disciple others for Christ.</p>
             <p className="ros:text-[#00000099]">We are committed to partnering with you and your child for their progress and joy in the faith.</p>
           </div>
-          <img src={p(4)} alt="Children gathered in their Sunday class" loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />
+          <img src={p(4)} srcSet={srcSetFor(p(4))} sizes="100vw" alt="Children gathered in their Sunday class" loading="lazy" className="ros:h-[340px] ros:w-full ros:rounded-lg ros:object-cover ros:object-center" />
         </div>
       </section>
 
@@ -117,7 +118,7 @@ export default function ChildrenChurch() {
         <div className="ros:mt-8 ros:grid ros:grid-cols-2 ros:gap-3 ros:md:grid-cols-3">
           {SCHOOL_PHOTOS.map((ph, idx) => (
             <button key={ph.n} onClick={() => setOpen(idx)} aria-label={`Enlarge: ${ph.alt}`} className="ros:group ros:block ros:overflow-hidden ros:rounded-lg ros:bg-[#F4F4F4]">
-              <img src={p(ph.n, true)} alt={ph.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" />
+              <img src={p(ph.n, true)} srcSet={srcSetFor(p(ph.n, true))} sizes="100vw" alt={ph.alt} loading="lazy" decoding="async" className="ros:aspect-[4/3] ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" />
             </button>
           ))}
         </div>
@@ -135,7 +136,7 @@ export default function ChildrenChurch() {
 
       {open !== null && (
         <div role="dialog" aria-modal="true" aria-label="Back to School photos" onClick={() => setOpen(null)} style={{ position: "fixed", inset: 0, zIndex: 2000, background: "rgba(0,0,0,0.9)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-          <img src={p(SCHOOL_PHOTOS[open].n)} alt={SCHOOL_PHOTOS[open].alt} onClick={(e) => e.stopPropagation()} style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 12, objectFit: "contain" }} />
+          <img src={p(SCHOOL_PHOTOS[open].n)} srcSet={srcSetFor(p(SCHOOL_PHOTOS[open].n))} sizes="100vw" alt={SCHOOL_PHOTOS[open].alt} onClick={(e) => e.stopPropagation()} style={{ maxHeight: "100%", maxWidth: "100%", borderRadius: 12, objectFit: "contain" }} />
           <button onClick={() => setOpen(null)} aria-label="Close" style={{ position: "absolute", top: 18, right: 22, color: "#fff", fontSize: 36, lineHeight: 1 }}>×</button>
           <button onClick={(e) => { e.stopPropagation(); setOpen((open - 1 + SCHOOL_PHOTOS.length) % SCHOOL_PHOTOS.length); }} aria-label="Previous photo" style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: 999, background: "#fff", fontSize: 22 }}>‹</button>
           <button onClick={(e) => { e.stopPropagation(); setOpen((open + 1) % SCHOOL_PHOTOS.length); }} aria-label="Next photo" style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: 999, background: "#fff", fontSize: 22 }}>›</button>

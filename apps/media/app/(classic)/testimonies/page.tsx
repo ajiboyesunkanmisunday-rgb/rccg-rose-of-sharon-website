@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { Hero } from "@ros/shared/kit/ui";
 
 import { useState, useEffect } from "react";
@@ -129,7 +130,7 @@ export default function TestimoniesPage() {
                 return (
                   <article key={t.id} className="ros:flex ros:flex-col ros:items-center ros:gap-4 ros:rounded-2xl ros:bg-white ros:p-6 ros:shadow-[0px_4px_20px_rgba(0,0,0,0.08)]">
                     {photo ? (
-                      <img src={photo} alt={name} loading="lazy" className="ros:size-[72px] ros:rounded-full ros:object-cover ros:object-top" />
+                      <img src={photo} srcSet={srcSetFor(photo)} sizes="100vw" alt={name} loading="lazy" className="ros:size-[72px] ros:rounded-full ros:object-cover ros:object-top" />
                     ) : (
                       <div className="ros:flex ros:size-[72px] ros:items-center ros:justify-center ros:rounded-full ros:bg-[#DF4E4E] ros:text-[26px] ros:font-bold ros:text-white">{name.charAt(0).toUpperCase()}</div>
                     )}

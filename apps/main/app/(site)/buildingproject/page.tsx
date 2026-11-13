@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { A } from "@ros/shared/link";
@@ -213,7 +214,7 @@ export default function BuildingProjectPage() {
                       ].map((acct) => (
                         <div key={acct.number} className="rounded bg-[#FFFFFFCC] p-2 lg:p-4">
                           <div className="mb-2 flex items-center gap-1 text-base font-normal uppercase text-[#7F7C7C]">
-                            {acct.icon && <img loading="lazy" decoding="async" src={acct.icon} alt="" width={32} height={32} />}
+                            {acct.icon && <img loading="lazy" decoding="async" src={acct.icon} srcSet={srcSetFor(acct.icon)} sizes="100vw" alt="" width={32} height={32} />}
                             <p>{acct.label}</p>
                           </div>
                           <div className="flex items-center justify-between">
@@ -348,9 +349,9 @@ export default function BuildingProjectPage() {
           </h2>
           <p className="mx-auto mb-8 max-w-3xl text-center text-[#000000A3]">ROS Tower is the building the church is working on now.</p>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-2.jpg" alt="ROS Tower, front view" className="aspect-video w-full rounded-lg object-cover md:col-span-2" />
-            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-3.jpg" alt="ROS Tower, view from above" className="h-full w-full rounded-lg object-cover" />
-            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-4.jpg" alt="ROS Tower, corner view" className="h-full w-full rounded-lg object-cover" />
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-2.jpg" srcSet={srcSetFor("/buildingproject/ros-tower-2.jpg")} sizes="100vw" alt="ROS Tower, front view" className="aspect-video w-full rounded-lg object-cover md:col-span-2" />
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-3.jpg" srcSet={srcSetFor("/buildingproject/ros-tower-3.jpg")} sizes="100vw" alt="ROS Tower, view from above" className="h-full w-full rounded-lg object-cover" />
+            <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-4.jpg" srcSet={srcSetFor("/buildingproject/ros-tower-4.jpg")} sizes="100vw" alt="ROS Tower, corner view" className="h-full w-full rounded-lg object-cover" />
           </div>
         </motion.div>
       </section>

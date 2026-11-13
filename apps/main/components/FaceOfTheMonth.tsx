@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useEffect, useState } from "react";
 import { parseApiDate } from "@ros/shared/dates";
 
@@ -25,7 +26,7 @@ function HallOfFame({ list }: { list: PastEvent[] }) {
     w ? (
       <div className="ros:flex ros:flex-col ros:items-center ros:gap-2 ros:text-center">
         {w.photo ? (
-          <img src={w.photo} alt={w.name} loading="lazy" className="ros:size-24 ros:rounded-full ros:object-cover ros:object-top" />
+          <img src={w.photo} srcSet={srcSetFor(w.photo)} sizes="100vw" alt={w.name} loading="lazy" className="ros:size-24 ros:rounded-full ros:object-cover ros:object-top" />
         ) : (
           <span className="ros:flex ros:size-24 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-2xl ros:font-bold ros:text-white">{initials(w.name)}</span>
         )}
@@ -122,7 +123,7 @@ export default function FaceOfTheMonth() {
               {list.map((n) => (
                 <div key={n.id} className={`ros:flex ros:flex-col ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:p-4 ros:text-center ${closed && n.votes === top && top > 0 ? "ros:border-[#DF4E4E] ros:bg-[#FFF5F5]" : "ros:border-[#00000014] ros:bg-[#FAFAFA8F]"}`}>
                   {n.photo ? (
-                    <img src={n.photo} alt={n.name} loading="lazy" className="ros:size-28 ros:rounded-full ros:object-cover ros:object-top" />
+                    <img src={n.photo} srcSet={srcSetFor(n.photo)} sizes="100vw" alt={n.name} loading="lazy" className="ros:size-28 ros:rounded-full ros:object-cover ros:object-top" />
                   ) : (
                     <span className="ros:flex ros:size-28 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-3xl ros:font-bold ros:text-white">{initials(n.name)}</span>
                   )}

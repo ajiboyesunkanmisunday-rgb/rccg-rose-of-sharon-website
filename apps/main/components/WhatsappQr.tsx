@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 
@@ -20,7 +21,7 @@ export default function WhatsappQr({ link, qr, label }: { link: string; qr?: str
     );
   }
   return src ? (
-    <img src={src} alt={`QR code to join the ${label} WhatsApp group`} width={260} height={260} className="ros:aspect-square ros:w-full ros:max-w-[260px] ros:rounded-xl ros:border ros:border-[#00000014] ros:bg-white ros:p-2" />
+    <img src={src} srcSet={srcSetFor(src)} sizes="100vw" alt={`QR code to join the ${label} WhatsApp group`} width={260} height={260} className="ros:aspect-square ros:w-full ros:max-w-[260px] ros:rounded-xl ros:border ros:border-[#00000014] ros:bg-white ros:p-2" />
   ) : (
     <div className="ros:aspect-square ros:w-full ros:max-w-[260px] ros:animate-pulse ros:rounded-xl ros:bg-[#F4F4F4]" />
   );

@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import Link from "@ros/shared/link";
 import { Hero, Section, SectionTitle } from "@ros/shared/kit/ui";
 import CelebrationForm from "@/components/CelebrationForm";
@@ -26,7 +27,7 @@ export default function CelebrationsPage() {
           {options.map((o) => (
             <Link key={o.title} href={o.href} className="ros:group ros:flex ros:flex-col ros:overflow-hidden ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:transition ros:hover:border-[#DF4E4E]">
               <div className="ros:h-[220px] ros:w-full ros:overflow-hidden ros:bg-[#F4F4F4]">
-                <img src={o.image} alt={o.title} loading="lazy" decoding="async" className="ros:h-full ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" style={{ objectPosition: o.pos }} />
+                <img src={o.image} srcSet={srcSetFor(o.image)} sizes="100vw" alt={o.title} loading="lazy" decoding="async" className="ros:h-full ros:w-full ros:object-cover ros:transition ros:duration-500 ros:group-hover:scale-[1.04]" style={{ objectPosition: o.pos }} />
               </div>
               <div className="ros:flex ros:flex-1 ros:flex-col ros:gap-3 ros:p-6">
                 <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{o.title}</h3>

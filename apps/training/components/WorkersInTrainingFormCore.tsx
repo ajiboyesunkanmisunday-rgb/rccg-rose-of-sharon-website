@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Printer, Send, CheckCircle, XCircle, ChevronLeft, ChevronRight } from "lucide-react";
@@ -290,7 +291,7 @@ export default function WorkersInTrainingFormCore({ mode = "fill" }: { mode?: Wi
         >
           {passportPreview ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={passportPreview} alt="Passport photograph" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={passportPreview} srcSet={srcSetFor(passportPreview)} sizes="100vw" alt="Passport photograph" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           ) : (
             <div style={{ textAlign: "center", fontSize: 10, color: "#555", padding: 6, lineHeight: 1.6 }}>Passport<br />photograph{!ro && <><br /><span style={{ fontSize: 9, color: "#9CA3AF" }}>(click to add)</span></>}</div>
           )}

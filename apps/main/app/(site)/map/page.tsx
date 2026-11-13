@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link, { A } from "@ros/shared/link";
@@ -197,7 +198,7 @@ export default function MAPPage() {
               <A key={i} href={loc.href} target="_blank" rel="noopener noreferrer" className="relative block">
                 <div className="group relative cursor-pointer overflow-hidden shadow-lg">
                   <img loading="lazy" decoding="async"
-                    src={loc.image}
+                    src={loc.image} srcSet={srcSetFor(loc.image)} sizes="100vw"
                     alt={loc.area}
                     className="h-80 w-full object-cover"
                   />

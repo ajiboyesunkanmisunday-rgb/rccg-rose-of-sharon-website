@@ -1,5 +1,6 @@
 "use client";
 
+import { srcSetFor } from "@ros/shared/picture";
 import { Hero } from "@ros/shared/kit/ui";
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -320,7 +321,7 @@ export default function EventsPage() {
                             <p className="ros:text-[#A3A1AF] ros:text-[13px]">📍 {[ev.street, ev.city, ev.state, ev.country].filter(Boolean).join(", ")}</p>
                           )}
                           {ev.eflyer && (
-                            <img src={ev.eflyer} alt={`${ev.title ?? "Event"} flyer`} loading="lazy" className="ros:mt-[6px] ros:max-h-[320px] ros:w-auto ros:max-w-full ros:rounded-[12px] ros:object-contain" />
+                            <img src={ev.eflyer} srcSet={srcSetFor(ev.eflyer)} sizes="100vw" alt={`${ev.title ?? "Event"} flyer`} loading="lazy" className="ros:mt-[6px] ros:max-h-[320px] ros:w-auto ros:max-w-full ros:rounded-[12px] ros:object-contain" />
                           )}
                           {ev.additionalInstructions && (
                             <p className="ros:text-[#A3A1AF] ros:text-[13px] ros:italic">{ev.additionalInstructions}</p>

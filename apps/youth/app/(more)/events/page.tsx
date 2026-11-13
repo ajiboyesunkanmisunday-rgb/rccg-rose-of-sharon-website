@@ -1,3 +1,4 @@
+import { srcSetFor } from "@ros/shared/picture";
 import { Hero, Section, SectionTitle, Btn } from "@ros/shared/kit/ui";
 import YouthTabs from "@/components/YouthTabs";
 import { EVENTS } from "@ros/shared/kit/youth";
@@ -29,7 +30,7 @@ export default function YouthEvents() {
         <SectionTitle pill="🗓️ LOOKING BACK" title={<>Past <span className="text-textRed">events</span></>} />
         {past.map((e) => (
           <div key={e.title} className="ros:mt-8 ros:grid ros:grid-cols-1 ros:items-center ros:gap-8 ros:md:grid-cols-2">
-            <img loading="lazy" decoding="async" src={e.image} alt={e.title} className="ros:h-[320px] ros:w-full ros:rounded-lg ros:object-cover" />
+            <img loading="lazy" decoding="async" src={e.image} srcSet={srcSetFor(e.image)} sizes="100vw" alt={e.title} className="ros:h-[320px] ros:w-full ros:rounded-lg ros:object-cover" />
             <div className="ros:flex ros:flex-col ros:gap-3">
               <span className="ros:text-[10px] ros:font-bold ros:uppercase ros:tracking-[0.2em] ros:text-[#DF4E4E]">{e.when}</span>
               <h3 className="ros-anton ros:text-3xl ros:uppercase">{e.title}</h3>
