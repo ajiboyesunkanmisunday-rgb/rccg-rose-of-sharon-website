@@ -1,5 +1,6 @@
 "use client";
 
+import HeroVideo from "@/components/HeroVideo";
 import { srcSetFor } from "@ros/shared/picture";
 import Link, { A } from "@ros/shared/link";
 import { motion } from "framer-motion";
@@ -144,6 +145,7 @@ export default function Home() {
       <section className="overflow-hidden">
         <div className="relative h-screen bg-black">
           <img src="/media/celebrations.f123ede1.jpg" srcSet={srcSetFor("/media/celebrations.f123ede1.jpg")} sizes="100vw" alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+          <HeroVideo src="/home/hero-video-1280.mp4" srcSmall="/home/hero-video-640.mp4" />
           <div className="absolute left-0 top-0 h-full w-full" style={{ background: "rgba(0,0,0,0.74)" }} />
           <div className="relative z-10 flex h-full items-center justify-center overflow-hidden">
             <motion.div
