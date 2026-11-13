@@ -181,7 +181,7 @@ export default function BabyRequestForm({ kind }: { kind: Kind }) {
 
             {kind === "christening" && (
               <div style={{ margin: "6px 0 14px" }}>
-                <p style={labelCss}>Do you want the Church to handle the naming ceremony?</p>
+                <p style={{ ...labelCss, whiteSpace: "normal" }}>Do you want the Church to handle the naming ceremony?</p>
                 <div style={{ display: "flex", gap: 28, margin: "8px 0 6px" }}>
                   {["Yes", "No"].map((o) => (
                     <label key={o} style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
