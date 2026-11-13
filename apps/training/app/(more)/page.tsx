@@ -15,7 +15,7 @@ export default function TrainingsPage() {
         pill="🌍 TRAINING PROGRAMS"
         title={<>Grow in <span className="text-textRed">faith</span> and ministry</>}
         subtitle="Grow in faith, ministry and leadership. Every program has its own pages: overview, registration, online exam and coordinator."
-        bg="/assets/hero-bg.png"
+        bg="/assets/hero-bg.jpg"
       >
         <Btn href="#programs" variant="white" className="ros:mt-2">Explore programs</Btn>
       </Hero>

@@ -18,7 +18,7 @@ export default function ResultsView({ slug }: { slug: string }) {
 
   return (
     <>
-      <Hero pill="📊 YOUR RESULTS" title={<>{p.short} <span className="text-textRed">Results</span></>} subtitle={`${p.name} — online exam`} bg="/assets/hero-bg.png" />
+      <Hero pill="📊 YOUR RESULTS" title={<>{p.short} <span className="text-textRed">Results</span></>} subtitle={`${p.name} — online exam`} bg="/assets/hero-bg.jpg" />
       <Section>
         <div className="ros:mx-auto ros:max-w-3xl">
           <ProgramTabs slug={slug} />
