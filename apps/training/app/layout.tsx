@@ -28,6 +28,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Load the original site's CSS files for pixel-perfect parity */}
+        <link rel="preload" href="/anton-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/lato-regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="stylesheet" href="/css/f3f8de09d2044a56.css" />
         <link rel="stylesheet" href="/css/3ff23b8742f73c95.css" />
         <link rel="stylesheet" href="/css/07b6fb94d282a177.css" />
