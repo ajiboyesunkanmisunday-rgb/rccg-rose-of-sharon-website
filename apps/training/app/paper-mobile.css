@@ -74,7 +74,7 @@
   }
   /* fixed-width pieces inside the sheet must not push it wider than the screen */
   :is(.ros-paper, .sod-paper, .som-paper) [style*="width"] { max-width: 100% !important; }
-  :is(.ros-paper, .sod-paper, .som-paper) :is([style*="display: flex"], [style*="display:flex"]) { flex-wrap: wrap; }
+  :is(.ros-paper, .sod-paper, .som-paper) :is([style*="display: flex"], [style*="display:flex"]) { flex-wrap: wrap; row-gap: 16px; }
   :is(.ros-paper, .sod-paper, .som-paper) [style*="nowrap"] { white-space: normal !important; }
   :is(.ros-paper, .sod-paper, .som-paper) :is([style*="flex:1"], [style*="flex: 1"]) { min-width: 0 !important; }
 }
