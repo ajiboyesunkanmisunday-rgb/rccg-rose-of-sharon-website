@@ -27,7 +27,9 @@ const SAMPLE: Announcement[] = [
   { id: "s5", subject: "Thank you for a wonderful Father's Day", content: "We celebrated our fathers in worship and fellowship. Photos are now in the gallery.", createdOn: new Date(Date.now() - 45 * 86400e3).toISOString() },
 ];
 
-const when = (a: Announcement) => parseApiDate(a.startDate) ?? parseApiDate(a.createdOn) ?? new Date();
+// the backend sends plain dates as [year, month, day]
+const dayText = (v?: string | number[]) => (Array.isArray(v) ? `${v[0]}-${String(v[1]).padStart(2, "0")}-${String(v[2]).padStart(2, "0")}` : v);
+const when = (a: Announcement) => parseApiDate(dayText(a.startDate)) ?? parseApiDate(a.createdOn) ?? new Date();
 
 function ago(d: Date) {
   const mins = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
