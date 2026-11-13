@@ -1,0 +1,80 @@
+/*
+ * Phone layout for the paper-style application forms (Water Baptism, Workers in Training, School of Disciples,
+ * School of Ministry, RILA). On tablets and desktops the A4 sheet is unchanged. On a phone (640px or narrower) the
+ * sheet is no longer shrunk to fit; it becomes one full-width column with 16px text and large tap targets.
+ *   - label/answer tables are stacked (label above its answer)
+ *   - tables with a column-header row (Institution | Dates | Qualification ...) stay as tables, with room to wrap
+ * Screen only: printing and the print preview are not affected.
+ */
+@media screen and (max-width: 640px) {
+  .ros-paper, .sod-paper, .som-paper {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 0 !important;
+    padding: 18px 14px !important;
+    box-shadow: none !important;
+    zoom: 1 !important;
+    font-size: 16px !important;
+    line-height: 1.45;
+    box-sizing: border-box !important;
+    overflow-wrap: anywhere;
+  }
+  /* rows must grow with their content (they carry a fixed inline height on the paper) */
+  :is(.ros-paper, .sod-paper, .som-paper) tr { height: auto !important; }
+  :is(.ros-paper, .sod-paper, .som-paper) colgroup { display: none !important; }
+
+  /* label / answer tables: one cell per line */
+  :is(.ros-paper, .sod-paper, .som-paper) table:not(:has(th)),
+  :is(.ros-paper, .sod-paper, .som-paper) table:not(:has(th)) :is(thead, tbody, tfoot, tr) {
+    display: block !important;
+    width: 100% !important;
+  }
+  :is(.ros-paper, .sod-paper, .som-paper) table:not(:has(th)) td {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 46px;
+    padding: 8px 10px !important;
+    box-sizing: border-box !important;
+    margin-top: -1px;
+  }
+
+  /* column-header tables keep their columns */
+  :is(.ros-paper, .sod-paper, .som-paper) table:has(th) { width: 100% !important; table-layout: auto !important; }
+  :is(.ros-paper, .sod-paper, .som-paper) table:has(th) :is(th, td) {
+    width: auto !important;
+    height: auto !important;
+    min-height: 46px;
+    padding: 6px 4px !important;
+    box-sizing: border-box !important;
+  }
+
+  :is(.ros-paper, .sod-paper, .som-paper) :is(td, th, div, p, span, label, h1, h2, h3, h4, li) {
+    font-size: 16px !important;
+    max-width: 100%;
+  }
+  :is(.ros-paper, .sod-paper, .som-paper) :is(input, select, textarea) {
+    font-size: 16px !important;
+    min-height: 44px;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+  :is(.ros-paper, .sod-paper, .som-paper) :is(input[type="checkbox"], input[type="radio"]) {
+    width: 24px !important;
+    height: 24px !important;
+    min-height: 0;
+    flex-shrink: 0;
+  }
+  /* the passport photo box sits in the flow instead of floating in a corner */
+  :is(.ros-paper, .sod-paper, .som-paper) [style*="position: absolute"],
+  :is(.ros-paper, .sod-paper, .som-paper) [style*="position:absolute"] {
+    position: static !important;
+    margin: 0 auto 14px !important;
+  }
+  /* fixed-width pieces inside the sheet must not push it wider than the screen */
+  :is(.ros-paper, .sod-paper, .som-paper) [style*="width"] { max-width: 100% !important; }
+  :is(.ros-paper, .sod-paper, .som-paper) :is([style*="display: flex"], [style*="display:flex"]) { flex-wrap: wrap; }
+  :is(.ros-paper, .sod-paper, .som-paper) [style*="nowrap"] { white-space: normal !important; }
+  :is(.ros-paper, .sod-paper, .som-paper) :is([style*="flex:1"], [style*="flex: 1"]) { min-width: 0 !important; }
+}

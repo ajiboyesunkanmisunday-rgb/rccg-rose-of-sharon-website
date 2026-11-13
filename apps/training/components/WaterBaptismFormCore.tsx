@@ -208,6 +208,8 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
         phoneNumber,
         sex: f.sex,
         profilePictureUrl,
+        // the backend requires a signature value; the applicant's typed signature is what the paper form holds
+        signatureUrl: f.signature.trim() || undefined,
         street: f.street || undefined,
         city: f.city || undefined,
         state: f.state || undefined,
@@ -264,7 +266,7 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
 
   /* SHEET 1 */
   const page1 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16 }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/ros-logo.png" alt="RCCG" style={{ width: 80, height: 80, objectFit: "contain", flexShrink: 0 }} />
@@ -400,7 +402,7 @@ export default function WaterBaptismFormCore({ mode = "fill" }: { mode?: WaterBa
 
   /* SHEET 2 */
   const page2 = (
-    <div style={PAPER}>
+    <div className="ros-paper" style={PAPER}>
       <SH letter="F">HAVE YOU GONE THROUGH NEW CONVERTS CLASSES IN ROSE OF SHARON?</SH>
       <YesNo value={f.newConvert} onChange={set("newConvert")} readOnly={ro} />
       <DL value={f.newConvertNote} onChange={set("newConvertNote")} readOnly={ro} />
