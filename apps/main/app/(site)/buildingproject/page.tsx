@@ -1,11 +1,10 @@
 "use client";
 
+import Reveal from "@ros/shared/kit/Reveal";
 import { srcSetFor } from "@ros/shared/picture";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { A } from "@ros/shared/link";
 
-const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, transition: { duration: 1 } } };
 
 /*
  * Hero video of the proposed building plan. Put the video file in packages/shared/public/buildingproject/
@@ -34,15 +33,11 @@ export default function BuildingProjectPage() {
   return (
     <>
       {/* ── HERO ── */}
-      <motion.div
-        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 1.5 } } }}
-        initial="hidden"
-        animate="visible"
+      <Reveal instant fade duration={1.5}
         className="rbc-give-header relative flex h-[600px] items-center justify-center overflow-hidden bg-cover bg-no-repeat lg:h-[700px]"
         style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/buildingproject/ros-tower-2.jpg')`,
-        }}
-      >
+ backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.62) 73%), url('/buildingproject/ros-tower-2.jpg')`,
+ }}>
         {PLAN_VIDEO && (
           <>
             <video autoPlay loop muted playsInline preload="auto" poster="/buildingproject/ros-tower-2.jpg" className="absolute left-0 top-0 h-full w-full object-cover" aria-hidden="true">
@@ -51,13 +46,8 @@ export default function BuildingProjectPage() {
             <div className="absolute left-0 top-0 h-full w-full" style={{ background: "linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6))" }} />
           </>
         )}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start"
-        >
+        <Reveal
+        className="relative z-10 mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start">
           <h1 className="my-3 max-w-[900px] text-center md:text-left font-anton text-[3rem] font-medium uppercase text-white md:text-7xl md:leading-[1.2]">
             BUILD <span className="text-textRed">WITH US</span>
           </h1>
@@ -72,8 +62,8 @@ export default function BuildingProjectPage() {
               Support God&apos;s Work
             </A>
           </div>
-        </motion.div>
-      </motion.div>
+        </Reveal>
+      </Reveal>
 
       {/* ── WAYS TO GIVE ── */}
       <div className="relative">
@@ -106,14 +96,9 @@ export default function BuildingProjectPage() {
         </section>
 
         <section className="overflow-hidden bg-[#F8F8F8CC]">
-          <motion.div
-            id="global"
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-10 md:py-20"
-          >
+          <Reveal
+        id="global"
+        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-10 md:py-20">
             <div className="mb-6 flex flex-col flex-wrap items-center justify-between md:mb-10 md:flex-row">
               <h2 className="font-anton text-4xl font-normal leading-loose md:text-6xl">WAYS TO GIVE</h2>
               <div className="flex items-center gap-4 self-center">
@@ -331,19 +316,14 @@ export default function BuildingProjectPage() {
                 </div>
               </div>
             </section>
-          </motion.div>
+          </Reveal>
         </section>
       </div>
 
       {/* ── VIDEO ── */}
       <section className="bg-white" id="mainVideo">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto w-full max-w-7xl bg-white p-4 sm:p-6 md:p-10 lg:p-20"
-        >
+        <Reveal
+        className="mx-auto w-full max-w-7xl bg-white p-4 sm:p-6 md:p-10 lg:p-20">
           <h2 className="mb-4 text-center font-anton text-4xl font-normal uppercase leading-loose md:mb-8 md:text-6xl">
             Expanding our reach
           </h2>
@@ -353,18 +333,13 @@ export default function BuildingProjectPage() {
             <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-3.jpg" srcSet={srcSetFor("/buildingproject/ros-tower-3.jpg")} sizes="100vw" alt="ROS Tower, view from above" className="h-full w-full rounded-lg object-cover" />
             <img loading="lazy" decoding="async" src="/buildingproject/ros-tower-4.jpg" srcSet={srcSetFor("/buildingproject/ros-tower-4.jpg")} sizes="100vw" alt="ROS Tower, corner view" className="h-full w-full rounded-lg object-cover" />
           </div>
-        </motion.div>
+        </Reveal>
       </section>
 
       {/* ── PASTOR VISION ── */}
       <section className="bg-black" id="pastey" style={{ paddingBottom: 140 }}>
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-black px-6 py-8 sm:px-12 md:flex-row md:py-16 lg:gap-10 lg:px-24"
-        >
+        <Reveal
+        className="mx-auto flex w-full max-w-7xl flex-col gap-4 bg-black px-6 py-8 sm:px-12 md:flex-row md:py-16 lg:gap-10 lg:px-24">
           <div className="mb-4 flex-1 overflow-hidden rounded-lg md:mb-0" style={{ backgroundColor: "#0e0e0e", minHeight: 260 }}>
             <video autoPlay loop muted playsInline controls preload="metadata" poster="/buildingproject/ros-tower-4.jpg" className="h-full w-full object-cover">
               <source src="/buildingproject/ros-tower.mp4" type="video/mp4" />
@@ -380,7 +355,7 @@ export default function BuildingProjectPage() {
               We envision a welcoming, accessible space with room for worship services, children and youth programs, community gatherings, and practical support for people in need. A dedicated church building will help us serve our congregation and our wider community more effectively—now and for years to come.
             </p>
           </div>
-        </motion.div>
+        </Reveal>
       </section>
     </>
   );
