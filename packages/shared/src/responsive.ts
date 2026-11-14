@@ -156,6 +156,7 @@ export const RESPONSIVE: Record<string, [number, number[]]> = {
   "home/celebrations-hero.jpg": [2000,[480,800,1200]],
   "home/counselling-card.jpg": [900,[480,800]],
   "home/csr-register.jpg": [1920,[480,800,1200]],
+  "home/hero-poster.jpg": [1920,[480,800,1200]],
   "home/special-day.jpg": [1600,[480,800,1200]],
   "home/walk-grow.jpg": [1200,[480,800]],
   "home/walk-pray.jpg": [1200,[480,800]],
