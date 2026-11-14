@@ -140,7 +140,8 @@ export default function Home() {
       {/* ══════════════════════════════════════════════════════ HERO */}
       <section className="overflow-hidden">
         <div className="relative h-screen bg-black">
-          <img src="/media/celebrations.f123ede1.jpg" srcSet={srcSetFor("/media/celebrations.f123ede1.jpg")} sizes="100vw" alt="" className="absolute left-0 top-0 h-full w-full object-cover" />
+          {/* the video's own first frame, so nothing different shows before the video fades in over it */}
+          <img src="/home/hero-poster.jpg" srcSet={srcSetFor("/home/hero-poster.jpg")} sizes="100vw" alt="" fetchPriority="high" className="absolute left-0 top-0 h-full w-full object-cover" />
           <HeroVideo src="/home/hero-video-1280.mp4" srcSmall="/home/hero-video-640.mp4" />
           <div className="absolute left-0 top-0 h-full w-full" style={{ background: "rgba(0,0,0,0.74)" }} />
           <div className="relative z-10 flex h-full items-center justify-center overflow-hidden">
