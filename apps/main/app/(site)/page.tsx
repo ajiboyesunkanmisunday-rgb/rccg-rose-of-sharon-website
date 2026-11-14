@@ -1,14 +1,10 @@
 "use client";
 
+import Reveal from "@ros/shared/kit/Reveal";
 import HeroVideo from "@/components/HeroVideo";
 import { srcSetFor } from "@ros/shared/picture";
 import Link, { A } from "@ros/shared/link";
-import { motion } from "framer-motion";
 
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: "10%" },
-  visible: { opacity: 1, transition: { duration: 1 }, y: 0 },
-};
 
 // ─── Button ───────────────────────────────────────────────────────────────────
 
@@ -148,13 +144,8 @@ export default function Home() {
           <HeroVideo src="/home/hero-video-1280.mp4" srcSmall="/home/hero-video-640.mp4" />
           <div className="absolute left-0 top-0 h-full w-full" style={{ background: "rgba(0,0,0,0.74)" }} />
           <div className="relative z-10 flex h-full items-center justify-center overflow-hidden">
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-4 text-center text-white md:items-start md:px-8 md:text-left"
-            >
+            <Reveal instant
+        className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 px-4 text-center text-white md:items-start md:px-8 md:text-left">
               <h3 className="rounded-full bg-[#FFFFFF1F] p-2 text-[10px] font-bold uppercase tracking-wider text-[#FFFFFFCC]">
                 🌍 <span className="ml-0.5">our vision</span>
               </h3>
@@ -178,19 +169,14 @@ export default function Home() {
                   Quick Links
                 </Button>
               </div>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
 
         {/* Welcome */}
-        <motion.div
-          id="learn-more"
-          variants={fadeUpVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12"
-        >
+        <Reveal
+        id="learn-more"
+        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12">
           <div className="pb-12 pt-2 md:pt-8" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))", gap: 16 }}>
             {adBanners.map((ad) => (
               <Link key={ad.title} href={ad.href} className="group relative block overflow-hidden rounded-lg" style={{ height: 220 }}>
@@ -240,17 +226,12 @@ export default function Home() {
               link="/celebrations"
             />
           </div>
-        </motion.div>
+        </Reveal>
       </section>
 
       {/* ══════════════════════════════════════════════════════ CAMPUSES */}
       <section className="overflow-hidden">
-        <motion.div
-          variants={fadeUpVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <div className="flex min-h-[500px] w-full items-center justify-center bg-black py-16">
             <div className="flex w-full max-w-3xl flex-col items-center gap-6 px-4">
               <h2 className="rounded-[20px] bg-[#1F1F1F] px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-white">
@@ -307,7 +288,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* Family background */}
         <div
@@ -337,12 +318,7 @@ export default function Home() {
 
       {/* ══════════════════════════════════════════════════════ COMMUNITY */}
       <section className="overflow-hidden pb-12">
-        <motion.div
-          variants={fadeUpVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
+        <Reveal>
           <div className="flex h-[300px] w-full items-center justify-center">
             <div className="flex w-full max-w-2xl flex-col items-center gap-4">
               <h2 className="mx-auto w-fit rounded-[20px] bg-[#0000000A] px-4 py-1.5 text-[10px] font-black tracking-[0.2em] text-[#000000CC]">
@@ -374,7 +350,7 @@ export default function Home() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
 
         {/* Pastor */}
         <div className="bg-black py-6">
@@ -411,13 +387,8 @@ export default function Home() {
         </div>
 
         {/* Ministries */}
-        <motion.div
-          variants={fadeUpVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0"
-        >
+        <Reveal
+        className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:px-0">
           <div className="no-scrollbar my-6 flex w-full justify-between gap-4 overflow-x-auto px-4">
             <div className="flex min-w-[240px] items-center justify-center">
               <div className="flex w-full max-w-[55%] flex-col items-center gap-3">
@@ -446,7 +417,7 @@ export default function Home() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
       </section>
     </>
   );

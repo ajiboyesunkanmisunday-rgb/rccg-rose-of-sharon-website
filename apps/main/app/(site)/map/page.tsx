@@ -1,12 +1,10 @@
 "use client";
 
+import Reveal from "@ros/shared/kit/Reveal";
 import { srcSetFor } from "@ros/shared/picture";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import Link, { A } from "@ros/shared/link";
 
-const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, transition: { duration: 1 } } };
-const fadeIn  = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 1.5 } } };
 
 const mapLocations = [
   {
@@ -93,20 +91,11 @@ export default function MAPPage() {
   return (
     <>
       {/* ── HERO ── */}
-      <motion.div
-        variants={fadeIn}
-        initial="hidden"
-        animate="visible"
+      <Reveal instant fade duration={1.5}
         className="map-hero-banner flex h-[550px] items-center justify-center bg-cover bg-center bg-no-repeat lg:h-[700px]"
-        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/media/map-hero-banner.02e73247.jpg')" }}
-      >
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 text-center md:items-start md:text-left"
-        >
+        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url('/media/map-hero-banner.02e73247.jpg')" }}>
+        <Reveal
+        className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 text-center md:items-start md:text-left">
           <h1 className="my-3 max-w-[900px] text-center md:text-left font-anton text-[3rem] font-normal uppercase leading-none text-white md:text-7xl md:leading-none">
             WELCOME T0 <br /><span className="text-textRed">MEET &amp; PRAY (MAP)</span>
           </h1>
@@ -127,12 +116,12 @@ export default function MAPPage() {
               ABOUT
             </A>
           </div>
-        </motion.div>
-      </motion.div>
+        </Reveal>
+      </Reveal>
 
       {/* ── ABOUT MAP ── */}
       <section id="about" className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-16">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <Reveal>
           <h2 className="mb-2 font-anton text-2xl uppercase text-textRed md:text-3xl">MEET &amp; PRAY</h2>
           <p className="mb-12 max-w-3xl text-[#00000099]">
             MAP - Meet and Pray is an initiative designed to bring church members together in smaller, more intimate groups for prayer, fellowship, and meaningful connection. Whether you are new to the church or a long-time member, MAP is a place for you to belong.
@@ -146,18 +135,13 @@ export default function MAPPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
       </section>
 
       {/* ── WHY ATTEND ── */}
       <section className="bg-[#F8F8F8] px-4 py-16">
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto max-w-7xl"
-        >
+        <Reveal
+        className="mx-auto max-w-7xl">
           <h2 className="mb-10 font-anton text-3xl uppercase md:text-5xl">
             WHY YOU SHOULD<br />
             <span className="text-textRed">ATTEND MAP</span>
@@ -170,12 +154,12 @@ export default function MAPPage() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
       </section>
 
       {/* ── FIND A MAP GROUP ── */}
       <section className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-16">
-        <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+        <Reveal>
           <h6 className="mb-2 w-fit rounded-full bg-[#F4F4F4] px-3 py-1 text-xs font-bold">
             🌍 <span className="ml-1 uppercase">MAP</span>
           </h6>
@@ -223,7 +207,7 @@ export default function MAPPage() {
           >
             VIEW ALL LOCATIONS
           </Link>
-        </motion.div>
+        </Reveal>
       </section>
 
       {/* ── FAQs ── */}

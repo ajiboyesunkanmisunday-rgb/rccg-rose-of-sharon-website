@@ -1,11 +1,9 @@
 "use client";
 
+import Reveal from "@ros/shared/kit/Reveal";
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { A } from "@ros/shared/link";
 
-const fadeUp = { hidden: { opacity: 0, y: "10%" }, visible: { opacity: 1, y: 0, transition: { duration: 1 } } };
-const fadeIn  = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 1 } } };
 
 const givingAccounts = [
   { label: "Offering",            accounts: [{ bank: "Fidelity Bank", number: "4110027806" }] },
@@ -87,20 +85,11 @@ export default function GivePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <motion.div
-        variants={fadeIn}
-        initial="hidden"
-        animate="visible"
+      <Reveal instant fade
         className="give-hero-banner flex h-[600px] items-center justify-center bg-cover bg-center bg-no-repeat lg:h-[700px]"
-        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/assets/give-banner-seed.jpg')", backgroundPosition: "50% 14%" }}
-      >
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start"
-        >
+        style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/assets/give-banner-seed.jpg')", backgroundPosition: "50% 14%" }}>
+        <Reveal
+        className="mx-auto px-4 md:px-8 flex w-full max-w-7xl flex-col items-center gap-6 md:items-start">
           <h3 className="rounded-full bg-[#00000078] p-2 text-center md:text-left text-[10px] font-bold uppercase tracking-[0.24rem] text-[#FFFFFFCC]">
             💸 <span className="ml-0.5">give</span>
           </h3>
@@ -119,18 +108,13 @@ export default function GivePage() {
               Give Now
             </A>
           </div>
-        </motion.div>
-      </motion.div>
+        </Reveal>
+      </Reveal>
 
       {/* ── GLOBAL GIVING ── */}
-      <motion.div
+      <Reveal
         id="global"
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12"
-      >
+        className="scroll-to-plus-nav mx-auto max-w-7xl px-4 py-12">
         <div>
           <div className="md:flex md:items-center md:justify-between">
             <h2 className="font-anton text-3xl font-normal leading-[120%] text-black md:text-5xl">WAYS TO GIVE</h2>
@@ -157,7 +141,7 @@ export default function GivePage() {
             </div>
           ))}
         </div>
-      </motion.div>
+      </Reveal>
 
       {/* ── FAQs ── */}
       <div className="give-faq mx-auto max-w-3xl px-4 pb-20">
