@@ -54,9 +54,9 @@ export default function SermonHome({ sermons, search }: { sermons: Sermon[]; sea
 
       {sermons.length === 0 ? (
         <div className="ros:mx-auto ros:my-16 ros:max-w-md ros:text-center">
-          <p className="ros:text-[20px] ros:font-bold">Sermons are loading from our channel</p>
-          <p className="ros:mt-2 ros:text-white/50">We could not reach the channel just now. Please refresh in a moment, or watch directly on YouTube.</p>
-          <a href={CHANNEL_URL} target="_blank" rel="noopener noreferrer" className="ros:mt-6 ros:inline-block ros:rounded-full ros:bg-white ros:px-6 ros:py-3 ros:text-[13px] ros:font-bold ros:text-black">Open the YouTube channel</a>
+          <p className="ros:text-[20px] ros:font-bold">New messages are on the way</p>
+          <p className="ros:mt-2 ros:text-white/50">Messages uploaded to our server will appear here. In the meantime you can watch our services and messages on YouTube.</p>
+          <a href={CHANNEL_URL} target="_blank" rel="noopener noreferrer" className="ros:mt-6 ros:inline-block ros:rounded-full ros:bg-white ros:px-6 ros:py-3 ros:text-[13px] ros:font-bold ros:text-black">Watch on YouTube</a>
         </div>
       ) : list.length === 0 ? (
         <div className="ros:my-16 ros:text-center">
@@ -68,6 +68,9 @@ export default function SermonHome({ sermons, search }: { sermons: Sermon[]; sea
           <div className="ros:-mx-1 ros:mt-4 ros:grid ros:grid-cols-1 ros:gap-x-3 ros:gap-y-4 ros:sm:grid-cols-2 ros:xl:grid-cols-3 ros:2xl:grid-cols-4">
             {list.slice(0, shown).map((s, i) => <SermonCard key={s.id} s={s} index={i} queue={list} />)}
           </div>
+          <p className="ros:mt-10 ros:text-[14px] ros:text-white/50">
+            Looking for more? <a href={CHANNEL_URL} target="_blank" rel="noopener noreferrer" className="ros:text-white ros:underline">Watch on our YouTube channel</a>
+          </p>
           {shown < list.length && (
             <div className="ros:mt-8">
               <button onClick={() => setShown((n) => n + PAGE)} className="ros:flex ros:h-12 ros:min-w-44 ros:items-center ros:justify-center ros:gap-2 ros:rounded-full ros:border ros:border-white/15 ros:px-5 ros:text-[15px] ros:transition ros:hover:bg-white/15">Show more ›</button>
