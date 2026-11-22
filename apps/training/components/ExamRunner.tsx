@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { FormField, inputCls, submitCls } from "@ros/shared/kit/form";
-import { EXAM_DISCLAIMER, getProgram } from "@ros/shared/kit/programs";
+import { getProgram } from "@ros/shared/kit/programs";
 
 type Stage = "intro" | "running" | "done";
 
@@ -89,10 +89,6 @@ export default function ExamRunner({ slug }: { slug: string }) {
   if (stage === "intro") {
     return (
       <div className="ros:flex ros:flex-col ros:gap-5">
-        <div className="ros:rounded-lg ros:border ros:border-[#DF4E4E55] ros:bg-[#DF4E4E12] ros:px-4 ros:py-3 ros:text-sm ros:text-[#7B1D1D]">
-          <span className="ros:font-bold">Demo exam. </span>
-          {EXAM_DISCLAIMER} Your result is shown on screen only and is not sent to the church.
-        </div>
         <div className={card}>
           <h2 className="ros-anton ros:mb-4 ros:text-2xl ros:uppercase">Exam instructions</h2>
           <ul className="ros:flex ros:list-disc ros:flex-col ros:gap-2 ros:pl-5 ros:text-[#00000099]">

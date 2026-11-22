@@ -25,7 +25,6 @@ export type Program = {
   extraPages?: { label: string; href: string; text: string; icon: string }[];
 };
 
-const EXAM_NOTE = "Sample questions — replace with the official question bank.";
 
 export const PROGRAMS: Program[] = [
   {
@@ -223,7 +222,6 @@ export const PROGRAMS: Program[] = [
   },
 ];
 
-export const EXAM_DISCLAIMER = EXAM_NOTE;
 
 export function getProgram(slug: string): Program {
   const p = PROGRAMS.find((x) => x.slug === slug);
