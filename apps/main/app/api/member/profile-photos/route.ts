@@ -14,29 +14,28 @@ type Member = { id: string; firstName: string; lastName: string };
 
 /**
  * The API only lets the signed-in management app change a member's picture or wedding date, so this page cannot write to
- * a profile itself. It finds the member by the email address or phone number on their record (either one, using the
- * public membership check) and files the pictures and date as a request that staff check and apply from the management app.
+ * a profile itself. It proves the visitor is the member (email and phone number must belong to the same record, using the
+ * public membership check) and files the pictures and date as a request that staff apply from the management app.
  */
-async function findMemberByIdentifier(identifier: string): Promise<Member | null | "unavailable"> {
-  // the membership check wants the email as written, or the phone as its last 10 digits (no 0, no country code)
-  const text = identifier.includes("@") ? identifier.trim() : last10(identifier);
+async function findMemberByPair(email: string, phone: string): Promise<Member | null | "unavailable"> {
   try {
     const res = await fetch(`${ROS_ORIGIN}/api/v1/users/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text: email.trim() }),
       cache: "no-store",
     });
     if (res.status === 400 || res.status === 404) return null;
     if (!res.ok) return "unavailable";
     const u = await res.json();
-    return u?.id ? { id: u.id, firstName: u.firstName ?? "", lastName: u.lastName ?? "" } : null;
+    if (!u?.id || !u.phoneNumber) return null;
+    return last10(String(u.phoneNumber)) === last10(phone) ? { id: u.id, firstName: u.firstName ?? "", lastName: u.lastName ?? "" } : null;
   } catch {
     return "unavailable";
   }
 }
 
-const NO_MATCH = "We could not find a membership with that email address or phone number. Use the one you registered with.";
+const NO_MATCH = "We could not match that email address and phone number to a membership record. Use the same email and number you registered with.";
 
 export async function POST(req: Request) {
   if (tooManyRequests(req, "profile-photos", 12)) {
@@ -45,13 +44,12 @@ export async function POST(req: Request) {
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Something went wrong with that request." }, { status: 400 }); }
 
-  const identifier = String(body.identifier ?? "").trim();
-  const isEmail = identifier.includes("@");
-  if (isEmail ? !EMAIL_RE.test(identifier) : last10(identifier).length < 7) {
-    return NextResponse.json({ message: "Enter the email address or phone number on your membership record." }, { status: 400 });
-  }
+  const email = String(body.email ?? "").trim();
+  const phone = String(body.phone ?? "").trim();
+  if (!EMAIL_RE.test(email)) return NextResponse.json({ message: "Enter the email address on your membership record." }, { status: 400 });
+  if (last10(phone).length < 7) return NextResponse.json({ message: "Enter the phone number on your membership record." }, { status: 400 });
 
-  const member = await findMemberByIdentifier(identifier);
+  const member = await findMemberByPair(email, phone);
   if (member === "unavailable") return NextResponse.json({ message: "The membership check is not available right now. Please try again later." }, { status: 503 });
   if (!member) return NextResponse.json({ message: NO_MATCH }, { status: 404 });
 
@@ -81,7 +79,6 @@ export async function POST(req: Request) {
   const lines = [
     `Member: ${member.firstName} ${member.lastName}`.trim(),
     `Member ID: ${member.id}`,
-    `Found by: ${isEmail ? "email address" : "phone number"}`,
     personal && `Personal picture: ${personal}`,
     family && `Family picture: ${family}`,
     anniversary && `Wedding anniversary: ${anniversary}`,
