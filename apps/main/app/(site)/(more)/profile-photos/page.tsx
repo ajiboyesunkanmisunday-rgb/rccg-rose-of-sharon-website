@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { FormHero } from "@ros/shared/kit/ui";
 import { FormField, FormCard, FormSheet, inputCls as baseInputCls, selectCls as baseSelectCls, submitCls } from "@ros/shared/kit/form";
-import PhoneField, { normalisePhone } from "@ros/shared/kit/PhoneField";
 import PhotoField from "@ros/shared/kit/PhotoField";
 import { uploadProfilePicture } from "@ros/shared/api";
 
@@ -51,9 +50,7 @@ function FamilyPhotoField({ file, onChange }: { file: File | null; onChange: (f:
 
 export default function ProfilePhotosPage() {
   const [step, setStep] = useState<Step>("find");
-  const [email, setEmail] = useState("");
-  const [code, setCode] = useState("+234");
-  const [number, setNumber] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [firstName, setFirstName] = useState("");
   const [personal, setPersonal] = useState<File | null>(null);
   const [family, setFamily] = useState<File | null>(null);
@@ -63,21 +60,21 @@ export default function ProfilePhotosPage() {
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
   const [error, setError] = useState("");
-
-  const phone = `${code}${number}`;
+  const [anniversarySent, setAnniversarySent] = useState(false);
 
   async function callApi(payload: Record<string, unknown>) {
-    const res = await fetch("/api/member/profile-photos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: email.trim(), phone, ...payload }) });
+    const res = await fetch("/api/member/profile-photos", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ identifier: identifier.trim(), ...payload }) });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || "Something went wrong. Please try again.");
-    return data as { firstName?: string };
+    return data as { firstName?: string; anniversarySent?: boolean };
   }
 
   async function find(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    if (!EMAIL_RE.test(email.trim())) { setError("Enter a valid email address."); return; }
-    if (number.length < 7) { setError("Enter the phone number you registered with."); return; }
+    const entry = identifier.trim();
+    const valid = entry.includes("@") ? EMAIL_RE.test(entry) : entry.replace(/\D/g, "").length >= 7;
+    if (!valid) { setError("Enter the email address or phone number on your membership record."); return; }
     setBusy(true);
     try {
       const { firstName: name } = await callApi({ action: "check" });
@@ -114,13 +111,14 @@ export default function ProfilePhotosPage() {
       let n = 0;
       if (personal) { setProgress(`Uploading picture ${++n} of ${total}...`); profilePictureUrl = await uploadProfilePicture(personal); }
       if (family) { setProgress(`Uploading picture ${++n} of ${total}...`); couplePictureUrl = await uploadProfilePicture(family); }
-      setProgress("Sending to the church office...");
-      await callApi({
+      setProgress("Saving to your profile...");
+      const saved = await callApi({
         action: "save",
         profilePictureUrl,
         couplePictureUrl,
         anniversary: hasAnniversary ? { day: Number(day), month: Number(month), year: year ? Number(year) : null } : null,
       });
+      setAnniversarySent(!!saved?.anniversarySent);
       setStep("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -131,8 +129,8 @@ export default function ProfilePhotosPage() {
   }
 
   function startOver() {
-    setStep("find"); setEmail(""); setNumber(""); setFirstName("");
-    setPersonal(null); setFamily(null); setDay(""); setMonth(""); setYear(""); setError("");
+    setStep("find"); setIdentifier(""); setFirstName("");
+    setAnniversarySent(false); setPersonal(null); setFamily(null); setDay(""); setMonth(""); setYear(""); setError("");
   }
 
   return (
@@ -151,7 +149,9 @@ export default function ProfilePhotosPage() {
             </div>
             <p className="ros:text-[22px] ros:font-bold ros:text-[#DF4E4E]">Thank you{firstName ? `, ${firstName}` : ""}</p>
             <p className="ros:text-[15px] ros:text-[#6B7280]">
-              Your pictures and details have been sent to the church office. A staff member will add them to your profile, and they will show there once that is done.
+              {anniversarySent
+                ? `${personal || family ? "Your pictures have been added to your profile. " : ""}Your wedding anniversary has been sent to the church office, and a staff member will add it to your profile.`
+                : "Your pictures have been added to your profile."}
             </p>
             <button type="button" onClick={startOver} className="ros:text-[14px] ros:font-medium ros:text-[#DF4E4E] ros:hover:underline">Add photos for another member</button>
           </div>
@@ -159,15 +159,12 @@ export default function ProfilePhotosPage() {
           <form onSubmit={find} className="ros:mx-auto ros:flex ros:w-full ros:max-w-[560px] ros:flex-col ros:gap-4">
             <div className="ros:flex ros:flex-col ros:items-center ros:gap-1 ros:text-center">
               <h2 className="ros-anton ros:text-[26px] ros:uppercase ros:text-[#DF4E4E] ros:md:text-[32px]">Find your membership</h2>
-              <p className="ros:text-[14px] ros:text-[#6B7280]">Enter the email address and phone number on your membership record. Both must match.</p>
+              <p className="ros:text-[14px] ros:text-[#6B7280]">Enter the email address or the phone number on your membership record. Either one is enough.</p>
             </div>
             <FormCard>
-              <div className="ros:flex ros:flex-col ros:gap-4">
-                <FormField label="Email address" required>
-                  <input type="email" inputMode="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className={inputCls} />
-                </FormField>
-                <PhoneField label="Phone number" required code={code} number={number} onCodeChange={setCode} onNumberChange={(v) => setNumber(normalisePhone(v, code))} placeholder="Enter phone number" />
-              </div>
+              <FormField label="Email address or phone number" required>
+                <input type="text" inputMode="email" autoComplete="username" value={identifier} onChange={(e) => setIdentifier(e.target.value)} placeholder="you@example.com or 080 0000 0000" className={inputCls} />
+              </FormField>
             </FormCard>
             {error && <p role="alert" className="ros:text-center ros:text-[14px] ros:text-red-500">{error}</p>}
             <div className="ros:flex ros:justify-center">
