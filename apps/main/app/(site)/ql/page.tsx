@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 // written as ordinary paths; the shared Link component sends them to the right site.
 const quickLinks = [
   { href: "/membership", label: "Become a Member" },
+  { href: "/profile-photos", label: "Add Your Photos to Your Profile" },
   { href: "/testimonies", label: "Testimonies" },
   { href: "/face-of-the-month", label: "Vote: Face of the Month" },
   { href: "/celebrations", label: "Celebrations" },
