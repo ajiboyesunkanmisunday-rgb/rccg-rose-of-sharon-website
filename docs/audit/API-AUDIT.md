@@ -90,3 +90,23 @@ Still to confirm with the backend team: how public pages may read the token-only
 Services (`eventId`) can only be created for today or later ("Date cannot be invalid" for past dates), so the church must create each week's services in advance in Event Management; the public form lists the last 60 days of services.
 Website: first-timer, new believer, membership and e-membership forms follow these rules (`packages/shared/src/address.ts` builds the address; required fields marked). Each was submitted for real from the website and returned 201 (test records "ZZ Test ...").
 Not yet re-checked against these new rules: the training application forms (Water Baptism, Workers in Training, School of Ministry, School of Disciples, RILA) and the celebration, welfare and marketplace calls.
+
+## Backend update (2026-11-21) - snapshot `swagger-2026-11-21.json`
+
+Compared with the 2026-11-08 snapshot: no endpoint was removed or changed; 16 were added (the exam API); the conformance script still reports every website call as matching.
+
+Working now (tested with labelled "ZZ Test" records):
+- Welfare, baby dedication and baby christening requests: `201`, with and without a login.
+- Public picture upload (`POST /media`), announcements (`/announcements/read`), settings (`/settings`) and the media library need no login.
+- First-timer without a service: `400 "Event cannot be empty"`.
+
+Exam API (new): `/exam-setups` (create, update, delete, open, close, allowed students, search) and `/exam-questions` (create, update, delete, options, correct option), each with a student view.
+- The setup, question and open/close calls need a login. The two student views (`GET /exam-setups/{studentId}/student`, `GET /exam-questions/{examId}/student`) answer `200` without a login.
+- The student question list does not include the correct option.
+- Gaps found: a closed exam's questions are still returned to a student view, the student endpoints do not check the student, the setup response lists every allowed student's id, and there is no endpoint to submit answers or read a score. The training site's exam page therefore stays a local demo.
+
+Still failing or login-only:
+- `POST /rilas` returns `500` for a complete, valid request; with only `street` it returns `400 "Address is incomplete"`.
+- `GET /training-events` and `GET /face-of-the-months` answer `401` without a login.
+- `GET /score-sheets/broadsheet` answers `200` without a login (empty for the sets tried; check what it returns when scores exist).
+- `GET /users/e-member` is ordered by last name and has no created date, so a new registration cannot be shown first.
