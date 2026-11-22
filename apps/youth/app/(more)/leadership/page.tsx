@@ -32,7 +32,7 @@ export default function YouthLeadership() {
                 <span className="ros:flex ros:size-14 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-xl ros:font-bold ros:text-white">VP</span>
               )}
               <h3 className="ros:text-lg ros:font-bold">{l.role}</h3>
-              <p className="ros:text-sm ros:font-semibold ros:text-[#00000099]">{l.name}</p>
+              <p className="ros:text-sm ros:font-semibold ros:uppercase ros:text-[#00000099]">{l.name}</p>
             </div>
           ))}
         </div>

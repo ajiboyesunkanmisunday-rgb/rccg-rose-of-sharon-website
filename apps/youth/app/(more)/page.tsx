@@ -36,9 +36,9 @@ export default function YouthHome() {
 
       <Section className="ros:pt-0">
         <SectionTitle pill="🗂️ EXPLORE" title={<>Everything about the <span className="text-textRed">youth</span></>} sub="Each part of the youth fellowship has its own page." />
-        <div className="ros:mt-8 ros:grid ros:grid-cols-1 ros:gap-6 ros:sm:grid-cols-2 ros:lg:grid-cols-3">
+        <div className="ros:mt-8 ros:flex ros:flex-wrap ros:justify-center ros:gap-6">
           {cards.map((pg) => (
-            <Link key={pg.key} href={pg.href} className="ros:group ros:flex ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
+            <Link key={pg.key} href={pg.href} className="ros:group ros:flex ros:w-full ros:sm:w-[calc(50%-12px)] ros:lg:w-[calc(33.333%-16px)] ros:flex-col ros:gap-3 ros:rounded-lg ros:border ros:border-[#00000014] ros:bg-[#FAFAFA8F] ros:p-6 ros:transition ros:hover:border-[#DF4E4E]">
               <span className="ros:flex ros:size-12 ros:items-center ros:justify-center ros:rounded-full ros:bg-black ros:text-[22px]">{pg.icon}</span>
               <h3 className="ros:text-lg ros:font-bold ros:group-hover:underline">{pg.label}</h3>
               <p className="ros:text-[#00000099]">{pg.text}</p>

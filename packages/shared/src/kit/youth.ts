@@ -21,7 +21,7 @@ export const YOUTH_PAGES: YouthPage[] = [
   { key: "events", label: "Events", href: `${YOUTH_BASE}/events`, icon: "📅", text: "Hangouts, conferences and programs." },
   { key: "gallery", label: "Gallery", href: `${YOUTH_BASE}/gallery`, icon: "📸", text: "Photos from the youth fellowship." },
   { key: "join", label: "Join us", href: `${YOUTH_BASE}/join`, icon: "🤝", text: "Tell us you are coming, or want to serve." },
-  { key: "connect", label: "Connect", href: `${YOUTH_BASE}/connect`, icon: "📱", text: "Follow the youth fellowship online." },
+  { key: "connect", label: "Social Media", href: `${YOUTH_BASE}/connect`, icon: "📱", text: "Follow the youth fellowship online." },
 ];
 
 export interface Leader { role: string; name: string; note?: string; image?: string }
