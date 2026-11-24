@@ -32,7 +32,7 @@ async function getJson<T>(path: string): Promise<T> {
  * the same layout as the other exam pages. The exam system has no way to receive answers yet, so finishing an exam
  * only shows the student what they answered; nothing is sent.
  */
-export default function LiveExam() {
+export default function LiveExam({ category }: { category?: string }) {
   const [stage, setStage] = useState<Stage>("find");
   const [identifier, setIdentifier] = useState("");
   const [student, setStudent] = useState<{ id: string; firstName: string } | null>(null);
@@ -66,7 +66,7 @@ export default function LiveExam() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.message || "We could not find that membership.");
       setStudent({ id: data.id, firstName: data.firstName ?? "" });
-      const page = await getJson<{ content: ExamSetup[] }>(`/exam-setups/${data.id}/student?pageNo=0&pageSize=20`);
+      const page = await getJson<{ content: ExamSetup[] }>(`/exam-setups/${data.id}/student?${category ? `trainingCategory=${category}&` : ""}pageNo=0&pageSize=20`);
       setExams(page.content ?? []);
       setStage("list");
     } catch (err) {
