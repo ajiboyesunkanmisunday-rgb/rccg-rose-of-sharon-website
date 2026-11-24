@@ -110,3 +110,12 @@ Still failing or login-only:
 - `GET /training-events` and `GET /face-of-the-months` answer `401` without a login.
 - `GET /score-sheets/broadsheet` answers `200` without a login (empty for the sets tried; check what it returns when scores exist).
 - `GET /users/e-member` is ordered by last name and has no created date, so a new registration cannot be shown first.
+
+## Exam API checks (2026-11-24)
+
+The API still has 214 endpoints and no change since the 2026-11-21 snapshot. Checked against the live server:
+- Create flow: `POST /training-events` (with `isExam: true`; `trainingCategory`, `set`, `name`, `teacher`, `date` and `location` are all required, and a missing date is reported as "Date of birth cannot be empty"), then `POST /exam-setups`, then `POST /exam-questions` (`correctOption` is the text of the correct option).
+- `PUT /exam-setups/{id}/allowed-students` replaces the whole list. `GET /exam-setups/{studentId}/student` now returns only the exams that student is allowed to take; the response still includes the list of allowed student ids.
+- While an exam is open, editing or deleting a question is refused ("You cannot edit a question when the exam is already opened"). Adding questions, editing the setup and changing allowed students still work.
+- `PUT /exam-questions/{id}` (text) and `PUT /exam-questions/{id}/correct-option` work. `PATCH /exam-questions/{id}/options` returns `500`.
+- No endpoint accepts a student's answers or returns an exam score. The only score endpoints are the score sheets, which need a login.
