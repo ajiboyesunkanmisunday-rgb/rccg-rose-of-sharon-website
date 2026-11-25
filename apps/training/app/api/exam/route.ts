@@ -10,6 +10,16 @@ const MAX_ANSWER_LENGTH = 2000;
  * The exam actions a student's browser needs (start, save an answer, read saved answers, submit). They are forwarded
  * from the server because the exam system refuses these calls when they carry a browser's Origin header.
  */
+/** The exam system does not enforce this itself, so it is checked here before an exam is started, read or answered. */
+async function refuseUnlessOpenToStudent(examId: string, studentId: string): Promise<string | null> {
+  const res = await fetch(`${ROS_ORIGIN}/api/v1/exam-setups/${studentId}/student?pageNo=0&pageSize=100`, { headers: { Accept: "application/json" }, cache: "no-store" });
+  if (!res.ok) throw new Error("exam list unavailable");
+  const list: { id: string; isOpen: boolean }[] = (await res.json()).content ?? [];
+  const exam = list.find((x) => x.id === examId);
+  if (!exam) return "This exam is not assigned to you.";
+  return exam.isOpen ? null : "This exam is closed.";
+}
+
 export async function POST(req: Request) {
   let body: Record<string, unknown>;
   try { body = await req.json(); } catch { return NextResponse.json({ message: "Something went wrong with that request." }, { status: 400 }); }
@@ -24,6 +34,9 @@ export async function POST(req: Request) {
   if (action === "start") {
     path = `/exam-answers/${examId}/start-exam/${studentId}`;
     init = { method: "PATCH" };
+  } else if (action === "questions") {
+    path = `/exam-questions/${examId}/student?pageNo=0&pageSize=100`;
+    init = { method: "GET" };
   } else if (action === "answers") {
     path = `/exam-answers/${examId}/student/${studentId}`;
     init = { method: "GET" };
@@ -41,6 +54,10 @@ export async function POST(req: Request) {
   }
 
   try {
+    if (action === "start" || action === "answer" || action === "questions") {
+      const refusal = await refuseUnlessOpenToStudent(examId, studentId);
+      if (refusal) return NextResponse.json({ message: refusal }, { status: 403 });
+    }
     const res = await fetch(`${ROS_ORIGIN}/api/v1${path}`, { ...init, headers: { "Content-Type": "application/json", Accept: "application/json" }, cache: "no-store" });
     const data = await res.json().catch(() => null);
     return NextResponse.json(data ?? {}, { status: res.status });

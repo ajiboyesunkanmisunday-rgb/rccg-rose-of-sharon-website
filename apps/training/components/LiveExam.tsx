@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { FormField, inputCls, submitCls } from "@ros/shared/kit/form";
+import { examRunningElsewhere, useExamGuard, useExamTabLock } from "./useExamGuard";
 
 type Stage = "find" | "list" | "intro" | "running" | "submitting" | "done";
 
@@ -28,7 +29,10 @@ async function getJson<T>(path: string): Promise<T> {
 }
 
 /** What this device remembers about an attempt, so a reload or a dropped connection does not restart or lose the exam. */
-interface Attempt { endsAt: number; submitted?: boolean; score?: number | null }
+interface Attempt { endsAt: number; leaves?: number; submitted?: boolean; score?: number | null }
+
+/** Leaving the exam page this many times submits the exam as it stands. */
+const MAX_LEAVES = 3;
 
 const attemptKey = (examId: string, studentId: string) => `ros-exam:${examId}:${studentId}`;
 function readAttempt(examId: string, studentId: string): Attempt | null {
@@ -52,7 +56,8 @@ const scoreText = (score: number, total?: number | null) => {
 /**
  * The online exam as the exam system serves it: the student's exams, the instructions, then the timed questions in
  * the same layout as the other exam pages. Each chosen option is saved as it is picked and the exam is submitted for
- * marking at the end. The exam system does not accept written answers.
+ * marking at the end. Questions are only loaded once the exam has started, and leaving the page is counted (see
+ * useExamGuard). The exam system does not accept written answers.
  */
 export default function LiveExam({ category }: { category?: string }) {
   const [stage, setStage] = useState<Stage>("find");
@@ -70,6 +75,10 @@ export default function LiveExam({ category }: { category?: string }) {
   const unsavedRef = useRef(new Map<string, string>());
   const queue = useRef<Promise<void>>(Promise.resolve());
   const submitRef = useRef<() => void>(() => {});
+  const [leaves, setLeaves] = useState(0);
+  const [warning, setWarning] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const leavesRef = useRef(0);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -105,6 +114,9 @@ export default function LiveExam({ category }: { category?: string }) {
     if (!exam || !student) return;
     setStage("submitting");
     setError("");
+    setWarning(false);
+    setConfirming(false);
+    if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
     await queue.current;
     [...unsavedRef.current].forEach(([questionId, option]) => send(questionId, option));
     await queue.current;
@@ -117,17 +129,34 @@ export default function LiveExam({ category }: { category?: string }) {
       const value = Number((r.data as { totalPercent?: number }).totalPercent);
       const result = Number.isFinite(value) ? value : null;
       setScore(result);
-      saveAttempt(exam.id, student.id, { endsAt: endsAt.current, submitted: true, score: result });
+      saveAttempt(exam.id, student.id, { endsAt: endsAt.current, leaves: leavesRef.current, submitted: true, score: result });
       setStage("done");
     } else if (r && /already has a score/i.test(r.message)) {
       setScore(readAttempt(exam.id, student.id)?.score ?? null);
-      saveAttempt(exam.id, student.id, { endsAt: endsAt.current, submitted: true, score: readAttempt(exam.id, student.id)?.score ?? null });
+      saveAttempt(exam.id, student.id, { endsAt: endsAt.current, leaves: leavesRef.current, submitted: true, score: readAttempt(exam.id, student.id)?.score ?? null });
       setStage("done");
     } else {
       setError("Your exam could not be submitted. Check your connection and send again.");
     }
   }
   useEffect(() => { submitRef.current = () => { void submit(); }; });
+
+  const lockKey = exam && student ? attemptKey(exam.id, student.id) : null;
+  useExamTabLock(stage === "running" ? lockKey : null);
+
+  function countLeave() {
+    if (!exam || !student) return;
+    const total = leavesRef.current + 1;
+    leavesRef.current = total;
+    setLeaves(total);
+    saveAttempt(exam.id, student.id, { endsAt: endsAt.current, leaves: total });
+    setConfirming(false);
+    if (total >= MAX_LEAVES) submitRef.current();
+    else setWarning(true);
+  }
+  const rearm = useExamGuard(stage === "running", countLeave);
+
+  const enterFullScreen = () => { document.documentElement.requestFullscreen?.().catch(() => {}); };
 
   async function find(e: React.FormEvent) {
     e.preventDefault();
@@ -149,61 +178,77 @@ export default function LiveExam({ category }: { category?: string }) {
     }
   }
 
-  async function open(setup: ExamSetup) {
+  function open(setup: ExamSetup) {
     setError("");
-    setBusy(true);
-    try {
-      const page = await getJson<{ content: ExamQuestion[] }>(`/exam-questions/${setup.id}/student?pageNo=0&pageSize=100`);
-      setQuestions([...(page.content ?? [])].sort((a, b) => a.position - b.position));
-      setExam(setup);
-      setAnswers({});
-      setUnsaved([]);
-      unsavedRef.current.clear();
-      setScore(null);
-      setIndex(0);
-      setStage("intro");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setBusy(false);
-    }
+    setExam(setup);
+    setQuestions([]);
+    setAnswers({});
+    setUnsaved([]);
+    unsavedRef.current.clear();
+    setScore(null);
+    setIndex(0);
+    leavesRef.current = 0;
+    setLeaves(0);
+    setStage("intro");
   }
 
   async function start() {
     if (!exam || !student) return;
+    enterFullScreen();
     setError("");
     setBusy(true);
+    const ids = { examId: exam.id, studentId: student.id };
+    const stop = (message: string) => {
+      setError(message);
+      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+    };
     try {
       const saved = readAttempt(exam.id, student.id);
-      if (saved?.submitted) { setScore(saved.score ?? null); setStage("done"); return; }
-      const r = await examCall({ action: "start", examId: exam.id, studentId: student.id });
+      if (saved?.submitted) { setScore(saved.score ?? null); leavesRef.current = saved.leaves ?? 0; setLeaves(leavesRef.current); setStage("done"); return; }
+      if (await examRunningElsewhere(attemptKey(exam.id, student.id))) { stop("This exam is already open in another tab. Go back to that tab."); return; }
+      const r = await examCall({ action: "start", ...ids });
+      let resumed = false;
       if (r.ok) {
         endsAt.current = Date.now() + exam.duration * 60_000;
-        saveAttempt(exam.id, student.id, { endsAt: endsAt.current });
+        saveAttempt(exam.id, student.id, { endsAt: endsAt.current, leaves: 0 });
       } else if (/already started/i.test(r.message)) {
-        if (!saved) { setError("This exam has already been started and cannot be continued on this device. Please contact your coordinator."); return; }
+        if (!saved) { stop("This exam has already been started and cannot be continued on this device. Please contact your coordinator."); return; }
         endsAt.current = saved.endsAt;
-        const earlier = await examCall({ action: "answers", examId: exam.id, studentId: student.id });
+        resumed = true;
+      } else {
+        stop(r.message || "The exam could not be started. Please try again.");
+        return;
+      }
+      const list = await examCall({ action: "questions", ...ids });
+      const content = (list.data as { content?: ExamQuestion[] }).content ?? [];
+      if (!list.ok || content.length === 0) { stop(list.message || "The questions could not be loaded. Press Start exam to try again."); return; }
+      setQuestions([...content].sort((a, b) => a.position - b.position));
+      // Closing or reloading the page during an exam counts as leaving it.
+      leavesRef.current = resumed ? (saved?.leaves ?? 0) + 1 : 0;
+      setLeaves(leavesRef.current);
+      if (resumed) {
+        const earlier = await examCall({ action: "answers", ...ids });
         if (earlier.ok && Array.isArray(earlier.data)) {
           setAnswers(Object.fromEntries((earlier.data as { questionId: string; text: string }[]).map((x) => [x.questionId, x.text])));
         }
-      } else {
-        setError("The exam could not be started. Please try again.");
-        return;
+        saveAttempt(exam.id, student.id, { endsAt: endsAt.current, leaves: leavesRef.current });
       }
       setLeft(Math.max(0, Math.round((endsAt.current - Date.now()) / 1000)));
+      if (leavesRef.current >= MAX_LEAVES) { setStage("submitting"); setTimeout(() => submitRef.current(), 0); return; }
+      setWarning(resumed);
       setStage("running");
     } catch {
-      setError("The exam could not be started. Check your connection and try again.");
+      stop("The exam could not be started. Check your connection and try again.");
     } finally {
       setBusy(false);
     }
   }
 
+  const unanswered = questions.filter((q) => q.questionType === "OBJECTIVE" && !answers[q.id]).length;
+
   function finish() {
-    const open = questions.filter((q) => q.questionType === "OBJECTIVE" && !answers[q.id]).length;
-    if (open > 0 && !window.confirm(`You have not answered ${open} question${open === 1 ? "" : "s"}. Submit anyway?`)) return;
-    void submit();
+    if (unanswered > 0) setConfirming(true);
+    else void submit();
   }
 
   const low = exam ? left <= Math.max(30, exam.duration * 60 * 0.15) : false;
@@ -251,16 +296,17 @@ export default function LiveExam({ category }: { category?: string }) {
         <div className={card}>
           <h2 className="ros-anton ros:mb-4 ros:text-2xl ros:uppercase">{exam.title}</h2>
           <ul className="ros:flex ros:list-disc ros:flex-col ros:gap-2 ros:pl-5 ros:text-[#00000099]">
-            <li>{questions.length} questions.</li>
             <li>You have <b className="ros:text-black">{exam.duration} minutes</b>. The exam ends when the time is up.</li>
             <li>You can move back and forth between questions.</li>
+            <li><b className="ros:text-black">Stay on this page until you submit.</b> Switching to another tab or app, closing or reloading the page, or leaving full screen is counted. On the {MAX_LEAVES === 3 ? "third" : `${MAX_LEAVES}th`} time your exam is submitted automatically.</li>
+            <li>Copying and pasting are turned off.</li>
             {exam.instructions && <li>{exam.instructions}</li>}
           </ul>
         </div>
         {error && <p role="alert" className="ros:text-center ros:text-sm ros:text-red-500">{error}</p>}
         <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
           <button type="button" onClick={() => { setError(""); setStage("list"); }} className={navBtn}>Back</button>
-          <button type="button" onClick={start} disabled={busy || questions.length === 0} className={submitCls}>{busy ? "Starting..." : "Start exam"}</button>
+          <button type="button" onClick={start} disabled={busy} className={submitCls}>{busy ? "Starting..." : "Start exam"}</button>
         </div>
       </div>
     );
@@ -282,6 +328,7 @@ export default function LiveExam({ category }: { category?: string }) {
       <div className="ros:flex ros:flex-col ros:gap-5">
         <div className={`${card} ros:flex ros:flex-col ros:items-center ros:gap-3 ros:text-center`}>
           <h2 className="ros-anton ros:text-3xl ros:uppercase">Exam submitted</h2>
+          {leaves >= MAX_LEAVES && <p className="ros:text-sm ros:text-[#7B1D1D]">It was submitted automatically because the exam page was left {leaves} times.</p>}
           {score !== null && <p className="ros:text-[#00000099]">Your score: <b className="ros:text-black">{scoreText(score, exam?.totalAvailableScore)}</b></p>}
           {written > 0 && <p className="ros:text-sm ros:text-[#00000099]">Written answers cannot be sent online yet, so they were not submitted or marked.</p>}
         </div>
@@ -295,7 +342,27 @@ export default function LiveExam({ category }: { category?: string }) {
   const q = questions[index];
   if (!q) return null;
   return (
-    <div className="ros:flex ros:flex-col ros:gap-4">
+    <div className="ros:flex ros:select-none ros:flex-col ros:gap-4">
+      {(warning || confirming) && (
+        <div className="ros:fixed ros:inset-0 ros:z-[100] ros:flex ros:items-center ros:justify-center ros:bg-black/80 ros:p-4">
+          <div role="alertdialog" aria-modal="true" aria-labelledby="exam-dialog-title" className="ros:flex ros:w-full ros:max-w-md ros:flex-col ros:items-center ros:gap-4 ros:rounded-2xl ros:bg-white ros:p-6 ros:text-center">
+            <h2 id="exam-dialog-title" className="ros-anton ros:text-2xl ros:uppercase">{warning ? "You left the exam" : "Submit your exam?"}</h2>
+            <p className="ros:text-[#00000099]">
+              {warning
+                ? `This is warning ${leaves} of ${MAX_LEAVES - 1}. If you leave again ${MAX_LEAVES - leaves === 1 ? "your exam will be submitted automatically" : "it will be counted"}. The clock has kept running.`
+                : `You have not answered ${unanswered} question${unanswered === 1 ? "" : "s"}.`}
+            </p>
+            {warning ? (
+              <button type="button" autoFocus onClick={() => { rearm(); setWarning(false); enterFullScreen(); }} className={submitCls}>Return to exam</button>
+            ) : (
+              <div className="ros:flex ros:flex-wrap ros:justify-center ros:gap-3">
+                <button type="button" autoFocus onClick={() => setConfirming(false)} className={navBtn}>Keep working</button>
+                <button type="button" onClick={() => void submit()} className={submitCls}>Submit</button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
       <div className="ros:sticky ros:top-[72px] ros:z-10 ros:flex ros:items-center ros:justify-between ros:rounded-xl ros:bg-black ros:px-5 ros:py-3 ros:text-white">
         <span className="ros:text-xs ros:font-bold ros:uppercase ros:tracking-[0.15em]">Question {index + 1} of {questions.length}</span>
         <span className={`ros:rounded-full ros:px-5 ros:py-1.5 ros:text-2xl ros:font-extrabold ros:tabular-nums ros:md:text-3xl ${low ? "ros:bg-[#DF4E4E]" : "ros:bg-[#FFFFFF22]"}`} aria-live="off">⏱ {fmt(left)}</span>
