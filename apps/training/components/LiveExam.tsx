@@ -8,7 +8,7 @@ type Stage = "find" | "list" | "intro" | "running" | "submitting" | "done";
 
 interface ExamSetup { id: string; title: string; instructions?: string; duration: number; isOpen: boolean; trainingCategory: string; totalAvailableScore?: number | null }
 interface ExamOption { id: string; optionText: string }
-interface ExamQuestion { id: string; question: string; position: number; questionType: "OBJECTIVE" | "THEORY"; options: ExamOption[] }
+interface ExamQuestion { id: string; question: string; position: number; questionType: string; options: ExamOption[] }
 
 const CATEGORY: Record<string, string> = {
   BAPTISM: "Water Baptism",
@@ -57,7 +57,7 @@ const scoreText = (score: number, total?: number | null) => {
  * The online exam as the exam system serves it: the student's exams, the instructions, then the timed questions in
  * the same layout as the other exam pages. Each chosen option is saved as it is picked and the exam is submitted for
  * marking at the end. Questions are only loaded once the exam has started, and leaving the page is counted (see
- * useExamGuard). The exam system does not accept written answers.
+ * useExamGuard).
  */
 export default function LiveExam({ category }: { category?: string }) {
   const [stage, setStage] = useState<Stage>("find");
@@ -221,8 +221,8 @@ export default function LiveExam({ category }: { category?: string }) {
       }
       const list = await examCall({ action: "questions", ...ids });
       const content = (list.data as { content?: ExamQuestion[] }).content ?? [];
-      if (!list.ok || content.length === 0) { stop(list.message || "The questions could not be loaded. Press Start exam to try again."); return; }
-      setQuestions([...content].sort((a, b) => a.position - b.position));
+      if (!list.ok || !content.some((q) => q.questionType === "OBJECTIVE")) { stop(list.message || "The questions could not be loaded. Press Start exam to try again."); return; }
+      setQuestions(content.filter((q) => q.questionType === "OBJECTIVE").sort((a, b) => a.position - b.position));
       // Closing or reloading the page during an exam counts as leaving it.
       leavesRef.current = resumed ? (saved?.leaves ?? 0) + 1 : 0;
       setLeaves(leavesRef.current);
@@ -244,7 +244,7 @@ export default function LiveExam({ category }: { category?: string }) {
     }
   }
 
-  const unanswered = questions.filter((q) => q.questionType === "OBJECTIVE" && !answers[q.id]).length;
+  const unanswered = questions.filter((q) => !answers[q.id]).length;
 
   function finish() {
     if (unanswered > 0) setConfirming(true);
@@ -323,14 +323,12 @@ export default function LiveExam({ category }: { category?: string }) {
   }
 
   if (stage === "done") {
-    const written = questions.filter((q) => q.questionType === "THEORY").length;
     return (
       <div className="ros:flex ros:flex-col ros:gap-5">
         <div className={`${card} ros:flex ros:flex-col ros:items-center ros:gap-3 ros:text-center`}>
           <h2 className="ros-anton ros:text-3xl ros:uppercase">Exam submitted</h2>
           {leaves >= MAX_LEAVES && <p className="ros:text-sm ros:text-[#7B1D1D]">It was submitted automatically because the exam page was left {leaves} times.</p>}
           {score !== null && <p className="ros:text-[#00000099]">Your score: <b className="ros:text-black">{scoreText(score, exam?.totalAvailableScore)}</b></p>}
-          {written > 0 && <p className="ros:text-sm ros:text-[#00000099]">Written answers cannot be sent online yet, so they were not submitted or marked.</p>}
         </div>
         <div className="ros:flex ros:justify-center">
           <button type="button" onClick={() => setStage("list")} className={navBtn}>Back to my exams</button>
@@ -370,40 +368,26 @@ export default function LiveExam({ category }: { category?: string }) {
 
       <div className={card}>
         <h2 className="ros:mb-5 ros:text-lg ros:font-bold ros:md:text-xl">{q.question}</h2>
-        {q.questionType === "THEORY" ? (
-          <>
-          <p className="ros:mb-2 ros:text-sm ros:text-[#7B1D1D]">Written answers cannot be sent online yet.</p>
-          <textarea
-            value={answers[q.id] ?? ""}
-            onChange={(e) => setAnswers((a) => ({ ...a, [q.id]: e.target.value }))}
-            rows={6}
-            className={`${inputCls} ros:resize-y`}
-            placeholder="Write your answer here"
-            aria-label="Your answer"
-          />
-          </>
-        ) : (
-          <div className="ros:flex ros:flex-col ros:gap-3">
-            {q.options.map((o) => {
-              const chosen = answers[q.id] === o.optionText;
-              return (
-                <button
-                  key={o.id}
-                  type="button"
-                  onClick={() => choose(q.id, o.optionText)}
-                  className={`ros:flex ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:px-4 ros:py-3 ros:text-left ros:transition ${
-                    chosen ? "ros:border-[#DF4E4E] ros:bg-[#DF4E4E12]" : "ros:border-[#D0D5DD] ros:bg-white ros:hover:border-black"
-                  }`}
-                >
-                  <span className={`ros:flex ros:size-6 ros:flex-shrink-0 ros:items-center ros:justify-center ros:rounded-full ros:border-2 ${chosen ? "ros:border-[#DF4E4E]" : "ros:border-[#9CA3AF]"}`}>
-                    {chosen && <span className="ros:size-3 ros:rounded-full ros:bg-[#DF4E4E]" />}
-                  </span>
-                  <span>{o.optionText}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <div className="ros:flex ros:flex-col ros:gap-3">
+          {q.options.map((o) => {
+            const chosen = answers[q.id] === o.optionText;
+            return (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => choose(q.id, o.optionText)}
+                className={`ros:flex ros:items-center ros:gap-3 ros:rounded-lg ros:border ros:px-4 ros:py-3 ros:text-left ros:transition ${
+                  chosen ? "ros:border-[#DF4E4E] ros:bg-[#DF4E4E12]" : "ros:border-[#D0D5DD] ros:bg-white ros:hover:border-black"
+                }`}
+              >
+                <span className={`ros:flex ros:size-6 ros:flex-shrink-0 ros:items-center ros:justify-center ros:rounded-full ros:border-2 ${chosen ? "ros:border-[#DF4E4E]" : "ros:border-[#9CA3AF]"}`}>
+                  {chosen && <span className="ros:size-3 ros:rounded-full ros:bg-[#DF4E4E]" />}
+                </span>
+                <span>{o.optionText}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {unsaved.length > 0 && <p role="status" className="ros:text-center ros:text-sm ros:text-[#7B1D1D]">Saving your answers. They will be sent again when you submit if the connection drops.</p>}
@@ -418,7 +402,7 @@ export default function LiveExam({ category }: { category?: string }) {
               onClick={() => setIndex(i)}
               aria-label={`Go to question ${i + 1}`}
               className={`ros:size-9 ros:rounded-full ros:border ros:text-xs ros:font-bold ${
-                i === index ? "ros:border-black ros:bg-black ros:text-white" : (answers[x.id] ?? "").trim() ? "ros:border-[#DF4E4E] ros:bg-[#DF4E4E12] ros:text-[#DF4E4E]" : "ros:border-[#D0D5DD] ros:bg-white"
+                i === index ? "ros:border-black ros:bg-black ros:text-white" : answers[x.id] ? "ros:border-[#DF4E4E] ros:bg-[#DF4E4E12] ros:text-[#DF4E4E]" : "ros:border-[#D0D5DD] ros:bg-white"
               }`}
             >
               {i + 1}
