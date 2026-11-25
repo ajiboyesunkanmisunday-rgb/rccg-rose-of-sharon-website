@@ -119,3 +119,14 @@ The API still has 214 endpoints and no change since the 2026-11-21 snapshot. Che
 - While an exam is open, editing or deleting a question is refused ("You cannot edit a question when the exam is already opened"). Adding questions, editing the setup and changing allowed students still work.
 - `PUT /exam-questions/{id}` (text) and `PUT /exam-questions/{id}/correct-option` work. `PATCH /exam-questions/{id}/options` returns `500`.
 - No endpoint accepts a student's answers or returns an exam score. The only score endpoints are the score sheets, which need a login.
+
+## Exam answer endpoints (2026-11-25, `swagger-2026-11-25.json`, 219 endpoints)
+
+New: `PATCH /exam-answers/{examId}/start-exam/{studentId}`, `POST /exam-answers`, `POST /exam-answers/{examId}/submit/{studentId}`, `GET /exam-answers/{examId}/{questionId}/{studentId}`, `GET /exam-answers/{examId}/student/{studentId}`. Exam setups gained `totalAvailableScore`. All five answer without a login. The training site calls them from its server route `/api/exam`.
+
+Behaviour on the live server:
+- `option` is the text of the chosen option. A written (theory) answer is refused: "The exam option selected does not exist".
+- `submit` returns `totalPercent`: the score out of `totalAvailableScore` when set, otherwise a percentage. Written questions count in the divisor. It works once; a second call is refused.
+- `start-exam` can be called once, returns no start time, and succeeds for a closed exam and for a student who is not on the allowed list.
+- Answers are accepted while the exam is closed, before it is started and after it has been submitted.
+- A training event whose exam has a recorded score cannot be deleted ("Training event is already in use").
